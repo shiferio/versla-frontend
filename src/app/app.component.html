@@ -1,21 +1,121 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<nav class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="#">
+    <img src="assets/img/logo.svg" height="31px" />
+  </a>
+  <div class="mr-auto city">Kirov</div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Главная</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Покупателям</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Товары</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Магазины</a>
+      </li>
+      <li class="nav-item" *ngIf="!token">
+        <a class="nav-link" (click)="openModalLogin()">Вход</a>
+      </li>
+      <li class="nav-item" *ngIf="token">
+        <a class="nav-link" routerLink="/profile">Профиль ({{ data.user.first_name }})</a> 
+      </li>
+      <li class="nav-item" *ngIf="token">
+        <a class="nav-link" (click)="logout()">Выход</a>
+      </li>
+    </ul>
+    <a *ngIf="!token" (click)="openModalRegistration()">
+      <button class="btn btn-main">Регистрация</button>
+    </a>
+
+  </div>
+</nav>
+<div class="search bg-gray">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 search-container">
+        <div class="input-group">
+          <div class="btn-cats">
+            <a data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-bars"></i> Категории
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" role="menu">
+
+            </div>
+
+
+          </div>
+          <input type="text" class="text-search" placeholder="Введите название товара, магазина или услуги" />
+          <button type="button" class="btn btn-search">
+            <i class="fa fa-search"></i>
+          </button>
+          <div class="btn-cart">
+            <i class="fa fa-shopping-cart"></i> Корзина (0)
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
 
 <router-outlet></router-outlet>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+        <ul class="list-inline mb-2">
+          <li class="list-inline-item">
+            <a class="footer-link" href="#">About</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a class="footer-link" href="#">Contact</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a class="footer-link" href="#">Terms of Use</a>
+          </li>
+          <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+            <a class="footer-link" href="#">Privacy Policy</a>
+          </li>
+        </ul>
+        <p class="text-muted small mb-4 mb-lg-0">&copy; 2018. Versla.</p>
+      </div>
+      <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item mr-3">
+            <a class="footer-link" href="#">
+              <i class="fa fa-facebook fa-2x fa-fw"></i>
+            </a>
+          </li>
+          <li class="list-inline-item mr-3">
+            <a class="footer-link" href="#">
+              <i class="fa fa-twitter fa-2x fa-fw"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="footer-link" href="#">
+              <i class="fa fa-instagram fa-2x fa-fw"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

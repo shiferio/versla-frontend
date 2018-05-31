@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title">Вход</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Dismiss click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <app-message></app-message>
+  <div class="form-group">
+    <input type="email" name="email" class="form-control text-modal" placeholder="Email" [(ngModel)]="email">
+  </div>
+  <div class="form-group">
+    <input type="password" name="password" class="form-control text-modal" placeholder="Пароль" [(ngModel)]="password">
+  </div>
+  <div class="form-group">
+    <button type="button" (click)="login()" class="btn btn-main" [disabled]="btnDisabled">Войти</button>
+  </div>
+</div>

@@ -1,1 +1,328 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: CircleRounded;
+    src: url(assets/fonts/circle.otf) format("opentype");
+}
+
+body {
+    font-family: 'CircleRounded', Helvetica, Arial, sans-serif;
+    color: #556c75;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'CircleRounded', Helvetica, Arial, sans-serif;
+}
+
+header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background: url("assets/img/bg.png") repeat;
+    padding-top: 3rem;
+    padding-bottom: 9rem;
+}
+
+.navbar {
+    min-height: 80px !important
+}
+
+header.masthead h1 {
+    font-size: 3rem;
+    padding-bottom: 4rem;
+    color: #00b5eb;
+}
+
+.showcase .showcase-text {
+    padding: 3rem;
+}
+
+.showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .showcase .showcase-text {
+        padding: 7rem;
+    }
+}
+
+.features-icons {
+    padding-top: 3rem;
+    padding-bottom: 7rem;
+}
+
+.features-icons .features-icons-item {
+    max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+    font-size: 5rem;
+}
+
+.testimonials {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.testimonials .testimonial-item {
+    max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+    max-width: 12rem;
+    box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("assets/img/bg.png") repeat;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.nav-item {
+    padding-right: 20px;
+}
+
+.subscribe-form {
+    display: block;
+}
+
+a.nav-link {
+    color: #556c75 !important;
+}
+
+a.footer-link {
+    color: #00b5eb !important;
+}
+
+.city {
+    border-left: 1px solid #556c75;
+    /* Border on the left */
+    width: 1px;
+    /* Width instead of height */
+    height: 35px;
+    padding-left: 13px;
+    padding-top: 6px;
+    color: #556c75;
+    font-size: 15pt;
+    /* line 1 pixel width, length of "Some content" */
+}
+
+.about-text {
+    padding-top: 20px;
+}
+
+.about-text-del {
+    padding-top: 29px;
+}
+
+.truck {
+    padding-top: 12px;
+}
+
+.search {
+    height: 71px;
+}
+
+
+.text-search {
+    background: #FFFFFF;
+    border: 1px solid #D4D4D4;
+    border-radius: 4px 0 0 4px;
+    width: 60%;
+    text-indent: 10px;
+    height: 31px;
+}
+
+.text-search::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #dddddd;
+    opacity: 1;
+    /* Firefox */
+}
+
+.text-search:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #dddddd;
+}
+
+.text-search::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #dddddd;
+}
+
+@media (max-width: 1024px) {
+    .text-search {
+        background: #FFFFFF;
+        border: 1px solid #D4D4D4;
+        border-radius: 4px 0 0 4px;
+        width: 50%;
+        height: 31px;
+    }
+}
+
+@media (max-width: 768px) {
+    .text-search {
+        background: #FFFFFF;
+        border: 1px solid #D4D4D4;
+        border-radius: 4px 0 0 4px;
+        width: 30%;
+        height: 31px;
+    }
+}
+
+@media (max-width: 512px) {
+    .text-search {
+        background: #FFFFFF;
+        border: 1px solid #D4D4D4;
+        border-radius: 4px 0 0 4px;
+        width: 20%;
+        height: 31px;
+    }
+}
+
+.text-subscribe {
+    background: #FFF;
+    border: 1px solid #D4D4D4;
+    border-radius: 4px 0 0 4px;
+    width: 50%;
+    text-indent: 10px;
+    height: 31px;
+}
+
+.text-subscribe::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #dddddd;
+    opacity: 1;
+    /* Firefox */
+}
+
+.text-subscribe:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #dddddd;
+}
+
+.text-subscribe::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #dddddd;
+}
+
+.bg-gray {
+    background: #fafafa;
+}
+
+a.nav-link:hover {
+    color: #000000 !important;
+}
+
+.search-container {
+    padding-top: 20px;
+}
+
+.btn-main {
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    background: #00B5EB;
+    border: 1px solid #008EB9;
+    color: #fff;
+    font-family: 'CircleRounded';
+    text-align: center;
+    padding: 0px 15px;
+    border-radius: 4px;
+    height: 31px;
+}
+
+.subscribe-text {
+    color: #00b5eb;
+}
+
+.good {
+    padding-bottom: 30px;
+}
+
+.btn-main:hover {
+    background: #00A2D1;
+    color: #fff;
+}
+
+.card-price {
+    color: #00b5eb;
+    display: inline-block;
+}
+
+.card-icons {
+    display: inline-block;
+    float: right;
+}
+
+.card-icon {
+    padding-right: 10px;
+}
+
+.card-bottom {
+    padding-top: 10px;
+}
+
+.btn-cats {
+    background: transparent;
+    padding-right: 30px;
+    padding-left: 10px;
+    padding-top: 4px;
+}
+
+.btn-cart {
+    background: transparent;
+    padding-left: 10px;
+    padding-top: 4px;
+}
+
+.btn-cats:hover {
+    cursor: pointer;
+}
+
+.btn-main:focus {
+    background-color: #00A2D1;
+    color: #fff;
+}
+
+.btn-search {
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    background: #00B5EB;
+    border: 1px solid #008EB9;
+    color: #fff;
+    font-family: 'CircleRounded';
+    text-align: center;
+    padding: 0px 15px;
+    border-radius: 0 4px 4px 0;
+    height: 31px;
+}
+
+.btn-search:hover {
+    background: #00A2D1;
+    color: #fff;
+}
+
+.btn-search:focus {
+    background-color: #00A2D1;
+    color: #fff;
+}
+
+footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}

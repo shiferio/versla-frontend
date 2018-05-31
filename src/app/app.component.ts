@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { ModalLoginComponent } from './modal-login/modal-login.component';
+import { ModalRegistrationComponent } from './modal-registration/modal-registration.component';
+
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +13,47 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    private data: DataService
+  ) {
+    this.data.getProfile();
+    console.log(this.data);
+  }
+
+  openModalLogin() {
+    const modalRef = this.modalService.open(ModalLoginComponent);
+
+    modalRef.result.then(result => {
+      console.log(result);
+    })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  openModalRegistration() {
+    const modalRef = this.modalService.open(ModalRegistrationComponent);
+
+    modalRef.result.then(result => {
+      console.log(result);
+    })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  logout() {
+    localStorage.clear();
+    this
+      .router
+      .navigate(['']);
+  }
+
+  get token() {
+    return localStorage.getItem('token');
+  }
+
 }
