@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router';
 
-import { DataService } from '../data.service';
-import { RestApiService } from '../rest-api.service';
+import {DataService} from '../data.service';
+import {RestApiService} from '../rest-api.service';
 
-
-@Component({
-  selector: 'app-registration',
-  templateUrl: './modal-registration.component.html',
-  styleUrls: ['./modal-registration.component.scss']
-})
+@Component({selector: 'app-registration', templateUrl: './modal-registration.component.html', styleUrls: ['./modal-registration.component.scss']})
 export class ModalRegistrationComponent implements OnInit {
 
   name = '';
@@ -19,15 +14,9 @@ export class ModalRegistrationComponent implements OnInit {
   password_confirmation = '';
   btnDisabled = false;
 
-  constructor(
-    private router: Router,
-    private data: DataService,
-    private rest: RestApiService,
-    private activeModal: NgbActiveModal
-  ) { }
+  constructor(private router : Router, private data : DataService, private rest : RestApiService, public activeModal : NgbActiveModal) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   validate() {
     if (this.name) {
@@ -83,7 +72,9 @@ export class ModalRegistrationComponent implements OnInit {
           this
             .router
             .navigate(['/']);
-          this.activeModal.close();
+          this
+            .activeModal
+            .close();
         } else {
           this
             .data

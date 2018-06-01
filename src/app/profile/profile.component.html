@@ -1,27 +1,44 @@
 <section id="profile">
-    <div class="container p-5">
-        <h4 class="display-4">My Profile</h4>
-        <hr>
-        <div *ngIf="!data.user" class="m-auto">
-            <h1 class="text-center display-3 mt-5">
-                <i class="fa fa-spinner fa-spin"></i>
-            </h1>
-        </div>
-        <div *ngIf="data.user" class="row mt-5">
-            <div class="col-md-3">
-                <img [src]="data.user.avatar_url" alt="userimage" class="rounded-circle image">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div *ngIf="data.user" class="card" style="width: 18rem;">
+
+                    <img class="card-img-top" [src]="data.user.avatar_url">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ data.user.first_name }} {{ data.user.last_name }}</h5>
+                        <ngb-tabset type="pills" [orientation]="currentOrientation">
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div (click)="openOrders()">Заказы</div>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div (click)="openProfileSettings()">Настройки профиля</div>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div (click)="openSecuritySettings()">Настройки безопасности</div>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab>
+                                <ng-template ngbTabTitle>
+                                    <div (click)="openAddressSettings()">Адрес доставки</div>
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>
+
+                    </div>
+                </div>
             </div>
-            <div class="col-md-8 ml-3">
-                <p id="name" class="lead">{{ data.user.first_name }} {{ data.user.last_name }}</p>
-                <a routerLink="/profile" class="btn btn-warning">My Orders</a>
-                <br>
-                <br>
-                <a routerLink="/profile/settings" class="btn btn-warning">Change account settings</a>
-                <br>
-                <br>
-                <a routerLink="/profile" class="btn btn-warning">Change shipping address</a>
-                <br>
-                <br>
+            <div class="col-md-8">
+
+                <app-orders [hidden]="ordersHidden"></app-orders>
+                <app-settings [hidden]="profileSettingsHidden"></app-settings>
+                <app-security [hidden]="securityHidden"></app-security>
+                <app-address [hidden]="addressHidden"></app-address>
             </div>
         </div>
     </div>

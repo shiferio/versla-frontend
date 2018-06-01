@@ -18,6 +18,9 @@ import { AuthGuardService } from './auth-guard.service';
 import { ModalLoginComponent } from './modal-login/modal-login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
+import { OrdersComponent } from './orders/orders.component';
+import { AddressComponent } from './address/address.component';
+import { SecurityComponent } from './security/security.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { SettingsComponent } from './settings/settings.component';
     MessageComponent,
     ModalLoginComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    OrdersComponent,
+    AddressComponent,
+    SecurityComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(),

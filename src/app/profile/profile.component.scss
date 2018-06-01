@@ -1,3 +1,19 @@
 #name {
     font-size: 2rem;
 }
+
+#profile {
+    padding-top: 30px;
+}
+
+ul.nav-pills .nav-item>a {
+    padding: 4px 35px;
+    margin: 4px 5px;
+    color: black;
+    text-decoration: none;
+}
+
+ul.nav-pills .nav-item>a.active {
+    background-color: maroon !important;
+    color: white;
+}
