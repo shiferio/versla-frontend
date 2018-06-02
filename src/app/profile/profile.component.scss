@@ -4,10 +4,11 @@
 
 #profile {
     padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .selected {
-    background-color: #00A3D8 !important;
+    background-color: #00B5EB !important;
     color: white !important;
 }
 
@@ -21,6 +22,9 @@ ul {
 li {
     cursor: pointer;
     padding-left: 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .card-body {

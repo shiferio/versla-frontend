@@ -43,6 +43,6 @@ import {SecurityComponent} from './security/security.component';
     RestApiService, DataService, LoginPopupService, AuthGuardService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalLoginComponent]
+  entryComponents: [ModalLoginComponent, ModalRegistrationComponent]
 })
 export class AppModule {}

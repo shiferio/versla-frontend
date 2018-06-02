@@ -1,8 +1,9 @@
 <section id="profile">
     <div class="container">
+
         <div class="row">
             <div class="col-md-4">
-                <div *ngIf="data.user" class="card" style="width: 18rem;">
+                <div *ngIf="data.user" class="card" style="width: 90%;">
 
                     <img class="card-img-top" [src]="data.user.avatar_url">
                     <div class="card-body">
@@ -13,7 +14,7 @@
                         <hr>
                         <div class="user-info">E-mail: {{ data.user.email }}</div>
                         <hr>
-                        <div class="user-info">Телефон: {{ data.user.phone }}</div>
+                        <div class="user-info">Телефон: +7{{ data.user.phone }}</div>
                         <hr>
                         <ul>
                             <li [class.selected]="isTabSet(1)" (click)="setTab(1)" routerLink="orders">
@@ -33,7 +34,11 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <router-outlet></router-outlet>
+                <div *ngIf="data.user" class="card" style="width: 100%">
+                    <div class="card-body">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -35,6 +35,11 @@ header.masthead h1 {
     color: #00b5eb;
 }
 
+.profilepos {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
 .showcase .showcase-text {
     padding: 3rem;
 }
@@ -137,7 +142,6 @@ a.footer-link {
 .search {
     height: 71px;
 }
-
 
 .text-search {
     background: #FFFFFF;
@@ -325,4 +329,12 @@ a.nav-link:hover {
 footer.footer {
     padding-top: 4rem;
     padding-bottom: 4rem;
+}
+
+.modal-open .modal {
+    display: flex !important;
+    align-items: center !important;
+    .modal-dialog {
+        flex-grow: 1;
+    }
 }
