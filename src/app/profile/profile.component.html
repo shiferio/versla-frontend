@@ -7,38 +7,28 @@
                     <img class="card-img-top" [src]="data.user.avatar_url">
                     <div class="card-body">
                         <h5 class="card-title">{{ data.user.first_name }} {{ data.user.last_name }}</h5>
-                        <ngb-tabset type="pills" [orientation]="currentOrientation">
-                            <ngb-tab>
-                                <ng-template ngbTabTitle>
-                                    <div (click)="openOrders()">Заказы</div>
-                                </ng-template>
-                            </ngb-tab>
-                            <ngb-tab>
-                                <ng-template ngbTabTitle>
-                                    <div (click)="openProfileSettings()">Настройки профиля</div>
-                                </ng-template>
-                            </ngb-tab>
-                            <ngb-tab>
-                                <ng-template ngbTabTitle>
-                                    <div (click)="openSecuritySettings()">Настройки безопасности</div>
-                                </ng-template>
-                            </ngb-tab>
-                            <ngb-tab>
-                                <ng-template ngbTabTitle>
-                                    <div (click)="openAddressSettings()">Адрес доставки</div>
-                                </ng-template>
-                            </ngb-tab>
-                        </ngb-tabset>
-
+                        <hr> E-mail: {{ data.user.email }}
+                        <hr> Phone: {{ data.user.phone }}
+                        <hr>
+                        <ul>
+                            <li [class.selected]="isTabSet(1)">
+                                <a (click)="setTab(1)" routerLink="orders">Мои заказы</a>
+                            </li>
+                            <li [class.selected]="isTabSet(2)">
+                                <a (click)="setTab(2)" routerLink="settings">Настройки профиля</a>
+                            </li>
+                            <li [class.selected]="isTabSet(3)">
+                                <a (click)="setTab(3)" routerLink="security">Настройки безопасности</a>
+                            </li>
+                            <li [class.selected]="isTabSet(4)">
+                                <a (click)="setTab(4)" routerLink="address">Адрес доставки</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
-
-                <app-orders [hidden]="ordersHidden"></app-orders>
-                <app-settings [hidden]="profileSettingsHidden"></app-settings>
-                <app-security [hidden]="securityHidden"></app-security>
-                <app-address [hidden]="addressHidden"></app-address>
+                <router-outlet></router-outlet>
             </div>
         </div>
     </div>
