@@ -1,45 +1,46 @@
-import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
-import { ModalLoginComponent } from './modal-login/modal-login.component';
-import { ModalRegistrationComponent } from './modal-registration/modal-registration.component';
+import {Component} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router';
+import {ModalLoginComponent} from './modal-login/modal-login.component';
+import {ModalRegistrationComponent} from './modal-registration/modal-registration.component';
 
-import { DataService } from './data.service';
+import {DataService} from './data.service';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
-})
+@Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent {
   title = 'app';
 
-  constructor(
-    private modalService: NgbModal,
-    private router: Router,
-    private data: DataService
-  ) {
-    this.data.getProfile();
-    console.log(this.data);
+  constructor(private modalService : NgbModal, private router : Router, private data : DataService) {
+    this
+      .data
+      .getProfile();
   }
 
   openModalLogin() {
-    const modalRef = this.modalService.open(ModalLoginComponent);
+    const modalRef = this
+      .modalService
+      .open(ModalLoginComponent);
 
-    modalRef.result.then(result => {
-      console.log(result);
-    })
+    modalRef
+      .result
+      .then(result => {
+        console.log(result);
+      })
       .catch(error => {
         console.log(error);
       });
   }
 
   openModalRegistration() {
-    const modalRef = this.modalService.open(ModalRegistrationComponent);
+    const modalRef = this
+      .modalService
+      .open(ModalRegistrationComponent);
 
-    modalRef.result.then(result => {
-      console.log(result);
-    })
+    modalRef
+      .result
+      .then(result => {
+        console.log(result);
+      })
       .catch(error => {
         console.log(error);
       });

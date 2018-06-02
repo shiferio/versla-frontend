@@ -6,22 +6,27 @@
 
                     <img class="card-img-top" [src]="data.user.avatar_url">
                     <div class="card-body">
-                        <h5 class="card-title">{{ data.user.first_name }} {{ data.user.last_name }}</h5>
-                        <hr> E-mail: {{ data.user.email }}
-                        <hr> Phone: {{ data.user.phone }}
+                        <div class="user-info">
+                            <h5 class="card-title">{{ data.user.first_name }} {{ data.user.last_name }}</h5>
+                        </div>
+
+                        <hr>
+                        <div class="user-info">E-mail: {{ data.user.email }}</div>
+                        <hr>
+                        <div class="user-info">Телефон: {{ data.user.phone }}</div>
                         <hr>
                         <ul>
-                            <li [class.selected]="isTabSet(1)">
-                                <a (click)="setTab(1)" routerLink="orders">Мои заказы</a>
+                            <li [class.selected]="isTabSet(1)" (click)="setTab(1)" routerLink="orders">
+                                Мои заказы
                             </li>
-                            <li [class.selected]="isTabSet(2)">
-                                <a (click)="setTab(2)" routerLink="settings">Настройки профиля</a>
+                            <li [class.selected]="isTabSet(2)" (click)="setTab(2)" routerLink="settings">
+                                Настройки профиля
                             </li>
-                            <li [class.selected]="isTabSet(3)">
-                                <a (click)="setTab(3)" routerLink="security">Настройки безопасности</a>
+                            <li [class.selected]="isTabSet(3)" (click)="setTab(3)" routerLink="security">
+                                Настройки безопасности
                             </li>
-                            <li [class.selected]="isTabSet(4)">
-                                <a (click)="setTab(4)" routerLink="address">Адрес доставки</a>
+                            <li [class.selected]="isTabSet(4)" (click)="setTab(4)" routerLink="address">
+                                Адрес доставки
                             </li>
                         </ul>
                     </div>
