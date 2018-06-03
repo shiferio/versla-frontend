@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 
-import {DataService} from '../data.service';
+import {DataService} from '../../data.service';
 import {Router, NavigationEnd} from '@angular/router';
 
 @Component({selector: 'app-profile', templateUrl: './profile.component.html', styleUrls: ['./profile.component.scss']})
 export class ProfileComponent implements OnInit {
-  tabNum : number = 1;
+  tabNum = 1;
 
-  constructor(public data : DataService, private router : Router) {
+  constructor(public data: DataService, private router: Router) {
     this
       .data
       .getProfile();
@@ -17,14 +17,13 @@ export class ProfileComponent implements OnInit {
       .subscribe(event => {
         if (event instanceof NavigationEnd) {
           if (event.url.includes('orders')) {
-            this.tabNum == 1;
-            console.log('tes');
+            this.tabNum = 1;
           } else if (event.url.includes('settings')) {
-            this.tabNum == 2;
+            this.tabNum = 2;
           } else if (event.url.includes('security')) {
-            this.tabNum == 3;
+            this.tabNum = 3;
           } else if (event.url.includes('address')) {
-            this.tabNum == 4;
+            this.tabNum = 4;
           }
         }
       });
@@ -37,6 +36,8 @@ export class ProfileComponent implements OnInit {
   isTabSet(tabNum) {
     return this.tabNum === tabNum;
   }
-  ngOnInit() {}
+
+  ngOnInit() {
+  }
 
 }

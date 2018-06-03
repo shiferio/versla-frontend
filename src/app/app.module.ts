@@ -8,18 +8,20 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
-import {ModalRegistrationComponent} from './modal-registration/modal-registration.component';
+import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 import {MessageComponent} from './message/message.component';
 import {RestApiService} from './rest-api.service';
 import {DataService} from './data.service';
 import {LoginPopupService} from './login-popup.service';
 import {AuthGuardService} from './auth-guard.service';
-import {ModalLoginComponent} from './modal-login/modal-login.component';
-import {ProfileComponent} from './profile/profile.component';
-import {SettingsComponent} from './settings/settings.component';
-import {OrdersComponent} from './orders/orders.component';
-import {AddressComponent} from './address/address.component';
-import {SecurityComponent} from './security/security.component';
+import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
+import {ProfileComponent} from './profile-elements/profile/profile.component';
+import {SettingsComponent} from './profile-elements/settings/settings.component';
+import {OrdersComponent} from './profile-elements/orders/orders.component';
+import {AddressComponent} from './profile-elements/address/address.component';
+import {SecurityComponent} from './profile-elements/security/security.component';
+import {StoresComponent} from './profile-elements/stores/stores.component';
+import {ModalAddStoreComponent} from './modals/modal-add-store/modal-add-store.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {SecurityComponent} from './security/security.component';
     SettingsComponent,
     OrdersComponent,
     AddressComponent,
-    SecurityComponent
+    SecurityComponent,
+    StoresComponent,
+    ModalAddStoreComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(),
@@ -43,6 +47,7 @@ import {SecurityComponent} from './security/security.component';
     RestApiService, DataService, LoginPopupService, AuthGuardService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalLoginComponent, ModalRegistrationComponent]
+  entryComponents: [ModalLoginComponent, ModalRegistrationComponent, ModalAddStoreComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -1,0 +1,63 @@
+<section id="profile">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-4">
+        <div *ngIf="data.user" class="card" style="width: 90%;">
+
+          <div class="card-img-top">
+            <div class="background-img-top" [style.backgroundImage]="'url('+ data.user.picture +')'"></div>
+            <img [src]="data.user.picture" alt="userimage" class="rounded-circle image">
+
+          </div>
+          <div class="card-body">
+            <div class="user-info">
+              <h5 class="card-title">{{ data.user.login }}</h5>
+            </div>
+            <hr>
+            <div *ngIf="data.user.first_name">
+              <div class="user-info">Имя: {{ data.user.first_name }}</div>
+              <hr>
+            </div>
+            <div *ngIf="data.user.last_name">
+              <div class="user-info">Фамилия: {{ data.user.last_name }}</div>
+              <hr>
+            </div>
+            <div class="user-info">E-mail: {{ data.user.email }}</div>
+            <hr>
+            <div *ngIf="data.user.phone">
+              <div class="user-info">Телефон: +7{{ data.user.phone }}</div>
+              <hr>
+            </div>
+
+
+            <ul>
+              <li [class.selected]="isTabSet(1)" (click)="setTab(1)" routerLink="orders">
+                Мои заказы
+              </li>
+              <li [class.selected]="isTabSet(2)" (click)="setTab(2)" routerLink="settings">
+                Настройки профиля
+              </li>
+              <li [class.selected]="isTabSet(3)" (click)="setTab(3)" routerLink="security">
+                Настройки безопасности
+              </li>
+              <li [class.selected]="isTabSet(4)" (click)="setTab(4)" routerLink="address">
+                Адрес доставки
+              </li>
+              <li *ngIf="data.user.isSeller" [class.selected]="isTabSet(5)" (click)="setTab(5)" routerLink="stores">
+                Мои магазины
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div *ngIf="data.user" class="card" style="width: 100%">
+          <div class="card-body">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

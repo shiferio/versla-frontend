@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ProfileComponent} from '../profile/profile.component'
+import {ProfileComponent} from '../profile-elements/profile/profile.component';
 import {Routes, RouterModule} from '@angular/router';
-import {OrdersComponent} from '../orders/orders.component';
-import {SettingsComponent} from '../settings/settings.component';
-import {SecurityComponent} from '../security/security.component';
-import {AddressComponent} from '../address/address.component';
+import {OrdersComponent} from '../profile-elements/orders/orders.component';
+import {SettingsComponent} from '../profile-elements/settings/settings.component';
+import {SecurityComponent} from '../profile-elements/security/security.component';
+import {AddressComponent} from '../profile-elements/address/address.component';
+import {StoresComponent} from '../profile-elements/stores/stores.component';
 
-export const profileRoutes : Routes = [
+export const profileRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
@@ -30,12 +31,18 @@ export const profileRoutes : Routes = [
         path: 'address',
         pathMatch: 'full',
         component: AddressComponent
+      }, {
+        path: 'stores',
+        pathMatch: 'full',
+        component: StoresComponent
       }
     ]
   }
-]
+];
+
 @NgModule({
   imports: [RouterModule.forChild(profileRoutes)],
   exports: [RouterModule]
 })
-export class ProfileRoutingModule {}
+export class ProfileRoutingModule {
+}

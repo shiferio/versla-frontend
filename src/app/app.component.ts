@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
-import {ModalLoginComponent} from './modal-login/modal-login.component';
-import {ModalRegistrationComponent} from './modal-registration/modal-registration.component';
+import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
+import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 
 import {DataService} from './data.service';
 
@@ -10,7 +10,7 @@ import {DataService} from './data.service';
 export class AppComponent {
   title = 'app';
 
-  constructor(private modalService : NgbModal, private router : Router, private data : DataService) {
+  constructor(private modalService: NgbModal, private router: Router, private data: DataService) {
     this
       .data
       .getProfile();

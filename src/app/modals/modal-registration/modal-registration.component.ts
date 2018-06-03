@@ -2,24 +2,30 @@ import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 
-import {DataService} from '../data.service';
-import {RestApiService} from '../rest-api.service';
+import {DataService} from '../../data.service';
+import {RestApiService} from '../../rest-api.service';
 
-@Component({selector: 'app-registration', templateUrl: './modal-registration.component.html', styleUrls: ['./modal-registration.component.scss']})
+@Component({
+  selector: 'app-registration',
+  templateUrl: './modal-registration.component.html',
+  styleUrls: ['./modal-registration.component.scss']
+})
 export class ModalRegistrationComponent implements OnInit {
 
-  name = '';
+  login = '';
   email = '';
   password = '';
   password_confirmation = '';
   btnDisabled = false;
 
-  constructor(private router : Router, private data : DataService, private rest : RestApiService, public activeModal : NgbActiveModal) {}
+  constructor(private router: Router, private data: DataService, private rest: RestApiService, public activeModal: NgbActiveModal) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   validate() {
-    if (this.name) {
+    if (this.login) {
       if (this.email) {
         if (this.password) {
           if (this.password_confirmation) {
@@ -48,7 +54,7 @@ export class ModalRegistrationComponent implements OnInit {
     } else {
       this
         .data
-        .error('Name is not entered.');
+        .error('Login is not entered.');
     }
   }
 
@@ -58,27 +64,22 @@ export class ModalRegistrationComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post('http://88.198.148.140:38925/api/buyer/v1/register', {
-            user: {
-              email: this.email,
-              password: this.password,
-              password_confirmation: this.password_confirmation
-            }
+          .post('http://localhost:3030/api/accounts/signup', {
+            login: this.login,
+            email: this.email,
+            password: this.password
           });
-        if (data['id']) {
+        if (data['meta'].success) {
           this
             .data
-            .success('Registration successful!');
+            .success(data['meta'].message);
           this
             .router
             .navigate(['/']);
-          this
-            .activeModal
-            .close();
         } else {
           this
             .data
-            .error(data['message']);
+            .error(data['meta'].message);
         }
       }
     } catch (error) {

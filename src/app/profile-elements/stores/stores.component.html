@@ -1,0 +1,29 @@
+<div class="profilepos">
+  <div>
+    <div class="card-title">
+      <h4>Мои магазины</h4>
+    </div>
+
+    <div class="card-right">
+      <button type="button" (click)="addNewStore()" class="btn btn-main">Добавить новый</button>
+    </div>
+  </div>
+
+  <div *ngIf="this.data.stores[0]" class="card">
+    <div class="card-body">
+      <div *ngFor="let store of this.data.stores">
+        <div class="store">
+          <div class="store-title">
+            {{store.name}}
+          </div>
+          <div class="card-right">
+            <button type="button" class="btn btn-open">Открыть</button>
+            <button type="button" class="btn btn-edit">Изменить</button>
+            <button type="button" class="btn btn-delete">Удалить</button>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>
