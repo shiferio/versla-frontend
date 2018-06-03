@@ -24,6 +24,10 @@ export class ProfileComponent implements OnInit {
             this.tabNum = 3;
           } else if (event.url.includes('address')) {
             this.tabNum = 4;
+          } else if (event.url.includes('stores')) {
+            this.tabNum = 5;
+          } else {
+            this.tabNum = 1;
           }
         }
       });
