@@ -61,7 +61,7 @@ export class RestApiService {
       .toPromise();
   }
 
-  updatePassowrd(body: any) {
+  updatePassword(body: any) {
     return this
       .http
       .put(`${API_URL}/api/accounts/profile/security`, body, {
