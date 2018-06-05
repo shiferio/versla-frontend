@@ -10,21 +10,18 @@ import {RestApiService} from '../../rest-api.service';
 })
 export class AddressComponent implements OnInit {
 
-  address: object = {};
+  address: any = {
+    addr1: '',
+    addr2: '',
+    city: '',
+    country: '',
+    postalCode: ''
+  };
 
   constructor(private rest: RestApiService, private data: DataService) { }
 
   ngOnInit() {
     Object.assign(this.address, this.data.user.address);
-    if (!this.address) {
-      this.address = {
-        addr1: '',
-        addr2: '',
-        city: '',
-        country: '',
-        postalCode: ''
-      };
-    }
   }
 
   validate(): boolean {

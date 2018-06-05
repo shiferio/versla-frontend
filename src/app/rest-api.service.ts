@@ -78,4 +78,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  updateAvatar(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/avatar`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

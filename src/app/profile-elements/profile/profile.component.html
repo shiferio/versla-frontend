@@ -12,6 +12,16 @@
           </div>
           <div class="card-body">
             <div class="user-info">
+              <image-upload
+                url="http://images.versla.ru/api/upload/file"
+                buttonCaption="Загрузить фото"
+                dropBoxMessage=""
+                clearButtonCaption="Отменить"
+                (uploadFinished)="onUploadFinished($event)"
+              >
+              </image-upload>
+            </div>
+            <div class="user-info">
               <h5 class="card-title">{{ data.user.login }}</h5>
             </div>
             <hr>
