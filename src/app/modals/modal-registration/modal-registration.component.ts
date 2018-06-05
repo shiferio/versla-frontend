@@ -59,6 +59,8 @@ export class ModalRegistrationComponent implements OnInit {
         .data
         .error('Login is not entered.');
     }
+
+    return false;
   }
 
   async register() {
