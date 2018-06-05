@@ -27,6 +27,7 @@ import {StoreUpdateComponent} from './store-elements/store-update/store-update.c
 import {StoreComponent} from './store-elements/store/store.component';
 import {ImageUploadModule} from 'angular2-image-upload';
 
+
 @NgModule({
   declarations: [
     AppComponent,

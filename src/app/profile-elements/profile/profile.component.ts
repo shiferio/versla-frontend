@@ -4,6 +4,8 @@ import {DataService} from '../../data.service';
 import {Router, NavigationEnd} from '@angular/router';
 import {FileHolder} from 'angular2-image-upload';
 import {RestApiService} from '../../rest-api.service';
+import {RequestOptions} from '@angular/http';
+import {Observable} from 'rxjs';
 
 @Component({selector: 'app-profile', templateUrl: './profile.component.html', styleUrls: ['./profile.component.scss']})
 export class ProfileComponent implements OnInit {
@@ -46,34 +48,40 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  async onUploadFinished($event: FileHolder) {
-    const {status, response} = $event.serverResponse;
-    const body = JSON.parse(response._body);
+  async fileChange(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const formData: FormData = new FormData();
+      formData.append('image', file, file.name);
+      const data = await this.rest.uploadImage(formData);
+      console.log();
 
-    try {
-      const data = await this
-        .rest
-        .updateAvatar({
-          picture: body.file
-        });
+      try {
+        const resp = await this
+          .rest
+          .updateAvatar({
+            picture: data['file']
+          });
 
-      if (data['meta'].success) {
+        if (resp['meta'].success) {
+          this
+            .data
+            .success(resp['meta'].message);
+
+          this
+            .data
+            .getProfile();
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
         this
           .data
-          .success(data['meta'].message);
-
-        this
-          .data
-          .getProfile();
-      } else {
-        this
-          .data
-          .error(data['meta'].message);
+          .error(error['message']);
       }
-    } catch (error) {
-      this
-        .data
-        .error(error['message']);
     }
   }
 }

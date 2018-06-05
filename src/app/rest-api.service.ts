@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {RequestOptions} from '@angular/http';
+import {Observable} from 'rxjs';
 
 const API_URL = 'http://api.versla.ru';
 
@@ -66,6 +68,19 @@ export class RestApiService {
       .http
       .put(`${API_URL}/api/accounts/profile/security`, body, {
         headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  uploadImage(body: any) {
+    let headers = this.getHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    console.log(body);
+    return this
+      .http
+      .post(`http://images.versla.ru/api/upload/file`, body, {
+        headers: headers
       })
       .toPromise();
   }
