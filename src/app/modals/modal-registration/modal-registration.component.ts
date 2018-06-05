@@ -5,6 +5,9 @@ import {Router} from '@angular/router';
 import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
+
+const API_URL = 'http://192.168.43.100:3030';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './modal-registration.component.html',
@@ -64,7 +67,7 @@ export class ModalRegistrationComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post('http://localhost:3030/api/accounts/signup', {
+          .post(`${API_URL}/api/accounts/signup`, {
             login: this.login,
             email: this.email,
             password: this.password

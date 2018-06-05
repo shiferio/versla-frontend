@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
+const API_URL = 'http://192.168.43.100:3030';
+
 @Component({selector: 'app-settings', templateUrl: './settings.component.html', styleUrls: ['./settings.component.scss']})
 export class SettingsComponent implements OnInit {
 
@@ -34,7 +36,7 @@ export class SettingsComponent implements OnInit {
       try {
         const data = await this
           .rest
-          .post('http://localhost:3030/api/accounts/profile', {
+          .post(`${API_URL}/api/accounts/profile`, {
             first_name: this.currentSettings.first_name,
             last_name: this.currentSettings.last_name,
             phone: this.currentSettings.phone,

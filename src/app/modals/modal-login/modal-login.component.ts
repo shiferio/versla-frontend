@@ -4,6 +4,9 @@ import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 
+
+const API_URL = 'http://192.168.43.100:3030';
+
 @Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
 export class ModalLoginComponent implements OnInit {
   email = '';
@@ -45,7 +48,7 @@ export class ModalLoginComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post('http://localhost:3030/api/accounts/login', {
+          .post(`${API_URL}/api/accounts/login`, {
             email: this.email,
             password: this.password
           });

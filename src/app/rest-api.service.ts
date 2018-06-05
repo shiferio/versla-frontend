@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+const API_URL = 'http://192.168.43.100:3030';
+
 @Injectable({ providedIn: 'root' })
 export class RestApiService {
 
@@ -41,7 +43,7 @@ export class RestApiService {
   createStore(body: any) {
     return this
       .http
-      .post('http://localhost:3030/api/stores/add', body, {
+      .post(`${API_URL}/api/stores/add`, body, {
         headers: this.getHeaders()
       })
       .toPromise();
@@ -50,7 +52,7 @@ export class RestApiService {
   deleteStore(link: string) {
     return this
       .http
-      .request('DELETE', 'http://localhost:3030/api/stores/delete', {
+      .request('DELETE', `${API_URL}/api/stores/delete`, {
         headers: this.getHeaders(),
         body: {
           link: link
