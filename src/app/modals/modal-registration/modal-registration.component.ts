@@ -6,7 +6,7 @@ import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
 
-const API_URL = 'http://192.168.43.100:3030';
+const API_URL = 'http://api.versla.ru';
 
 @Component({
   selector: 'app-registration',

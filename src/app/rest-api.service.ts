@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const API_URL = 'http://192.168.43.100:3030';
+const API_URL = 'http://api.versla.ru';
 
 @Injectable({ providedIn: 'root' })
 export class RestApiService {
