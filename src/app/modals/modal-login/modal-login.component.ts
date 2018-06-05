@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 
 @Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
 export class ModalLoginComponent implements OnInit {
-
   email = '';
   password = '';
   btnDisabled = false;
@@ -75,5 +74,4 @@ export class ModalLoginComponent implements OnInit {
     }
     this.btnDisabled = false;
   }
-
 }

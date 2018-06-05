@@ -6,7 +6,7 @@ import {ModalAddStoreComponent} from '../../modals/modal-add-store/modal-add-sto
 
 @Component({selector: 'app-stores', templateUrl: './stores.component.html', styleUrls: ['./stores.component.scss']})
 export class StoresComponent implements OnInit {
-
+  btnDeleteDisabled = false;
   constructor(public data: DataService, private rest: RestApiService, private modalService: NgbModal) {
   }
 
@@ -21,6 +21,34 @@ export class StoresComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  async deleteStore(storelink: string) {
+    this.btnDeleteDisabled = true;
+
+    try {
+      const data = await this
+        .rest
+        .deleteStore(storelink);
+      if (data['meta'].success) {
+        await this
+          .data
+          .getProfile();
+
+        this
+          .data
+          .success(data['meta'].message);
+      } else {
+        this
+          .data
+          .error(data['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+    this.btnDeleteDisabled = false;
   }
 
 }

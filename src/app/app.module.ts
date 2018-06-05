@@ -22,6 +22,9 @@ import {AddressComponent} from './profile-elements/address/address.component';
 import {SecurityComponent} from './profile-elements/security/security.component';
 import {StoresComponent} from './profile-elements/stores/stores.component';
 import {ModalAddStoreComponent} from './modals/modal-add-store/modal-add-store.component';
+import {StoreStartComponent} from './store-elements/store-start/store-start.component';
+import {StoreUpdateComponent} from './store-elements/store-update/store-update.component';
+import {StoreComponent} from './store-elements/store/store.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import {ModalAddStoreComponent} from './modals/modal-add-store/modal-add-store.c
     AddressComponent,
     SecurityComponent,
     StoresComponent,
-    ModalAddStoreComponent
+    ModalAddStoreComponent,
+    StoreStartComponent,
+    StoreUpdateComponent,
+    StoreComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(),

@@ -5,10 +5,20 @@
   </button>
 </div>
 <div class="modal-body">
-  <p>Добавить новый</p>
+  <div class="form-group">
+    <label for="name">Название магазина</label>
+    <input type="name" name="name" id="name" class="form-control text-modal" placeholder="Введите название магазина"
+           [(ngModel)]="name">
+  </div>
+  <div class="form-group">
+    <label for="link">Короткая ссылка</label>
+    <input type="link" name="link" id="link" maxlength="10" class="form-control text-modal"
+           placeholder="Введите короткую ссылку" [(ngModel)]="link">
+  </div>
+
 </div>
 <div class="modal-footer">
-  <button class="btn-main" (click)="activeModal.dismiss('Close clicked')">
+  <button class="btn-main" (click)="createStore()">
     Добавить
   </button>
 </div>

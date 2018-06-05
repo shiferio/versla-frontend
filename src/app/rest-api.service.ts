@@ -20,6 +20,7 @@ export class RestApiService {
       })
       .toPromise();
   }
+
   post(link: string, body: any) {
     return this
       .http
@@ -33,6 +34,27 @@ export class RestApiService {
       .http
       .put(link, body, {
         headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  createStore(body: any) {
+    return this
+      .http
+      .post('http://localhost:3030/api/stores/add', body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  deleteStore(link: string) {
+    return this
+      .http
+      .request('DELETE', 'http://localhost:3030/api/stores/delete', {
+        headers: this.getHeaders(),
+        body: {
+          link: link
+        }
       })
       .toPromise();
   }
