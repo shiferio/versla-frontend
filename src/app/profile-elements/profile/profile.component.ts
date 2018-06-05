@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 
 import {DataService} from '../../data.service';
 import {Router, NavigationEnd} from '@angular/router';
+import {FileHolder} from 'angular2-image-upload';
+import {RestApiService} from '../../rest-api.service';
 
 @Component({selector: 'app-profile', templateUrl: './profile.component.html', styleUrls: ['./profile.component.scss']})
 export class ProfileComponent implements OnInit {
   tabNum = 1;
 
-  constructor(public data: DataService, private router: Router) {
+  constructor(public data: DataService, private router: Router, private rest: RestApiService) {
     this
       .data
       .getProfile();
@@ -44,4 +46,34 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
+  async onUploadFinished($event: FileHolder) {
+    const {status, response} = $event.serverResponse;
+    const body = JSON.parse(response._body);
+
+    try {
+      const data = await this
+        .rest
+        .updateAvatar({
+          picture: body.file
+        });
+
+      if (data['meta'].success) {
+        this
+          .data
+          .success(data['meta'].message);
+
+        this
+          .data
+          .getProfile();
+      } else {
+        this
+          .data
+          .error(data['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
 }

@@ -60,4 +60,31 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  updatePassword(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/security`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateAddress(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/address`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateAvatar(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/avatar`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
