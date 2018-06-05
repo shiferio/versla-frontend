@@ -1,3 +1,26 @@
-<div class="profilepos">
-    <h4>Адрес доставки</h4>
+<div class="container settingspos">
+  <h4>Адрес доставки</h4>
+  <app-message></app-message>
+  <div class="form-group">
+    <label class="form-control-label">Первый адрес</label>
+    <input type="text" name="addr1" class="form-control text-settings" [(ngModel)]="address.addr1">
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Второй адрес</label>
+    <input type="text" name="addr2" class="form-control text-settings" [(ngModel)]="address.addr2">
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Город</label>
+    <input type="text" name="city" class="form-control text-settings" [(ngModel)]="address.city">
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Страна</label>
+    <input type="text" name="country" class="form-control text-settings" [(ngModel)]="address.country">
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Почтовый индекс</label>
+    <input type="text" name="postalCode" class="form-control text-settings" [(ngModel)]="address.postalCode">
+  </div>
+  <hr>
+  <button type="button" class="btn btn-main" (click)="update()">Обновить</button>
 </div>

@@ -52,7 +52,7 @@ export class SecurityComponent implements OnInit {
   async update() {
     try {
       if (this.validate()) {
-        const data = await this.rest.updatePassowrd({
+        const data = await this.rest.updatePassword({
           password: this.password,
           old_password: this.old_password,
           confirmation_password: this.confirmation_password

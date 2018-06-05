@@ -69,4 +69,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  updateAddress(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/address`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
