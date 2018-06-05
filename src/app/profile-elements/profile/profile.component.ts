@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 
 import {DataService} from '../../data.service';
 import {Router, NavigationEnd} from '@angular/router';
-import {FileHolder} from 'angular2-image-upload';
 import {RestApiService} from '../../rest-api.service';
 import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';

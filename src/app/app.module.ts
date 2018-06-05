@@ -25,8 +25,6 @@ import {ModalAddStoreComponent} from './modals/modal-add-store/modal-add-store.c
 import {StoreStartComponent} from './store-elements/store-start/store-start.component';
 import {StoreUpdateComponent} from './store-elements/store-update/store-update.component';
 import {StoreComponent} from './store-elements/store/store.component';
-import {ImageUploadModule} from 'angular2-image-upload';
-
 
 @NgModule({
   declarations: [
@@ -49,8 +47,7 @@ import {ImageUploadModule} from 'angular2-image-upload';
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(),
     FormsModule,
-    HttpClientModule,
-    ImageUploadModule.forRoot()
+    HttpClientModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
