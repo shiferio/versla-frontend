@@ -60,4 +60,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  updatePassowrd(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/profile/security`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
