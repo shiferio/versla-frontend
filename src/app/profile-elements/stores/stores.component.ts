@@ -39,19 +39,16 @@ export class StoresComponent implements OnInit {
         await this
           .data
           .getProfile();
-
         this
-          .data
-          .success(data['meta'].message);
+          .data.addToast('Магазин успешно удален', data['meta'].message, 'success');
+
       } else {
         this
-          .data
-          .error(data['meta'].message);
+          .data.addToast('Ошибка', data['meta'].message, 'error');
       }
     } catch (error) {
       this
-        .data
-        .error(error['message']);
+        .data.addToast('Ошибка', error['message'], 'error');
     }
     this.btnDeleteDisabled = false;
   }
