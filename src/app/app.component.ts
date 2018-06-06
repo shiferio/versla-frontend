@@ -16,6 +16,7 @@ export class AppComponent {
       .getProfile();
   }
 
+
   openModalLogin() {
     const modalRef = this
       .modalService

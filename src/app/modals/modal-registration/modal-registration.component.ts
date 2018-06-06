@@ -76,21 +76,18 @@ export class ModalRegistrationComponent implements OnInit {
           });
         if (data['meta'].success) {
           this
-            .data
-            .success(data['meta'].message);
+            .data.addToast('Вы успешно зарегистрированы', data['meta'].message, 'success');
           this
             .router
             .navigate(['/']);
         } else {
           this
-            .data
-            .error(data['meta'].message);
+            .data.addToast('Ошибка', data['meta'].message, 'error');
         }
       }
     } catch (error) {
       this
-        .data
-        .error(error['message']);
+        .data.addToast('Ошибка', error['message'], 'error');
     }
     this.btnDisabled = false;
   }

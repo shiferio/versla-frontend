@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
+import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
 
 const API_URL = 'http://api.versla.ru';
 
@@ -13,7 +14,8 @@ export class DataService {
   user: any;
   stores: any;
 
-  constructor(private router: Router, private rest: RestApiService) {
+  constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
+              private toastyConfig: ToastyConfig) {
     this
       .router
       .events
@@ -27,6 +29,41 @@ export class DataService {
             }
           });
       });
+  }
+
+  addToast(title: string, message: string, type: string) {
+    const toastOptions: ToastOptions = {
+      title: title,
+      msg: message,
+      showClose: true,
+      timeout: 5000,
+      theme: 'bootstrap',
+      onAdd: (toast: ToastData) => {
+        console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: function (toast: ToastData) {
+        console.log('Toast ' + toast.id + ' has been removed!');
+      }
+    };
+    switch (type) {
+      case 'info':
+        this.toastyService.info(toastOptions);
+        break;
+      case 'success':
+        this.toastyService.success(toastOptions);
+        break;
+      case 'wait':
+        this.toastyService.wait(toastOptions);
+        break;
+      case 'error':
+        this.toastyService.error(toastOptions);
+        break;
+      case 'warning':
+        this.toastyService.warning(toastOptions);
+        break;
+    }
+
+
   }
 
   error(message) {

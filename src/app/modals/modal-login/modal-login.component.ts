@@ -31,13 +31,11 @@ export class ModalLoginComponent implements OnInit {
         return true;
       } else {
         this
-          .data
-          .error('Password is not entered.');
+          .data.addToast('Ошибка', 'Вы не ввели пароль!', 'error');
       }
     } else {
       this
-        .data
-        .error('Email is not entered.');
+        .data.addToast('Ошибка', 'Вы не ввели email!', 'error');
     }
   }
 
@@ -60,20 +58,19 @@ export class ModalLoginComponent implements OnInit {
           this
             .router
             .navigate(['/']);
-          this.data.message = null;
+          this
+            .data.addToast('Вы успешно авторизованы', data['meta'].message, 'success');
           this
             .activeModal
             .close();
         } else {
           this
-            .data
-            .error(data['meta'].message);
+            .data.addToast('Ошибка', data['meta'].message, 'error');
         }
       }
     } catch (error) {
       this
-        .data
-        .error(error['message']);
+        .data.addToast('Ошибка', error['message'], 'error');
     }
     this.btnDisabled = false;
   }

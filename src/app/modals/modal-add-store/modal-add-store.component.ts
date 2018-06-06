@@ -33,13 +33,11 @@ export class ModalAddStoreComponent implements OnInit {
         return true;
       } else {
         this
-          .data
-          .error('Вы не ввели ссылку!');
+          .data.addToast('Ошибка', 'Вы не ввели ссылку!', 'error');
       }
     } else {
       this
-        .data
-        .error('Вы не ввели название магазина!');
+        .data.addToast('Ошибка', 'Вы не ввели название магазина!', 'error');
     }
   }
 
@@ -60,19 +58,17 @@ export class ModalAddStoreComponent implements OnInit {
             .getProfile();
           this.closeModal();
           this
-            .data
-            .success(data['meta'].message);
+            .data.addToast('Магазин успешно добавлен', data['meta'].message, 'success');
+
           this.router.navigate(['/store', this.link]);
         } else {
           this
-            .data
-            .error(data['meta'].message);
+            .data.addToast('Ошибка', data['meta'].message, 'error');
         }
       }
     } catch (error) {
       this
-        .data
-        .error(error['message']);
+        .data.addToast('Ошибка', error['messsage'], 'error');
     }
     this.btnDisabled = false;
   }
