@@ -6,17 +6,22 @@
         <div *ngIf="data.user" class="card" style="width: 90%;">
 
           <div class="card-img-top">
-            <div class="background-img-top" [style.backgroundImage]="'url('+ data.user.picture +')'"></div>
-            <img [src]="data.user.picture" alt="userimage" class="rounded-circle image">
-
+            <div class="avacontainer" [style.backgroundImage]="'url('+ data.user.picture +')'">
+              <img [src]="data.user.picture" class="rounded-circle image userimage">
+              <div class="baseavaoverlay">
+              </div>
+              <div class="avaoverlay">
+                <div class="uploader">
+                  <label>
+                    <img class="camera" src="assets/img/camera.png">
+                    <input type="file" (change)="fileChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-body">
-            <div class="user-info">
-              <label class="btn btn-main ">
-                <div class="upload">Загрузить новое фото</div>
-                <input type="file" (change)="fileChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
-              </label>
-            </div>
+
             <div class="user-info">
               <h5 class="card-title">{{ data.user.login }}</h5>
             </div>
