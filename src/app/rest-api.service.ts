@@ -102,4 +102,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  getStore(storeLink: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/stores/${storeLink}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

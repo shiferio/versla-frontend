@@ -62,6 +62,7 @@ export class ModalAddStoreComponent implements OnInit {
           this
             .data
             .success(data['meta'].message);
+          this.router.navigate(['/store', this.link]);
         } else {
           this
             .data
