@@ -1,13 +1,130 @@
-<!--<header class="masthead">-->
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--<div class="col-xl-9">-->
-<!--<h1>{{ data.name }}</h1>-->
-<!--</div>-->
-<!--<div class="col-md-10">-->
-<!--<h5>{{ data.short_description }}</h5>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</header>-->
-{{ info }}
+<div *ngIf="info" class="container">
+  <div class="form-group">
+    <label class="form-control-label">Название магазина</label>
+    <div *ngIf="editMode.name">
+      <input type="text" name="store_name" class="form-control text-settings" [(ngModel)]="info.name">
+      <button type="button" class="btn btn-main" (click)="updateStoreName()">Обновить</button>
+    </div>
+    <div *ngIf="!editMode.name">
+      <p>{{info.name}}</p>
+      <button type="button" class="btn btn-main" (click)="editMode.name = true">Изменить</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <div *ngIf="editMode.short_description">
+      <label class="form-control-label">Краткое описание</label>
+      <input type="text" name="short_description" class="form-control text-settings"
+             [(ngModel)]="info.short_description">
+      <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
+    </div>
+    <div *ngIf="!editMode.short_description">
+      <div *ngIf="!info.short_description">
+        <button type="button" class="btn btn-main" (click)="editMode.short_description = true">
+          Добавить краткое описание
+        </button>
+      </div>
+      <div *ngIf="info.short_description">
+        <label class="form-control-label">Краткое описание</label>
+        <p>{{info.short_description}}</p>
+        <button type="button" class="btn btn-main" (click)="editMode.short_description = true">
+          Изменить
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div *ngIf="editMode.description">
+      <label class="form-control-label">Подробное описание</label>
+      <input type="text" name="short_description" class="form-control text-settings"
+             [(ngModel)]="info.description">
+      <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
+    </div>
+    <div *ngIf="!editMode.description">
+      <div *ngIf="!info.description">
+        <button type="button" class="btn btn-main" (click)="editMode.description = true">
+          Добавить подробное описание
+        </button>
+      </div>
+      <div *ngIf="info.description">
+        <label class="form-control-label">Подробное описание</label>
+        <p>{{info.description}}</p>
+        <button type="button" class="btn btn-main" (click)="editMode.description = true">
+          Изменить
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style="position: relative">
+    <ngx-loading [show]="editMode.logo" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    <div *ngIf="info.logo">
+      <label class="form-control-label">Логотип</label>
+      <img [src]="info.logo" class="image">
+      <label class="btn btn-main">
+        Изменить
+        <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg" [disabled]="editMode.logo">
+      </label>
+      <button type="button" class="btn btn-main" (click)="deleteLogo()" [disabled]="editMode.logo">
+        Удалить
+      </button>
+    </div>
+    <div *ngIf="!info.logo">
+      <label class="btn btn-main">
+        Добавить логотип
+        <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+      </label>
+    </div>
+  </div>
+  <div class="form-group" style="position: relative">
+    <ngx-loading [show]="editMode.background" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    <div *ngIf="info.background">
+      <label class="form-control-label">Фоновое изображение</label>
+      <img [src]="info.background" class="image">
+      <label class="btn btn-main">
+        Изменить
+        <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg" [disabled]="editMode.background">
+      </label>
+      <button type="button" class="btn btn-main" (click)="deleteBackground()" [disabled]="editMode.background">
+        Удалить
+      </button>
+    </div>
+    <div *ngIf="!info.background">
+      <label class="btn btn-main">
+        Добавить фоновое изображение
+        <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="form-control-label">Добавить нового пользователя</label>
+    <input type="text" name="new_user_login" class="form-control text-settings" [(ngModel)]="new_user_login">
+    <button type="button" class="btn btn-main" (click)="addNewUserByLogin()" [disabled]="!new_user_login">Добавить</button>
+  </div>
+  <div class="form-group">
+  <div *ngIf="this.info.contact_faces[0]" class="card">
+    <div class="card-body">
+      <div *ngFor="let face of this.info.contact_faces">
+        <div class="face">
+          <div class="face-title">
+            {{face.name}}
+          </div>
+          <div class="card-right">
+            <button type="button" (click)="deleteFace(face.id)" class="btn btn-delete">Удалить</button>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-control-label">Теги</label>
+    <tag-input
+      [(ngModel)]="info.tags"
+      secondaryPlaceholder="Введите новый тег"
+      placeholder="Еще один тег"
+      (onAdd)="onTagAdded($event)"
+      (onRemove)="onTagRemoved($event)"
+    ></tag-input>
+  </div>
+</div>

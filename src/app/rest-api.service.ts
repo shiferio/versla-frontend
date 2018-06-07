@@ -73,7 +73,7 @@ export class RestApiService {
   }
 
   uploadImage(body: any) {
-    let headers = this.getHeaders();
+    const headers = this.getHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
     console.log(body);
@@ -107,6 +107,33 @@ export class RestApiService {
     return this
       .http
       .get(`${API_URL}/api/stores/${storeLink}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateStoreInfo(link: string, field: string, body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/stores/update/${field}`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getUserById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/users/find/id/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getUserByLogin(login: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/users/find/login/${login}`, {
         headers: this.getHeaders()
       })
       .toPromise();

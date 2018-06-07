@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ToastyModule} from 'ngx-toasty';
@@ -26,6 +26,9 @@ import {ModalAddStoreComponent} from './modals/modal-add-store/modal-add-store.c
 import {StoreStartComponent} from './store-elements/store-start/store-start.component';
 import {StoreUpdateComponent} from './store-elements/store-update/store-update.component';
 import {StoreComponent} from './store-elements/store/store.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TagInputModule} from 'ngx-chips';
+import {LoadingModule} from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,11 @@ import {StoreComponent} from './store-elements/store/store.component';
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TagInputModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    LoadingModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
