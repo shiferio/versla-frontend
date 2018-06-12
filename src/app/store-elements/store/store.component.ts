@@ -7,7 +7,7 @@ import {TagModel} from 'ngx-chips/core/accessor';
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
-  styleUrls: ['./store.component.scss']
+  styleUrls: ['./store.component.scss', './foundation-themes.scss']
 })
 export class StoreComponent implements OnInit, OnDestroy {
   link: string;

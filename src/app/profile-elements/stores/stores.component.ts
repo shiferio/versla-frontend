@@ -52,5 +52,4 @@ export class StoresComponent implements OnInit {
     }
     this.btnDeleteDisabled = false;
   }
-
 }

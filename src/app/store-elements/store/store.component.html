@@ -1,36 +1,58 @@
-<div *ngIf="info" class="container">
-  <div class="form-group">
-    <label class="form-control-label">Название магазина</label>
-    <div *ngIf="editMode.name">
-      <input type="text" name="store_name" class="form-control text-settings" [(ngModel)]="info.name">
-      <button type="button" class="btn btn-main" (click)="updateStoreName()">Обновить</button>
-    </div>
-    <div *ngIf="!editMode.name">
-      <p>{{info.name}}</p>
-      <button type="button" class="btn btn-main" (click)="editMode.name = true">Изменить</button>
+<header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background" [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
+  <div class="storeoverlay">
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="storeinfo">
+        <img *ngIf="info.logo" [src]="info.logo" class="image" height="200px">
+        </div>
+
+        <div class="storeinfo">
+          <div *ngIf="!editMode.name">
+            <button type="button" class="btn btn-store-edit" (click)="editMode.name = true">Изменить</button>
+            <h1>{{info.name}}</h1>
+          </div>
+          <div *ngIf="editMode.name">
+            <button type="button" class="btn btn-store-edit" (click)="updateStoreName()">Обновить</button>
+            <input type="text" name="store_name" class="form-control text-edit-store-name" [(ngModel)]="info.name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div *ngIf="editMode.short_description">
+          <button type="button" class="btn btn-store-edit" (click)="updateShortDescription()">Обновить</button>
+          <input type="text" name="short_description" class="form-control text-edit-short-description"
+                 [(ngModel)]="info.short_description">
+        </div>
+        <div *ngIf="!editMode.short_description">
+          <div *ngIf="!info.short_description">
+            <button type="button" class="btn btn-store-edit" (click)="editMode.short_description = true">
+              Добавить краткое описание
+            </button>
+          </div>
+          <div *ngIf="info.short_description">
+            <button type="button" class="btn btn-store-edit" (click)="editMode.short_description = true">
+              Изменить
+            </button>
+            <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</header>
+<tag-input
+  [(ngModel)]="info.tags"
+  secondaryPlaceholder="Введите новый тег"
+  [theme]="'foundation-theme'"
+  placeholder="Еще один тег"
+  (onAdd)="onTagAdded($event)"
+  (onRemove)="onTagRemoved($event)"
+></tag-input>
+<div *ngIf="info" class="container">
   <div class="form-group">
-    <div *ngIf="editMode.short_description">
-      <label class="form-control-label">Краткое описание</label>
-      <input type="text" name="short_description" class="form-control text-settings"
-             [(ngModel)]="info.short_description">
-      <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
-    </div>
-    <div *ngIf="!editMode.short_description">
-      <div *ngIf="!info.short_description">
-        <button type="button" class="btn btn-main" (click)="editMode.short_description = true">
-          Добавить краткое описание
-        </button>
-      </div>
-      <div *ngIf="info.short_description">
-        <label class="form-control-label">Краткое описание</label>
-        <p>{{info.short_description}}</p>
-        <button type="button" class="btn btn-main" (click)="editMode.short_description = true">
-          Изменить
-        </button>
-      </div>
-    </div>
+
   </div>
   <div class="form-group">
     <div *ngIf="editMode.description">

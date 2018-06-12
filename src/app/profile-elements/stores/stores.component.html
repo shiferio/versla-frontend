@@ -24,7 +24,7 @@
             <button type="button" (click)="deleteStore(store.link)" class="btn btn-delete">Удалить</button>
           </div>
         </div>
-        <hr>
+        <hr *ngIf="!(this.data.stores.length == 1)">
       </div>
     </div>
   </div>
