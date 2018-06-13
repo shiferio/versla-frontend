@@ -11,29 +11,35 @@
 
         <div class="storeinfo">
           <div *ngIf="!editMode.name">
-            <button type="button" class="btn btn-store-edit" (click)="editMode.name = true">Изменить</button>
+            <button type="button" class="btn btn-store-edit" (click)="editMode.name = true" *ngIf="isCreator">Изменить
+            </button>
             <h1>{{info.name}}</h1>
           </div>
           <div *ngIf="editMode.name">
-            <button type="button" class="btn btn-store-edit" (click)="updateStoreName()">Обновить</button>
+            <button type="button" class="btn btn-store-edit" (click)="updateStoreName()" *ngIf="isCreator">Обновить
+            </button>
             <input type="text" name="store_name" class="form-control text-edit-store-name" [(ngModel)]="info.name">
           </div>
         </div>
       </div>
       <div class="col-md-10">
         <div *ngIf="editMode.short_description">
-          <button type="button" class="btn btn-store-edit" (click)="updateShortDescription()">Обновить</button>
+          <button type="button" class="btn btn-store-edit" (click)="updateShortDescription()" *ngIf="isCreator">
+            Обновить
+          </button>
           <input type="text" name="short_description" class="form-control text-edit-short-description"
                  [(ngModel)]="info.short_description">
         </div>
         <div *ngIf="!editMode.short_description">
           <div *ngIf="!info.short_description">
-            <button type="button" class="btn btn-store-edit" (click)="editMode.short_description = true">
+            <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
+                    (click)="editMode.short_description = true">
               Добавить краткое описание
             </button>
           </div>
           <div *ngIf="info.short_description">
-            <button type="button" class="btn btn-store-edit" (click)="editMode.short_description = true">
+            <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
+                    (click)="editMode.short_description = true">
               Изменить
             </button>
             <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
@@ -43,69 +49,8 @@
     </div>
   </div>
 </header>
-<div *ngIf="info" class="container">
-  <div class="form-group">
-    <label class="form-control-label">Название магазина</label>
-    <div *ngIf="editMode.name">
-      <input type="text" name="store_name" class="form-control text-settings" [(ngModel)]="info.name">
-      <button type="button" class="btn btn-main" (click)="updateStoreName()">Обновить</button>
-    </div>
-    <div *ngIf="!editMode.name">
-      <p>{{info.name}}</p>
-      <button
-        type="button"
-        class="btn btn-main"
-        (click)="editMode.name = true"
-        *ngIf="isCreator"
-      >Изменить
-      </button>
-    </div>
-  </div>
-  <div class="form-group">
-    <div *ngIf="editMode.short_description">
-      <label class="form-control-label">Краткое описание</label>
-      <input type="text" name="short_description" class="form-control text-settings"
-             [(ngModel)]="info.short_description">
-      <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
-    </div>
-    <div *ngIf="!editMode.short_description">
-      <div *ngIf="!info.short_description">
-        <button
-          type="button"
-          class="btn btn-main"
-          (click)="editMode.short_description = true"
-          *ngIf="isCreator"
-        >
-          Добавить краткое описание
-        </button>
-      </div>
-      <div *ngIf="info.short_description">
-        <label class="form-control-label">Краткое описание</label>
-        <p>{{info.short_description}}</p>
-        <button
-          type="button"
-          class="btn btn-main"
-          (click)="editMode.short_description = true"
-          *ngIf="isCreator"
-        >
-          Изменить
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<tag-input
-  [(ngModel)]="info.tags"
-  secondaryPlaceholder="Введите новый тег"
-  [theme]="'foundation-theme'"
-  placeholder="Еще один тег"
-  (onAdd)="onTagAdded($event)"
-  (onRemove)="onTagRemoved($event)"
-></tag-input>
-<div *ngIf="info" class="container">
-  <div class="form-group">
 
-  </div>
+<div *ngIf="info" class="container">
   <div class="form-group">
     <div *ngIf="editMode.description">
       <label class="form-control-label">Подробное описание</label>
@@ -142,7 +87,6 @@
     <ngx-loading [show]="editMode.logo" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
     <div *ngIf="info.logo">
       <label class="form-control-label">Логотип</label>
-      <img [src]="info.logo" class="image">
       <label
         class="btn btn-main"
         *ngIf="isCreator"
@@ -175,7 +119,6 @@
     <ngx-loading [show]="editMode.background" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
     <div *ngIf="info.background">
       <label class="form-control-label">Фоновое изображение</label>
-      <img [src]="info.background" class="image">
       <label
         class="btn btn-main"
         *ngIf="isCreator"
@@ -266,6 +209,7 @@
     <tag-input
       [(ngModel)]="info.tags"
       [disable]="!isCreator"
+      [theme]="'foundation-theme'"
       secondaryPlaceholder="Введите новый тег"
       placeholder="Еще один тег"
       (onAdd)="onTagAdded($event)"
