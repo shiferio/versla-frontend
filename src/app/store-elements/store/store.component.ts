@@ -37,14 +37,13 @@ export class StoreComponent implements OnInit, OnDestroy {
       }
 
       this.info.contact_faces = faces;
-      console.log(this.info.contact_faces);
     }
   }
 
-  ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
+  async ngOnInit() {
+    this.sub = this.route.params.subscribe(async (params) => {
       this.link = params['link'];
-      this.getStoreInfo(this.link);
+      await this.getStoreInfo(this.link);
     });
   }
 
@@ -367,5 +366,10 @@ export class StoreComponent implements OnInit, OnDestroy {
         .data
         .addToast('Ошибка', error['meta'].message, 'error');
     }
+  }
+
+  get isCreator(): boolean {
+    return this.info.creator_id === this.data.user._id;
+    // return false;
   }
 }
