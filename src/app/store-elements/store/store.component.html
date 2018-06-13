@@ -235,6 +235,33 @@
   </div>
 
   <div class="form-group">
+    <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49">
+      <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
+    </agm-map>
+    <div *ngIf="editMode.location">
+      <ng4geo-autocomplete [userSettings]="{}" (componentCallback)="addressChanged($event)"></ng4geo-autocomplete>
+      <button
+        type="button"
+        class="btn btn-main"
+        (click)="updateLocation()"
+      >
+        Обновить
+      </button>
+    </div>
+    <div *ngIf="!editMode.location">
+
+      <button
+      type="button"
+      class="btn btn-main"
+      (click)="editMode.location = true"
+      *ngIf="isCreator"
+    >
+      Изменить
+    </button>
+    </div>
+  </div>
+
+  <div class="form-group">
     <label class="form-control-label">Теги</label>
     <tag-input
       [(ngModel)]="info.tags"

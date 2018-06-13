@@ -29,6 +29,8 @@ import {StoreComponent} from './store-elements/store/store.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TagInputModule} from 'ngx-chips';
 import {LoadingModule} from 'ngx-loading';
+import { AgmCoreModule } from '@agm/core';
+import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 
 @NgModule({
   declarations: [
@@ -55,13 +57,21 @@ import {LoadingModule} from 'ngx-loading';
     TagInputModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    LoadingModule
+    LoadingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBbRyQ6gCN8ua67jk2RoqWoZdKFi6juOpM'
+    }),
+    Ng4GeoautocompleteModule.forRoot()
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ModalLoginComponent, ModalRegistrationComponent, ModalAddStoreComponent]
+  entryComponents: [
+    ModalLoginComponent,
+    ModalRegistrationComponent,
+    ModalAddStoreComponent
+  ]
 })
 export class AppModule {
 }

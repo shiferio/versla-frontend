@@ -71,3 +71,25 @@ header h1 {
   padding-top: 10px;
   padding-left: 12px;
 }
+
+.map {
+  width: 60%;
+  height: 300px;
+}
+
+.input {
+  border: 1px solid silver;
+  border-radius: 5px;
+
+  font-size: 15px;
+  font-weight: lighter;
+  text-align: center;
+
+  padding: 10px;
+  z-index: 100;
+  width: 250px;
+}
+
+agm-map {
+  height: 300px;
+}

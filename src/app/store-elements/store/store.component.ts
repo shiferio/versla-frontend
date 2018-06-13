@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
@@ -10,13 +10,33 @@ import {TagModel} from 'ngx-chips/core/accessor';
   styleUrls: ['./store.component.scss', './foundation-themes.scss']
 })
 export class StoreComponent implements OnInit, OnDestroy {
+  @ViewChild('mapElement')
+  mapElement: ElementRef;
+
+  @ViewChild('inputElement')
+  inputElement: ElementRef;
+
+  map: any;
+
+  address: string;
+
+  location: any;
+
   link: string;
+
   info: any;
+
   editMode: any = {};
+
   new_user_login: string;
+
   private sub: any;
 
-  constructor(private route: ActivatedRoute, private rest: RestApiService, private data: DataService) {
+  constructor(
+    private route: ActivatedRoute,
+    private rest: RestApiService,
+    private data: DataService
+    ) {
   }
 
   async getStoreInfo(storeLink: string) {
@@ -37,6 +57,11 @@ export class StoreComponent implements OnInit, OnDestroy {
       }
 
       this.info.contact_faces = faces;
+
+      this.location = {
+        lat: this.info.location.lat,
+        lng: this.info.location.lng
+      };
     }
   }
 
@@ -95,7 +120,7 @@ export class StoreComponent implements OnInit, OnDestroy {
           .data
           .addToast('Ура!', resp['meta'].message, 'success');
 
-        this.getStoreInfo(this.link);
+        await this.getStoreInfo(this.link);
         this.editMode.logo = false;
       } else {
         this
@@ -133,7 +158,7 @@ export class StoreComponent implements OnInit, OnDestroy {
             .data
             .addToast('Ура!', resp['meta'].message, 'success');
 
-          this.getStoreInfo(this.link);
+          await this.getStoreInfo(this.link);
           this.editMode.logo = false;
         } else {
           this
@@ -172,7 +197,7 @@ export class StoreComponent implements OnInit, OnDestroy {
             .data
             .addToast('Ура!', resp['meta'].message, 'success');
 
-          this.getStoreInfo(this.link);
+          await this.getStoreInfo(this.link);
           this.editMode.background = false;
         } else {
           this
@@ -202,7 +227,7 @@ export class StoreComponent implements OnInit, OnDestroy {
             .data
             .addToast('Ура!', resp['meta'].message, 'success');
 
-          this.getStoreInfo(this.link);
+          await this.getStoreInfo(this.link);
           this.editMode.name = false;
         } else {
           this
@@ -233,7 +258,7 @@ export class StoreComponent implements OnInit, OnDestroy {
           .data
           .addToast('Ура!', resp['meta'].message, 'success');
 
-        this.getStoreInfo(this.link);
+        await this.getStoreInfo(this.link);
         this.editMode.short_description = false;
       } else {
         this
@@ -259,7 +284,7 @@ export class StoreComponent implements OnInit, OnDestroy {
           .data
           .addToast('Ура!', resp['meta'].message, 'success');
 
-        this.getStoreInfo(this.link);
+        await this.getStoreInfo(this.link);
         this.editMode.description = false;
       } else {
         this
@@ -368,8 +393,68 @@ export class StoreComponent implements OnInit, OnDestroy {
     }
   }
 
+  async updateLocation() {
+    try {
+      const resp = await this.rest.updateStoreInfo(this.link, 'location', {
+        link: this.link,
+        location: this.location
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Ура!', resp['meta'].message, 'success');
+
+        await this.getStoreInfo(this.link);
+        this.editMode.name = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+
+    /*try {
+      const resp = await this.rest.updateStoreInfo(this.link, 'contacts', {
+        link: this.link,
+        address: this.address
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Ура!', resp['meta'].message, 'success');
+
+        await this.getStoreInfo(this.link);
+        this.editMode.name = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }*/
+  }
+
   get isCreator(): boolean {
     return this.info.creator_id === this.data.user._id;
     // return false;
+  }
+
+
+  addressChanged(event: any) {
+    console.log(event);
+    const {response, data} = event;
+    if (response) {
+      this.location = data.geometry.location;
+      this.address = data.description;
+    }
   }
 }
