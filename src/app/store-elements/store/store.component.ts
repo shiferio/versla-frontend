@@ -418,7 +418,7 @@ export class StoreComponent implements OnInit, OnDestroy {
         .addToast('Ошибка', error['meta'].message, 'error');
     }
 
-    /*try {
+    try {
       const resp = await this.rest.updateStoreInfo(this.link, 'contacts', {
         link: this.link,
         address: this.address
@@ -440,7 +440,7 @@ export class StoreComponent implements OnInit, OnDestroy {
       this
         .data
         .addToast('Ошибка', error['meta'].message, 'error');
-    }*/
+    }
   }
 
   get isCreator(): boolean {
