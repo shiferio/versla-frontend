@@ -23,7 +23,7 @@ header.storebackground {
   right: 0;
   height: 100%;
   width: 100%;
-  opacity: 0.3;
+  opacity: 0.5;
   transition: .5s ease;
   background-color: #000000;
 }
@@ -44,6 +44,15 @@ header h1 {
   text-align: center;
   border-radius: 4px;
   height: 15px;
+  cursor: pointer;
+}
+
+.btn-block-edit {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background: transparent;
+  border: none;
+  font-family: 'CircleRounded';
   cursor: pointer;
 }
 
@@ -92,4 +101,34 @@ header h1 {
 
 agm-map {
   height: 300px;
+}
+
+.storeinfo {
+  display: inline-block;
+}
+
+.face {
+  display: inline-block;
+}
+
+.face-delete {
+  display: inline-block;
+  float: right;
+}
+
+.text-user {
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  border-radius: 4px 0 0 4px;
+  width: 60%;
+  text-indent: 10px;
+  height: 31px;
+}
+
+.add-user-element {
+  padding-bottom: 20px;
+}
+
+.container-map {
+  padding: 0px;
 }

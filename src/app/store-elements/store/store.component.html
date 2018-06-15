@@ -1,219 +1,226 @@
-
-<header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background" [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
+<header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background"
+        [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
   <div class="storeoverlay">
+    <ngx-loading [show]="editMode.logo"></ngx-loading>
+    <ngx-loading [show]="editMode.background"></ngx-loading>
   </div>
   <div class="container">
     <div class="row">
       <div class="col-xl-12">
-        <div class="storeinfo">
-        <img *ngIf="info.logo" [src]="info.logo" class="image" height="200px">
+        <div class="pull-right">
+          <div *ngIf="info.background">
+            <label class="form-control-label"></label>
+            <label
+              class="btn btn-store-edit"
+              *ngIf="isCreator"
+            >
+              Изменить фоновое изображение
+              <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg"
+                     [disabled]="editMode.background">
+            </label>
+            <label
+              class="btn btn-store-edit"
+              (click)="deleteBackground()"
+              *ngIf="isCreator"
+            >
+              Удалить фоновое изображение
+            </label>
+          </div>
+          <div *ngIf="!info.background">
+            <label
+              class="btn btn-store-edit"
+              *ngIf="isCreator"
+            >
+              Добавить фоновое изображение
+              <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+            </label>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="storeinfo">
+          <div *ngIf="info.logo">
+            <label
+              class="btn btn-store-edit"
+              *ngIf="isCreator"
+            >
+              Изменить
+              <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg"
+                     [disabled]="editMode.logo">
+            </label>
+            <label
+              class="btn btn-store-edit"
+              (click)="deleteLogo()"
 
+              *ngIf="isCreator"
+            >
+              Удалить
+            </label>
+          </div>
+          <div *ngIf="!info.logo">
+            <label
+              class="btn btn-store-edit"
+              *ngIf="isCreator"
+            >
+              Добавить логотип
+              <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+            </label>
+          </div>
+          <img *ngIf="info.logo" [src]="info.logo" class="image" height="200px">
+        </div>
+      </div>
+      <div class="col-md-9">
         <div class="storeinfo">
           <div *ngIf="!editMode.name">
-            <button type="button" class="btn btn-store-edit" (click)="editMode.name = true" *ngIf="isCreator">Изменить
-            </button>
+            <label class="btn btn-store-edit" (click)="editMode.name = true" *ngIf="isCreator">Изменить
+            </label>
             <h1>{{info.name}}</h1>
           </div>
           <div *ngIf="editMode.name">
-            <button type="button" class="btn btn-store-edit" (click)="updateStoreName()" *ngIf="isCreator">Обновить
-            </button>
+            <label class="btn btn-store-edit" (click)="updateStoreName()" *ngIf="isCreator">Обновить
+            </label>
             <input type="text" name="store_name" class="form-control text-edit-store-name" [(ngModel)]="info.name">
+          </div>
+          <div>
+            <div *ngIf="editMode.short_description">
+              <label class="btn btn-store-edit" (click)="updateShortDescription()" *ngIf="isCreator">
+                Обновить
+              </label>
+              <textarea rows="10" cols="200" name="short_description" style="width:100%;"
+                        class="form-control text-edit-short-description"
+                        [(ngModel)]="info.short_description"></textarea>
+            </div>
+            <div *ngIf="!editMode.short_description">
+              <div *ngIf="!info.short_description">
+                <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
+                        (click)="editMode.short_description = true">
+                  Добавить краткое описание
+                </button>
+              </div>
+              <div *ngIf="info.short_description">
+                <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
+                        (click)="editMode.short_description = true">
+                  Изменить
+                </button>
+                <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</header>
+<div class="container">
+  <tag-input
+    [(ngModel)]="info.tags"
+    [disable]="!isCreator"
+    [theme]="'foundation-theme'"
+    secondaryPlaceholder="Введите новый тег"
+    placeholder="Еще один тег"
+    (onAdd)="onTagAdded($event)"
+    (onRemove)="onTagRemoved($event)"
+  ></tag-input>
+</div>
+<section class="features-icons text-center bg-gray">
+  <div class="container">
+    <h2 class="mb-5">О нас (<label
+      class="btn-block-edit"
+      (click)="editMode.description = true"
+      *ngIf="isCreator && info.description"
+    >
+      редактировать
+    </label> <label
+      class="btn-block-edit"
+      (click)="editMode.description = true"
+      *ngIf="isCreator && !info.description"
+    >
+      Добавить подробное описание
+    </label>)</h2>
+    <div class="row">
+      <div *ngIf="!editMode.description">
+        <p>{{info.description}}</p>
+      </div>
+      <div *ngIf="editMode.description">
+        <textarea style="width:100%" rows="5" cols="200" type="text" name="short_description"
+                  class="form-control text-settings"
+                  [(ngModel)]="info.description"></textarea>
+      </div>
+      <button *ngIf="editMode.description" type="button" class="btn btn-main" (click)="updateDescription()">Обновить
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<section class="features-icons">
+  <div class="container">
+    <h2 class="mb-5 text-center">Контактные лица</h2>
+    <div class="row add-user-element">
+      <div class="col-xl-12">
+        <div class="input-group" *ngIf="isCreator">
+          <input type="text" name="newUser" class="form-control text-user" [(ngModel)]="new_user_login"
+                 placeholder="Name" id="name"/>
+          <div class="input-group-append">
+            <button class="btn btn-main" type="button" (click)="addNewUserByLogin()" [disabled]="!new_user_login">Add
+            </button>
           </div>
         </div>
       </div>
-      <div class="col-md-10">
-        <div *ngIf="editMode.short_description">
-          <button type="button" class="btn btn-store-edit" (click)="updateShortDescription()" *ngIf="isCreator">
-            Обновить
-          </button>
-          <input type="text" name="short_description" class="form-control text-edit-short-description"
-                 [(ngModel)]="info.short_description">
-        </div>
-        <div *ngIf="!editMode.short_description">
-          <div *ngIf="!info.short_description">
-            <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
-                    (click)="editMode.short_description = true">
-              Добавить краткое описание
-            </button>
-          </div>
-          <div *ngIf="info.short_description">
-            <button type="button" class="btn btn-store-edit" *ngIf="isCreator"
-                    (click)="editMode.short_description = true">
-              Изменить
-            </button>
-            <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
-          </div>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <ul *ngIf="this.info.contact_faces[0]" class="list-group">
+          <li *ngFor="let face of this.info.contact_faces" class="list-group-item">
+            <div class="face">
+              <div class="face-title">
+                {{face.name}}
+              </div>
+            </div>
+            <div class="face-delete">
+              <button class="btn btn-danger" (click)="deleteFace(face.id)" type="button">Удалить</button>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-</header>
+</section>
 
-<div *ngIf="info" class="container">
-  <div class="form-group">
-    <div *ngIf="editMode.description">
-      <label class="form-control-label">Подробное описание</label>
-      <input type="text" name="short_description" class="form-control text-settings"
-             [(ngModel)]="info.description">
-      <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
-    </div>
-    <div *ngIf="!editMode.description">
-      <div *ngIf="!info.description">
+<section class="features-icons container-map bg-gray">
+  <div class="container-map container-fluid">
+    <h2 class="mb-5 text-center">Контакты</h2>
+    <div>
+      <div *ngIf="!editMode.location">
         <button
           type="button"
           class="btn btn-main"
-          (click)="editMode.description = true"
-          *ngIf="isCreator"
-        >
-          Добавить подробное описание
-        </button>
-      </div>
-      <div *ngIf="info.description">
-        <label class="form-control-label">Подробное описание</label>
-        <p>{{info.description}}</p>
-        <button
-          type="button"
-          class="btn btn-main"
-          (click)="editMode.description = true"
+          (click)="editMode.location = true"
           *ngIf="isCreator"
         >
           Изменить
         </button>
       </div>
-    </div>
-  </div>
-  <div class="form-group" style="position: relative">
-    <ngx-loading [show]="editMode.logo" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
-    <div *ngIf="info.logo">
-      <label class="form-control-label">Логотип</label>
-      <label
-        class="btn btn-main"
-        *ngIf="isCreator"
-      >
-        Изменить
-        <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg"
-               [disabled]="editMode.logo">
-      </label>
-      <button
-        type="button"
-        class="btn btn-main"
-        (click)="deleteLogo()"
-        [disabled]="editMode.logo"
-        *ngIf="isCreator"
-      >
-        Удалить
-      </button>
-    </div>
-    <div *ngIf="!info.logo">
-      <label
-        class="btn btn-main"
-        *ngIf="isCreator"
-      >
-        Добавить логотип
-        <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
-      </label>
-    </div>
-  </div>
-  <div class="form-group" style="position: relative">
-    <ngx-loading [show]="editMode.background" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
-    <div *ngIf="info.background">
-      <label class="form-control-label">Фоновое изображение</label>
-      <label
-        class="btn btn-main"
-        *ngIf="isCreator"
-      >
-        Изменить
-        <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg"
-               [disabled]="editMode.background">
-      </label>
-      <button
-        type="button"
-        class="btn btn-main"
-        (click)="deleteBackground()"
-        [disabled]="editMode.background"
-        *ngIf="isCreator"
-      >
-        Удалить
-      </button>
-    </div>
-    <div *ngIf="!info.background">
-      <label
-        class="btn btn-main"
-        *ngIf="isCreator"
-      >
-        Добавить фоновое изображение
-        <input type="file" (change)="backgroundChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
-      </label>
-    </div>
-  </div>
-  <div class="form-group" *ngIf="isCreator">
-    <label class="form-control-label">Добавить нового пользователя</label>
-    <input type="text" name="new_user_login" class="form-control text-settings" [(ngModel)]="new_user_login">
-    <button type="button" class="btn btn-main" (click)="addNewUserByLogin()" [disabled]="!new_user_login">Добавить
-    </button>
-  </div>
-  <div class="form-group">
-    <div *ngIf="this.info.contact_faces[0]" class="card">
-      <div class="card-body">
-        <div *ngFor="let face of this.info.contact_faces">
-          <div class="face">
-            <div class="face-title">
-              {{face.name}}
-            </div>
-            <div class="card-right">
-              <button
-                type="button"
-                (click)="deleteFace(face.id)"
-                class="btn btn-delete"
-                *ngIf="isCreator"
-              >Удалить
-              </button>
-            </div>
-          </div>
-          <hr>
-        </div>
+      <div *ngIf="editMode.location">
+
+        <ng4geo-autocomplete [userSettings]="{}" (componentCallback)="addressChanged($event)"></ng4geo-autocomplete>
+        <button
+          type="button"
+          class="btn btn-main"
+          (click)="updateLocation()"
+        >
+          Обновить
+        </button>
       </div>
+      <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49">
+        <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
+      </agm-map>
     </div>
   </div>
+</section>
 
-  <div class="form-group">
-    <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49">
-      <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
-    </agm-map>
-    <div *ngIf="editMode.location">
-      <ng4geo-autocomplete [userSettings]="{}" (componentCallback)="addressChanged($event)"></ng4geo-autocomplete>
-      <button
-        type="button"
-        class="btn btn-main"
-        (click)="updateLocation()"
-      >
-        Обновить
-      </button>
-    </div>
-    <div *ngIf="!editMode.location">
-
-      <button
-      type="button"
-      class="btn btn-main"
-      (click)="editMode.location = true"
-      *ngIf="isCreator"
-    >
-      Изменить
-    </button>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="form-control-label">Теги</label>
-    <tag-input
-      [(ngModel)]="info.tags"
-      [disable]="!isCreator"
-      [theme]="'foundation-theme'"
-      secondaryPlaceholder="Введите новый тег"
-      placeholder="Еще один тег"
-      (onAdd)="onTagAdded($event)"
-      (onRemove)="onTagRemoved($event)"
-    ></tag-input>
-  </div>
-</div>
