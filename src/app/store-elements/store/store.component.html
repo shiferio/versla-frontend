@@ -323,7 +323,7 @@
                 {{face.name}}
               </div>
             </div>
-            <div class="face-delete">
+            <div class="face-delete" *ngIf="isCreator">
               <button class="btn btn-danger" (click)="deleteFace(face.id)" type="button">Удалить</button>
             </div>
           </li>
