@@ -34,6 +34,8 @@ export class ModalAddGoodComponent implements OnInit {
     'one', 'two', 'three'
   ];
 
+  btnDisabled = false;
+
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
@@ -113,6 +115,8 @@ export class ModalAddGoodComponent implements OnInit {
 
   async createGood() {
     if (this.validate()) {
+      this.btnDisabled = true;
+
       const formData: FormData = new FormData();
       formData.append('image', this.preview_file, this.preview_file.name);
 
@@ -132,22 +136,25 @@ export class ModalAddGoodComponent implements OnInit {
           this
             .data
             .addToast('Ура!', resp['meta'].message, 'success');
+
+          const good_id = resp['data']['good']['good_id'];
+
+          await this.router.navigate(['/good', good_id]);
+
+          this.activeModal.close();
         } else {
           this
             .data
             .addToast('Ошибка', resp['meta'].message, 'error');
         }
 
-        const good_id = data['data']['good']['good_id'];
-
-        await this.router.navigate(['/good', good_id]);
-
-        this.activeModal.close();
       } catch (error) {
         this
           .data
           .addToast('Ошибка', error['meta'].message, 'error');
       }
+
+      this.btnDisabled = false;
     }
   }
 

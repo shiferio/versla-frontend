@@ -147,4 +147,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  getGoodById(id: number) {
+    return this
+      .http
+      .get(`${API_URL}/api/goods/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
