@@ -29,8 +29,11 @@ import {StoreComponent} from './store-elements/store/store.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TagInputModule} from 'ngx-chips';
 import {LoadingModule} from 'ngx-loading';
-import { AgmCoreModule } from '@agm/core';
-import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
+import {AgmCoreModule} from '@agm/core';
+import {Ng4GeoautocompleteModule} from 'ng4-geoautocomplete';
+import {ModalAddGoodComponent} from './modals/modal-add-good/modal-add-good.component';
+import {NgxMaskModule} from 'ngx-mask';
+import { GoodComponent } from './good/good.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
     ModalAddStoreComponent,
     StoreStartComponent,
     StoreUpdateComponent,
-    StoreComponent
+    StoreComponent,
+    ModalAddGoodComponent,
+    GoodComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -61,7 +66,8 @@ import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBbRyQ6gCN8ua67jk2RoqWoZdKFi6juOpM'
     }),
-    Ng4GeoautocompleteModule.forRoot()
+    Ng4GeoautocompleteModule.forRoot(),
+    NgxMaskModule.forRoot()
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
@@ -70,7 +76,8 @@ import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
   entryComponents: [
     ModalLoginComponent,
     ModalRegistrationComponent,
-    ModalAddStoreComponent
+    ModalAddStoreComponent,
+    ModalAddGoodComponent
   ]
 })
 export class AppModule {

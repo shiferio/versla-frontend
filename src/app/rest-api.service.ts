@@ -138,4 +138,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  createGood(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/goods/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

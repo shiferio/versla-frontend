@@ -160,7 +160,10 @@
 <!-- Icons Grid -->
 <section class="features-icons">
   <div class="container">
-    <h2 class="mb-5 text-center">Товары</h2>
+    <h2 class="mb-5 text-center">
+      Товары
+      <label (click)="openAddGood()" *ngIf="isCreator">(добавить)</label>
+    </h2>
     <div class="row">
       <div class="col-lg-4 col-xs-6 good d-block mx-auto">
         <div class="card" style="width: 18rem;">

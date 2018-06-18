@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h4 class="modal-title">Добавить новый товар</h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss('Cross click')">
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="name">Название товара</label>
+    <input type="text" name="name" id="name" class="form-control text-modal" placeholder="Введите название товара"
+           [(ngModel)]="name">
+  </div>
+  <div class="form-group">
+    <label for="price">Цена</label>
+    <div class="input-group">
+      <input type="text" [dropSpecialCharacters]="false" mask="0*.00"
+             name="price" id="price" class="form-control text-modal"
+             placeholder="Введите цену" [(ngModel)]="price">
+      <div class="input-group-append">
+        <span class="input-group-text">₽</span>
+        <span class="input-group-text">Вы получите: {{shopOwnerProfit}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Изображение</label><br>
+    <label
+      class="btn btn-main"
+      *ngIf="!preview_url"
+    >
+      Добавить изображение
+      <input
+        id="picture"
+        type="file"
+        [(ngModel)]="preview_path"
+        (change)="previewImageChange($event)"
+        style="display: none;"
+        accept=".png,.jpg,.jpeg">
+    </label><br>
+    <div class="picture-preview-container" *ngIf="preview_url">
+      <img [src]="preview_url" class="picture-preview-image">
+      <label class="picture-preview-button" (click)="deletePreview()">X</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="tags">Теги</label>
+    <tag-input
+      id="tags"
+      [(ngModel)]="tags"
+      [theme]="'foundation-theme'"
+      secondaryPlaceholder="Введите новый тег"
+      placeholder="Еще один тег"
+    ></tag-input>
+  </div>
+  <div class="form-group">
+    <label for="type">Тип</label>
+    <select class="custom-select" id="type" [(ngModel)]="type">
+      <option *ngFor="let t of available_types">{{ t }}</option>
+    </select>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn-main" (click)="createGood()">
+    Добавить
+  </button>
+</div>

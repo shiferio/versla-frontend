@@ -3,6 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {TagModel} from 'ngx-chips/core/accessor';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalAddStoreComponent} from '../../modals/modal-add-store/modal-add-store.component';
+import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.component';
 
 @Component({
   selector: 'app-store',
@@ -35,7 +38,8 @@ export class StoreComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
-    private data: DataService
+    private data: DataService,
+    private modalService: NgbModal
     ) {
   }
 
@@ -456,5 +460,17 @@ export class StoreComponent implements OnInit, OnDestroy {
       this.location = data.geometry.location;
       this.address = data.description;
     }
+  }
+
+  openAddGood() {
+    const modalRef = this.modalService.open(ModalAddGoodComponent);
+
+    modalRef.componentInstance.store_id = this.info._id;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }
