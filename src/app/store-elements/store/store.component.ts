@@ -410,7 +410,7 @@ export class StoreComponent implements OnInit, OnDestroy {
           .addToast('Ура!', resp['meta'].message, 'success');
 
         await this.getStoreInfo(this.link);
-        this.editMode.name = false;
+        this.editMode.location = false;
       } else {
         this
           .data
