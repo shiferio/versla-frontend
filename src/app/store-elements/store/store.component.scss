@@ -129,5 +129,11 @@ agm-map {
 }
 
 .container-map {
-  padding: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+
+.card-body > a {
+  color: #556c75 !important;
 }
