@@ -29,6 +29,8 @@ export class StoreComponent implements OnInit, OnDestroy {
 
   info: any;
 
+  goods: any;
+
   editMode: any = {};
 
   new_user_login: string;
@@ -48,6 +50,11 @@ export class StoreComponent implements OnInit, OnDestroy {
     if (storeInfo['meta'].success) {
       this.info = storeInfo['data'].store;
       this.info.tags = this.info.tags.map(item => ({display: item, value: item}));
+      const storeGoods = await this.rest.getGoodsByStoreId(this.info._id);
+
+      if (storeGoods['meta'].success) {
+        this.goods = storeGoods['data'].goods;
+      }
 
       const faces = [];
       for (const face of this.info.contact_faces) {

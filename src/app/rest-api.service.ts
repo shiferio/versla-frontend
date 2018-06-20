@@ -115,6 +115,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getGoodsByStoreId(storeId: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/stores/goods/${storeId}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getStoreById(store_id: string) {
     return this
       .http
