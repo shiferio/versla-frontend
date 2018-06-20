@@ -34,6 +34,7 @@ import {Ng4GeoautocompleteModule} from 'ng4-geoautocomplete';
 import {ModalAddGoodComponent} from './modals/modal-add-good/modal-add-good.component';
 import {NgxMaskModule} from 'ngx-mask';
 import { GoodComponent } from './good/good.component';
+import { FixedFloatPipe } from './pipes/fixed-float.pipe';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { GoodComponent } from './good/good.component';
     StoreUpdateComponent,
     StoreComponent,
     ModalAddGoodComponent,
-    GoodComponent
+    GoodComponent,
+    FixedFloatPipe
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

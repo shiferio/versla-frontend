@@ -1,0 +1,81 @@
+.text-good {
+  background: #FFFFFF;
+  border: 1px solid #D4D4D4;
+  border-radius: 4px 4px 4px 4px;
+  padding-bottom: 5px;
+  text-indent: 3px;
+  height: 31px;
+}
+
+.breadcrumb {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+}
+
+.breadcrumb > li {
+  color: #00b5eb;
+}
+.breadcrumb > li > a {
+  color: #00b5eb;
+}
+
+.additional {
+  padding-top: 20px;
+}
+
+
+.card {
+  width: 100%;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+
+.tab01 .nav-tabs {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.tab01 .nav-tabs .nav-item {
+  margin: 0px 15px;
+}
+
+.tab01 .nav-link {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.2;
+  padding: 0;
+  border-radius: 0px;
+  border: none;
+  border-bottom: 1px solid transparent;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.tab01 .nav-link.active {
+  color: #333;
+  border-color: #797979;
+}
+
+.tab01 .nav-link:hover {
+  color: #333;
+  border-color: #797979;
+}
+
+.p-b-10 {padding-bottom: 10px;}
+.p-t-43 {padding-top: 43px;}

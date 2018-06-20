@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
 
 const API_URL = 'http://api.versla.ru';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class RestApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getHeaders() {
     const token = localStorage.getItem('token');
@@ -16,6 +17,7 @@ export class RestApiService {
       ? new HttpHeaders().set('Authorization', token)
       : null;
   }
+
   get(link: string) {
     return this
       .http
@@ -33,6 +35,7 @@ export class RestApiService {
       })
       .toPromise();
   }
+
   put(link: string, body: any) {
     return this
       .http
@@ -103,10 +106,19 @@ export class RestApiService {
       .toPromise();
   }
 
-  getStore(storeLink: string) {
+  getStoreByLink(storeLink: string) {
     return this
       .http
       .get(`${API_URL}/api/stores/${storeLink}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getStoreById(store_id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/stores/id/${store_id}`, {
         headers: this.getHeaders()
       })
       .toPromise();
@@ -152,6 +164,15 @@ export class RestApiService {
     return this
       .http
       .get(`${API_URL}/api/goods/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateGoodInfo(good_id: number, field: string, body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/goods/update/${field}`, body, {
         headers: this.getHeaders()
       })
       .toPromise();
