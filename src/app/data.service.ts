@@ -88,13 +88,13 @@ export class DataService {
           .rest
           .get(`${API_URL}/api/accounts/profile`);
         this.user = data['data'].user;
-        console.log(data['data'].user);
+        // console.log(data['data'].user);
         if (this.user.isSeller) {
           const storeData = await this
             .rest
             .get(`${API_URL}/api/accounts/stores`);
           this.stores = storeData['data'].stores;
-          console.log(this.stores);
+          // console.log(this.stores);
         }
       }
     } catch (error) {
