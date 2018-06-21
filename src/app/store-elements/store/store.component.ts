@@ -521,4 +521,11 @@ export class StoreComponent implements OnInit, OnDestroy {
         .addToast('Ошибка', error['meta'].message, 'error');
     }
   }
+
+  async addGoodToCart(good_id: number) {
+    await this.data.addGoodToCart(good_id, 1);
+    this
+      .data
+      .addToast('Ура!', 'Товар добавлен в корзину', 'success');
+  }
 }

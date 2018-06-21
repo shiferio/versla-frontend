@@ -106,6 +106,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  updateCart(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/cart`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getStoreByLink(storeLink: string) {
     return this
       .http

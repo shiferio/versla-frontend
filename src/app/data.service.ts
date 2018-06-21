@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
 import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
+import {Observable, Subject, Subscription} from 'rxjs';
 
 const API_URL = 'http://api.versla.ru';
 
@@ -13,6 +14,8 @@ export class DataService {
 
   user: any;
   stores: any;
+
+  onCartChanged: Subject<any>;
 
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
               private toastyConfig: ToastyConfig) {
@@ -29,6 +32,70 @@ export class DataService {
             }
           });
       });
+    this.onCartChanged = new Subject<any>();
+  }
+
+  async updateCart() {
+    if (localStorage.getItem('token')) {
+      await this
+        .rest
+        .updateCart({
+          cart: this.user.cart
+        });
+    } else {
+      localStorage.setItem('cart', JSON.stringify({
+        cart: this.user.cart
+      }));
+    }
+
+    this.onCartChanged.next(null);
+  }
+
+  async addGoodToCart(good_id: number, quantity: number) {
+    quantity = quantity || 1;
+
+    if (!this.user.cart) {
+      this.user.cart = [];
+    }
+
+    const index = this.user.cart.findIndex(good => good.good_id === good_id);
+    if (index === -1) {
+      this.user.cart.push({
+        good_id: good_id,
+        quantity: quantity
+      });
+    } else {
+     this.user.cart[index].quantity += 1;
+    }
+
+    await this.updateCart();
+  }
+
+  async deleteGoodFromCart(good_id: number) {
+    const index = this.user.cart.findIndex(good => good.good_id === good_id);
+    if (index !== -1) {
+      this.user.cart.splice(index, 1);
+      await this.updateCart();
+    }
+  }
+
+  async getCart() {
+    if (localStorage.getItem('token')) {
+      await this
+        .getProfile();
+      if (!this.user.cart) {
+        this.user.cart = [];
+      }
+    } else {
+      const local = localStorage.getItem('cart');
+      if (local) {
+        this.user.cart = JSON.parse(local);
+      } else {
+        this.user.cart = [];
+      }
+    }
+
+    return this.user.cart;
   }
 
   addToast(title: string, message: string, type: string) {
