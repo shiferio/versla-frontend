@@ -6,6 +6,7 @@ import {AuthGuardService} from './auth-guard.service';
 import {ProfileRoutingModule} from './profile-routing/profile-routing.module';
 import {StoreComponent} from './store-elements/store/store.component';
 import {GoodComponent} from './good/good.component';
+import {CartComponent} from './cart/cart.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,9 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuardService]
+  }, {
+    path: 'cart',
+    component: CartComponent
   },
   {
     path: 'store/:link',

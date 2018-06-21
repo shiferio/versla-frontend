@@ -36,6 +36,7 @@ import {NgxMaskModule} from 'ngx-mask';
 import { GoodComponent } from './good/good.component';
 import { FixedFloatPipe } from './pipes/fixed-float.pipe';
 import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delete-good.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delet
     ModalAddGoodComponent,
     GoodComponent,
     FixedFloatPipe,
-    ModalDeleteGoodComponent
+    ModalDeleteGoodComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
