@@ -12,7 +12,15 @@
     <div class="col-md-7">
       <div class="card">
         <div class="card-body">
-          <img class="card-img-top" [src]="info.picture" style="max-height:400px; margin:0 auto;" alt="Card image cap">
+          <img class="card-img-top good-img" [src]="info.picture" alt="Card image cap">
+          <div class="good-img-container">
+            <div class="base-good-img-overlay">
+            </div>
+            <label class="good-img-overlay">
+              <img class="camera" src="assets/img/camera.png">
+              <input type="file" (change)="goodImageChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+            </label>
+          </div>
         </div>
       </div>
     </div>

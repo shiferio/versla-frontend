@@ -25,13 +25,13 @@ export class StoreComponent implements OnInit, OnDestroy {
 
   address: string;
 
-  location: any;
+  location: any = {};
 
   link: string;
 
-  info: any;
+  info: any = {};
 
-  goods: any;
+  goods: any = [];
 
   editMode: any = {};
 
@@ -457,7 +457,7 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   get isCreator(): boolean {
-    return this.info.creator_id === this.data.user._id;
+    return this.info && this.data.user && this.info.creator_id === this.data.user._id;
     // return false;
   }
 
