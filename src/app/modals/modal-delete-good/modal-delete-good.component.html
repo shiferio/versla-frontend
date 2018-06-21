@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">Удаление товара</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('NO')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="form-group">
+      <h5>Вы действительно хотите удалить товар {{ name }}?</h5>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.close('YES')">Удалить</button>
+  <button type="button" class="btn" (click)="activeModal.close('NO')">Отмена</button>
+</div>
