@@ -6,6 +6,8 @@ import {TagModel} from 'ngx-chips/core/accessor';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalAddStoreComponent} from '../../modals/modal-add-store/modal-add-store.component';
 import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.component';
+import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-delete-good.component';
+import {consoleTestResultHandler} from 'tslint/lib/test';
 
 @Component({
   selector: 'app-store',
@@ -42,7 +44,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     private rest: RestApiService,
     private data: DataService,
     private modalService: NgbModal
-    ) {
+  ) {
   }
 
   async getStoreInfo(storeLink: string) {
@@ -101,7 +103,7 @@ export class StoreComponent implements OnInit, OnDestroy {
           .data
           .addToast('Ура!', resp['meta'].message, 'success');
 
-        this.getStoreInfo(this.link);
+        await this.getStoreInfo(this.link);
         this.editMode.logo = false;
       } else {
         this
@@ -479,5 +481,44 @@ export class StoreComponent implements OnInit, OnDestroy {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  confirmGoodDeleting(good: any) {
+    const good_id = good.good_id;
+    const name = good.name;
+
+    const modalRef = this.modalService.open(ModalDeleteGoodComponent);
+
+    modalRef.componentInstance.name = name;
+
+    modalRef.result.then(async (result) => {
+      if (result === 'YES') {
+        await this.deleteGood(good_id);
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  async deleteGood(good_id: number) {
+    try {
+      const resp = await this.rest.deleteGood(good_id);
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Ура!', resp['meta'].message, 'success');
+
+        await this.getStoreInfo(this.link);
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
   }
 }

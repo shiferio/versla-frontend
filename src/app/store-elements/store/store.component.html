@@ -179,7 +179,16 @@
               <div class="card-icons">
                 <img height="15px" class="card-icon" src="assets/img/cart.svg"/>
                 <img height="15px" class="card-icon" src="assets/img/like.svg"/>
-                <img height="15px" class="card-icon" src="assets/img/more.svg"/>
+                <div ngbDropdown class="d-inline-block">
+                  <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button
+                      class="dropdown-item"
+                      (click)="confirmGoodDeleting(good)"
+                      *ngIf="isCreator"
+                    >Удалить</button>
+                  </div>
+                </div>
               </div>
             </div>
 

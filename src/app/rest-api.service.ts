@@ -169,6 +169,18 @@ export class RestApiService {
       .toPromise();
   }
 
+  deleteGood(id: number) {
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/goods/delete`, {
+        headers: this.getHeaders(),
+        body: {
+          good_id: id
+        }
+      })
+      .toPromise();
+  }
+
   getGoodById(id: number) {
     return this
       .http

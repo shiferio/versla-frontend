@@ -18,6 +18,8 @@ export class GoodComponent implements OnInit {
 
   new_tags = [];
 
+  store_info: any = {};
+
   editMode: any = {};
 
   available_types = [
@@ -38,6 +40,7 @@ export class GoodComponent implements OnInit {
       this.good_id = params['good_id'];
 
       await this.getGoodInfo();
+      await this.getStoreInfo();
     });
   }
 
@@ -46,6 +49,11 @@ export class GoodComponent implements OnInit {
     this.info = resp['data']['good'];
     this.info.tags = this.info.tags.filter(item => item != null);
     this.new_tags = this.info.tags.slice();
+  }
+
+  async getStoreInfo() {
+    const resp = await this.rest.getStoreById(this.info.store_id);
+    this.store_info = resp['data']['store'];
   }
 
   get isCreator(): boolean {

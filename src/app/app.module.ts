@@ -35,6 +35,7 @@ import {ModalAddGoodComponent} from './modals/modal-add-good/modal-add-good.comp
 import {NgxMaskModule} from 'ngx-mask';
 import { GoodComponent } from './good/good.component';
 import { FixedFloatPipe } from './pipes/fixed-float.pipe';
+import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delete-good.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { FixedFloatPipe } from './pipes/fixed-float.pipe';
     StoreComponent,
     ModalAddGoodComponent,
     GoodComponent,
-    FixedFloatPipe
+    FixedFloatPipe,
+    ModalDeleteGoodComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -79,7 +81,8 @@ import { FixedFloatPipe } from './pipes/fixed-float.pipe';
     ModalLoginComponent,
     ModalRegistrationComponent,
     ModalAddStoreComponent,
-    ModalAddGoodComponent
+    ModalAddGoodComponent,
+    ModalDeleteGoodComponent
   ]
 })
 export class AppModule {
