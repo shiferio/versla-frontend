@@ -239,4 +239,39 @@ export class GoodComponent implements OnInit {
         .addToast('Ошибка', error['meta'].message, 'error');
     }
   }
+
+  async goodImageChange(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      const formData: FormData = new FormData();
+      formData.append('image', file, file.name);
+      const data = await this.rest.uploadImage(formData);
+
+      try {
+        const resp = await this
+          .rest
+          .updateGoodInfo(this.good_id, 'picture', {
+            good_id: this.good_id,
+            picture: data['file']
+          });
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .success(resp['meta'].message);
+
+          await this.getGoodInfo();
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
+        this
+          .data
+          .error(error['message']);
+      }
+    }
+  }
 }
