@@ -207,4 +207,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  getCommentsForGood(good_id: number) {
+    return this
+      .http
+      .get(`${API_URL}/api/comments/good/${good_id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

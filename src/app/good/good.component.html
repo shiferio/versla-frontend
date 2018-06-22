@@ -143,7 +143,8 @@
             <ul class="nav nav-tabs">
               <li class="nav-item p-b-10">
                 <a
-                  class="nav-link active"
+                  class="nav-link"
+                  [class.active]="additionalTabPane === 'description'"
                   data-toggle="tab"
                   (click)="additionalTabPane = 'description'"
                   role="tab"
@@ -153,6 +154,7 @@
               <li class="nav-item p-b-10">
                 <a
                   class="nav-link"
+                  [class.active]="additionalTabPane === 'information'"
                   data-toggle="tab"
                   (click)="additionalTabPane = 'information'"
                   role="tab"
@@ -162,10 +164,11 @@
               <li class="nav-item p-b-10">
                 <a
                   class="nav-link"
+                  [class.active]="additionalTabPane === 'reviews'"
                   data-toggle="tab"
                   (click)="additionalTabPane = 'reviews'"
                   role="tab"
-                >Reviews (1)</a>
+                >Reviews <span *ngIf="commentsForGood">({{commentsForGood.length}})</span></a>
               </li>
             </ul>
 
@@ -202,7 +205,16 @@
             </div>
             <!--Reviews tab pane-->
             <div class="tab-content p-t-43"  *ngIf="additionalTabPane === 'reviews'">
-              Reviews
+              <ul class="list-group" *ngIf="commentsForGood">
+                <li
+                  *ngFor="let comment of commentsForGood"
+                  class="list-group-item"
+                >
+                  <h5 class="mb-1">{{ comment.title }}</h5>
+                  <p class="mb-1">{{ comment.text }}</p>
+                  <ngb-rating [rate]="comment.rating"></ngb-rating>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

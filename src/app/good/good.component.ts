@@ -28,6 +28,30 @@ export class GoodComponent implements OnInit {
 
   additionalTabPane: string;
 
+  commentsForGood = [
+    {
+      'rating': 2,
+      '_id': '5b2b9c252b0ea00b39fb6347',
+      'created': '2018-06-21T12:37:57.846Z',
+      'creator_id': '5b215a9b719645637b7b939d',
+      'text': 'The breakthrough revolutionary product',
+      'title': 'Amazing good',
+      'good_id': '5b27bce94de6a514b4cf1462',
+      '__v': 0
+    },
+    {
+      'rating': 6,
+      '_id': '5b2b9c8d5ba2440b4d3740db',
+      'created': '2018-06-21T12:39:41.686Z',
+      'creator_id': '5b215a9b719645637b7b939d',
+      'text': 'The breakthrough revolutionary product',
+      'title': 'Amazing good',
+      'type': 1,
+      'good_id': '5b27bce94de6a514b4cf1462',
+      '__v': 0
+    }
+  ]; //[];
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -42,10 +66,16 @@ export class GoodComponent implements OnInit {
       this.good_id = params['good_id'];
 
       await this.getGoodInfo();
+      // await this.getCommentsForGood();
       await this.getStoreInfo();
     });
 
     this.additionalTabPane = 'description';
+  }
+
+  async getCommentsForGood() {
+    const resp = await this.rest.getCommentsForGood(this.good_id);
+    this.commentsForGood = resp['data']['comments'];
   }
 
   async getGoodInfo() {
