@@ -26,6 +26,8 @@ export class GoodComponent implements OnInit {
     'one', 'two', 'three'
   ];
 
+  additionalTabPane: string;
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -42,6 +44,8 @@ export class GoodComponent implements OnInit {
       await this.getGoodInfo();
       await this.getStoreInfo();
     });
+
+    this.additionalTabPane = 'description';
   }
 
   async getGoodInfo() {

@@ -142,20 +142,36 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
               <li class="nav-item p-b-10">
-                <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                <a
+                  class="nav-link active"
+                  data-toggle="tab"
+                  (click)="additionalTabPane = 'description'"
+                  role="tab"
+                >Description</a>
               </li>
 
               <li class="nav-item p-b-10">
-                <a class="nav-link" data-toggle="tab" href="#information" role="tab">Additional information</a>
+                <a
+                  class="nav-link"
+                  data-toggle="tab"
+                  (click)="additionalTabPane = 'information'"
+                  role="tab"
+                >Additional information</a>
               </li>
 
               <li class="nav-item p-b-10">
-                <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
+                <a
+                  class="nav-link"
+                  data-toggle="tab"
+                  (click)="additionalTabPane = 'reviews'"
+                  role="tab"
+                >Reviews (1)</a>
               </li>
             </ul>
 
             <!-- Tab panes -->
-            <div class="tab-content p-t-43">
+            <!--Description tab pane-->
+            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
               <label
                 class="btn btn-main"
                 (click)="editMode.description = true"
@@ -179,6 +195,14 @@
                 <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good">
                 <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
               </div>
+            </div>
+            <!--Information tab pane-->
+            <div class="tab-content p-t-43"  *ngIf="additionalTabPane === 'information'">
+              Info
+            </div>
+            <!--Reviews tab pane-->
+            <div class="tab-content p-t-43"  *ngIf="additionalTabPane === 'reviews'">
+              Reviews
             </div>
           </div>
         </div>
