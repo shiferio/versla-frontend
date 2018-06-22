@@ -14,8 +14,10 @@ export class AppComponent implements OnInit {
 
   cart_sub: any;
 
-  constructor(private modalService: NgbModal, private router: Router, private data: DataService) {
-
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    private data: DataService) {
   }
 
   async ngOnInit() {
@@ -23,17 +25,16 @@ export class AppComponent implements OnInit {
       .data
       .getProfile();
 
-    await this.updateGoodsCount();
     this.cart_sub = this
       .data
       .onCartChanged
       .subscribe(async (info) => {
-      this.goods_count = info.cartSize;
-    });
-  }
+        this.goods_count = info.cartSize;
+      });
 
-  async updateGoodsCount() {
-    this.goods_count = (await this.data.getCart()).length;
+    await this
+      .data
+      .loadCart();
   }
 
   openModalLogin() {

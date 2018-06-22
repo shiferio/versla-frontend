@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
 import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Subject} from 'rxjs';
 
 const API_URL = 'http://api.versla.ru';
 
@@ -35,7 +35,7 @@ export class DataService {
     this.onCartChanged = new Subject<any>();
   }
 
-  async updateCart() {
+  async saveCart() {
     if (localStorage.getItem('token')) {
       await this
         .rest
@@ -71,7 +71,7 @@ export class DataService {
      this.user.cart[index].quantity += quantity;
     }
 
-    await this.updateCart();
+    await this.saveCart();
   }
 
   async deleteGoodFromCart(good_id: any) {
@@ -80,17 +80,15 @@ export class DataService {
     const index = this.user.cart.findIndex(good => good.good_id === good_id);
     if (index !== -1) {
       this.user.cart.splice(index, 1);
-      await this.updateCart();
+      await this.saveCart();
     }
   }
 
-  async getCart() {
+  async loadCart() {
     if (localStorage.getItem('token')) {
       await this
         .getProfile();
-      if (!this.user.cart) {
-        this.user.cart = [];
-      }
+      this.user.cart = this.user.cart || [];
     } else {
       const local = localStorage.getItem('cart');
       if (local) {
@@ -100,7 +98,9 @@ export class DataService {
       }
     }
 
-    return this.user.cart;
+    this.onCartChanged.next({
+      cartSize: this.user.cart.length
+    });
   }
 
   addToast(title: string, message: string, type: string) {
