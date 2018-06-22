@@ -274,4 +274,11 @@ export class GoodComponent implements OnInit {
       }
     }
   }
+
+  async addGoodToCard(good_id: number) {
+    await this.data.addGoodToCart(good_id, 1);
+    this
+      .data
+      .addToast('Ура!', 'Товар добавлен в корзину', 'success');
+  }
 }
