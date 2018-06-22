@@ -1,9 +1,9 @@
 <div class="container">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">{{ store_info.name }}</a></li>
+      <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
       <li class="breadcrumb-item"><a href="#">{{ info.type }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{ info.name }}</li>
+      <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info.good_id}}">{{ info.name }}</li>
     </ol>
   </nav>
 
@@ -93,6 +93,16 @@
               <i class="fa fa-shopping-cart"></i> Добавить в корзину
             </button>
           </p>
+          <div class="card-text" *ngIf="info.params">
+            <div *ngFor="let param of info.params">
+              <label for="val">{{param.name}}</label>
+              <select
+                class="custom-select"
+                id="val">
+                <option *ngFor="let value of param.values">{{ value }}</option>
+              </select>
+            </div>
+          </div>
           <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
           4.0 stars
           <p class="card-text">
@@ -200,11 +210,11 @@
               </div>
             </div>
             <!--Information tab pane-->
-            <div class="tab-content p-t-43"  *ngIf="additionalTabPane === 'information'">
+            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
               Info
             </div>
             <!--Reviews tab pane-->
-            <div class="tab-content p-t-43"  *ngIf="additionalTabPane === 'reviews'">
+            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'reviews'">
               <ul class="list-group" *ngIf="commentsForGood">
                 <li
                   *ngFor="let comment of commentsForGood"
@@ -215,6 +225,13 @@
                   <ngb-rating [rate]="comment.rating"></ngb-rating>
                 </li>
               </ul>
+              <div class="mt-5">
+                <app-new-comment
+                  [comment_id]=""
+                  [good_id]="info.good_id"
+                  (onCommentAdded)="addCommentForGood($event)"
+                ></app-new-comment>
+              </div>
             </div>
           </div>
         </div>

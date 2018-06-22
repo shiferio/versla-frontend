@@ -37,6 +37,7 @@ import { GoodComponent } from './good/good.component';
 import { FixedFloatPipe } from './pipes/fixed-float.pipe';
 import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delete-good.component';
 import { CartComponent } from './cart/cart.component';
+import { NewCommentComponent } from './new-comment/new-comment.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { CartComponent } from './cart/cart.component';
     GoodComponent,
     FixedFloatPipe,
     ModalDeleteGoodComponent,
-    CartComponent
+    CartComponent,
+    NewCommentComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

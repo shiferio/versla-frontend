@@ -28,29 +28,16 @@ export class GoodComponent implements OnInit {
 
   additionalTabPane: string;
 
-  commentsForGood = [
+  commentsForGood = [];
+
+  params = [
     {
-      'rating': 2,
-      '_id': '5b2b9c252b0ea00b39fb6347',
-      'created': '2018-06-21T12:37:57.846Z',
-      'creator_id': '5b215a9b719645637b7b939d',
-      'text': 'The breakthrough revolutionary product',
-      'title': 'Amazing good',
-      'good_id': '5b27bce94de6a514b4cf1462',
-      '__v': 0
-    },
-    {
-      'rating': 6,
-      '_id': '5b2b9c8d5ba2440b4d3740db',
-      'created': '2018-06-21T12:39:41.686Z',
-      'creator_id': '5b215a9b719645637b7b939d',
-      'text': 'The breakthrough revolutionary product',
-      'title': 'Amazing good',
-      'type': 1,
-      'good_id': '5b27bce94de6a514b4cf1462',
-      '__v': 0
+      name: 'Size',
+      values: [
+        'S', 'M', 'L', 'XL', 'XXL'
+      ]
     }
-  ]; //[];
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -66,7 +53,7 @@ export class GoodComponent implements OnInit {
       this.good_id = params['good_id'];
 
       await this.getGoodInfo();
-      // await this.getCommentsForGood();
+      await this.getCommentsForGood();
       await this.getStoreInfo();
     });
 
@@ -83,6 +70,8 @@ export class GoodComponent implements OnInit {
     this.info = resp['data']['good'];
     this.info.tags = this.info.tags.filter(item => item != null);
     this.new_tags = this.info.tags.slice();
+
+    this.info.params = this.params;
   }
 
   async getStoreInfo() {
@@ -314,5 +303,34 @@ export class GoodComponent implements OnInit {
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');
+  }
+
+  async addCommentForGood(info: any) {
+    try {
+
+      const resp = await this.rest.addComment({
+        title: info.title,
+        type: 1,
+        text: info.text,
+        user_id: this.data.user._id,
+        good_id: this.good_id
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getCommentsForGood();
+      } else {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast(error['message'], '', 'error');
+    }
   }
 }

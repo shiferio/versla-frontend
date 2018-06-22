@@ -216,4 +216,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  addComment(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/comments/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
