@@ -20,7 +20,7 @@
                 <td><img [src]="good.picture" height="100px" /></td>
                 <td><a routerLink="/good/{{ good.good_id }}">{{ good.name }}</a></td>
                 <td>Доступен</td>
-                <td><input class="form-control" type="text" value="1"/></td>
+                <td><input class="form-control" type="text" [value]="good.quantity"/></td>
                 <td class="text-right">{{ good.price | fixedFloat: 2 }} ₽</td>
                 <td class="text-right">
                   <button class="btn btn-sm btn-danger" (click)="deleteGood(good.good_id)"><i class="fa fa-trash"></i></button>
