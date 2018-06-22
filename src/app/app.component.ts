@@ -24,7 +24,12 @@ export class AppComponent implements OnInit {
       .getProfile();
 
     await this.updateGoodsCount();
-    this.cart_sub = this.data.onCartChanged.subscribe(async () => await this.updateGoodsCount());
+    this.cart_sub = this
+      .data
+      .onCartChanged
+      .subscribe(async (info) => {
+      this.goods_count = info.cartSize;
+    });
   }
 
   async updateGoodsCount() {

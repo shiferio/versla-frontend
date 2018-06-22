@@ -48,11 +48,14 @@ export class DataService {
       }));
     }
 
-    this.onCartChanged.next(null);
+    this.onCartChanged.next({
+      cartSize: this.user.cart.length
+    });
   }
 
-  async addGoodToCart(good_id: number, quantity: number) {
-    quantity = quantity || 1;
+  async addGoodToCart(good_id: any, quantity: any) {
+    quantity = Number.parseInt(quantity || 1);
+    good_id = Number.parseInt(good_id);
 
     if (!this.user.cart) {
       this.user.cart = [];
@@ -65,13 +68,15 @@ export class DataService {
         quantity: quantity
       });
     } else {
-     this.user.cart[index].quantity += 1;
+     this.user.cart[index].quantity += quantity;
     }
 
     await this.updateCart();
   }
 
-  async deleteGoodFromCart(good_id: number) {
+  async deleteGoodFromCart(good_id: any) {
+    good_id = Number.parseInt(good_id);
+
     const index = this.user.cart.findIndex(good => good.good_id === good_id);
     if (index !== -1) {
       this.user.cart.splice(index, 1);
