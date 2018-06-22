@@ -22,15 +22,17 @@ export class CartComponent implements OnInit {
 
   async getCartInfo() {
     await this.data.getProfile();
-    this.cart = [];
+    const new_cart = [];
 
     if (this.data.user.cart) {
       for (const good of this.data.user.cart) {
         const good_info = (await this.rest.getGoodById(good.good_id))['data']['good'];
         Object.assign(good_info, {quantity: good.quantity});
-        this.cart.push(good_info);
+        new_cart.push(good_info);
       }
     }
+
+    this.cart = new_cart;
   }
 
   get summary(): number {

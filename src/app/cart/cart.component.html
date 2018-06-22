@@ -18,7 +18,7 @@
               <tbody>
               <tr *ngFor="let good of cart">
                 <td><img [src]="good.picture" height="100px" /></td>
-                <td>{{ good.name }}</td>
+                <td><a routerLink="/good/{{ good.good_id }}">{{ good.name }}</a></td>
                 <td>Доступен</td>
                 <td><input class="form-control" type="text" value="1"/></td>
                 <td class="text-right">{{ good.price | fixedFloat: 2 }} ₽</td>
