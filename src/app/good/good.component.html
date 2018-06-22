@@ -103,6 +103,11 @@
               </select>
             </div>
           </div>
+          <p class="card-text" *ngIf="isCreator">
+            <button class="btn-main" (click)="openAddParameter()">
+              Добавить новый параметр
+            </button>
+          </p>
           <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
           4.0 stars
           <p class="card-text">

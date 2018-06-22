@@ -3,6 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {RestApiService} from '../rest-api.service';
 import {DataService} from '../data.service';
 import {TagModel} from 'ngx-chips/core/accessor';
+import {ModalAddGoodComponent} from '../modals/modal-add-good/modal-add-good.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalAddParameterComponent} from '../modals/modal-add-parameter/modal-add-parameter.component';
 
 @Component({
   selector: 'app-good',
@@ -42,7 +45,8 @@ export class GoodComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
-    private data: DataService
+    private data: DataService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -70,8 +74,6 @@ export class GoodComponent implements OnInit {
     this.info = resp['data']['good'];
     this.info.tags = this.info.tags.filter(item => item != null);
     this.new_tags = this.info.tags.slice();
-
-    this.info.params = this.params;
   }
 
   async getStoreInfo() {
@@ -332,5 +334,19 @@ export class GoodComponent implements OnInit {
         .data
         .addToast(error['message'], '', 'error');
     }
+  }
+
+  openAddParameter() {
+    const modalRef = this.modalService.open(ModalAddParameterComponent);
+
+    modalRef.componentInstance.good_id = this.info._id;
+    modalRef.componentInstance.available_params = this.info.params;
+
+    modalRef.result.then(async (result) => {
+      await this.getGoodInfo();
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }

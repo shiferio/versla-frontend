@@ -38,6 +38,7 @@ import { FixedFloatPipe } from './pipes/fixed-float.pipe';
 import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delete-good.component';
 import { CartComponent } from './cart/cart.component';
 import { NewCommentComponent } from './new-comment/new-comment.component';
+import { ModalAddParameterComponent } from './modals/modal-add-parameter/modal-add-parameter.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { NewCommentComponent } from './new-comment/new-comment.component';
     FixedFloatPipe,
     ModalDeleteGoodComponent,
     CartComponent,
-    NewCommentComponent
+    NewCommentComponent,
+    ModalAddParameterComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -86,7 +88,8 @@ import { NewCommentComponent } from './new-comment/new-comment.component';
     ModalRegistrationComponent,
     ModalAddStoreComponent,
     ModalAddGoodComponent,
-    ModalDeleteGoodComponent
+    ModalDeleteGoodComponent,
+    ModalAddParameterComponent
   ]
 })
 export class AppModule {

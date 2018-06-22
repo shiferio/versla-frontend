@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">Добавить новый параметр товара</h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss('Cross click')">
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="name">Название параметра</label>
+    <input type="text" name="name" id="name" class="form-control text-modal" placeholder="Введите название параметра"
+           [(ngModel)]="name">
+  </div>
+  <div>
+    <div class="form-group" *ngFor="let value of values">
+      <input
+        type="text"
+        class="form-control"
+        (change)="updateValuesCount()"
+        [(ngModel)]="value.value">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn-main" (click)="createParam()" [disabled]="btnDisabled">
+    Добавить
+  </button>
+</div>
