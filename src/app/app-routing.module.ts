@@ -8,6 +8,7 @@ import {StoreComponent} from './store-elements/store/store.component';
 import {GoodComponent} from './good/good.component';
 import {CartComponent} from './cart/cart.component';
 import {OrderComponent} from './order/order.component';
+import {OrderConfirmationComponent} from './order-confirmation/order-confirmation.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'order',
     component: OrderComponent
+  },
+  {
+    path: 'confirmation',
+    component: OrderConfirmationComponent
   },
   {
     path: 'store/:link',

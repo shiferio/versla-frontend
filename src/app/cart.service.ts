@@ -21,7 +21,8 @@ export class CartService {
   async saveCart() {
     const data = this.cart.map(good => ({
       good_id: good.good_id,
-      quantity: good.quantity
+      quantity: good.quantity,
+      values: good.values
     }));
 
     if (localStorage.getItem('token')) {
@@ -51,7 +52,8 @@ export class CartService {
     if (index === -1) {
       this.cart.push({
         good_id: good_id,
-        quantity: quantity
+        quantity: quantity,
+        values: [] // TODO: Fix user values
       });
     } else {
       this.cart[index].quantity += quantity;
@@ -84,10 +86,7 @@ export class CartService {
     const data = [];
     for (const good of cart) {
       const good_info = (await this.rest.getGoodById(good.good_id))['data']['good'];
-      good_info.is_available = false;
-      Object.assign(good_info, {
-        quantity: good.quantity
-      });
+      Object.assign(good_info, good);
       data.push(good_info);
     }
 

@@ -4,6 +4,7 @@ import {DataService} from '../data.service';
 import {CartService} from '../cart.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalUnavailableGoodsComponent} from '../modals/modal-unavailable-goods/modal-unavailable-goods.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -16,6 +17,7 @@ export class OrderComponent implements OnInit {
     public cart: CartService,
     private data: DataService,
     private rest: RestApiService,
+    private router: Router,
     private modalService: NgbModal
   ) { }
 
@@ -36,7 +38,9 @@ export class OrderComponent implements OnInit {
 
   async confirmOrder() {
     if (this.cart.cart.every(good => good.is_available)) {
-      console.log('Order was confirmed');
+      await this
+        .router
+        .navigate(['/confirmation']);
     } else {
       this
         .modalService

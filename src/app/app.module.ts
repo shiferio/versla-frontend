@@ -42,6 +42,7 @@ import {ModalAddParameterComponent} from './modals/modal-add-parameter/modal-add
 import {OrderComponent} from './order/order.component';
 import {IntegerCounterComponent} from './integer-counter/integer-counter.component';
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/m
     ModalAddParameterComponent,
     OrderComponent,
     IntegerCounterComponent,
-    ModalUnavailableGoodsComponent
+    ModalUnavailableGoodsComponent,
+    OrderConfirmationComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

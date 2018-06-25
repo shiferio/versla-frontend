@@ -1,3 +1,12 @@
 <div class="profilepos">
     <h4>Мои заказы</h4>
 </div>
+<ul class="list-group">
+  <li
+    class="list-group-item"
+    *ngFor="let order of orders"
+  >
+    <h4 routerLink="/good/{{order.good_id}}">{{ order.name }}</h4>
+    <p>Кол-во: {{ order.quantity | fixedFloat: 0 }}</p>
+  </li>
+</ul>

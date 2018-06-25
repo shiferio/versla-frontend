@@ -225,4 +225,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  updateOrders(body: any) {
+    return this
+      .http
+      .put(`${API_URL}/api/accounts/orders`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

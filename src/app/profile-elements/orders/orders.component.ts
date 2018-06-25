@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {DataService} from '../../data.service';
+import {RestApiService} from '../../rest-api.service';
 
 @Component({
   selector: 'app-orders',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
 
-  constructor() { }
+  orders = [];
 
-  ngOnInit() {
+  constructor(
+    private data: DataService,
+    private rest: RestApiService
+  ) { }
+
+  async ngOnInit() {
+    await this.fetchOrdersInfo();
+  }
+
+  async fetchOrdersInfo() {
+    const data = [];
+    for (const order of this.data.user.orders) {
+      const order_info = (await this.rest.getGoodById(order.good_id))['data']['good'];
+      data.push({
+        good_id: order.good_id,
+        name: order_info.name,
+        quantity: order.quantity,
+        values: order.values
+      });
+    }
+
+    this.orders = data;
   }
 
 }
