@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../data.service';
-import {RestApiService} from '../rest-api.service';
+import {CartService} from '../cart.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -9,46 +10,27 @@ import {RestApiService} from '../rest-api.service';
 })
 export class CartComponent implements OnInit {
 
-  cart = [];
-
   constructor(
     private data: DataService,
-    private rest: RestApiService
+    private router: Router,
+    public cart: CartService
   ) { }
 
   async ngOnInit() {
-    await this.getCartInfo();
-  }
-
-  async getCartInfo() {
-    await this.data.getProfile();
-    const new_cart = [];
-
-    if (this.data.user.cart) {
-      for (const good of this.data.user.cart) {
-        const good_info = (await this.rest.getGoodById(good.good_id))['data']['good'];
-        Object.assign(good_info, {quantity: good.quantity});
-        new_cart.push(good_info);
-      }
-    }
-
-    this.cart = new_cart;
+    await this.cart.loadCart();
   }
 
   get summary(): number {
     return this
       .cart
+      .cart
+      .filter(good => good.is_available)
       .map(good => good.price * good.quantity)
       .reduce((acc, cur) => acc + cur, 0);
   }
 
-  get delivery(): number {
-    return 100;
-  }
-
   async deleteGood(good_id: number) {
-    await this.data.deleteGoodFromCart(good_id);
-    await this.getCartInfo();
+    await this.cart.deleteGoodFromCart(good_id);
 
     this
       .data
@@ -57,4 +39,16 @@ export class CartComponent implements OnInit {
       );
   }
 
+  async onQuantityChange(event) {
+    const {good_id, counter} = event;
+    this.cart.setGoodQuantity(good_id, counter);
+  }
+
+  async createOrder() {
+    await this.cart.saveCart();
+
+    await this
+      .router
+      .navigate(['/order']);
+  }
 }

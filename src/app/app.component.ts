@@ -5,6 +5,7 @@ import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 
 import {DataService} from './data.service';
+import {CartService} from './cart.service';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit {
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private data: DataService) {
+    private data: DataService,
+    private cart: CartService) {
   }
 
   async ngOnInit() {
@@ -26,15 +28,13 @@ export class AppComponent implements OnInit {
       .getProfile();
 
     this.cart_sub = this
-      .data
+      .cart
       .onCartChanged
       .subscribe(async (info) => {
         this.goods_count = info.cartSize;
       });
 
-    await this
-      .data
-      .loadCart();
+    await this.cart.loadCart();
   }
 
   openModalLogin() {

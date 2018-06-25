@@ -8,6 +8,7 @@ import {ModalAddStoreComponent} from '../../modals/modal-add-store/modal-add-sto
 import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.component';
 import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-delete-good.component';
 import {consoleTestResultHandler} from 'tslint/lib/test';
+import {CartService} from '../../cart.service';
 
 @Component({
   selector: 'app-store',
@@ -43,6 +44,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private rest: RestApiService,
     private data: DataService,
+    private cart: CartService,
     private modalService: NgbModal
   ) {
   }
@@ -523,7 +525,7 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   async addGoodToCart(good_id: number) {
-    await this.data.addGoodToCart(good_id, 1);
+    await this.cart.addGoodToCart(good_id, 1);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');

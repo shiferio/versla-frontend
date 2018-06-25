@@ -7,6 +7,7 @@ import {ProfileRoutingModule} from './profile-routing/profile-routing.module';
 import {StoreComponent} from './store-elements/store/store.component';
 import {GoodComponent} from './good/good.component';
 import {CartComponent} from './cart/cart.component';
+import {OrderComponent} from './order/order.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   }, {
     path: 'cart',
     component: CartComponent
+  },
+  {
+    path: 'order',
+    component: OrderComponent
   },
   {
     path: 'store/:link',

@@ -33,12 +33,15 @@ import {AgmCoreModule} from '@agm/core';
 import {Ng4GeoautocompleteModule} from 'ng4-geoautocomplete';
 import {ModalAddGoodComponent} from './modals/modal-add-good/modal-add-good.component';
 import {NgxMaskModule} from 'ngx-mask';
-import { GoodComponent } from './good/good.component';
-import { FixedFloatPipe } from './pipes/fixed-float.pipe';
-import { ModalDeleteGoodComponent } from './modals/modal-delete-good/modal-delete-good.component';
-import { CartComponent } from './cart/cart.component';
-import { NewCommentComponent } from './new-comment/new-comment.component';
-import { ModalAddParameterComponent } from './modals/modal-add-parameter/modal-add-parameter.component';
+import {GoodComponent} from './good/good.component';
+import {FixedFloatPipe} from './pipes/fixed-float.pipe';
+import {ModalDeleteGoodComponent} from './modals/modal-delete-good/modal-delete-good.component';
+import {CartComponent} from './cart/cart.component';
+import {NewCommentComponent} from './new-comment/new-comment.component';
+import {ModalAddParameterComponent} from './modals/modal-add-parameter/modal-add-parameter.component';
+import {OrderComponent} from './order/order.component';
+import {IntegerCounterComponent} from './integer-counter/integer-counter.component';
+import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { ModalAddParameterComponent } from './modals/modal-add-parameter/modal-a
     ModalDeleteGoodComponent,
     CartComponent,
     NewCommentComponent,
-    ModalAddParameterComponent
+    ModalAddParameterComponent,
+    OrderComponent,
+    IntegerCounterComponent,
+    ModalUnavailableGoodsComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -89,7 +95,8 @@ import { ModalAddParameterComponent } from './modals/modal-add-parameter/modal-a
     ModalAddStoreComponent,
     ModalAddGoodComponent,
     ModalDeleteGoodComponent,
-    ModalAddParameterComponent
+    ModalAddParameterComponent,
+    ModalUnavailableGoodsComponent
   ]
 })
 export class AppModule {

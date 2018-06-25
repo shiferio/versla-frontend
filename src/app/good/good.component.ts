@@ -6,6 +6,7 @@ import {TagModel} from 'ngx-chips/core/accessor';
 import {ModalAddGoodComponent} from '../modals/modal-add-good/modal-add-good.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalAddParameterComponent} from '../modals/modal-add-parameter/modal-add-parameter.component';
+import {CartService} from '../cart.service';
 
 @Component({
   selector: 'app-good',
@@ -38,6 +39,7 @@ export class GoodComponent implements OnInit {
     private route: ActivatedRoute,
     private rest: RestApiService,
     private data: DataService,
+    private cart: CartService,
     private modalService: NgbModal
   ) {
   }
@@ -294,7 +296,7 @@ export class GoodComponent implements OnInit {
   }
 
   async addGoodToCard(good_id: number) {
-    await this.data.addGoodToCart(good_id, 1);
+    await this.cart.addGoodToCart(good_id, 1);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');

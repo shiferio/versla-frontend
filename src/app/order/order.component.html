@@ -23,12 +23,7 @@
                 <td><img [src]="good.picture" height="100px" /></td>
                 <td><a routerLink="/good/{{ good.good_id }}">{{ good.name }}</a></td>
                 <td>{{ good.is_available ? 'Доступен': 'Не доступен'}}</td>
-                <td><app-integer-counter
-                  [initial]="good.quantity"
-                  [goodId]="good.good_id"
-                  [minimal]="1"
-                  (onCounterChange)="onQuantityChange($event)"
-                ></app-integer-counter></td>
+                <td class="text-center">{{ good.quantity }}</td>
                 <td class="text-right">{{ good.price | fixedFloat: 2 }} ₽</td>
                 <td class="text-right">
                   <button class="btn btn-sm btn-danger" (click)="deleteGood(good.good_id)"><i class="fa fa-trash"></i></button>
@@ -39,8 +34,16 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Подитог</td>
-                <td class="text-right">{{ summary | fixedFloat: 2 }} ₽</td>
+                <td>Доставка</td>
+                <td class="text-right">{{ delivery | fixedFloat: 2 }} ₽</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Итог</strong></td>
+                <td class="text-right"><strong>{{summary + delivery | fixedFloat: 2 }} ₽</strong></td>
               </tr>
               </tbody>
             </table>
@@ -48,7 +51,7 @@
         </div>
         <div class="col mb-2">
           <div>
-            <button class="checkout-right btn btn-success" (click)="createOrder()">Оформить заказ</button>
+            <button class="checkout-right btn btn-success" (click)="confirmOrder()">Подтвердить</button>
           </div>
         </div>
       </div>

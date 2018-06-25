@@ -15,8 +15,6 @@ export class DataService {
   user: any;
   stores: any;
 
-  onCartChanged: Subject<any>;
-
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
               private toastyConfig: ToastyConfig) {
     this
@@ -32,75 +30,6 @@ export class DataService {
             }
           });
       });
-    this.onCartChanged = new Subject<any>();
-  }
-
-  async saveCart() {
-    if (localStorage.getItem('token')) {
-      await this
-        .rest
-        .updateCart({
-          cart: this.user.cart
-        });
-    } else {
-      localStorage.setItem('cart', JSON.stringify({
-        cart: this.user.cart
-      }));
-    }
-
-    this.onCartChanged.next({
-      cartSize: this.user.cart.length
-    });
-  }
-
-  async addGoodToCart(good_id: any, quantity: any) {
-    quantity = Number.parseInt(quantity || 1);
-    good_id = Number.parseInt(good_id);
-
-    if (!this.user.cart) {
-      this.user.cart = [];
-    }
-
-    const index = this.user.cart.findIndex(good => good.good_id === good_id);
-    if (index === -1) {
-      this.user.cart.push({
-        good_id: good_id,
-        quantity: quantity
-      });
-    } else {
-     this.user.cart[index].quantity += quantity;
-    }
-
-    await this.saveCart();
-  }
-
-  async deleteGoodFromCart(good_id: any) {
-    good_id = Number.parseInt(good_id);
-
-    const index = this.user.cart.findIndex(good => good.good_id === good_id);
-    if (index !== -1) {
-      this.user.cart.splice(index, 1);
-      await this.saveCart();
-    }
-  }
-
-  async loadCart() {
-    if (localStorage.getItem('token')) {
-      await this
-        .getProfile();
-      this.user.cart = this.user.cart || [];
-    } else {
-      const local = localStorage.getItem('cart');
-      if (local) {
-        this.user.cart = JSON.parse(local);
-      } else {
-        this.user.cart = [];
-      }
-    }
-
-    this.onCartChanged.next({
-      cartSize: this.user.cart.length
-    });
   }
 
   addToast(title: string, message: string, type: string) {

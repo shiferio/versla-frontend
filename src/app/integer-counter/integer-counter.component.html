@@ -1,0 +1,22 @@
+<div class="input-group" style="margin: auto;">
+  <div class="input-group-prepend">
+    <button
+      class="btn btn-main"
+      type="button"
+      (click)="increment()"
+    >+</button>
+  </div>
+  <input
+    type="number"
+    class="form-control"
+    readonly
+    [(ngModel)]="counter"
+  >
+  <div class="input-group-append">
+    <button
+      class="btn btn-main"
+      type="button"
+      (click)="decrement()"
+    >-</button>
+  </div>
+</div>
