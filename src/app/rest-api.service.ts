@@ -208,7 +208,7 @@ export class RestApiService {
       .toPromise();
   }
 
-  getCommentsForGood(good_id: number) {
+  getCommentsForGood(good_id: string) {
     return this
       .http
       .get(`${API_URL}/api/comments/good/${good_id}`, {

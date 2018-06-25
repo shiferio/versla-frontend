@@ -33,14 +33,6 @@ export class GoodComponent implements OnInit {
 
   commentsForGood = [];
 
-  params = [
-    {
-      name: 'Size',
-      values: [
-        'S', 'M', 'L', 'XL', 'XXL'
-      ]
-    }
-  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -65,7 +57,7 @@ export class GoodComponent implements OnInit {
   }
 
   async getCommentsForGood() {
-    const resp = await this.rest.getCommentsForGood(this.good_id);
+    const resp = await this.rest.getCommentsForGood(this.info._id);
     this.commentsForGood = resp['data']['comments'];
   }
 
@@ -178,6 +170,7 @@ export class GoodComponent implements OnInit {
         .addToast('Ошибка', 'Введите цену', 'error');
     }
   }
+
 
   async updateDescription() {
     try {
@@ -307,18 +300,25 @@ export class GoodComponent implements OnInit {
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');
   }
 
-  async addCommentForGood(info: any) {
+  async addCommentForGood(commentInfo: any) {
     try {
-
-      const resp = await this.rest.addComment({
-        title: info.title,
+      console.log({
+        title: commentInfo.title,
         type: 1,
-        text: info.text,
-        user_id: this.data.user._id,
-        good_id: this.good_id
+        text: commentInfo.text,
+        good_id: this.info._id
+      })
+      const resp = await this.rest.addComment({
+        title: commentInfo.title,
+        type: 1,
+        text: commentInfo.text,
+        good_id: this.info._id
       });
 
+      console.log('h2');
+
       if (resp['meta'].success) {
+        console.log(resp);
         this
           .data
           .addToast(resp['meta'].message, '', 'success');

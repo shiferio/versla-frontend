@@ -163,7 +163,7 @@
                   data-toggle="tab"
                   (click)="additionalTabPane = 'description'"
                   role="tab"
-                >Description</a>
+                >Описание</a>
               </li>
 
               <li class="nav-item p-b-10">
@@ -173,7 +173,7 @@
                   data-toggle="tab"
                   (click)="additionalTabPane = 'information'"
                   role="tab"
-                >Additional information</a>
+                >Дополнительная информация</a>
               </li>
 
               <li class="nav-item p-b-10">
@@ -183,7 +183,7 @@
                   data-toggle="tab"
                   (click)="additionalTabPane = 'reviews'"
                   role="tab"
-                >Reviews <span *ngIf="commentsForGood">({{commentsForGood.length}})</span></a>
+                >Отзывы <span *ngIf="commentsForGood">({{commentsForGood.length}})</span></a>
               </li>
             </ul>
 
@@ -216,7 +216,19 @@
             </div>
             <!--Information tab pane-->
             <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
-              Info
+              <ul class="list-group" *ngIf="info.params">
+                <li
+                  *ngFor="let param of info.params"
+                  class="list-group-item"
+                >
+                  {{ param.name }}
+                  <ul>
+                    <li *ngFor="let value of param.values">
+                      {{ value }}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
             <!--Reviews tab pane-->
             <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'reviews'">
@@ -225,7 +237,8 @@
                   *ngFor="let comment of commentsForGood"
                   class="list-group-item"
                 >
-                  <h5 class="mb-1">{{ comment.title }}</h5>
+                  <h4 class="mb-1">{{ comment.title }}</h4>
+                  <h5 class="mb-1">asda</h5>
                   <p class="mb-1">{{ comment.text }}</p>
                   <ngb-rating [rate]="comment.rating"></ngb-rating>
                 </li>
