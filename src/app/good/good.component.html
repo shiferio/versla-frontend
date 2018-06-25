@@ -187,8 +187,6 @@
               </li>
             </ul>
 
-            <!-- Tab panes -->
-            <!--Description tab pane-->
             <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
               <label
                 class="btn btn-main"
@@ -214,7 +212,7 @@
                 <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
               </div>
             </div>
-            <!--Information tab pane-->
+
             <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
               <ul class="list-group" *ngIf="info.params">
                 <li
@@ -237,10 +235,16 @@
                   *ngFor="let comment of commentsForGood"
                   class="list-group-item"
                 >
-                  <h4 class="mb-1">{{ comment.title }}</h4>
-                  <h5 class="mb-1">asda</h5>
-                  <p class="mb-1">{{ comment.text }}</p>
-                  <ngb-rating [rate]="comment.rating"></ngb-rating>
+                  <div class="ava">
+                    <img [src]="comment.creator_id.picture" class="rounded-circle" height="50px">
+                  </div>
+                  <div class="comment">
+                    <p class="mb-1"><b>{{ comment.creator_id.first_name }} {{ comment.creator_id.last_name }}</b></p>
+                    <p class="mb-1">{{ comment.title }}</p>
+
+                    <p class="mb-1">{{ comment.text }}</p>
+                    <!--<ngb-rating [rate]="comment.rating"></ngb-rating>-->
+                  </div>
                 </li>
               </ul>
               <div class="mt-5">
@@ -256,7 +260,6 @@
       </div>
     </div>
 
-    <!-- Related Projects Row -->
     <h3 class="my-4">Похожие товары</h3>
 
     <div class="row">
