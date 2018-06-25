@@ -117,4 +117,9 @@ export class CartService {
       cartSize: this.cart.length
     });
   }
+
+  async clearCart() {
+    this.cart = [];
+    await this.saveCart();
+  }
 }

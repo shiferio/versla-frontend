@@ -21,6 +21,7 @@ export class OrdersComponent implements OnInit {
   }
 
   async fetchOrdersInfo() {
+    await this.data.getProfile();
     const data = [];
     for (const order of this.data.user.orders) {
       const order_info = (await this.rest.getGoodById(order.good_id))['data']['good'];
