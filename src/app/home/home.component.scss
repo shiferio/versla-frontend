@@ -1,0 +1,40 @@
+.good {
+  display: flex;
+  justify-content: center;
+}
+
+.call-to-action {
+  .input-group {
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    .text-subscribe {
+      flex-grow: 2;
+    }
+  }
+}
+
+.text-subscribe {
+  background: #FFF;
+  border: 1px solid #D4D4D4;
+  border-radius: 4px 0 0 4px;
+  text-indent: 10px;
+  height: 31px;
+}
+
+.text-subscribe::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #dddddd;
+  opacity: 1;
+  /* Firefox */
+}
+
+.text-subscribe:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #dddddd;
+}
+
+.text-subscribe::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #dddddd;
+}

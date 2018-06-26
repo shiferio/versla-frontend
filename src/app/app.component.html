@@ -39,7 +39,7 @@
 
     </div>
 </nav>
-<div class="search bg-gray">
+<div id="header-search-bar" class="search bg-gray">
     <div class="container">
         <div class="row">
             <div class="col-md-12 search-container">
@@ -51,14 +51,14 @@
                         <div class="dropdown-menu dropdown-menu-right" role="menu">
 
                         </div>
-
-
                     </div>
-                    <input type="text" class="text-search" placeholder="Введите название товара, магазина или услуги" />
-                    <button type="button" class="btn btn-search">
-            <i class="fa fa-search"></i>
-          </button>
-                    <div class="btn-cart">
+                    <div class="search-wrap">
+                      <input type="text" class="text-search" placeholder="Введите название товара, магазина или услуги" />
+                      <button type="button" class="btn btn-search input-group-append">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                    <div class="btn-cart pull-right">
                       <a class="cart-link" routerLink="/cart"><i class="fa fa-shopping-cart"></i> Корзина ({{goods_count}})</a>
                     </div>
                 </div>

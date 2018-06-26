@@ -6,6 +6,7 @@
 body {
   font-family: 'CircleRounded', Helvetica, Arial, sans-serif;
   color: #556c75;
+  min-width: 320px;
 }
 
 h1,
@@ -33,6 +34,33 @@ header.masthead h1 {
   font-size: 3rem;
   padding-bottom: 4rem;
   color: #00b5eb;
+}
+
+#header-search-bar {
+  .input-group {
+    display: flex;
+    justify-content: center;
+
+    .search-wrap {
+      justify-self: center;
+      display: flex;
+      flex-grow: 2;
+      max-width: 600px;
+
+      @media(max-width: 509px) {
+        margin-top: 20px;
+        order: 3;
+      }
+
+      input {
+        flex-grow: 2;
+      }
+    }
+
+    .btn-cart {
+      padding-left: 30px;
+    }
+  }
 }
 
 .profilepos {
@@ -148,7 +176,7 @@ a.cart-link:hover {
 }
 
 .search {
-  height: 71px;
+  padding-bottom: 20px;
 }
 
 .text-search {
@@ -205,32 +233,6 @@ a.cart-link:hover {
     width: 20%;
     height: 31px;
   }
-}
-
-.text-subscribe {
-  background: #FFF;
-  border: 1px solid #D4D4D4;
-  border-radius: 4px 0 0 4px;
-  width: 50%;
-  text-indent: 10px;
-  height: 31px;
-}
-
-.text-subscribe::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #dddddd;
-  opacity: 1;
-  /* Firefox */
-}
-
-.text-subscribe:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: #dddddd;
-}
-
-.text-subscribe::-ms-input-placeholder {
-  /* Microsoft Edge */
-  color: #dddddd;
 }
 
 .bg-gray {
@@ -299,7 +301,6 @@ a.nav-link:hover {
 
 .btn-cart {
   background: transparent;
-  padding-left: 10px;
   padding-top: 4px;
 }
 
