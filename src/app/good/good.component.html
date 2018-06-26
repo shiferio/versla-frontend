@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
       <li class="breadcrumb-item"><a href="#">{{ info.type }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info.good_id}}">{{ info.name }}</li>
+      <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info._id}}">{{ info.name }}</li>
     </ol>
   </nav>
 
@@ -89,7 +89,7 @@
             </div>
           </div>
           <p class="card-text">
-            <button class="btn-main" (click)="addGoodToCard(good_id)">
+            <button class="btn-main" (click)="addGoodToCard(info._id)">
               <i class="fa fa-shopping-cart"></i> Добавить в корзину
             </button>
           </p>
@@ -250,7 +250,7 @@
               <div class="mt-5">
                 <app-new-comment
                   [comment_id]=""
-                  [good_id]="info.good_id"
+                  [good_id]="info._id"
                   (onCommentAdded)="addCommentForGood($event)"
                 ></app-new-comment>
               </div>

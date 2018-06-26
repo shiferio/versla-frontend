@@ -42,29 +42,19 @@ export class CartService {
     });
   }
 
-  async addGoodToCart(good_id: any, quantity: any) {
+  async addGoodToCart(good_id: string, quantity: any) {
     quantity = Number.parseInt(quantity || 1);
-    good_id = Number.parseInt(good_id);
 
-    const index = this
-      .cart
-      .findIndex(good => good.good_id === good_id);
-    if (index === -1) {
-      this.cart.push({
-        good_id: good_id,
-        quantity: quantity,
-        values: [] // TODO: Fix user values
-      });
-    } else {
-      this.cart[index].quantity += quantity;
-    }
+    this.cart.push({
+      good_id: good_id,
+      quantity: quantity,
+      values: [] // TODO: Fix user values
+    });
 
     await this.saveCart();
   }
 
-  async deleteGoodFromCart(good_id: any) {
-    good_id = Number.parseInt(good_id);
-
+  async deleteGoodFromCart(good_id: string) {
     const index = this.cart.findIndex(good => good.good_id === good_id);
     if (index !== -1) {
       this.cart.splice(index, 1);
@@ -72,8 +62,7 @@ export class CartService {
     }
   }
 
-  setGoodQuantity(good_id: any, quantity: any) {
-    good_id = Number.parseInt(good_id);
+  setGoodQuantity(good_id: string, quantity: any) {
     quantity = Number.parseInt(quantity);
 
     const index = this.cart.findIndex(good => good.good_id === good_id);

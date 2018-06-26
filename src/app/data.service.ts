@@ -10,7 +10,6 @@ const API_URL = 'http://api.versla.ru';
 @Injectable({providedIn: 'root'})
 export class DataService {
   message = '';
-  messageType = 'danger';
 
   user: any;
   stores: any;
@@ -42,7 +41,7 @@ export class DataService {
       onAdd: (toast: ToastData) => {
         console.log('Toast ' + toast.id + ' has been added!');
       },
-      onRemove: function (toast: ToastData) {
+      onRemove: (toast: ToastData) => {
         console.log('Toast ' + toast.id + ' has been removed!');
       }
     };
@@ -63,23 +62,18 @@ export class DataService {
         this.toastyService.warning(toastOptions);
         break;
     }
-
-
   }
 
   error(message) {
-    this.messageType = 'danger';
-    this.message = message;
+    this.addToast('Ошибка', message, 'danger');
   }
 
   success(message) {
-    this.messageType = 'success';
-    this.message = message;
+    this.addToast('Ура!', message, 'success');
   }
 
   warning(message) {
-    this.messageType = 'warning';
-    this.message = message;
+    this.addToast('Внимание', message, 'warning');
   }
 
   async getProfile() {
