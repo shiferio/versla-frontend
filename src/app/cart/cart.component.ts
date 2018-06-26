@@ -29,6 +29,10 @@ export class CartComponent implements OnInit {
       .reduce((acc, cur) => acc + cur, 0);
   }
 
+  get cartIsEmpty(): boolean {
+    return this.cart.cart.length === 0;
+  }
+
   async deleteGood(good_id: number) {
     await this.cart.deleteGoodFromCart(good_id);
 
@@ -45,10 +49,16 @@ export class CartComponent implements OnInit {
   }
 
   async createOrder() {
-    await this.cart.saveCart();
+    if (!this.cartIsEmpty) {
+      await this.cart.saveCart();
 
-    await this
-      .router
-      .navigate(['/order']);
+      await this
+        .router
+        .navigate(['/order']);
+    } else {
+      this
+        .data
+        .addToast('Упс', 'Корзина пуста', 'error');
+    }
   }
 }
