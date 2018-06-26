@@ -48,7 +48,7 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  async deleteGood(good_id: number) {
+  async deleteGood(good_id: string) {
     await this.cart.deleteGoodFromCart(good_id);
 
     this

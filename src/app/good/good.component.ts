@@ -16,7 +16,7 @@ import {CartService} from '../cart.service';
 export class GoodComponent implements OnInit {
   sub: any;
 
-  good_id: number;
+  good_id: string;
 
   info: any = {};
 
@@ -76,14 +76,14 @@ export class GoodComponent implements OnInit {
   }
 
   get isCreator(): boolean {
-    return this.info && this.data.user && this.info.creator_id === this.data.user._id;
+    return this.info && this.data.user && this.info.creator_id._id === this.data.user._id;
   }
 
   async updateName() {
     if (this.info.name) {
       try {
-        const resp = await this.rest.updateGoodInfo(this.good_id, 'name', {
-          good_id: this.good_id,
+        const resp = await this.rest.updateGoodInfo(this.info._id, 'name', {
+          _id: this.info._id,
           name: this.info.name
         });
 
@@ -115,8 +115,8 @@ export class GoodComponent implements OnInit {
   async updateShortDescription() {
     try {
       this.editMode.short_description = false;
-      const resp = await this.rest.updateGoodInfo(this.good_id, 'short_description', {
-        good_id: this.good_id,
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'short_description', {
+        _id: this.info._id,
         short_description: this.info.short_description
       });
 
@@ -143,8 +143,8 @@ export class GoodComponent implements OnInit {
   async updatePrice() {
     if (this.info.price) {
       try {
-        const resp = await this.rest.updateGoodInfo(this.good_id, 'price', {
-          good_id: this.good_id,
+        const resp = await this.rest.updateGoodInfo(this.info._id, 'price', {
+          _id: this.info._id,
           price: Number.parseFloat(this.info.price)
         });
 
@@ -177,8 +177,8 @@ export class GoodComponent implements OnInit {
   async updateDescription() {
     try {
       this.editMode.description = false;
-      const resp = await this.rest.updateGoodInfo(this.good_id, 'description', {
-        good_id: this.good_id,
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'description', {
+        _id: this.info._id,
         description: this.info.description
       });
 
@@ -207,8 +207,8 @@ export class GoodComponent implements OnInit {
 
     await this
       .rest
-      .updateGoodInfo(this.good_id, 'tags', {
-        good_id: this.good_id,
+      .updateGoodInfo(this.info._id, 'tags', {
+        _id: this.info._id,
         tags: this.info.tags
       });
   }
@@ -225,8 +225,8 @@ export class GoodComponent implements OnInit {
 
       await this
         .rest
-        .updateGoodInfo(this.good_id, 'tags', {
-          good_id: this.good_id,
+        .updateGoodInfo(this.info._id, 'tags', {
+          _id: this.info._id,
           tags: this.info.tags
         });
     }
@@ -235,8 +235,8 @@ export class GoodComponent implements OnInit {
   async updateType() {
     try {
       this.editMode.type = false;
-      const resp = await this.rest.updateGoodInfo(this.good_id, 'type', {
-        good_id: this.good_id,
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'type', {
+        _id: this.info._id,
         type: this.info.type
       });
 
@@ -271,8 +271,8 @@ export class GoodComponent implements OnInit {
       try {
         const resp = await this
           .rest
-          .updateGoodInfo(this.good_id, 'picture', {
-            good_id: this.good_id,
+          .updateGoodInfo(this.info._id, 'picture', {
+            _id: this.info._id,
             picture: data['file']
           });
 
@@ -296,7 +296,7 @@ export class GoodComponent implements OnInit {
   }
 
   async addGoodToCard(good_id: number) {
-    await this.cart.addGoodToCart(good_id, 1);
+    await this.cart.addGoodToCart(this.info._id, 1);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');
@@ -309,7 +309,7 @@ export class GoodComponent implements OnInit {
         type: 1,
         text: commentInfo.text,
         good_id: this.info._id
-      })
+      });
       const resp = await this.rest.addComment({
         title: commentInfo.title,
         type: 1,
@@ -341,7 +341,7 @@ export class GoodComponent implements OnInit {
   openAddParameter() {
     const modalRef = this.modalService.open(ModalAddParameterComponent);
 
-    modalRef.componentInstance.good_id = this.info._id;
+    modalRef.componentInstance._id = this.info._id;
     modalRef.componentInstance.available_params = this.info.params;
 
     modalRef.result.then(async (result) => {

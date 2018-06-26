@@ -137,9 +137,9 @@ export class ModalAddGoodComponent implements OnInit {
             .data
             .addToast('Ура!', resp['meta'].message, 'success');
 
-          const good_id = resp['data']['good']['good_id'];
+          const _id = resp['data']['good']['_id'];
 
-          await this.router.navigate(['/good', good_id]);
+          await this.router.navigate(['/good', _id]);
 
           this.activeModal.close();
         } else {

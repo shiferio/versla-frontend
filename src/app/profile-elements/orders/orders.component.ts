@@ -21,13 +21,13 @@ export class OrdersComponent implements OnInit {
   }
 
   async fetchOrdersInfo() {
-    await this.data.getProfile();
+    const resp = await this.rest.getOrders();
+    const orders = resp['data']['orders'];
     const data = [];
-    for (const order of this.data.user.orders) {
-      const order_info = (await this.rest.getGoodById(order.good_id))['data']['good'];
+    for (const order of orders.filter(_order => _order.good)) {
       data.push({
-        good_id: order.good_id,
-        name: order_info.name,
+        good_id: order.good._id,
+        name: order.good.name,
         quantity: order.quantity,
         values: order.values
       });

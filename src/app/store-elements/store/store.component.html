@@ -167,9 +167,9 @@
     <div class="row">
       <div *ngFor="let good of this.goods" class="col-lg-4 col-xs-6 good">
         <div class="card" style="width: 18rem;">
-          <a [routerLink]="['/good', good.good_id]"><img class="card-img-top" [src]="good.picture" alt="Card image cap"></a>
+          <a [routerLink]="['/good', good._id]"><img class="card-img-top" [src]="good.picture" alt="Card image cap"></a>
           <div class="card-body">
-            <a [routerLink]="['/good', good.good_id]"><h5 class="card-title">{{ good.name }}</h5></a>
+            <a [routerLink]="['/good', good._id]"><h5 class="card-title">{{ good.name }}</h5></a>
             <p *ngIf="good.short_description" class="card-text">{{ good.short_description }}</p>
             <div class="card-bottom">
               <div class="card-price">
@@ -177,7 +177,7 @@
               </div>
 
               <div class="card-icons">
-                <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart(good.good_id)"/>
+                <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart(good._id)"/>
                 <img height="15px" class="card-icon" src="assets/img/like.svg"/>
                 <div ngbDropdown class="d-inline-block">
                   <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>

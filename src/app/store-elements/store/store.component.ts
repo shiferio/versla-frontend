@@ -486,7 +486,7 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   confirmGoodDeleting(good: any) {
-    const good_id = good.good_id;
+    const good_id = good._id;
     const name = good.name;
 
     const modalRef = this.modalService.open(ModalDeleteGoodComponent);
@@ -524,7 +524,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     }
   }
 
-  async addGoodToCart(good_id: number) {
+  async addGoodToCart(good_id: string) {
     await this.cart.addGoodToCart(good_id, 1);
     this
       .data

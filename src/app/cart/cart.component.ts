@@ -33,7 +33,7 @@ export class CartComponent implements OnInit {
     return this.cart.cart.length === 0;
   }
 
-  async deleteGood(good_id: number) {
+  async deleteGood(good_id: string) {
     await this.cart.deleteGoodFromCart(good_id);
 
     this

@@ -21,32 +21,24 @@ export class OrderConfirmationComponent implements OnInit {
   ngOnInit() {
   }
 
-  async buildOrders() {
-    return this.cart.cart.map(good => ({
-      good_id: good.good_id,
-      quantity: good.quantity,
-      values: good.values
-    }));
-  }
-
   async confirmCredentials() {
-    const orders = this.data.user.orders;
-    const new_orders = await this.buildOrders();
-    for (const order of new_orders) {
-      orders.push(order);
-    }
-
     try {
-      const resp = await this.rest.updateOrders({
-        orders: orders
+      const resp = await this.rest.addOrders({
+        orders: this.cart.cart.map(good => ({
+          store_id: good.store_id,
+          good_id: good.good_id,
+          quantity: good.quantity,
+          values: good.values,
+          price: good.price
+        }))
       });
 
       if (resp['meta'].success) {
-        await this.cart.clearCart();
-        console.log(resp);
         this
           .data
           .addToast(resp['meta'].message, '', 'success');
+
+        await this.cart.clearCart();
 
         await this
           .router

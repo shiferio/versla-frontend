@@ -190,7 +190,7 @@ export class RestApiService {
       .toPromise();
   }
 
-  getGoodById(id: number) {
+  getGoodById(id: string) {
     return this
       .http
       .get(`${API_URL}/api/goods/${id}`, {
@@ -199,7 +199,7 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateGoodInfo(good_id: number, field: string, body: any) {
+  updateGoodInfo(good_id: string, field: string, body: any) {
     return this
       .http
       .put(`${API_URL}/api/goods/update/${field}`, body, {
@@ -230,6 +230,33 @@ export class RestApiService {
     return this
       .http
       .put(`${API_URL}/api/accounts/orders`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addOrder(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/orders/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addOrders(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/orders/add/array`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getOrders() {
+    return this
+      .http
+      .get(`${API_URL}/api/accounts/orders`, {
         headers: this.getHeaders()
       })
       .toPromise();

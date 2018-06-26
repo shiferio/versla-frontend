@@ -10,7 +10,7 @@ import {RestApiService} from '../../rest-api.service';
 })
 export class ModalAddParameterComponent implements OnInit {
 
-  good_id: number;
+  _id: string;
 
   available_params: Array<any>;
 
@@ -74,8 +74,8 @@ export class ModalAddParameterComponent implements OnInit {
       });
 
       try {
-        const resp = await this.rest.updateGoodInfo(this.good_id, 'params', {
-          good_id: this.good_id,
+        const resp = await this.rest.updateGoodInfo(this._id, 'params', {
+          _id: this._id,
           params: new_params
         });
 
