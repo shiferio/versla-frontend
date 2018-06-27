@@ -524,8 +524,12 @@ export class StoreComponent implements OnInit, OnDestroy {
     }
   }
 
-  async addGoodToCart(good_id: string) {
-    await this.cart.addItemToCart(good_id, 1);
+  async addGoodToCart(good: any) {
+    const defaultValues = good.params.map(param => ({
+      name: param.name,
+      value: param.values[0]
+    }));
+    await this.cart.addItemToCart(good._id, 1, defaultValues);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');

@@ -23,17 +23,7 @@ export class OrdersComponent implements OnInit {
   async fetchOrdersInfo() {
     const resp = await this.rest.getOrders();
     const orders = resp['data']['orders'];
-    const data = [];
-    for (const order of orders.filter(_order => _order.good)) {
-      data.push({
-        good_id: order.good._id,
-        name: order.good.name,
-        quantity: order.quantity,
-        values: order.values
-      });
-    }
-
-    this.orders = data;
+    this.orders = orders.filter(_order => _order.good);
   }
 
 }
