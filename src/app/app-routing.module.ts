@@ -7,8 +7,8 @@ import {ProfileRoutingModule} from './profile-routing/profile-routing.module';
 import {StoreComponent} from './store-elements/store/store.component';
 import {GoodComponent} from './good-elements/good/good.component';
 import {CartComponent} from './cart/cart.component';
-import {OrderComponent} from './order/order.component';
-import {OrderConfirmationComponent} from './order-confirmation/order-confirmation.component';
+import {OrderComponent} from './order-elements/order/order.component';
+import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
 
 const routes: Routes = [
   {

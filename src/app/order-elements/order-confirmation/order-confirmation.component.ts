@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {RestApiService} from '../rest-api.service';
-import {CartService} from '../cart.service';
-import {DataService} from '../data.service';
+import {RestApiService} from '../../rest-api.service';
+import {CartService} from '../../cart.service';
+import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 
 @Component({

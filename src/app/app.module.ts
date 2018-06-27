@@ -37,12 +37,12 @@ import {GoodComponent} from './good-elements/good/good.component';
 import {FixedFloatPipe} from './pipes/fixed-float.pipe';
 import {ModalDeleteGoodComponent} from './modals/modal-delete-good/modal-delete-good.component';
 import {CartComponent} from './cart/cart.component';
-import {NewCommentComponent} from './new-comment/new-comment.component';
+import {NewCommentComponent} from './good-elements/new-comment/new-comment.component';
 import {ModalAddParameterComponent} from './modals/modal-add-parameter/modal-add-parameter.component';
-import {OrderComponent} from './order/order.component';
+import {OrderComponent} from './order-elements/order/order.component';
 import {IntegerCounterComponent} from './integer-counter/integer-counter.component';
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
-import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { OrderConfirmationComponent } from './order-elements/order-confirmation/order-confirmation.component';
 import { GoodCardComponent } from './good-elements/good-card/good-card.component';
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {RestApiService} from '../rest-api.service';
-import {DataService} from '../data.service';
-import {CartService} from '../cart.service';
+import {RestApiService} from '../../rest-api.service';
+import {DataService} from '../../data.service';
+import {CartService} from '../../cart.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalUnavailableGoodsComponent} from '../modals/modal-unavailable-goods/modal-unavailable-goods.component';
+import {ModalUnavailableGoodsComponent} from '../../modals/modal-unavailable-goods/modal-unavailable-goods.component';
 import {Router} from '@angular/router';
 
 @Component({
