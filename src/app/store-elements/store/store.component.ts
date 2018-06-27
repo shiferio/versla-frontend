@@ -525,7 +525,7 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   async addGoodToCart(good_id: string) {
-    await this.cart.addGoodToCart(good_id, 1);
+    await this.cart.addItemToCart(good_id, 1);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');

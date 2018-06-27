@@ -17,21 +17,21 @@
               </thead>
               <tbody>
               <tr
-                *ngFor="let good of cart.cart"
-                [class.good-unavailable]="!good.is_available"
+                *ngFor="let item of cart.cart"
+                [class.good-unavailable]="!item.good.is_available"
               >
-                <td><img [src]="good.picture" height="100px" /></td>
-                <td><a routerLink="/good/{{ good.good_id }}">{{ good.name }}</a></td>
-                <td>{{ good.is_available ? 'Доступен': 'Не доступен'}}</td>
+                <td><img [src]="item.good.picture" height="100px" /></td>
+                <td><a routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a></td>
+                <td>{{ item.good.is_available ? 'Доступен': 'Не доступен'}}</td>
                 <td><app-integer-counter
-                  [initial]="good.quantity"
-                  [goodId]="good.good_id"
+                  [initial]="item.quantity"
+                  [itemId]="item._id"
                   [minimal]="1"
                   (onCounterChange)="onQuantityChange($event)"
                 ></app-integer-counter></td>
-                <td class="text-right">{{ good.price | fixedFloat: 2 }} ₽</td>
+                <td class="text-right">{{ item.good.price | fixedFloat: 2 }} ₽</td>
                 <td class="text-right">
-                  <button class="btn btn-sm btn-danger" (click)="deleteGood(good.good_id)"><i class="fa fa-trash"></i></button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteItem(item._id)"><i class="fa fa-trash"></i></button>
                 </td>
               </tr>
               <tr>

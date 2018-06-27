@@ -98,8 +98,13 @@
               <label for="val">{{param.name}}</label>
               <select
                 class="custom-select"
-                id="val">
-                <option *ngFor="let value of param.values">{{ value }}</option>
+                id="val"
+                [(ngModel)]="userParams[param.name]"
+              >
+                <option
+                  *ngFor="let value of param.values"
+                  [value]="value"
+                >{{ value }}</option>
               </select>
             </div>
           </div>

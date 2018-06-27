@@ -75,7 +75,7 @@ export class ModalAddParameterComponent implements OnInit {
 
       try {
         const resp = await this.rest.updateGoodInfo(this._id, 'params', {
-          _id: this._id,
+          good_id: this._id,
           params: new_params
         });
 

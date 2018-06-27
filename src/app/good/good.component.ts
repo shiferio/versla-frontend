@@ -34,6 +34,8 @@ export class GoodComponent implements OnInit {
 
   commentsForGood = [];
 
+  userParams = {};
+
 
   constructor(
     private route: ActivatedRoute,
@@ -296,7 +298,21 @@ export class GoodComponent implements OnInit {
   }
 
   async addGoodToCard(good_id: number) {
-    await this.cart.addGoodToCart(this.info._id, 1);
+    const values = [];
+    for (const param of this.info.params) {
+      if (this.userParams[param.name]) {
+        values.push({
+          name: param.name,
+          value: this.userParams[param.name]
+        });
+      } else {
+        values.push({
+          name: param.name,
+          value: param.values[0]
+        });
+      }
+    }
+    await this.cart.addItemToCart(this.info._id, 1, values);
     this
       .data
       .addToast('Ура!', 'Товар добавлен в корзину', 'success');

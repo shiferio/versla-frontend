@@ -24,12 +24,12 @@ export class OrderConfirmationComponent implements OnInit {
   async confirmCredentials() {
     try {
       const resp = await this.rest.addOrders({
-        orders: this.cart.cart.map(good => ({
-          store_id: good.store_id,
-          good_id: good.good_id,
-          quantity: good.quantity,
-          values: good.values,
-          price: good.price
+        orders: this.cart.cart.map(item => ({
+          store_id: item.good.store_id,
+          good_id: item.good._id,
+          price: item.good.price,
+          quantity: item.quantity,
+          values: item.values
         }))
       });
 

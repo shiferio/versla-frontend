@@ -10,8 +10,8 @@ export class IntegerCounterComponent implements OnInit {
   @Input('initial')
   initial: number;
 
-  @Input('goodId')
-  goodId: number;
+  @Input('itemId')
+  itemId: number;
 
   @Input('minimal')
   minimal: number;
@@ -31,7 +31,7 @@ export class IntegerCounterComponent implements OnInit {
   increment() {
     this.counter++;
     this.onCounterChange.emit({
-      good_id: this.goodId,
+      item_id: this.itemId,
       counter: this.counter
     });
   }
@@ -40,7 +40,7 @@ export class IntegerCounterComponent implements OnInit {
     if (this.counter > this.minimal) {
       this.counter--;
       this.onCounterChange.emit({
-        good_id: this.goodId,
+        item_id: this.itemId,
         counter: this.counter
       });
     }

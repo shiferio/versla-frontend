@@ -27,8 +27,8 @@ export class OrderComponent implements OnInit {
     return this
       .cart
       .cart
-      .filter(good => good.is_available)
-      .map(good => good.price * good.quantity)
+      .filter(item => item.good.is_available)
+      .map(item => item.good.price * item.quantity)
       .reduce((acc, cur) => acc + cur, 0);
   }
 
@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
   }
 
   async confirmOrder() {
-    if (this.cart.cart.every(good => good.is_available)) {
+    if (this.cart.cart.every(item => item.good.is_available)) {
       await this
         .router
         .navigate(['/confirmation']);
@@ -48,8 +48,8 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  async deleteGood(good_id: string) {
-    await this.cart.deleteGoodFromCart(good_id);
+  async deleteItem(item_id: string) {
+    await this.cart.deleteItemFromCart(item_id);
 
     this
       .data

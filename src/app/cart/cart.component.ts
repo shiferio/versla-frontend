@@ -24,8 +24,8 @@ export class CartComponent implements OnInit {
     return this
       .cart
       .cart
-      .filter(good => good.is_available)
-      .map(good => good.price * good.quantity)
+      .filter(item => item.good.is_available)
+      .map(item => item.good.price * item.quantity)
       .reduce((acc, cur) => acc + cur, 0);
   }
 
@@ -33,8 +33,8 @@ export class CartComponent implements OnInit {
     return this.cart.cart.length === 0;
   }
 
-  async deleteGood(good_id: string) {
-    await this.cart.deleteGoodFromCart(good_id);
+  async deleteItem(item_id: string) {
+    await this.cart.deleteItemFromCart(item_id);
 
     this
       .data
@@ -44,8 +44,8 @@ export class CartComponent implements OnInit {
   }
 
   async onQuantityChange(event) {
-    const {good_id, counter} = event;
-    this.cart.setGoodQuantity(good_id, counter);
+    const {item_id, counter} = event;
+    await this.cart.setItemQuantity(item_id, counter);
   }
 
   async createOrder() {

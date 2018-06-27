@@ -42,44 +42,46 @@ export class CartService {
     });
   }
 
-  async addGoodToCart(good_id: string, quantity: any) {
-    quantity = Number.parseInt(quantity || 1);
+  async addItemToCart(good_id: string, quantity: number, values: Array<any>) {
+    quantity = quantity || 1;
 
     this.cart.push({
       good_id: good_id,
       quantity: quantity,
-      values: [] // TODO: Fix user values
+      values: values
     });
 
     await this.saveCart();
   }
 
-  async deleteGoodFromCart(good_id: string) {
-    const index = this.cart.findIndex(good => good.good_id === good_id);
+  async deleteItemFromCart(item_id: string) {
+    const index = this.cart.findIndex(item => item._id === item_id);
     if (index !== -1) {
       this.cart.splice(index, 1);
       await this.saveCart();
     }
   }
 
-  setGoodQuantity(good_id: string, quantity: any) {
+  async setItemQuantity(item_id: string, quantity: any) {
     quantity = Number.parseInt(quantity);
 
-    const index = this.cart.findIndex(good => good.good_id === good_id);
+    const index = this.cart.findIndex(item => item._id === item_id);
     if (index !== -1) {
       this.cart[index].quantity = quantity;
     }
+
+    await this.saveCart();
   }
 
-  private async fetchGoodData(cart: Array<any>) {
-    const data = [];
-    for (const good of cart) {
-      const good_info = (await this.rest.getGoodById(good.good_id))['data']['good'];
-      Object.assign(good_info, good);
-      data.push(good_info);
-    }
+  private async fetchItemData(cart: Array<any>) {
+    return await Promise.all(cart.map(async (good) => {
+      const resp = await this.rest.getGoodById(good.good_id);
+      const good_info = resp['data']['good'];
 
-    return data;
+      const new_good = Object.assign({}, good);
+      new_good.good = good_info;
+      return new_good;
+    }));
   }
 
   async loadCart() {
@@ -100,7 +102,7 @@ export class CartService {
       }
     }
 
-    this.cart = await this.fetchGoodData(data);
+    this.cart = await this.fetchItemData(data);
 
     this.onCartChanged.next({
       cartSize: this.cart.length
