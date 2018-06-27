@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {RestApiService} from '../rest-api.service';
-import {DataService} from '../data.service';
+import {RestApiService} from '../../rest-api.service';
+import {DataService} from '../../data.service';
 import {TagModel} from 'ngx-chips/core/accessor';
-import {ModalAddGoodComponent} from '../modals/modal-add-good/modal-add-good.component';
+import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalAddParameterComponent} from '../modals/modal-add-parameter/modal-add-parameter.component';
-import {CartService} from '../cart.service';
+import {ModalAddParameterComponent} from '../../modals/modal-add-parameter/modal-add-parameter.component';
+import {CartService} from '../../cart.service';
 
 @Component({
   selector: 'app-good',
   templateUrl: './good.component.html',
-  styleUrls: ['./good.component.scss', '../store-elements/store/foundation-themes.scss']
+  styleUrls: ['./good.component.scss', '../../store-elements/store/foundation-themes.scss']
 })
 export class GoodComponent implements OnInit {
   sub: any;

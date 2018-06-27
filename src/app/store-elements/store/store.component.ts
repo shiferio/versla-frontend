@@ -485,53 +485,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     });
   }
 
-  confirmGoodDeleting(good: any) {
-    const good_id = good._id;
-    const name = good.name;
-
-    const modalRef = this.modalService.open(ModalDeleteGoodComponent);
-
-    modalRef.componentInstance.name = name;
-
-    modalRef.result.then(async (result) => {
-      if (result === 'YES') {
-        await this.deleteGood(good_id);
-      }
-    }).catch(error => {
-      console.log(error);
-    });
+  async onGoodDeleted(good_info: any) {
+    await this.getStoreInfo(this.link);
   }
 
-  async deleteGood(good_id: number) {
-    try {
-      const resp = await this.rest.deleteGood(good_id);
-
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
-
-        await this.getStoreInfo(this.link);
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
-    } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['meta'].message, 'error');
-    }
-  }
-
-  async addGoodToCart(good: any) {
-    const defaultValues = good.params.map(param => ({
-      name: param.name,
-      value: param.values[0]
-    }));
-    await this.cart.addItemToCart(good._id, 1, defaultValues);
-    this
-      .data
-      .addToast('Ура!', 'Товар добавлен в корзину', 'success');
-  }
 }

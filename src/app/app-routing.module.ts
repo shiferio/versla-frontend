@@ -5,7 +5,7 @@ import {ProfileComponent} from './profile-elements/profile/profile.component';
 import {AuthGuardService} from './auth-guard.service';
 import {ProfileRoutingModule} from './profile-routing/profile-routing.module';
 import {StoreComponent} from './store-elements/store/store.component';
-import {GoodComponent} from './good/good.component';
+import {GoodComponent} from './good-elements/good/good.component';
 import {CartComponent} from './cart/cart.component';
 import {OrderComponent} from './order/order.component';
 import {OrderConfirmationComponent} from './order-confirmation/order-confirmation.component';

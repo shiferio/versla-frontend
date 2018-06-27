@@ -33,7 +33,7 @@ import {AgmCoreModule} from '@agm/core';
 import {Ng4GeoautocompleteModule} from 'ng4-geoautocomplete';
 import {ModalAddGoodComponent} from './modals/modal-add-good/modal-add-good.component';
 import {NgxMaskModule} from 'ngx-mask';
-import {GoodComponent} from './good/good.component';
+import {GoodComponent} from './good-elements/good/good.component';
 import {FixedFloatPipe} from './pipes/fixed-float.pipe';
 import {ModalDeleteGoodComponent} from './modals/modal-delete-good/modal-delete-good.component';
 import {CartComponent} from './cart/cart.component';
@@ -43,6 +43,7 @@ import {OrderComponent} from './order/order.component';
 import {IntegerCounterComponent} from './integer-counter/integer-counter.component';
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
 import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { GoodCardComponent } from './good-elements/good-card/good-card.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { OrderConfirmationComponent } from './order-confirmation/order-confirmat
     OrderComponent,
     IntegerCounterComponent,
     ModalUnavailableGoodsComponent,
-    OrderConfirmationComponent
+    OrderConfirmationComponent,
+    GoodCardComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

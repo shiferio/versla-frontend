@@ -1,0 +1,31 @@
+<a [routerLink]="['/good', good._id]">
+  <img class="card-img-top" [src]="good.picture" alt="Card image cap">
+</a>
+<div class="card-body">
+  <a [routerLink]="['/good', good._id]">
+    <h5 class="card-title">{{good.name}}</h5>
+  </a>
+  <p *ngIf="good.short_description" class="card-text">{{good.short_description}}</p>
+  <div class="card-bottom">
+    <div class="card-price">
+      {{good.price}} ₽
+    </div>
+
+    <div class="card-icons">
+      <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart()"/>
+      <img height="15px" class="card-icon" src="assets/img/like.svg"/>
+      <div ngbDropdown class="d-inline-block">
+        <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            class="dropdown-item"
+            (click)="confirmGoodDeleting()"
+            *ngIf="isCreator"
+          >Удалить
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {RestApiService} from '../rest-api.service';
+import {CartService} from '../cart.service';
+import {DataService} from '../data.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  goods = [];
 
-  ngOnInit() {
+  constructor(
+    private rest: RestApiService
+  ) { }
+
+  async ngOnInit() {
+    await this.loadGoods();
+  }
+
+  async loadGoods() {
+    const resp = await this.rest.getAllGoods(1, 6);
+    this.goods = resp['data']['goods'] || [];
+  }
+
+  async onGoodDeleted(good_info: any) {
+    await this.loadGoods();
   }
 
 }

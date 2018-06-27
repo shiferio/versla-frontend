@@ -261,4 +261,13 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  getAllGoods(page: number, size: number) {
+    return this
+      .http
+      .get(`${API_URL}/api/goods/list/${page}/${size}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }
