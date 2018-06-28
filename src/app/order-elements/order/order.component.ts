@@ -13,6 +13,8 @@ import {Router} from '@angular/router';
 })
 export class OrderComponent implements OnInit {
 
+  collapsed = {};
+
   constructor(
     public cart: CartService,
     private data: DataService,
@@ -21,7 +23,11 @@ export class OrderComponent implements OnInit {
     private modalService: NgbModal
   ) { }
 
-  async ngOnInit() { }
+  async ngOnInit() {
+    this.cart.cart.forEach(item => {
+      this.collapsed[item._id] = true;
+    });
+  }
 
   get summary(): number {
     return this

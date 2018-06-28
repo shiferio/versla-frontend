@@ -20,7 +20,22 @@
                 *ngFor="let item of cart.cart"
                 [class.good-unavailable]="!item.good.is_available"
               >
-                <td><img [src]="item.good.picture" height="100px" /></td>
+                <td>
+                  <img [src]="item.good.picture" height="100px" />
+                  <br>
+                  <a
+                    [routerLink]=""
+                    (click)="collapsed[item._id] = !collapsed[item._id]"
+                  >
+                    Подробнее {{collapsed[item._id] ? '⮝' : '⮟'}}
+                  </a>
+                  <div [ngbCollapse]="collapsed[item._id]">
+                    <app-item-params
+                      [item]="item"
+                      [readonly]="true"
+                    ></app-item-params>
+                  </div>
+                </td>
                 <td><a routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a></td>
                 <td>{{ item.good.is_available ? 'Доступен': 'Не доступен'}}</td>
                 <td class="text-center">{{ item.quantity }}</td>

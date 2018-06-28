@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
+  collapsed = {};
+
   constructor(
     private data: DataService,
     private router: Router,
@@ -18,6 +20,10 @@ export class CartComponent implements OnInit {
 
   async ngOnInit() {
     await this.cart.loadCart();
+
+    this.cart.cart.forEach(item => {
+      this.collapsed[item._id] = true;
+    });
   }
 
   get summary(): number {

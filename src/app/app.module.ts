@@ -43,6 +43,7 @@ import {IntegerCounterComponent} from './cart-elements/integer-counter/integer-c
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
 import { OrderConfirmationComponent } from './order-elements/order-confirmation/order-confirmation.component';
 import { GoodCardComponent } from './good-elements/good-card/good-card.component';
+import { ItemParamsComponent } from './cart-elements/item-params/item-params.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { GoodCardComponent } from './good-elements/good-card/good-card.component
     IntegerCounterComponent,
     ModalUnavailableGoodsComponent,
     OrderConfirmationComponent,
-    GoodCardComponent
+    GoodCardComponent,
+    ItemParamsComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

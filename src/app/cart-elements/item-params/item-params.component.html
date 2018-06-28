@@ -1,0 +1,32 @@
+<div class="list-group">
+  <div *ngIf="readonly">
+    <div
+      *ngFor="let value of item.values"
+      class="list-group-item"
+    >
+      {{value.name}}: {{value.value}}
+    </div>
+  </div>
+  <div *ngIf="!readonly">
+    <div
+      class="input-group mb-2"
+      *ngFor="let param of item.good.params"
+    >
+      <div class="input-group-prepend">
+      <label class="input-group-text" for="val">{{param.name}}</label>
+      </div>
+      <select
+        id="val"
+        class="custom-select"
+        (change)="onParamChanged(param.name)"
+        [(ngModel)]="userParams[param.name]"
+      >
+        <option
+          *ngFor="let value of param.values"
+          [value]="value"
+        >{{ value }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>

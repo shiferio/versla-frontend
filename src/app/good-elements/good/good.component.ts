@@ -85,7 +85,7 @@ export class GoodComponent implements OnInit {
     if (this.info.name) {
       try {
         const resp = await this.rest.updateGoodInfo(this.info._id, 'name', {
-          _id: this.info._id,
+          good_id: this.info._id,
           name: this.info.name
         });
 
@@ -118,7 +118,7 @@ export class GoodComponent implements OnInit {
     try {
       this.editMode.short_description = false;
       const resp = await this.rest.updateGoodInfo(this.info._id, 'short_description', {
-        _id: this.info._id,
+        good_id: this.info._id,
         short_description: this.info.short_description
       });
 
@@ -146,7 +146,7 @@ export class GoodComponent implements OnInit {
     if (this.info.price) {
       try {
         const resp = await this.rest.updateGoodInfo(this.info._id, 'price', {
-          _id: this.info._id,
+          good_id: this.info._id,
           price: Number.parseFloat(this.info.price)
         });
 
@@ -180,7 +180,7 @@ export class GoodComponent implements OnInit {
     try {
       this.editMode.description = false;
       const resp = await this.rest.updateGoodInfo(this.info._id, 'description', {
-        _id: this.info._id,
+        good_id: this.info._id,
         description: this.info.description
       });
 
@@ -210,7 +210,7 @@ export class GoodComponent implements OnInit {
     await this
       .rest
       .updateGoodInfo(this.info._id, 'tags', {
-        _id: this.info._id,
+        good_id: this.info._id,
         tags: this.info.tags
       });
   }
@@ -228,7 +228,7 @@ export class GoodComponent implements OnInit {
       await this
         .rest
         .updateGoodInfo(this.info._id, 'tags', {
-          _id: this.info._id,
+          good_id: this.info._id,
           tags: this.info.tags
         });
     }
@@ -238,7 +238,7 @@ export class GoodComponent implements OnInit {
     try {
       this.editMode.type = false;
       const resp = await this.rest.updateGoodInfo(this.info._id, 'type', {
-        _id: this.info._id,
+        good_id: this.info._id,
         type: this.info.type
       });
 
@@ -274,7 +274,7 @@ export class GoodComponent implements OnInit {
         const resp = await this
           .rest
           .updateGoodInfo(this.info._id, 'picture', {
-            _id: this.info._id,
+            good_id: this.info._id,
             picture: data['file']
           });
 

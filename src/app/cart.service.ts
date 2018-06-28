@@ -73,6 +73,14 @@ export class CartService {
     await this.saveCart();
   }
 
+  async setItemParamValue(item_id: string, name: string, value: string) {
+    const itemIndex = this.cart.findIndex(item => item._id === item_id);
+    const paramIndex = this.cart[itemIndex].values.findIndex(v => v.name === name);
+    this.cart[itemIndex].values[paramIndex].value = value;
+
+    await this.saveCart();
+  }
+
   private async fetchItemData(cart: Array<any>) {
     return await Promise.all(cart.map(async (good) => {
       const resp = await this.rest.getGoodById(good.good_id);
