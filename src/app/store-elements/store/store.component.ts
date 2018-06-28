@@ -489,4 +489,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     await this.getStoreInfo(this.link);
   }
 
+  openEditStoreCredentials() {
+
+  }
 }
