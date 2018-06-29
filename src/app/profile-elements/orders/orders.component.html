@@ -1,10 +1,13 @@
 <div class="profilepos">
     <h4>Мои заказы</h4>
 </div>
-<div *ngIf="!orders">
-  <img height="100px" src="assets/img/shopping.svg" />
+<div *ngIf="orders.length === 0">
+  <div class="text-center">
+    <h5>У вас еще нет заказов</h5>
+    <img height="100px" src="assets/img/box.svg" />
+  </div>
 </div>
-<ul *ngIf="orders" class="list-group">
+<ul *ngIf="orders.length === 0" class="list-group">
   <li
     class="list-group-item"
     *ngFor="let order of orders"

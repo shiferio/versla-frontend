@@ -67,7 +67,9 @@
               Добавить логотип
               <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
             </label>
+
           </div>
+          <img *ngIf="!info.logo" src="assets/img/shop.svg" class="image" height="150px">
           <img *ngIf="info.logo" [src]="info.logo" class="image" height="200px">
         </div>
       </div>
@@ -106,6 +108,7 @@
                 </button>
                 <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
               </div>
+
             </div>
           </div>
         </div>
@@ -145,7 +148,8 @@
     </div>
     <div class="row">
       <div *ngIf="!editMode.description">
-        <p>{{info.description}}</p>
+        <p *ngIf="info.description">{{info.description}}</p>
+        <p *ngIf="!info.description">Подробное описание еще не добавлено</p>
       </div>
       <div *ngIf="editMode.description">
         <textarea style="width:100%" rows="5" cols="200" type="text" name="short_description"
@@ -168,6 +172,12 @@
       <label (click)="openAddGood()" class="btn-edit" *ngIf="isCreator">добавить</label>
     </div>
     <div class="row">
+      <div class="d-flex justify-content-center" *ngIf="this.goods.length === 0">
+          <div >
+            <h5>Товары еще не добавлены</h5>
+            <img height="100px" src="assets/img/box.svg"/>
+          </div>
+      </div>
       <div *ngFor="let good of this.goods" class="col-lg-4 col-xs-6 good">
         <div class="card" style="width: 18rem;">
           <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
@@ -219,7 +229,8 @@
         <h2 class="mb-5 contact-title">Контакты</h2>
         <div>
           <div>
-            <div class="icon"><i class="fa fa-phone"></i></div> <div class="contact-text">8 (800) 555 35 35</div>
+            <div class="icon"><i class="fa fa-phone"></i></div>
+            <div class="contact-text">8 (800) 555 35 35</div>
 
           </div>
         </div>
@@ -243,7 +254,8 @@
 
           </div>
         </div>
-        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать данные
+        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать
+          данные
         </button>
       </div>
       <div class="col-md-6">
