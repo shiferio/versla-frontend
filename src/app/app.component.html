@@ -53,8 +53,13 @@
                         </div>
                     </div>
                     <div class="search-wrap">
-                      <input type="text" class="text-search" placeholder="Введите название товара, магазина или услуги" />
-                      <button type="button" class="btn btn-search input-group-append">
+                      <input
+                        type="text"
+                        class="text-search"
+                        placeholder="Введите название товара, магазина или услуги"
+                        [(ngModel)]="query"
+                        (input)="onSearchChange($event.target.value)"/>
+                      <button type="button" class="btn btn-search input-group-append" (click)="openSearch()">
                         <i class="fa fa-search"></i>
                       </button>
                     </div>

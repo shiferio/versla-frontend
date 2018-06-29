@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
 
@@ -266,6 +266,27 @@ export class RestApiService {
     return this
       .http
       .get(`${API_URL}/api/goods/list/${page}/${size}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoods(page: number, size: number, query: any) {
+    let params = new HttpParams();
+
+    for (const param in query) {
+      if (query.hasOwnProperty(param)) {
+        params = params.append(param, query[param]);
+      }
+    }
+    params
+      .append('pageNumber', page.toString())
+      .append('pageSize', size.toString());
+
+    return this
+      .http
+      .get(`${API_URL}/api/search`, {
+        params: params,
         headers: this.getHeaders()
       })
       .toPromise();
