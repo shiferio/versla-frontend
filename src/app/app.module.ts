@@ -41,10 +41,11 @@ import {ModalAddParameterComponent} from './modals/modal-add-parameter/modal-add
 import {OrderComponent} from './order-elements/order/order.component';
 import {IntegerCounterComponent} from './cart-elements/integer-counter/integer-counter.component';
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
+import {ModalEditStoreCredentialsComponent} from './modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
 import {GoodCardComponent} from './good-elements/good-card/good-card.component';
 import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
-import {ModalEditStoreCredentialsComponent} from './modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
+import {SearchComponent} from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import {ModalEditStoreCredentialsComponent} from './modals/modal-edit-store-cred
     OrderConfirmationComponent,
     GoodCardComponent,
     ItemParamsComponent,
-    ModalEditStoreCredentialsComponent
+    ModalEditStoreCredentialsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
