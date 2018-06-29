@@ -39,7 +39,11 @@ export class GoodCardComponent implements OnInit {
   }
 
   get isCreator(): boolean {
-    return this.data.user._id === this.good.creator_id;
+    if (this.data.user && this.good.creator_id) { 
+      return this.data.user._id === this.good.creator_id;
+    } else {
+      return false;
+    }
   }
 
   async confirmGoodDeleting() {
