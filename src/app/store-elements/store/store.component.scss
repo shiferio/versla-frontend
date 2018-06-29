@@ -87,7 +87,7 @@ header h1 {
 }
 
 .map {
-  height: 600px;
+  height: 400px;
 }
 
 .input {
@@ -101,6 +101,10 @@ header h1 {
   padding: 10px;
   z-index: 100;
   width: 250px;
+}
+
+.contacts {
+  padding-left: 100px;
 }
 
 agm-map {
@@ -137,9 +141,40 @@ agm-map {
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .card-body > a {
   color: #556c75 !important;
 }
 
+.btn-edit {
+  display: inline-block;
+  border: 1px solid #000000;
+  vertical-align: middle;
+  margin-left: 10px;
+  color: #000;
+  font-size: 10px !important;
+  font-family: 'CircleRounded';
+  text-align: center;
+  padding: 0px 8px;
+  border-radius: 4px;
+  height: auto;
+  cursor: pointer;
+}
+
+.contact-title {
+  padding-top: 50px;
+}
+.title {
+  display: inline-block;
+}
+.icon {
+  color: #007bff;
+  font-size: 30px;
+  display: inline-block;
+}
+.contact-text {
+  display: inline-block;
+  vertical-align: middle;
+}

@@ -1,7 +1,10 @@
 <div class="profilepos">
     <h4>Мои заказы</h4>
 </div>
-<ul class="list-group">
+<div *ngIf="!orders">
+  <img height="100px" src="assets/img/shopping.svg" />
+</div>
+<ul *ngIf="orders" class="list-group">
   <li
     class="list-group-item"
     *ngFor="let order of orders"
