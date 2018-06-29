@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать данные</button>
+<button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать данные</button>
 <header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background"
         [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
   <div class="storeoverlay">

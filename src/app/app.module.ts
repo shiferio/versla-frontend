@@ -41,9 +41,10 @@ import {ModalAddParameterComponent} from './modals/modal-add-parameter/modal-add
 import {OrderComponent} from './order-elements/order/order.component';
 import {IntegerCounterComponent} from './cart-elements/integer-counter/integer-counter.component';
 import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/modal-unavailable-goods.component';
-import { OrderConfirmationComponent } from './order-elements/order-confirmation/order-confirmation.component';
-import { GoodCardComponent } from './good-elements/good-card/good-card.component';
-import { ItemParamsComponent } from './cart-elements/item-params/item-params.component';
+import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
+import {GoodCardComponent} from './good-elements/good-card/good-card.component';
+import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
+import {ModalEditStoreCredentialsComponent} from './modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { ItemParamsComponent } from './cart-elements/item-params/item-params.com
     ModalUnavailableGoodsComponent,
     OrderConfirmationComponent,
     GoodCardComponent,
-    ItemParamsComponent
+    ItemParamsComponent,
+    ModalEditStoreCredentialsComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -100,7 +102,8 @@ import { ItemParamsComponent } from './cart-elements/item-params/item-params.com
     ModalAddGoodComponent,
     ModalDeleteGoodComponent,
     ModalAddParameterComponent,
-    ModalUnavailableGoodsComponent
+    ModalUnavailableGoodsComponent,
+    ModalEditStoreCredentialsComponent
   ]
 })
 export class AppModule {

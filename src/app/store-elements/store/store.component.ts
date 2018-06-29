@@ -9,6 +9,7 @@ import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.
 import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-delete-good.component';
 import {consoleTestResultHandler} from 'tslint/lib/test';
 import {CartService} from '../../cart.service';
+import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 
 @Component({
   selector: 'app-store',
@@ -490,6 +491,12 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   openEditStoreCredentials() {
+    const modalRef = this.modalService.open(ModalEditStoreCredentialsComponent);
 
+    modalRef.componentInstance.storeInfo = this.info;
+
+    modalRef.result.then( async () => {
+      await this.getStoreInfo(this.link);
+    }).catch(() => {});
   }
 }
