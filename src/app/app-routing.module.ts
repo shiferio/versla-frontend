@@ -9,6 +9,7 @@ import {GoodComponent} from './good-elements/good/good.component';
 import {CartComponent} from './cart-elements/cart/cart.component';
 import {OrderComponent} from './order-elements/order/order.component';
 import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
+import {SearchComponent} from './search/search.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'good/:good_id',
     component: GoodComponent
+  },
+  {
+    path: 'search',
+    component: SearchComponent
   },
   {
     path: '**',

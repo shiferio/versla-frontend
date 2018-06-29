@@ -1,0 +1,19 @@
+<section class="features-icons bg-gray">
+  <div class="container">
+    <div *ngIf="noResults">
+        <h2 class="mb-5 text-center">Ничего не найдено</h2>
+    </div>
+    <div *ngIf="!noResults">
+      <h2 class="mb-5 text-center">Результаты поиска</h2>
+      <div class="row">
+        <div
+          *ngFor="let good of goods"
+          class="col-lg-4 col-xs-6 good mx-auto">
+          <div class="card" style="width: 18rem;">
+            <app-good-card [good]="good"></app-good-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

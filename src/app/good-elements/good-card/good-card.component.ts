@@ -24,7 +24,11 @@ export class GoodCardComponent implements OnInit {
     private modalService: NgbModal
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    if (!this.good.params) {
+      const resp = await this.rest.getGoodById(this.good._id);
+      this.good = resp['data']['good'];
+    }
   }
 
   async addGoodToCart() {
@@ -39,7 +43,7 @@ export class GoodCardComponent implements OnInit {
   }
 
   get isCreator(): boolean {
-    if (this.data.user && this.good.creator_id) { 
+    if (this.data.user && this.good.creator_id) {
       return this.data.user._id === this.good.creator_id;
     } else {
       return false;
