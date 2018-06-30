@@ -1,16 +1,26 @@
-<section class="features-icons bg-gray">
+<section class="features-icons">
   <div class="container">
-    <div *ngIf="noResults">
-        <h2 class="mb-5 text-center">Ничего не найдено</h2>
-    </div>
-    <div *ngIf="!noResults">
-      <h2 class="mb-5 text-center">Результаты поиска</h2>
-      <div class="row">
-        <div
-          *ngFor="let good of goods"
-          class="col-lg-4 col-xs-6 good mx-auto">
-          <div class="card" style="width: 18rem;">
-            <app-good-card [good]="good"></app-good-card>
+    <div class="row">
+      <div class="col-lg-3">
+        <h4>Фильтры</h4>
+        <div class="list-group">
+          <a href="#" class="list-group-item active">Фильтр 1</a>
+          <a href="#" class="list-group-item">Фильтр 2</a>
+          <a href="#" class="list-group-item">Фильтр 3</a>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div *ngIf="noResults">
+          <h4 class="mb-5 text-center">Ничего не найдено</h4>
+        </div>
+        <div *ngIf="!noResults">
+          <h4 class="mb-5 text-center">Результаты поиска</h4>
+          <div
+            *ngFor="let good of goods"
+            class="col-lg-4 col-xs-6 good mx-auto">
+            <div class="card" style="width: 18rem;">
+              <app-good-card [good]="good"></app-good-card>
+            </div>
           </div>
         </div>
       </div>
