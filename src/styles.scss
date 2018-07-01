@@ -41,6 +41,10 @@ header.masthead h1 {
     display: flex;
     justify-content: center;
 
+    @media(min-width: 510px) {
+      flex-wrap: nowrap;
+    }
+
     .search-wrap {
       justify-self: center;
       display: flex;
@@ -59,6 +63,7 @@ header.masthead h1 {
 
     .btn-cart {
       padding-left: 30px;
+      white-space: nowrap;
     }
   }
 }
@@ -251,7 +256,7 @@ a.nav-link:hover {
   padding-top: 20px;
 }
 
-.btn-main {
+.btn-main, .btn-primary {
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   background: #00B5EB;
@@ -259,10 +264,18 @@ a.nav-link:hover {
   color: #fff;
   font-family: 'CircleRounded';
   text-align: center;
-  padding: 0px 15px;
   border-radius: 4px;
-  height: 31px;
   cursor: pointer;
+}
+.btn-main {
+  padding: 0px 15px;
+  height: 31px;
+}
+.btn-main:hover, .btn-primary:hover,
+.btn-main:focus, .btn-primary:focus,
+.btn-main.active, .btn-primary.active {
+  background: #00A2D1 !important;
+  color: #fff !important;
 }
 
 .subscribe-text {
@@ -271,11 +284,6 @@ a.nav-link:hover {
 
 .good {
   padding-bottom: 30px;
-}
-
-.btn-main:hover {
-  background: #00A2D1;
-  color: #fff;
 }
 
 .card-price {
@@ -301,6 +309,7 @@ a.nav-link:hover {
   padding-right: 30px;
   padding-left: 10px;
   padding-top: 4px;
+  white-space: nowrap;
 }
 
 .btn-cart {
@@ -310,11 +319,6 @@ a.nav-link:hover {
 
 .btn-cats:hover {
   cursor: pointer;
-}
-
-.btn-main:focus {
-  background-color: #00A2D1;
-  color: #fff;
 }
 
 .btn-search {

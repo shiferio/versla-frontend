@@ -124,7 +124,7 @@
 }
 
 .good-img {
-  width: inherit !important;
+  object-fit: contain;
   margin-left: auto !important;
   margin-right: auto !important;
   max-height: 400px;

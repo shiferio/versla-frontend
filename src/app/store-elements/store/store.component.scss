@@ -104,7 +104,22 @@ header h1 {
 }
 
 .contacts {
-  padding-left: 100px;
+  @media(max-width: 767px) {
+    padding-left: 30px;
+  }
+  @media(min-width: 768px) {
+    padding-left: 100px;
+  }
+
+  & > * {
+    margin-bottom: 15px;
+  }
+
+  .fa {
+    margin-right: 10px;
+    width: 20px;
+  }
+  .contact-text {}
 }
 
 agm-map {
@@ -113,6 +128,13 @@ agm-map {
 
 .storeinfo {
   display: inline-block;
+  width: 100%;
+
+  h1 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 .face {

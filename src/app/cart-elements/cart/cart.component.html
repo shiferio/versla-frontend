@@ -3,6 +3,49 @@
     <div class="card-body">
       <div class="row">
         <div class="col-12">
+          <div class="items-fluid" *ngIf="cart.cart">
+            <div
+              *ngFor="let item of cart.cart"
+              [class.good-unavailable]="!item.good.is_available"
+            >
+              <img [src]="item.good.picture" height="100px"/>
+              <br>
+              <a
+                [routerLink]=""
+                (click)="collapsed[item._id] = !collapsed[item._id]"
+              >
+                Подробнее {{collapsed[item._id] ? '⮝' : '⮟'}}
+              </a>
+              <div [ngbCollapse]="collapsed[item._id]">
+                <app-item-params
+                  [item]="item"
+                  [readonly]="false"
+                ></app-item-params>
+              </div>
+              <div>
+                <a routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a>
+              </div>
+              <div>
+                {{ item.good.is_available ? 'Доступен': 'Не доступен'}}
+              </div>
+              <div>
+                <app-integer-counter
+                  [initial]="item.quantity"
+                  [itemId]="item._id"
+                  [minimal]="1"
+                  (onCounterChange)="onQuantityChange($event)"
+                ></app-integer-counter>
+              </div>
+              <div>
+                {{ item.good.price | fixedFloat: 2 }} ₽
+              </div>
+              <div>
+                <button class="btn btn-sm btn-danger" (click)="deleteItem(item._id)"><i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div>Подытог: {{ summary | fixedFloat: 2 }} ₽</div>
+          </div>
           <div class="table-responsive">
             <table class="table table-striped" *ngIf="cart.cart">
               <thead>
@@ -57,7 +100,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Подитог</td>
+                <td>Подытог</td>
                 <td class="text-right">{{ summary | fixedFloat: 2 }} ₽</td>
               </tr>
               </tbody>
