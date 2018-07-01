@@ -87,7 +87,7 @@ header h1 {
 }
 
 .map {
-  height: 600px;
+  height: 400px;
 }
 
 .input {
@@ -103,12 +103,38 @@ header h1 {
   width: 250px;
 }
 
+.contacts {
+  @media(max-width: 767px) {
+    padding-left: 30px;
+  }
+  @media(min-width: 768px) {
+    padding-left: 100px;
+  }
+
+  & > * {
+    margin-bottom: 15px;
+  }
+
+  .fa {
+    margin-right: 10px;
+    width: 20px;
+  }
+  .contact-text {}
+}
+
 agm-map {
   height: 300px;
 }
 
 .storeinfo {
   display: inline-block;
+  width: 100%;
+
+  h1 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 .face {
@@ -137,9 +163,45 @@ agm-map {
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .card-body > a {
   color: #556c75 !important;
 }
 
+.btn-edit {
+  display: inline-block;
+  border: 1px solid #000000;
+  vertical-align: middle;
+  margin-left: 10px;
+  color: #000;
+  font-size: 10px !important;
+  font-family: 'CircleRounded';
+  text-align: center;
+  padding: 0px 8px;
+  border-radius: 4px;
+  height: auto;
+  cursor: pointer;
+}
+
+.contact-title {
+  padding-top: 50px;
+}
+.title {
+  display: inline-block;
+}
+.icon {
+  color: #007bff;
+  font-size: 30px;
+  display: inline-block;
+}
+.contact-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+.no-good-img {
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
+}

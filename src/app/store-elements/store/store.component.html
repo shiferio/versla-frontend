@@ -1,4 +1,3 @@
-<button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать данные</button>
 <header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background"
         [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
   <div class="storeoverlay">
@@ -68,7 +67,9 @@
               Добавить логотип
               <input type="file" (change)="logoChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
             </label>
+
           </div>
+          <img *ngIf="!info.logo" src="assets/img/shop.svg" class="image" height="150px">
           <img *ngIf="info.logo" [src]="info.logo" class="image" height="200px">
         </div>
       </div>
@@ -107,6 +108,7 @@
                 </button>
                 <h5 class="shortdescriptiontext">{{info.short_description}}</h5>
               </div>
+
             </div>
           </div>
         </div>
@@ -130,22 +132,24 @@
 </div>
 <section class="features-icons text-center bg-gray">
   <div class="container">
-    <h2 class="mb-5">О нас (<label
-      class="btn-block-edit"
+    <div><h2 class="mb-5 title">О нас </h2><label
+      class="btn-edit"
       (click)="editMode.description = true"
       *ngIf="isCreator && info.description"
     >
       редактировать
     </label> <label
-      class="btn-block-edit"
+      class="btn-edit"
       (click)="editMode.description = true"
       *ngIf="isCreator && !info.description"
     >
       Добавить подробное описание
-    </label>)</h2>
+    </label>
+    </div>
     <div class="row">
       <div *ngIf="!editMode.description">
-        <p>{{info.description}}</p>
+        <p *ngIf="info.description">{{info.description}}</p>
+        <p *ngIf="!info.description">Подробное описание еще не добавлено</p>
       </div>
       <div *ngIf="editMode.description">
         <textarea style="width:100%" rows="5" cols="200" type="text" name="short_description"
@@ -161,10 +165,19 @@
 <!-- Icons Grid -->
 <section class="features-icons">
   <div class="container">
-    <h2 class="mb-5 text-center">
-      Товары
-      <label (click)="openAddGood()" *ngIf="isCreator">(добавить)</label>
-    </h2>
+    <div class="text-center">
+      <h2 class="title mb-5">
+        Товары
+      </h2>
+      <label (click)="openAddGood()" class="btn-edit" *ngIf="isCreator">добавить</label>
+    </div>
+    <div class="d-flex justify-content-center row" *ngIf="this.goods.length === 0">
+      <div>
+        <h5>Товары еще не добавлены</h5><br>
+
+        <img height="100px" class="no-good-img" src="assets/img/box.svg"/>
+      </div>
+    </div>
     <div class="row">
       <div *ngFor="let good of this.goods" class="col-lg-4 col-xs-6 good">
         <div class="card" style="width: 18rem;">
@@ -175,79 +188,83 @@
   </div>
 </section>
 
-
-<section class="features-icons bg-gray">
-  <div class="container">
-    <h2 class="mb-5 text-center">Контактные лица</h2>
-    <div class="row add-user-element">
-      <div class="col-xl-12">
-        <div class="input-group" *ngIf="isCreator">
-          <input type="text" name="newUser" class="form-control text-user" [(ngModel)]="new_user_login"
-                 placeholder="Name" id="name"/>
-          <div class="input-group-append">
-            <button class="btn btn-main" type="button" (click)="addNewUserByLogin()" [disabled]="!new_user_login">Add
-            </button>
+<section class="features-icons container-map bg-gray">
+  <div class="container-map container-fluid">
+    <div class="row">
+      <div class="col-md-6 contacts">
+        <h2 class="mb-5 contact-title">Контакты</h2>
+        <div>
+          <div class="d-flex align-items-center">
+            <div class="icon"><i class="fa fa-phone"></i></div>
+            <div class="contact-text">8 (800) 555 35 35</div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-12" *ngIf="this.info.contact_faces">
-        <ul *ngIf="this.info.contact_faces[0]" class="list-group">
-          <li *ngFor="let face of this.info.contact_faces" class="list-group-item">
-            <div class="face">
-              <div class="face-title">
-                {{face.name}}
-              </div>
-            </div>
-            <div class="face-delete" *ngIf="isCreator">
-              <button class="btn btn-danger" (click)="deleteFace(face.id)" type="button">Удалить</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- /contact -->
 
-<section class="features-icons container-map">
-  <div class="container-map container-fluid">
-    <h2 class="mb-5 text-center">Контакты</h2>
-    <div>
-      <div *ngIf="!editMode.location">
-        <button
-          type="button"
-          class="btn btn-main"
-          (click)="editMode.location = true"
-          *ngIf="isCreator"
-        >
-          Изменить
+        <!-- contact -->
+        <div>
+          <div class="contact">
+            <div class="d-flex align-items-center">
+              <i class=" fa fa-envelope"></i>
+              <div class="contact-text">contact@terminal11.ru</div>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- /contact -->
+
+        <!-- contact -->
+        <div>
+          <div class="contact">
+            <div class="d-flex align-items-center">
+              <i class="fa fa-map-marker"></i>
+              <div class="contact-text">ул. Пушкина 18</div>
+            </div>
+
+
+          </div>
+        </div>
+        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать
+          данные
         </button>
       </div>
-      <div *ngIf="editMode.location">
-        <div class="input-group offset-1 col-md-10">
-          <ng4geo-autocomplete
-            class="w-75"
-            [userSettings]="{
+      <div class="col-md-6">
+        <div *ngIf="!editMode.location">
+          <button
+            type="button"
+            class="btn btn-edit"
+            (click)="editMode.location = true"
+            *ngIf="isCreator"
+          >
+            Изменить
+          </button>
+        </div>
+        <div *ngIf="editMode.location">
+          <div class="input-group offset-1 col-md-10">
+            <ng4geo-autocomplete
+              class="w-75"
+              [userSettings]="{
             showSearchButton: false
           }"
-            (componentCallback)="addressChanged($event)"
-          ></ng4geo-autocomplete>
-          <div class="input-group-append">
-            <button
-              type="button"
-              style="height: 50px;"
-              class="btn btn-main"
-              (click)="updateLocation()"
-            >
-              Обновить
-            </button>
+              (componentCallback)="addressChanged($event)"
+            ></ng4geo-autocomplete>
+            <div class="input-group-append">
+              <button
+                type="button"
+                style="height: 50px;"
+                class="btn btn-main"
+                (click)="updateLocation()"
+              >
+                Обновить
+              </button>
+            </div>
           </div>
         </div>
+        <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
+          <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
+        </agm-map>
       </div>
-      <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
-        <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
-      </agm-map>
     </div>
   </div>
 </section>

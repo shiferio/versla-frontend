@@ -71,3 +71,18 @@ footer a {
 .good-unavailable {
   opacity: 0.6;
 }
+
+@media(max-width: 1199px) {
+  table {display: none}
+  .items-fluid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+}
+@media(min-width: 1200px) {
+  .items-fluid {
+    display:none;
+  }
+}
