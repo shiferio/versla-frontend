@@ -271,7 +271,7 @@ export class RestApiService {
       .toPromise();
   }
 
-  searchGoods(page: number, size: number, query: any) {
+  searchGoodsByAllFields(page: number, size: number, query: any) {
     let params = new HttpParams();
 
     for (const param in query) {
@@ -279,13 +279,23 @@ export class RestApiService {
         params = params.append(param, query[param]);
       }
     }
-    params
-      .append('pageNumber', page.toString())
-      .append('pageSize', size.toString());
 
     return this
       .http
-      .get(`${API_URL}/api/search`, {
+      .get(`${API_URL}/api/search/all/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoodsByAnyField(page: number, size: number, query: string) {
+    const params = new HttpParams()
+      .append('query', query);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/any/${page}/${size}`, {
         params: params,
         headers: this.getHeaders()
       })

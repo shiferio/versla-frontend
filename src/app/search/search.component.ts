@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   async loadSearchResults(query: any) {
     try {
-      const resp = await this.rest.searchGoods(0, 6, query);
+      const resp = await this.rest.searchGoodsByAnyField(0, 6, query['name']);
 
       if (resp['meta'].success) {
         this.goods = resp['data']['goods'];
