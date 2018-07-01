@@ -13,7 +13,7 @@
       <div class="card">
         <div class="card-body">
           <img class="card-img-top good-img" [src]="info.picture" alt="Card image cap">
-          <div class="good-img-container">
+          <div class="good-img-container" *ngIf="isCreator">
             <div class="base-good-img-overlay">
             </div>
             <label class="good-img-overlay">
@@ -118,7 +118,7 @@
           <p class="card-text">
             <tag-input
               id="tags"
-              [disabled]="isCreator"
+              [disable]="!isCreator"
               [(ngModel)]="new_tags"
               [theme]="'foundation-theme'"
               secondaryPlaceholder="Введите новый тег"
