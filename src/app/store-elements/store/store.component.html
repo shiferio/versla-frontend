@@ -171,13 +171,14 @@
       </h2>
       <label (click)="openAddGood()" class="btn-edit" *ngIf="isCreator">добавить</label>
     </div>
-    <div class="row">
-      <div class="d-flex justify-content-center" *ngIf="this.goods.length === 0">
-          <div >
-            <h5>Товары еще не добавлены</h5>
-            <img height="100px" src="assets/img/box.svg"/>
-          </div>
+    <div class="d-flex justify-content-center row" *ngIf="this.goods.length === 0">
+      <div>
+        <h5>Товары еще не добавлены</h5><br>
+
+        <img height="100px" class="no-good-img" src="assets/img/box.svg"/>
       </div>
+    </div>
+    <div class="row">
       <div *ngFor="let good of this.goods" class="col-lg-4 col-xs-6 good">
         <div class="card" style="width: 18rem;">
           <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
@@ -187,42 +188,7 @@
   </div>
 </section>
 
-
-<section class="features-icons bg-gray">
-  <div class="container">
-    <h2 class="mb-5 text-center">Контактные лица</h2>
-    <div class="row add-user-element">
-      <div class="col-xl-12">
-        <div class="input-group" *ngIf="isCreator">
-          <input type="text" name="newUser" class="form-control text-user" [(ngModel)]="new_user_login"
-                 placeholder="Name" id="name"/>
-          <div class="input-group-append">
-            <button class="btn btn-main" type="button" (click)="addNewUserByLogin()" [disabled]="!new_user_login">Add
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xl-12" *ngIf="this.info.contact_faces">
-        <ul *ngIf="this.info.contact_faces[0]" class="list-group">
-          <li *ngFor="let face of this.info.contact_faces" class="list-group-item">
-            <div class="face">
-              <div class="face-title">
-                {{face.name}}
-              </div>
-            </div>
-            <div class="face-delete" *ngIf="isCreator">
-              <button class="btn btn-danger" (click)="deleteFace(face.id)" type="button">Удалить</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="features-icons container-map">
+<section class="features-icons container-map bg-gray">
   <div class="container-map container-fluid">
     <div class="row">
       <div class="col-md-6 contacts">
@@ -239,7 +205,8 @@
         <div>
           <div class="contact">
             <div class="d-flex align-items-center">
-              <i class=" fa fa-envelope"></i> <div class="contact-text">contact@terminal11.ru</div>
+              <i class=" fa fa-envelope"></i>
+              <div class="contact-text">contact@terminal11.ru</div>
             </div>
 
 
@@ -251,7 +218,8 @@
         <div>
           <div class="contact">
             <div class="d-flex align-items-center">
-              <i class="fa fa-map-marker"></i> <div class="contact-text">ул. Пушкина 18</div>
+              <i class="fa fa-map-marker"></i>
+              <div class="contact-text">ул. Пушкина 18</div>
             </div>
 
 
