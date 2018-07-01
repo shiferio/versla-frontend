@@ -143,3 +143,12 @@ agm-map {
   color: #556c75 !important;
 }
 
+a.img-holder {
+  display: block;
+  height: 250px;
+  overflow: hidden;
+
+  .card-img-top {
+    object-fit: contain;
+  }
+}
