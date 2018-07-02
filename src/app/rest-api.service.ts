@@ -68,6 +68,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  updateUserProfile(body) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/profile`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getUserStores() {
     return this
       .http

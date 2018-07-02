@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
-const API_URL = 'http://api.versla.ru';
 
 @Component({selector: 'app-settings', templateUrl: './settings.component.html', styleUrls: ['./settings.component.scss']})
 export class SettingsComponent implements OnInit {
@@ -36,7 +35,7 @@ export class SettingsComponent implements OnInit {
       try {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/profile`, {
+          .updateUserProfile({
             first_name: this.currentSettings.first_name,
             last_name: this.currentSettings.last_name,
             phone: this.currentSettings.phone,
