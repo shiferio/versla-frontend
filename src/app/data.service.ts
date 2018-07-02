@@ -81,13 +81,13 @@ export class DataService {
       if (localStorage.getItem('token')) {
         const data = await this
           .rest
-          .get(`${API_URL}/api/accounts/profile`);
+          .getUserProfile();
         this.user = data['data'].user;
         // console.log(data['data'].user);
         if (this.user.isSeller) {
           const storeData = await this
             .rest
-            .get(`${API_URL}/api/accounts/stores`);
+            .getUserStores();
           this.stores = storeData['data'].stores;
           // console.log(this.stores);
         }

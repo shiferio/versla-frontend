@@ -59,6 +59,24 @@ export class RestApiService {
       .toPromise();
   }
 
+  getUserProfile() {
+    return this
+      .http
+      .get(`${API_URL}/api/accounts/profile`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getUserStores() {
+    return this
+      .http
+      .get(`${API_URL}/api/accounts/stores`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   createStore(body: any) {
     return this
       .http
