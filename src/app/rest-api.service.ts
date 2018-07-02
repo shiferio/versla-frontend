@@ -48,7 +48,15 @@ export class RestApiService {
   loginUser(body: any) {
     return this
       .http
-      .post(`${API_URL}/api/accounts/login`, body);
+      .post(`${API_URL}/api/accounts/login`, body)
+      .toPromise();
+  }
+
+  signupUser(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/signup`, body)
+      .toPromise();
   }
 
   createStore(body: any) {

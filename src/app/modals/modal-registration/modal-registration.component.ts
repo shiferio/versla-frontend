@@ -6,8 +6,6 @@ import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
 
-const API_URL = 'http://api.versla.ru';
-
 @Component({
   selector: 'app-registration',
   templateUrl: './modal-registration.component.html',
@@ -69,7 +67,7 @@ export class ModalRegistrationComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/signup`, {
+          .signupUser({
             login: this.login,
             email: this.email,
             password: this.password
