@@ -15,13 +15,12 @@
         </div>
         <div *ngIf="!noResults">
           <h4 class="mb-5 text-center">Результаты поиска</h4>
-          <div
-            *ngFor="let good of goods"
-            class="col-lg-4 col-xs-6 good mx-auto">
-            <div class="card" style="width: 18rem;">
-              <app-good-card [good]="good"></app-good-card>
-            </div>
-          </div>
+
+          <ul class="list-group">
+            <li *ngFor="let good of goods" class="list-group-item">
+              <app-good-list [good]="good"></app-good-list>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

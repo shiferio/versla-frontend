@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GoodCardComponent } from './good-card.component';
 
-describe('GoodCardComponent', () => {
+describe('GoodListComponent', () => {
   let component: GoodCardComponent;
   let fixture: ComponentFixture<GoodCardComponent>;
 

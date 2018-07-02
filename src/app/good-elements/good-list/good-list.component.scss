@@ -152,3 +152,21 @@ a.img-holder {
     object-fit: contain;
   }
 }
+
+.img-good {
+  display: inline-block;
+}
+
+.desc-good {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.img-image-good {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.price {
+  color: #00b5eb;
+}

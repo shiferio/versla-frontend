@@ -6,11 +6,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RestApiService} from '../../rest-api.service';
 
 @Component({
-  selector: 'app-good-card',
-  templateUrl: './good-card.component.html',
-  styleUrls: ['./good-card.component.scss']
+  selector: 'app-good-list',
+  templateUrl: './good-list.component.html',
+  styleUrls: ['./good-list.component.scss']
 })
-export class GoodCardComponent implements OnInit {
+export class GoodListComponent implements OnInit {
   @Input('good')
   good: any;
 

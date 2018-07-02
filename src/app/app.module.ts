@@ -44,6 +44,7 @@ import {ModalUnavailableGoodsComponent} from './modals/modal-unavailable-goods/m
 import {ModalEditStoreCredentialsComponent} from './modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
 import {GoodCardComponent} from './good-elements/good-card/good-card.component';
+import {GoodListComponent} from './good-elements/good-list/good-list.component';
 import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
 import {SearchComponent} from './search/search.component';
 
@@ -75,6 +76,7 @@ import {SearchComponent} from './search/search.component';
     ModalUnavailableGoodsComponent,
     OrderConfirmationComponent,
     GoodCardComponent,
+    GoodListComponent,
     ItemParamsComponent,
     ModalEditStoreCredentialsComponent,
     SearchComponent
