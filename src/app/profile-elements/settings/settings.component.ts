@@ -12,7 +12,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this
+    await this
       .data
       .getProfile();
 
@@ -41,9 +41,9 @@ export class SettingsComponent implements OnInit {
             phone: this.currentSettings.phone,
             email: this.currentSettings.email
           });
-        console.log(data);
+
         if (data['meta'].success) {
-          this
+          await this
             .data
             .getProfile();
 
@@ -55,7 +55,6 @@ export class SettingsComponent implements OnInit {
         this
           .data
           .error(error['message']);
-        console.log(error);
       }
     }
   }

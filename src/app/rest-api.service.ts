@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs';
 
 const API_URL = 'http://api.versla.ru';
 
