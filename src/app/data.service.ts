@@ -2,9 +2,6 @@ import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
 import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
-import {Subject} from 'rxjs';
-
-const API_URL = 'http://api.versla.ru';
 
 
 @Injectable({providedIn: 'root'})
@@ -83,13 +80,12 @@ export class DataService {
           .rest
           .getUserProfile();
         this.user = data['data'].user;
-        // console.log(data['data'].user);
+
         if (this.user.isSeller) {
           const storeData = await this
             .rest
             .getUserStores();
           this.stores = storeData['data'].stores;
-          // console.log(this.stores);
         }
       }
     } catch (error) {
