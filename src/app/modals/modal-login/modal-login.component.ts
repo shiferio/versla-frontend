@@ -50,14 +50,18 @@ export class ModalLoginComponent implements OnInit {
           });
         if (data['meta'].success) {
           localStorage.setItem('token', data['data'].token);
+
           await this
             .data
             .getProfile();
-          this
+
+          await this
             .router
             .navigate(['/']);
+
           this
             .data.addToast('Вы успешно авторизованы', data['meta'].message, 'success');
+
           this
             .activeModal
             .close();
