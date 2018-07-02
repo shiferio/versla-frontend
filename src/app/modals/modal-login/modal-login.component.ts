@@ -5,8 +5,6 @@ import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 
 
-const API_URL = 'http://api.versla.ru';
-
 @Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
 export class ModalLoginComponent implements OnInit {
   email = '';
@@ -46,7 +44,7 @@ export class ModalLoginComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/login`, {
+          .loginUser({
             email: this.email,
             password: this.password
           });
