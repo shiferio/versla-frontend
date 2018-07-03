@@ -62,7 +62,7 @@ export class DataService {
   }
 
   error(message) {
-    this.addToast('Ошибка', message, 'danger');
+    this.addToast('Ошибка', message, 'error');
   }
 
   success(message) {
