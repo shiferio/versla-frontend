@@ -142,6 +142,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getAllStores() {
+    return this
+      .http
+      .get(`${API_URL}/api/stores/get/all`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   updateStoreInfo(link: string, field: string, body: any) {
     return this
       .http

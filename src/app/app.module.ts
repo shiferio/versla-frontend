@@ -47,6 +47,8 @@ import {GoodCardComponent} from './good-elements/good-card/good-card.component';
 import {GoodListComponent} from './good-elements/good-list/good-list.component';
 import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
 import {SearchComponent} from './search/search.component';
+import { StoreCardComponent } from './store-card/store-card.component';
+import { StoresListComponent } from './stores-list/stores-list.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import {SearchComponent} from './search/search.component';
     GoodListComponent,
     ItemParamsComponent,
     ModalEditStoreCredentialsComponent,
-    SearchComponent
+    SearchComponent,
+    StoreCardComponent,
+    StoresListComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

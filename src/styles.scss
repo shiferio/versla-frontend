@@ -290,7 +290,12 @@ a.nav-link:hover {
   color: #00b5eb;
   display: inline-block;
 }
-
+.card-img-bottom {
+  color: #fff;
+  height: 20rem;
+  background: url(assets/img/logo.svg) center no-repeat;
+  background-size: cover;
+}
 .card-icons {
   display: inline-block;
   float: right;
