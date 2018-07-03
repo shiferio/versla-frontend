@@ -17,6 +17,7 @@ export class ModalRegistrationComponent implements OnInit {
   email = '';
   password = '';
   password_confirmation = '';
+  city: any;
   btnDisabled = false;
 
   constructor(private router: Router, private data: DataService, private rest: RestApiService, public activeModal: NgbActiveModal) {
@@ -28,24 +29,30 @@ export class ModalRegistrationComponent implements OnInit {
   validate() {
     if (this.login) {
       if (this.email) {
-        if (this.password) {
-          if (this.password_confirmation) {
-            if (this.password === this.password_confirmation) {
-              return true;
+        if (this.city) {
+          if (this.password) {
+            if (this.password_confirmation) {
+              if (this.password === this.password_confirmation) {
+                return true;
+              } else {
+                this
+                  .data
+                  .error('Passwords don\'t match.');
+              }
             } else {
               this
                 .data
-                .error('Passwords don\'t match.');
+                .error('Confirmation password is not entered.');
             }
           } else {
             this
               .data
-              .error('Confirmation password is not entered.');
+              .error('Password is not entered.');
           }
         } else {
           this
             .data
-            .error('Password is not entered.');
+            .error('City is not chosen.');
         }
       } else {
         this
@@ -70,6 +77,7 @@ export class ModalRegistrationComponent implements OnInit {
           .signupUser({
             login: this.login,
             email: this.email,
+            city: this.city['_id'],
             password: this.password
           });
         if (data['meta'].success) {
