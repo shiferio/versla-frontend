@@ -27,6 +27,16 @@ export class DataService {
             }
           });
       });
+
+    this
+      .rest
+      .getAllCities()
+      .then(data => {
+        if (data['meta'].success) {
+          this.cities = data['data'].cities;
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   addToast(title: string, message: string, type: string) {
@@ -81,11 +91,6 @@ export class DataService {
           .rest
           .getUserProfile();
         this.user = profile_data['data'].user;
-
-        const cities_data = await this
-          .rest
-          .getAllCities();
-        this.cities = cities_data['data'].cities;
 
         if (this.user.isSeller) {
           const storeData = await this
