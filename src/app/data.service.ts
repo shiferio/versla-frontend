@@ -10,6 +10,7 @@ export class DataService {
 
   user: any;
   stores: any;
+  cities: Array<any>;
 
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
               private toastyConfig: ToastyConfig) {
@@ -76,10 +77,15 @@ export class DataService {
   async getProfile() {
     try {
       if (localStorage.getItem('token')) {
-        const data = await this
+        const profile_data = await this
           .rest
           .getUserProfile();
-        this.user = data['data'].user;
+        this.user = profile_data['data'].user;
+
+        const cities_data = await this
+          .rest
+          .getAllCities();
+        this.cities = cities_data['data'].cities;
 
         if (this.user.isSeller) {
           const storeData = await this
@@ -97,6 +103,35 @@ export class DataService {
     this.user = null;
     this.stores = null;
     localStorage.removeItem('token');
+  }
+
+  getPreferredCity() {
+    if (this.user) {
+      const city = this.user.city;
+      localStorage.setItem('city', JSON.stringify(city));
+      return city;
+    } else {
+      const data = localStorage.getItem('city');
+      if (data) {
+        return JSON.parse(data);
+      } else if (this.cities) {
+        return this.cities[0];
+      } else {
+        return {};
+      }
+    }
+  }
+
+  async setPreferredCity(city: any) {
+    localStorage.setItem('city', JSON.stringify(city));
+
+    if (this.user) {
+      await this.rest.updateUserProfile({
+        city: city['_id']
+      });
+
+      await this.getProfile();
+    }
   }
 
 }

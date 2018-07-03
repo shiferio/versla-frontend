@@ -7,6 +7,7 @@ import {ModalRegistrationComponent} from './modals/modal-registration/modal-regi
 import {DataService} from './data.service';
 import {CartService} from './cart.service';
 import {SearchService} from './search.service';
+import {RestApiService} from './rest-api.service';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit {
@@ -20,11 +21,14 @@ export class AppComponent implements OnInit {
 
   query = '';
 
+  city_menu = false;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private data: DataService,
     private search: SearchService,
+    private rest: RestApiService,
     private cart: CartService) {
   }
 
@@ -100,4 +104,25 @@ export class AppComponent implements OnInit {
     });
   }
 
+  get availableCities(): Array<any> {
+    return this.data.cities;
+  }
+
+  get preferredCity(): any {
+    return this.data.getPreferredCity();
+  }
+
+  toggleCityMenu() {
+    this.city_menu = !this.city_menu;
+  }
+
+  hideCityMenu() {
+    this.city_menu = false;
+  }
+
+  async selectCity(city: any) {
+    this.hideCityMenu();
+
+    await this.data.setPreferredCity(city);
+  }
 }

@@ -2,7 +2,20 @@
     <a class="navbar-brand" routerLink="">
         <img src="assets/img/logo.svg" height="31px" />
     </a>
-    <div class="mr-auto city">Kirov</div>
+    <div class="mr-auto city city-menu" (clickOutside)="hideCityMenu()">
+      <div (click)="toggleCityMenu()">{{preferredCity.name}}</div>
+        <div class="city-menu-content" *ngIf="city_menu">
+          <div class="list-group list-group-scrollable">
+            <div
+              class="list-group-item select-item"
+              *ngFor="let city of availableCities"
+              (click)="selectCity(city)"
+            >
+              {{city.name}}
+          </div>
+        </div>
+      </div>
+    </div>
 
     <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent"
             (click)="isCollapsed = !isCollapsed"
