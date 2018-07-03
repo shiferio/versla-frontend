@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
+    this.data.clearProfile();
     this
       .router
       .navigate(['']);

@@ -93,5 +93,10 @@ export class DataService {
     }
   }
 
+  clearProfile() {
+    this.user = null;
+    this.stores = null;
+    localStorage.removeItem('token');
+  }
 
 }
