@@ -27,6 +27,8 @@ export class ModalAddStoreComponent implements OnInit {
 
   resident_type = 'individual';
 
+  city = {};
+
   btnDisabled = false;
 
   constructor(public activeModal: NgbActiveModal, private router: Router, private rest: RestApiService, private data: DataService) {
@@ -42,37 +44,42 @@ export class ModalAddStoreComponent implements OnInit {
   }
 
   validate() {
-    if (this.name) {
-      if (this.link) {
-        if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
-          this.resident_type === 'individual' && this.tax_num.length === 12
-        ) {
-          if (this.resident_type === 'entity' && this.state_num ||
-            this.resident_type === 'individual'
+    if (this.city) {
+      if (this.name) {
+        if (this.link) {
+          if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
+            this.resident_type === 'individual' && this.tax_num.length === 12
           ) {
-            if (this.bank_type === 'card' && this.bank_num.length === 16 ||
-              this.bank_type === 'num' && this.bank_num.length === 20
+            if (this.resident_type === 'entity' && this.state_num ||
+              this.resident_type === 'individual'
             ) {
-              return true;
+              if (this.bank_type === 'card' && this.bank_num.length === 16 ||
+                this.bank_type === 'num' && this.bank_num.length === 20
+              ) {
+                return true;
+              } else {
+                this
+                  .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
+              }
             } else {
               this
-                .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
+                .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
             }
           } else {
             this
-              .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
+              .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
           }
         } else {
           this
-            .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
+            .data.addToast('Ошибка', 'Вы не ввели ссылку!', 'error');
         }
       } else {
         this
-          .data.addToast('Ошибка', 'Вы не ввели ссылку!', 'error');
+          .data.addToast('Ошибка', 'Вы не ввели название магазина!', 'error');
       }
     } else {
-      this
-        .data.addToast('Ошибка', 'Вы не ввели название магазина!', 'error');
+        this
+          .data.addToast('Ошибка', 'Вы не выбрали город!', 'error');
     }
 
     return false;
@@ -93,7 +100,8 @@ export class ModalAddStoreComponent implements OnInit {
             bank_type: this.bank_type,
             bank_num: this.bank_num,
             resident_type: this.resident_type,
-            goods_type: this.goods_type
+            goods_type: this.goods_type,
+            city: this.city['_id']
           });
         if (data['meta'].success) {
           await this
