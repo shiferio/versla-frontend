@@ -47,6 +47,8 @@ import {GoodCardComponent} from './good-elements/good-card/good-card.component';
 import {GoodListComponent} from './good-elements/good-list/good-list.component';
 import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
 import {SearchComponent} from './search/search.component';
+import { CityChooserComponent } from './city-chooser/city-chooser.component';
+import {ClickOutsideModule} from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import {SearchComponent} from './search/search.component';
     GoodListComponent,
     ItemParamsComponent,
     ModalEditStoreCredentialsComponent,
-    SearchComponent
+    SearchComponent,
+    CityChooserComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -93,7 +96,8 @@ import {SearchComponent} from './search/search.component';
       apiKey: 'AIzaSyBbRyQ6gCN8ua67jk2RoqWoZdKFi6juOpM'
     }),
     Ng4GeoautocompleteModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    ClickOutsideModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService

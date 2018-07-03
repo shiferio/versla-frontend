@@ -265,6 +265,33 @@ export class RestApiService {
       .toPromise();
   }
 
+  addCity(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/cities/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllCities() {
+    return this
+      .http
+      .get(`${API_URL}/api/cities/all`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getCityById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/cities/id/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   updateOrders(body: any) {
     return this
       .http
