@@ -2,8 +2,9 @@
     <a class="navbar-brand" routerLink="">
         <img src="assets/img/logo.svg" height="31px" />
     </a>
-    <div class="mr-auto city city-menu" (clickOutside)="hideCityMenu()">
-      <div (click)="toggleCityMenu()">{{preferredCity.name + (city_menu ? '⮝' : '⮟')}}</div>
+    <div class="separator"></div>
+    <div class="mr-auto city-menu" (clickOutside)="hideCityMenu()">
+      <div (click)="toggleCityMenu()"><div class="city city-menu-item">{{preferredCity.name }}</div> <div class="city-menu-item city-dropdown"><img *ngIf="city_menu" src="assets/img/up-arrow.svg" height="7px" />  <img *ngIf="!city_menu" src="assets/img/down-arrow.svg" height="7px" /></div></div>
         <div class="city-menu-content" *ngIf="city_menu">
           <div class="list-group list-group-scrollable">
             <div
