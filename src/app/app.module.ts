@@ -50,6 +50,8 @@ import {SearchComponent} from './search/search.component';
 import { CityChooserComponent } from './city-chooser/city-chooser.component';
 import {ClickOutsideModule} from 'ng-click-outside';
 import { StoreCategoryChooserComponent } from './store-category-chooser/store-category-chooser.component';
+import { StoreCardComponent } from './store-card/store-card.component';
+import { StoresListComponent } from './stores-list/stores-list.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { StoreCategoryChooserComponent } from './store-category-chooser/store-ca
     ModalEditStoreCredentialsComponent,
     SearchComponent,
     CityChooserComponent,
-    StoreCategoryChooserComponent
+    StoreCategoryChooserComponent,
+    StoreCardComponent,
+    StoresListComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
