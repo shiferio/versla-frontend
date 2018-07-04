@@ -39,7 +39,8 @@ export class SettingsComponent implements OnInit {
             first_name: this.currentSettings.first_name,
             last_name: this.currentSettings.last_name,
             phone: this.currentSettings.phone,
-            email: this.currentSettings.email
+            email: this.currentSettings.email,
+            city: this.currentSettings.city['_id']
           });
 
         if (data['meta'].success) {
