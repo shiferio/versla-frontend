@@ -1,0 +1,15 @@
+
+<div>
+  <div class="store-logo">
+    <a [routerLink]="['/store', store.link]">
+      <img [src]="store.logo" class="store-img">
+    </a>
+  </div>
+
+  <div class="desc-store">
+    <a [routerLink]="['/store', store.link]">
+      <h5>{{ store.name }}</h5>
+    </a>
+    <p *ngIf="store.short_description" >{{ store.short_description }}</p>
+  </div>
+</div>
