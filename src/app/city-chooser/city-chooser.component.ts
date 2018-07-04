@@ -102,5 +102,8 @@ export class CityChooserComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
+    if (obj && obj.name && obj.location) {
+      this.selectCity(obj);
+    }
   }
 }
