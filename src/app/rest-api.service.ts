@@ -329,6 +329,33 @@ export class RestApiService {
       .toPromise();
   }
 
+  addGoodCategory(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/category/add/good`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllGoodCategories() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getGoodCategoryById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good/id/:id${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   updateOrders(body: any) {
     return this
       .http

@@ -52,6 +52,7 @@ import {ClickOutsideModule} from 'ng-click-outside';
 import { StoreCategoryChooserComponent } from './store-category-chooser/store-category-chooser.component';
 import { StoreCardComponent } from './store-card/store-card.component';
 import { StoresListComponent } from './stores-list/stores-list.component';
+import { GoodCategoryChooserComponent } from './good-category-chooser/good-category-chooser.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { StoresListComponent } from './stores-list/stores-list.component';
     CityChooserComponent,
     StoreCategoryChooserComponent,
     StoreCardComponent,
-    StoresListComponent
+    StoresListComponent,
+    GoodCategoryChooserComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

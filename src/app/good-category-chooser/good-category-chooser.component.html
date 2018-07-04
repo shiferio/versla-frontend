@@ -1,0 +1,37 @@
+<div class="dropdown" (clickOutside)="hideMenu()">
+  <div class="custom-select" (click)="toggleMenu()">{{selected_category.name}}</div>
+  <div class="dropdown-content" *ngIf="dropdown_menu">
+    <div class="list-group list-group-scrollable">
+      <div
+        class="list-group-item select-item"
+        *ngFor="let category of categories"
+        (click)="selectCategory(category)"
+      >
+        {{category.name}}
+      </div>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item">
+        <div class="form-group">
+          <label for="new_category">Нет нужной?</label>
+          <div class="input-group">
+            <input
+              [(ngModel)]="new_category_name"
+              id="new_category"
+              type="text"
+              class="form-control text-modal">
+            <div class="input-group-append">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addNewCategory()"
+              >
+                Добавить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
