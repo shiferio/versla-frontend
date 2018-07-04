@@ -22,6 +22,11 @@
   </div>
 
   <div class="form-group">
+    <label for="category">Выберите категорию магазина</label>
+    <app-store-category-chooser id="category" [(ngModel)]="category"></app-store-category-chooser>
+  </div>
+
+  <div class="form-group">
     <label for="goods_type">Выберите тип товара</label>
     <br>
     <div
