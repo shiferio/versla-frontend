@@ -3,7 +3,7 @@
         <img src="assets/img/logo.svg" height="31px" />
     </a>
     <div class="mr-auto city city-menu" (clickOutside)="hideCityMenu()">
-      <div (click)="toggleCityMenu()">{{preferredCity.name}}</div>
+      <div (click)="toggleCityMenu()">{{preferredCity.name + (city_menu ? '⮝' : '⮟')}}</div>
         <div class="city-menu-content" *ngIf="city_menu">
           <div class="list-group list-group-scrollable">
             <div
