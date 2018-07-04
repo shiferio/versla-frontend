@@ -292,6 +292,33 @@ export class RestApiService {
       .toPromise();
   }
 
+  addStoreCategory(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/category/add/store`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllStoreCategories() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/store`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getStoreCategoryById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/store/id/:id${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   updateOrders(body: any) {
     return this
       .http
