@@ -53,10 +53,12 @@
     ></tag-input>
   </div>
   <div class="form-group">
-    <label for="type">Тип</label>
-    <select class="custom-select" id="type" [(ngModel)]="type">
-      <option *ngFor="let t of available_types">{{ t }}</option>
-    </select>
+    <label for="category">Категория товара</label>
+    <app-good-category-chooser
+      id="category"
+      [category]="category"
+      (categoryChanged)="updateCategory($event)"
+    ></app-good-category-chooser>
   </div>
 
 </div>

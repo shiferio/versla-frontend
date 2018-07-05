@@ -2,7 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
-      <li class="breadcrumb-item"><a href="#">{{ info.type }}</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="">{{info.category ? info.category.name : '...'}}</a></li>
       <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info._id}}">{{ info.name }}</li>
     </ol>
   </nav>
@@ -128,25 +128,23 @@
               (onRemove)="onTagRemoved($event)"
             ></tag-input>
           </p>
-          <div *ngIf="info.type" class="card-text">
-            <div *ngIf="!editMode.type">
-              Тип: {{ info.type }}
+          <div *ngIf="info" class="card-text">
+            <div *ngIf="!editMode.category">
+              Категория: {{ info.category ? info.category.name : 'нет' }}
               <label
                 *ngIf="isCreator"
-                (click)="editMode.type = true"
+                (click)="editMode.category = true"
               >
                 (изменить)
               </label>
             </div>
-            <div *ngIf="editMode.type" class="form-group">
-              <label for="type">Тип</label>
-              <select
-                class="custom-select"
-                id="type"
-                [(ngModel)]="info.type"
-                (change)="updateType()">
-                <option *ngFor="let type of available_types">{{ type }}</option>
-              </select>
+            <div *ngIf="editMode.category" class="form-group">
+              <label for="category">Категория</label>
+              <app-good-category-chooser
+                id="category"
+                [category]="info.category"
+                (categoryChanged)="updateCategory($event)">
+              </app-good-category-chooser>
             </div>
           </div>
         </div>

@@ -26,10 +26,6 @@ export class GoodComponent implements OnInit {
 
   editMode: any = {};
 
-  available_types = [
-    'one', 'two', 'three'
-  ];
-
   additionalTabPane: string;
 
   commentsForGood = [];
@@ -234,12 +230,13 @@ export class GoodComponent implements OnInit {
     }
   }
 
-  async updateType() {
+  async updateCategory(category: any) {
+    this.info.category = category;
     try {
-      this.editMode.type = false;
-      const resp = await this.rest.updateGoodInfo(this.info._id, 'type', {
+      this.editMode.category = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'category', {
         good_id: this.info._id,
-        type: this.info.type
+        category: this.info.category._id
       });
 
       if (resp['meta'].success) {
@@ -249,7 +246,7 @@ export class GoodComponent implements OnInit {
 
         await this.getGoodInfo();
 
-        this.editMode.type = false;
+        this.editMode.category = false;
       } else {
         this
           .data

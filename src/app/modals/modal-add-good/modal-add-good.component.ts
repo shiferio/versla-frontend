@@ -30,9 +30,7 @@ export class ModalAddGoodComponent implements OnInit {
 
   tags = [];
 
-  available_types = [
-    'one', 'two', 'three'
-  ];
+  category: any;
 
   btnDisabled = false;
 
@@ -79,12 +77,12 @@ export class ModalAddGoodComponent implements OnInit {
       if (this.price) {
         if (this.preview_url) {
           if (this.tags.length > 0) {
-            if (this.type) {
+            if (this.category) {
               return true;
             } else {
               this
                 .data
-                .addToast('Ошибка', 'Укажите тип товара', 'error');
+                .addToast('Ошибка', 'Укажите категорию товара', 'error');
               return false;
             }
           } else {
@@ -113,6 +111,10 @@ export class ModalAddGoodComponent implements OnInit {
     }
   }
 
+  updateCategory(category: any) {
+    this.category = category;
+  }
+
   async createGood() {
     if (this.validate()) {
       this.btnDisabled = true;
@@ -129,7 +131,7 @@ export class ModalAddGoodComponent implements OnInit {
           price: this.price,
           picture: data['file'],
           tags: this.tags.map(item => item['value']),
-          type: this.type
+          category: this.category['_id']
         });
 
         if (resp['meta'].success) {

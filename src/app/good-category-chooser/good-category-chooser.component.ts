@@ -1,34 +1,27 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {StoreCategoryChooserComponent} from '../store-category-chooser/store-category-chooser.component';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RestApiService} from '../rest-api.service';
 import {DataService} from '../data.service';
 
 @Component({
   selector: 'app-good-category-chooser',
   templateUrl: './good-category-chooser.component.html',
-  styleUrls: ['./good-category-chooser.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => GoodCategoryChooserComponent),
-      multi: true
-    }
-  ]
+  styleUrls: ['./good-category-chooser.component.scss']
 })
-export class GoodCategoryChooserComponent implements OnInit, ControlValueAccessor {
+export class GoodCategoryChooserComponent implements OnInit {
 
-  dropdown_menu = false;
+  menu_visible = false;
 
   categories: Array<any>;
 
   new_category_name: string;
 
+  @Input('category')
+  category: any;
+
   selected_category = {};
 
-  onChange = (value: any) => {};
-
-  onTouch = () => {};
+  @Output('categoryChanged')
+  categoryChanged = new EventEmitter();
 
   constructor(
     private data: DataService,
@@ -38,21 +31,24 @@ export class GoodCategoryChooserComponent implements OnInit, ControlValueAccesso
   async ngOnInit() {
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
+
+    this.selected_category = this.category || {};
   }
 
   selectCategory(category: any) {
-    this.selected_category = category;
     this.hideMenu();
-    this.onChange(this.selected_category);
+    if (this.selected_category['_id'] !== category['_id']) {
+      this.selected_category = category;
+      this.categoryChanged.emit(this.selected_category);
+    }
   }
 
   toggleMenu() {
-    this.dropdown_menu = !this.dropdown_menu;
-    this.onTouch();
+    this.menu_visible = !this.menu_visible;
   }
 
   hideMenu() {
-    this.dropdown_menu = false;
+    this.menu_visible = false;
   }
 
   async addNewCategory() {
@@ -83,27 +79,6 @@ export class GoodCategoryChooserComponent implements OnInit, ControlValueAccesso
       this
         .data
         .addToast('Ошибка', error.toString(), 'error');
-    }
-  }
-
-  get value() {
-    return this.selected_category;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  writeValue(obj: any): void {
-    if (obj && obj.name && obj.user) {
-      this.selectCategory(obj);
     }
   }
 
