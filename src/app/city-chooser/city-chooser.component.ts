@@ -31,7 +31,7 @@ export class CityChooserComponent implements OnInit {
 
   @Input('city')
   set city(city: any) {
-    this.selected_city = city;
+    this.selected_city = city || this.selected_city;
   }
 
   async ngOnInit() {

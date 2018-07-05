@@ -53,6 +53,7 @@ import { StoreCategoryChooserComponent } from './store-category-chooser/store-ca
 import { StoreCardComponent } from './store-card/store-card.component';
 import { StoresListComponent } from './stores-list/stores-list.component';
 import { GoodCategoryChooserComponent } from './good-category-chooser/good-category-chooser.component';
+import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { GoodCategoryChooserComponent } from './good-category-chooser/good-categ
     StoreCategoryChooserComponent,
     StoreCardComponent,
     StoresListComponent,
-    GoodCategoryChooserComponent
+    GoodCategoryChooserComponent,
+    ModalEditStoreContactsComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -119,7 +121,8 @@ import { GoodCategoryChooserComponent } from './good-category-chooser/good-categ
     ModalDeleteGoodComponent,
     ModalAddParameterComponent,
     ModalUnavailableGoodsComponent,
-    ModalEditStoreCredentialsComponent
+    ModalEditStoreCredentialsComponent,
+    ModalEditStoreContactsComponent
   ]
 })
 export class AppModule {

@@ -58,37 +58,32 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
   }
 
   validate() {
-    if (this.city) {
-      if (this.category) {
-        if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
-          this.resident_type === 'individual' && this.tax_num.length === 12
+    if (this.category) {
+      if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
+        this.resident_type === 'individual' && this.tax_num.length === 12
+      ) {
+        if (this.resident_type === 'entity' && this.state_num ||
+          this.resident_type === 'individual'
         ) {
-          if (this.resident_type === 'entity' && this.state_num ||
-            this.resident_type === 'individual'
+          if (this.bank_type === 'card' && this.bank_num.length === 16 ||
+            this.bank_type === 'num' && this.bank_num.length === 20
           ) {
-            if (this.bank_type === 'card' && this.bank_num.length === 16 ||
-              this.bank_type === 'num' && this.bank_num.length === 20
-            ) {
-              return true;
-            } else {
-              this
-                .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
-            }
+            return true;
           } else {
             this
-              .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
+              .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
           }
         } else {
           this
-            .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
+            .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
         }
       } else {
         this
-          .data.addToast('Ошибка', 'Вы не выбрали категорию!', 'error');
+          .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
       }
     } else {
       this
-        .data.addToast('Ошибка', 'Вы не выбрали город!', 'error');
+        .data.addToast('Ошибка', 'Вы не выбрали категорию!', 'error');
     }
 
     return false;
@@ -156,7 +151,6 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
     try {
       if (this.validate()) {
         const ok = (await this.updateResidentInfo()) &&
-          (await this.updateCity()) &&
           (await this.updateCategory());
         if (ok) {
           this.closeModal();

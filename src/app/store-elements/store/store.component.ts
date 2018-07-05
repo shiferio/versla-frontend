@@ -10,6 +10,7 @@ import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-del
 import {consoleTestResultHandler} from 'tslint/lib/test';
 import {CartService} from '../../cart.service';
 import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
+import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 
 @Component({
   selector: 'app-store',
@@ -494,6 +495,18 @@ export class StoreComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ModalEditStoreCredentialsComponent);
 
     modalRef.componentInstance.storeInfo = this.info;
+
+    modalRef.result.then( async () => {
+      await this.getStoreInfo(this.link);
+    }).catch(() => {});
+  }
+
+  openEditStoreContacts() {
+    const modalRef = this.modalService.open(ModalEditStoreContactsComponent);
+
+    modalRef.componentInstance.contacts = this.info.contacts;
+    modalRef.componentInstance.link = this.info.link;
+    modalRef.componentInstance.city = this.info.city;
 
     modalRef.result.then( async () => {
       await this.getStoreInfo(this.link);
