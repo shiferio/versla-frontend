@@ -171,4 +171,7 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
     this.btnDisabled = false;
   }
 
+  onCategoryChanged(category: any) {
+    this.category = category;
+  }
 }

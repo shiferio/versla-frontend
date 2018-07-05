@@ -23,7 +23,11 @@
 
   <div class="form-group">
     <label for="category">Выберите категорию магазина</label>
-    <app-store-category-chooser id="category" [(ngModel)]="category"></app-store-category-chooser>
+    <app-store-category-chooser
+      id="category"
+      [category]="category"
+      (categoryChanged)="updateCategory($event)"
+    ></app-store-category-chooser>
   </div>
 
   <div class="form-group">
