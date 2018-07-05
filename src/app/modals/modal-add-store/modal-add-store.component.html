@@ -18,7 +18,11 @@
 
   <div class="form-group">
     <label for="city">Выберите город</label>
-    <app-city-chooser id="city" [(ngModel)]="city"></app-city-chooser>
+    <app-city-chooser
+      id="city"
+      [city]="city"
+      (cityChanged)="updateCity($event)"
+    ></app-city-chooser>
   </div>
 
   <div class="form-group">

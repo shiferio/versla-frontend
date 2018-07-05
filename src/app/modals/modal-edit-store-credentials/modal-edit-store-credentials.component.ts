@@ -174,4 +174,8 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
   onCategoryChanged(category: any) {
     this.category = category;
   }
+
+  onCityChanged(city: any) {
+    this.city = city;
+  }
 }

@@ -68,6 +68,10 @@ export class ModalRegistrationComponent implements OnInit {
     return false;
   }
 
+  updateCity(city: any) {
+    this.city = city;
+  }
+
   async register() {
     this.btnDisabled = true;
     try {

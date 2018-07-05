@@ -231,9 +231,9 @@ export class GoodComponent implements OnInit {
   }
 
   async updateCategory(category: any) {
-    this.info.category = category;
+    this.info.city = category;
     try {
-      this.editMode.category = false;
+      this.editMode.city = false;
       const resp = await this.rest.updateGoodInfo(this.info._id, 'category', {
         good_id: this.info._id,
         category: this.info.category._id
@@ -246,7 +246,7 @@ export class GoodComponent implements OnInit {
 
         await this.getGoodInfo();
 
-        this.editMode.category = false;
+        this.editMode.city = false;
       } else {
         this
           .data

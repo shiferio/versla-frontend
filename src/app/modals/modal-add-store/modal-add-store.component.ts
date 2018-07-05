@@ -96,6 +96,10 @@ export class ModalAddStoreComponent implements OnInit {
     this.category = category;
   }
 
+  updateCity(city: any) {
+    this.city = city;
+  }
+
   async createStore() {
     this.btnDisabled = true;
 

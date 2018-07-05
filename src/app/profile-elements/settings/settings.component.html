@@ -14,7 +14,10 @@
     </div>
     <div class="form-group" *ngIf="currentSettings">
       <label class="form-control-label">Город</label>
-      <app-city-chooser [(ngModel)]="currentSettings.city"></app-city-chooser>
+      <app-city-chooser
+        [city]="currentSettings.city"
+        (cityChanged)="onCityChanged($event)"
+      ></app-city-chooser>
     </div>
     <div class="form-group">
         <label class="form-control-label">Телефон</label>

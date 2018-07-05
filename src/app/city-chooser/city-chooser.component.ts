@@ -1,23 +1,15 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DataService} from '../data.service';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 
 @Component({
   selector: 'app-city-chooser',
   templateUrl: './city-chooser.component.html',
-  styleUrls: ['./city-chooser.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CityChooserComponent),
-      multi: true
-    }
-  ]
+  styleUrls: ['./city-chooser.component.scss']
 })
-export class CityChooserComponent implements OnInit, ControlValueAccessor {
+export class CityChooserComponent implements OnInit {
 
-  dropdown_menu = false;
+  menu_visible = false;
 
   cities: Array<any>;
 
@@ -25,14 +17,22 @@ export class CityChooserComponent implements OnInit, ControlValueAccessor {
 
   selected_city = {};
 
-  onChange = (value: any) => {};
-
-  onTouch = () => {};
+  @Output('cityChanged')
+  cityChanged = new EventEmitter();
 
   constructor(
     private data: DataService,
     private rest: RestApiService
   ) { }
+
+  get city(): any {
+    return this.selected_city;
+  }
+
+  @Input('city')
+  set city(city: any) {
+    this.selected_city = city;
+  }
 
   async ngOnInit() {
     const resp = await this.rest.getAllCities();
@@ -40,18 +40,19 @@ export class CityChooserComponent implements OnInit, ControlValueAccessor {
   }
 
   selectCity(city: any) {
-    this.selected_city = city;
     this.hideMenu();
-    this.onChange(this.selected_city);
+    if (this.selected_city['_id'] !== city['_id']) {
+      this.selected_city = city;
+      this.cityChanged.emit(this.selected_city);
+    }
   }
 
   toggleMenu() {
-    this.dropdown_menu = !this.dropdown_menu;
-    this.onTouch();
+    this.menu_visible = !this.menu_visible;
   }
 
   hideMenu() {
-    this.dropdown_menu = false;
+    this.menu_visible = false;
   }
 
   async addNewCity() {
@@ -86,24 +87,4 @@ export class CityChooserComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  get value() {
-    return this.selected_city;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  writeValue(obj: any): void {
-    if (obj && obj.name && obj.location) {
-      this.selectCity(obj);
-    }
-  }
 }

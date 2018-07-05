@@ -12,11 +12,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this
-      .data
-      .getProfile();
-
-    Object.assign(this.currentSettings, this.data.user);
+    await this.loadProfile();
   }
 
   validate(settings) {
@@ -27,6 +23,18 @@ export class SettingsComponent implements OnInit {
         .data
         .error('Email is not entered.');
     }
+  }
+
+  async loadProfile() {
+    await this
+      .data
+      .getProfile();
+
+    Object.assign(this.currentSettings, this.data.user);
+  }
+
+  onCityChanged(city: any) {
+    this.currentSettings.city = city;
   }
 
   async update() {
@@ -44,9 +52,7 @@ export class SettingsComponent implements OnInit {
           });
 
         if (data['meta'].success) {
-          await this
-            .data
-            .getProfile();
+          await this.loadProfile();
 
           this
             .data
