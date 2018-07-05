@@ -18,6 +18,35 @@ export class CartService {
   ) {
   }
 
+  private isValuesEqual(values1: Array<any>, values2: Array<any>) {
+    const cmp = (a, b) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    };
+
+    values1 = values1.sort(cmp);
+    values2 = values2.sort(cmp);
+
+    if (values1.length !== values2.length) {
+      return false;
+    }
+
+    for (let i = 0; i < values1.length; ++i) {
+      if (values1[i].name !== values2[i].name ||
+        values1[i].value !== values2[i].value
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   async saveCart() {
     const data = this.cart.map(good => ({
       good_id: good.good_id,
@@ -45,11 +74,21 @@ export class CartService {
   async addItemToCart(good_id: string, quantity: number, values: Array<any>) {
     quantity = quantity || 1;
 
-    this.cart.push({
-      good_id: good_id,
-      quantity: quantity,
-      values: values
-    });
+    const index = this
+      .cart
+      .findIndex(item => {
+        return !!(item.good_id === good_id &&
+          this.isValuesEqual(item.values, values));
+      });
+    if (index !== -1) {
+      this.cart[index].quantity += quantity;
+    } else {
+      this.cart.push({
+        good_id: good_id,
+        quantity: quantity,
+        values: values
+      });
+    }
 
     await this.saveCart();
   }
