@@ -156,15 +156,20 @@ a.cart-link:hover {
 }
 
 .city {
-  border-left: 1px solid #556c75;
-  /* Border on the left */
-  width: 1px;
-  /* Width instead of height */
   height: 35px;
   padding-left: 13px;
   padding-top: 6px;
   color: #556c75;
   font-size: 15pt;
+  /* line 1 pixel width, length of "Some content" */
+}
+
+.separator {
+  border-left: 1px solid #556c75;
+  /* Border on the left */
+  width: 1px;
+  /* Width instead of height */
+  height: 35px;
   /* line 1 pixel width, length of "Some content" */
 }
 
