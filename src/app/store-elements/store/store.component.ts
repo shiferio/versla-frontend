@@ -434,30 +434,6 @@ export class StoreComponent implements OnInit, OnDestroy {
         .data
         .addToast('Ошибка', error['meta'].message, 'error');
     }
-
-    try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'contacts', {
-        link: this.link,
-        address: this.address
-      });
-
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
-
-        await this.getStoreInfo(this.link);
-        this.editMode.name = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
-    } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['meta'].message, 'error');
-    }
   }
 
   get isCreator(): boolean {

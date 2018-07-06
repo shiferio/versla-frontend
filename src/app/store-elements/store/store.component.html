@@ -193,23 +193,21 @@
     <div class="row">
       <div class="col-md-6 contacts" *ngIf="info">
         <h2 class="mb-5 contact-title">Контакты</h2>
-        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreContacts()">Редактировать
-          контакты
-        </button>
-        <div>
+
+        <div *ngIf="info.contacts.phone">
           <div class="d-flex align-items-center">
             <div class="icon"><i class="fa fa-phone"></i></div>
-            <div class="contact-text">{{info.contacts.phone}}</div>
+            <div class="contact-text">{{ info.contacts.phone }}</div>
           </div>
         </div>
         <!-- /contact -->
 
         <!-- contact -->
         <div>
-          <div class="contact">
+          <div *ngIf="info.contacts.email" class="contact">
             <div class="d-flex align-items-center">
-              <i class=" fa fa-envelope"></i>
-              <div class="contact-text">{{info.contacts.email}}</div>
+              <div class="icon"><i class=" fa fa-envelope"></i></div>
+              <div class="contact-text">{{ info.contacts.email }}</div>
             </div>
 
 
@@ -219,18 +217,31 @@
 
         <!-- contact -->
         <div>
-          <div class="contact">
+          <div *ngIf="info.contacts.address" class="contact">
             <div class="d-flex align-items-center">
-              <i class="fa fa-map-marker"></i>
-              <div class="contact-text">{{info.contacts.address}}</div>
+              <div class="icon"><i class="fa fa-map-marker"></i></div>
+              <div class="contact-text">{{ info.contacts.address }}</div>
             </div>
 
 
           </div>
         </div>
-        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать
-          данные
-        </button>
+        <div class="input-group">
+          <div class="input-group-prepend">
+          <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">
+            Редактировать
+            данные
+          </button>
+          </div>
+          <div class="input-group-append">
+            <button *ngIf="isCreator" type="button" class="btn btn-main"
+                    (click)="openEditStoreContacts()">Редактировать
+              контакты
+            </button>
+          </div>
+        </div>
+
+
       </div>
       <div class="col-md-6">
         <div *ngIf="!editMode.location">
