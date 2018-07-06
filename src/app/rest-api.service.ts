@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import qs from 'qs';
 
 const API_URL = 'http://api.versla.ru';
 
@@ -419,9 +420,10 @@ export class RestApiService {
       .toPromise();
   }
 
-  searchGoodsByAnyField(page: number, size: number, query: string) {
+  searchGoodsByAnyField(page: number, size: number, query: string, filter: any) {
     const params = new HttpParams()
-      .append('query', query);
+      .append('query', query)
+      .append('filter', qs.stringify(filter));
 
     return this
       .http

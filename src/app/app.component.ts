@@ -89,19 +89,18 @@ export class AppComponent implements OnInit {
   }
 
   async openSearch() {
-    await this.onSearchChange(this.query);
-  }
-
-  async onSearchChange(value: string) {
     if (this.router.url !== '/search') {
       await this
         .router
         .navigate(['search']);
     }
+    await this.onSearchChange(this.query);
+  }
 
-    this.search.onSearchChanged.next({
-      name: value
-    });
+  async onSearchChange(value: string) {
+    if (this.router.url === '/search') {
+      this.search.onSearchChanged.next(value);
+    }
   }
 
   get availableCities(): Array<any> {
