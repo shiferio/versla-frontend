@@ -21,6 +21,8 @@ export class NewCommentComponent implements OnInit {
 
   text = '';
 
+  rating = 0;
+
   constructor(
     private data: DataService
   ) { }
@@ -29,19 +31,26 @@ export class NewCommentComponent implements OnInit {
   }
 
   validate(): boolean {
-    if (this.title) {
-      if (this.text) {
-        return true;
+    if (this.rating !== 0) {
+      if (this.title) {
+        if (this.text) {
+          return true;
+        } else {
+          this
+            .data
+            .addToast('Ошибка', 'Коментарий не может быть пустым', 'error');
+          return false;
+        }
       } else {
         this
           .data
-          .addToast('Ошибка', 'Коментарий не может быть пустым', 'error');
+          .addToast('Ошибка', 'Введите заголовок коментария', 'error');
         return false;
       }
     } else {
       this
         .data
-        .addToast('Ошибка', 'Введите заголовок коментария', 'error');
+        .addToast('Рейтинг не может быть пустым', '', 'error');
       return false;
     }
   }
@@ -51,6 +60,7 @@ export class NewCommentComponent implements OnInit {
       this.onCommentAdded.emit({
         good_id: this.good_id,
         comment_id: this.comment_id,
+        rating: this.rating,
         title: this.title,
         text: this.text
       });

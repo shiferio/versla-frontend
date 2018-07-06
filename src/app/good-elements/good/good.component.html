@@ -113,8 +113,10 @@
               Добавить новый параметр
             </button>
           </p>
-          <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-          4.0 stars
+          <p>
+            <ngb-rating [(rate)]="info.rating" max="5" [readonly]="true"></ngb-rating>
+
+          </p>
           <p class="card-text">
             <tag-input
               id="tags"

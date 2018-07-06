@@ -20,6 +20,8 @@ export class GoodComponent implements OnInit {
 
   info: any = {};
 
+  rating: number;
+
   new_tags = [];
 
   store_info: any = {};
@@ -64,6 +66,7 @@ export class GoodComponent implements OnInit {
   async getGoodInfo() {
     const resp = await this.rest.getGoodById(this.good_id);
     this.info = resp['data']['good'];
+    this.rating = this.info.rating;
     this.info.tags = this.info.tags.filter(item => item != null);
     this.new_tags = this.info.tags.slice();
   }
@@ -77,6 +80,43 @@ export class GoodComponent implements OnInit {
     return this.info && this.data.user && this.info.creator_id._id === this.data.user._id;
   }
 
+  get isRegistered(): boolean {
+    return this.info && this.data.user._id;
+  }
+
+  async updateRating() {
+    if (this.info.rating) {
+      try {
+        console.log(this.rating);
+        const resp = await this.rest.updateGoodInfo(this.info._id, 'rating', {
+          good: this.info._id,
+          rate: this.rating
+        });
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Ура!', resp['meta'].message, 'success');
+
+          await this.getGoodInfo();
+
+          this.editMode.name = false;
+        } else {
+          this
+            .data
+            .addToast('Ошибка', resp['meta'].message, 'error');
+        }
+      } catch (error) {
+        this
+          .data
+          .addToast('Ошибка', error['meta'].message, 'error');
+      }
+    } else {
+      this
+        .data
+        .addToast('Ошибка', 'Название товара не может быть пустой строкой', 'error');
+    }
+  }
   async updateName() {
     if (this.info.name) {
       try {
@@ -319,12 +359,14 @@ export class GoodComponent implements OnInit {
     try {
       console.log({
         title: commentInfo.title,
+        rating: commentInfo.rating,
         type: 1,
         text: commentInfo.text,
         good_id: this.info._id
       });
       const resp = await this.rest.addComment({
         title: commentInfo.title,
+        rating: commentInfo.rating,
         type: 1,
         text: commentInfo.text,
         good_id: this.info._id
