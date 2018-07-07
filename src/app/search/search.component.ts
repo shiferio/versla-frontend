@@ -25,6 +25,23 @@ export class SearchComponent implements OnInit {
     name: 'Все'
   };
 
+  cities = [];
+
+  selected_city: any;
+
+  default_city = {
+    all: true,
+    name: 'Все'
+  };
+
+  rating = 0;
+
+  page_size = 4;
+
+  selected_page = 1;
+
+  total = 0;
+
   constructor(
     private search: SearchService,
     private rest: RestApiService,
@@ -32,16 +49,33 @@ export class SearchComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    await this.loadCategories();
+    await this.loadCities();
+
+    this.resetSearch();
+
     this.search.onSearchChanged.subscribe(async (query) => {
       this.query = query;
       await this.loadSearchResults();
     });
+  }
 
-    await this.loadCategories();
-
+  resetSearch() {
     this.filter = {};
+
     this.categories.splice(0, 0, this.default_category);
     this.selected_category = this.categories[0];
+
+    this.cities.splice(0, 0, this.default_city);
+    const index = this.cities.findIndex(city => city['_id'] === this.data.getPreferredCity()['_id']);
+    this.selected_city = this.cities[index];
+    this.filter['city'] = this.selected_city['_id'];
+
+    this.filter['rating'] = this.rating;
+  }
+
+  resetPagination() {
+    this.selected_page = 1;
   }
 
   get noResults(): boolean {
@@ -50,10 +84,13 @@ export class SearchComponent implements OnInit {
 
   async loadSearchResults() {
     try {
-      const resp = await this.rest.searchGoodsByAnyField(0, 6, this.query, this.filter);
+      const resp = await this
+        .rest
+        .searchGoodsByAnyField(this.selected_page, this.page_size, this.query, this.filter);
 
       if (resp['meta'].success) {
         this.goods = resp['data']['goods'];
+        this.total = resp['data']['total'];
       } else {
         this
             .data
@@ -80,6 +117,36 @@ export class SearchComponent implements OnInit {
       }
     }
 
+    this.resetPagination();
+    await this.loadSearchResults();
+  }
+
+  async filterByCity() {
+    if (this.selected_city) {
+      if (this.selected_city['all']) {
+        delete this.filter['city'];
+      } else {
+        this.filter['city'] = this.selected_city['_id'];
+      }
+    }
+
+    this.resetPagination();
+    await this.loadSearchResults();
+  }
+
+  async loadCities() {
+    const resp = await this.rest.getAllCities();
+    this.cities = resp['data']['cities'];
+  }
+
+  async filterByRating() {
+    this.filter['rating'] = this.rating;
+
+    this.resetPagination();
+    await this.loadSearchResults();
+  }
+
+  async moveToPage() {
     await this.loadSearchResults();
   }
 }

@@ -17,8 +17,28 @@
               </option>
             </select>
           </div>
-          <a href="#" class="list-group-item">Фильтр 2</a>
-          <a href="#" class="list-group-item">Фильтр 3</a>
+          <div class="list-group-item">
+            <label for="city">Город</label>
+            <select
+              id="city"
+              class="custom-select"
+              (change)="filterByCity()"
+              [(ngModel)]="selected_city"
+            >
+              <option *ngFor="let city of cities" [ngValue]="city">
+                {{city.name}}
+              </option>
+            </select>
+          </div>
+          <div class="list-group-item">
+            Рейтинг
+            <ngb-rating
+              [(rate)]="rating"
+              [resettable]="true"
+              [max]="5"
+              (rateChange)="filterByRating()"
+            ></ngb-rating>
+          </div>
         </div>
       </div>
       <div class="col-lg-9">
@@ -33,6 +53,15 @@
               <app-good-list [good]="good"></app-good-list>
             </li>
           </ul>
+          <ngb-pagination
+            class="d-flex justify-content-center"
+            [boundaryLinks]="true"
+            [collectionSize]="total"
+            [pageSize]="page_size"
+            [(page)]="selected_page"
+            [maxSize]="5"
+            (pageChange)="moveToPage()"
+          ></ngb-pagination>
         </div>
       </div>
     </div>
