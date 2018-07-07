@@ -23,6 +23,8 @@ export class AppComponent implements OnInit {
 
   city_menu = false;
 
+  categories = [];
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -45,6 +47,9 @@ export class AppComponent implements OnInit {
       });
 
     await this.cart.loadCart();
+
+    const resp = await this.rest.getAllGoodCategories();
+    this.categories = resp['data']['categories'];
   }
 
   openModalLogin() {

@@ -58,12 +58,20 @@
         <div class="row">
             <div class="col-md-12 search-container">
                 <div class="input-group">
-                    <div class="btn-cats">
-                        <a data-toggle="dropdown" aria-expanded="false">
+                    <div ngbDropdown class="btn-cats">
+                        <a
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                          ngbDropdownToggle
+                          id="categoriesMenu"
+                        >
                             <i class="fa fa-bars"></i> Категории
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu">
-
+                        <div class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="categoriesMenu">
+                          <button
+                            *ngFor="let category of categories"
+                            class="dropdown-item"
+                          >{{category.name}}</button>
                         </div>
                     </div>
                     <div class="search-wrap">
