@@ -68,7 +68,10 @@ export class GoodCardComponent implements OnInit {
 
   async deleteGood() {
     try {
-      const resp = await this.rest.deleteGood(this.good._id);
+      const resp = await this.rest.updateGoodInfo(this.good._id, 'available', {
+        good_id: this.good._id,
+        is_available: false
+      });
 
       if (resp['meta'].success) {
         this
