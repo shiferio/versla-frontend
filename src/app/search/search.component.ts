@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
 import {RestApiService} from '../rest-api.service';
 import {SearchService} from '../search.service';
 import {DataService} from '../data.service';
@@ -8,7 +8,7 @@ import {DataService} from '../data.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterContentInit {
 
   goods = [];
 
@@ -38,6 +38,8 @@ export class SearchComponent implements OnInit {
 
   total = 0;
 
+  pricing = [10, 1000];
+
   constructor(
     public search: SearchService,
     private rest: RestApiService,
@@ -47,7 +49,11 @@ export class SearchComponent implements OnInit {
 
   async ngOnInit() {
 
+  }
+
+  async ngAfterContentInit() {
     await this.initialize();
+    this.loadFilters();
 
     this.search.result.subscribe(data => {
       this.goods = data['goods'];
@@ -63,10 +69,15 @@ export class SearchComponent implements OnInit {
     this.categories.splice(0, 0, this.default_category);
 
     this.cities.splice(0, 0, this.default_city);
+  }
+
+  loadFilters() {
     const cityIndex = this
       .cities
       .findIndex(city => city['_id'] === this.search.city['_id']);
     this.city = this.cities[cityIndex >= 0 ? cityIndex : 0];
+
+    this.rating = this.search.rating;
   }
 
   resetPagination() {
@@ -130,5 +141,28 @@ export class SearchComponent implements OnInit {
 
   moveToPage() {
     this.search.invoke(this.page_number, this.page_size);
+  }
+
+  filterByPrice() {
+    this.search.pricing = {
+      min: this.pricing[0],
+      max: this.pricing[1]
+    };
+
+    this.resetPagination();
+    this.search.invoke(this.page_number, this.page_size);
+  }
+
+  priceChanged() {
+    // for ngx-rslide
+    this.pricing = [this.pricing[0], this.pricing[1]];
+    this.filterByPrice();
+  }
+
+  resetFilters() {
+    this.resetPagination();
+    this.search.reset();
+    this.loadFilters();
+    this.search.invoke(0, this.page_size);
   }
 }

@@ -46,6 +46,39 @@
               (rateChange)="filterByRating()"
             ></ngb-rating>
           </div>
+          <div class="list-group-item">
+            Цена<br>
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">От</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[0]"
+              >
+            </div>
+            <div class="input-group" style="margin-bottom: 40px;">
+              <div class="input-group-prepend"><span class="input-group-text">До</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[1]"
+              >
+            </div>
+            <ngx-rslide
+              [step]="1"
+              [min]="0"
+              [max]="10000"
+              [(values)]="pricing"
+              (valuesChange)="filterByPrice()"
+            ></ngx-rslide>
+          </div>
+          <div class="list-group-item">
+            <button type="button" class="btn btn-main" (click)="resetFilters()">Сбросить фильтры</button>
+          </div>
         </div>
       </div>
       <div class="col-lg-9">

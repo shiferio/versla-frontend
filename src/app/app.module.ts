@@ -54,6 +54,7 @@ import { StoreCardComponent } from './store-card/store-card.component';
 import { StoresListComponent } from './stores-list/stores-list.component';
 import { GoodCategoryChooserComponent } from './good-category-chooser/good-category-chooser.component';
 import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
+import {SliderModule} from 'ngx-rslide';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-conta
     }),
     Ng4GeoautocompleteModule.forRoot(),
     NgxMaskModule.forRoot(),
-    ClickOutsideModule
+    ClickOutsideModule,
+    SliderModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
