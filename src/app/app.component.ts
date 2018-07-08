@@ -8,11 +8,16 @@ import {DataService} from './data.service';
 import {CartService} from './cart.service';
 import {SearchService} from './search.service';
 import {RestApiService} from './rest-api.service';
+import {BehaviorSubject} from 'rxjs';
+import {SearchFieldService} from './search-field.service';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit {
+
   title = 'app';
+
   public isCollapsed = true;
+
   goods_count = 0;
 
   cart_sub: any;
@@ -31,7 +36,9 @@ export class AppComponent implements OnInit {
     private data: DataService,
     private search: SearchService,
     private rest: RestApiService,
-    private cart: CartService) {
+    private cart: CartService,
+    private searchField: SearchFieldService
+  ) {
   }
 
   async ngOnInit() {
@@ -94,7 +101,7 @@ export class AppComponent implements OnInit {
   }
 
   async openSearch() {
-    if (this.router.url !== '/search') {
+    if (!this.router.url.startsWith('/search')) {
       this.search.reset();
       await this
         .router
@@ -106,8 +113,7 @@ export class AppComponent implements OnInit {
 
   onSearchChange(value: string) {
     if (this.router.url.startsWith('/search')) {
-      this.search.query = value;
-      this.search.invoke(0);
+      this.searchField.query_changed.next(value);
     }
   }
 
@@ -134,14 +140,15 @@ export class AppComponent implements OnInit {
   }
 
   async openSearchByCategory(category: any) {
-    if (this.router.url !== '/search') {
-      this.search.reset();
+    if (!this.router.url.startsWith('/search')) {
       await this
         .router
         .navigate(['search']);
     }
-
+    this.search.reset();
     this.search.category = category;
-    this.onSearchChange('');
+    this.search.invoke(0);
+
+    this.searchField.search_by_category.next(category);
   }
 }

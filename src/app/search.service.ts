@@ -13,6 +13,11 @@ export class SearchService {
     'total': 0
   });
 
+  invoked = new BehaviorSubject({
+    query: '',
+    filter: {}
+  });
+
   private _filter: any;
 
   private _query: string;
@@ -46,6 +51,10 @@ export class SearchService {
   get filter(): any {
     const obj = {};
     return Object.assign(obj, this._filter);
+  }
+
+  set filter(value: any) {
+    this._filter = Object.assign({}, value);
   }
 
   get category() {
@@ -97,6 +106,13 @@ export class SearchService {
 
     this._filter['min_price'] = min;
     this._filter['max_price'] = max;
+  }
+
+  update_url() {
+    this.invoked.next({
+      query: this.query,
+      filter: this.filter
+    });
   }
 
   invoke(pageNumber: number, pageSize: number = null) {
