@@ -72,8 +72,31 @@ export class SearchService {
     }
   }
 
+  get rating() {
+    if (this._filter['rating']) {
+      return this._filter['rating'];
+    } else {
+      return 0;
+    }
+  }
+
   set rating(value: number) {
     this._filter['rating'] = value;
+  }
+
+  get pricing() {
+    return {
+      min: this._filter['min_price'] || 0,
+      max: this._filter['max_price'] || Number.MAX_VALUE
+    };
+  }
+
+  set pricing(value: any) {
+    const min = value['min'] || 0;
+    const max = value['max'] || Number.MAX_VALUE;
+
+    this._filter['min_price'] = min;
+    this._filter['max_price'] = max;
   }
 
   invoke(pageNumber: number, pageSize: number = null) {
