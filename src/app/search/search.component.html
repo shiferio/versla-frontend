@@ -10,10 +10,14 @@
               id="category"
               class="custom-select"
               (change)="filterByCategory()"
-              [(ngModel)]="selected_category"
+              [(ngModel)]="category"
             >
-              <option *ngFor="let category of categories" [ngValue]="category">
-                {{category.name}}
+              <option
+                *ngFor="let item of categories"
+                [ngValue]="item"
+                [selected]="item['_id'] === selected_category['_id']"
+              >
+                {{item.name}}
               </option>
             </select>
           </div>
@@ -23,10 +27,13 @@
               id="city"
               class="custom-select"
               (change)="filterByCity()"
-              [(ngModel)]="selected_city"
+              [(ngModel)]="city"
             >
-              <option *ngFor="let city of cities" [ngValue]="city">
-                {{city.name}}
+              <option
+                *ngFor="let item of cities"
+                [ngValue]="item"
+              >
+                {{item.name}}
               </option>
             </select>
           </div>
@@ -58,7 +65,7 @@
             [boundaryLinks]="true"
             [collectionSize]="total"
             [pageSize]="page_size"
-            [(page)]="selected_page"
+            [(page)]="page_number"
             [maxSize]="5"
             (pageChange)="moveToPage()"
           ></ngb-pagination>

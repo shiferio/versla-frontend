@@ -95,16 +95,19 @@ export class AppComponent implements OnInit {
 
   async openSearch() {
     if (this.router.url !== '/search') {
+      this.search.reset();
       await this
         .router
         .navigate(['search']);
     }
-    await this.onSearchChange(this.query);
+
+    this.onSearchChange(this.query);
   }
 
-  async onSearchChange(value: string) {
-    if (this.router.url === '/search') {
-      this.search.onSearchChanged.next(value);
+  onSearchChange(value: string) {
+    if (this.router.url.startsWith('/search')) {
+      this.search.query = value;
+      this.search.invoke(0);
     }
   }
 
@@ -128,5 +131,17 @@ export class AppComponent implements OnInit {
     this.hideCityMenu();
 
     await this.data.setPreferredCity(city);
+  }
+
+  async openSearchByCategory(category: any) {
+    if (this.router.url !== '/search') {
+      this.search.reset();
+      await this
+        .router
+        .navigate(['search']);
+    }
+
+    this.search.category = category;
+    this.onSearchChange('');
   }
 }

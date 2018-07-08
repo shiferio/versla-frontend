@@ -71,6 +71,7 @@
                           <button
                             *ngFor="let category of categories"
                             class="dropdown-item"
+                            (click)="openSearchByCategory(category)"
                           >{{category.name}}</button>
                         </div>
                     </div>
