@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs';
 import {RestApiService} from './rest-api.service';
 import {DataService} from './data.service';
 import {Router} from '@angular/router';
-import {stringify} from 'querystring';
+import {parse, stringify} from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,8 @@ export class SearchService {
   private _filter: any;
 
   private _query: string;
+
+  private _url: string;
 
   constructor(
     private rest: RestApiService,
@@ -61,7 +63,7 @@ export class SearchService {
   }
 
   get category() {
-    return { '_id': this._filter['category'] };
+    return {'_id': this._filter['category']};
   }
 
   set category(value: any) {
@@ -73,7 +75,7 @@ export class SearchService {
   }
 
   get city() {
-    return { '_id': this._filter['city'] };
+    return {'_id': this._filter['city']};
   }
 
   set city(value: any) {
@@ -112,14 +114,34 @@ export class SearchService {
   }
 
   navigate() {
-    this.router.navigate(['/search'], {
+    const urlTree = this.router.createUrlTree(['/search'], {
       queryParams: {
         query: this.query,
         filter: stringify(this.filter)
       }
-    })
-      .then(() => {})
-      .catch(() => {});
+    });
+    const url = this.router.serializeUrl(urlTree);
+
+    this
+      .router
+      .navigateByUrl(urlTree)
+      .then((success) => {
+        if (success) {
+          this._url = url;
+        }
+      })
+      .catch(() => {
+      });
+  }
+
+  set url(value: string) {
+    if (this._url !== value && value.startsWith('/search')) {
+      const params = this.router.parseUrl(value).queryParamMap;
+      this.reset();
+      this.query = params.get('query') || '';
+      this.filter = parse(params.get('filter') || '');
+      this._url = value;
+    }
   }
 
   invoke(query: string, filter: string, pageNumber: number, pageSize: number = null) {

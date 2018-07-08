@@ -23,6 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   cart_sub: Subscription;
 
+  route_sub: Subscription;
+
   url = '';
 
   query = '';
@@ -60,17 +62,17 @@ export class AppComponent implements OnInit, OnDestroy {
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
 
-    const params = this.route.snapshot.queryParamMap;
-
-    this.search.reset();
-    this.search.query = params.get('query') || '';
-    this.search.filter = parse(params.get('filter') || '');
-
-    this.query = this.search.query;
+    this.route_sub = this
+      .route
+      .queryParamMap
+      .subscribe(params => {
+        this.query = params.get('query') || '';
+      });
   }
 
   ngOnDestroy() {
     this.cart_sub.unsubscribe();
+    this.route_sub.unsubscribe();
   }
 
   openModalLogin() {

@@ -5,6 +5,7 @@ import {DataService} from '../data.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SearchFieldService} from '../search-field.service';
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-search',
@@ -65,9 +66,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.total = data['total'];
     });
 
-    this.query_params_sub = this.route.queryParamMap.subscribe(params => {
-      const query = params.get('query') || '';
-      const filter = params.get('filter') || '';
+    this.query_params_sub = this.route.queryParamMap.subscribe(() => {
+      this.search.url = this.router.url;
+
+      const query = this.search.query;
+      const filter = stringify(this.search.filter);
 
       this.loadFilters();
       this.search.invoke(query, filter, this.page_number, this.page_size);
