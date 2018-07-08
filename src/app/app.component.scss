@@ -36,3 +36,7 @@ a {
 .city-dropdown {
   padding-left: 3px;
 }
+
+.dropdown-toggle::after {
+  display:none;
+}
