@@ -420,10 +420,10 @@ export class RestApiService {
       .toPromise();
   }
 
-  searchGoodsByAnyField(page: number, size: number, query: string, filter: any) {
+  searchGoodsByAnyField(page: number, size: number, query: string, filter: string) {
     const params = new HttpParams()
       .append('query', query)
-      .append('filter', qs.stringify(filter));
+      .append('filter', filter);
 
     return this
       .http

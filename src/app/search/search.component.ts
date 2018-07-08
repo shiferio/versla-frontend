@@ -1,10 +1,9 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {RestApiService} from '../rest-api.service';
 import {SearchService} from '../search.service';
 import {DataService} from '../data.service';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {stringify, parse} from 'querystring';
 import {SearchFieldService} from '../search-field.service';
 
 @Component({
@@ -46,13 +45,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   result_sub: Subscription;
 
-  invoked_sub: Subscription;
-
-  query_field_sub: Subscription;
-
   query_params_sub: Subscription;
-
-  category_sub: Subscription;
 
   constructor(
     public search: SearchService,
@@ -72,59 +65,18 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.total = data['total'];
     });
 
-    this.invoked_sub = this.search.invoked.subscribe(async (data) => {
-      await this.router.navigate(
-        [],
-        {
-          relativeTo: this.route,
-          queryParams: {
-            query: data['query'],
-            filter: stringify(data['filter'])
-          }
-        }
-      );
-    });
+    this.query_params_sub = this.route.queryParamMap.subscribe(params => {
+      const query = params.get('query') || '';
+      const filter = params.get('filter') || '';
 
-    this.query_field_sub = this.searchField.query_changed.subscribe(query => {
-      this.search.query = query;
       this.loadFilters();
-      this.search.invoke(this.page_number, this.page_size);
+      this.search.invoke(query, filter, this.page_number, this.page_size);
     });
-
-    this.category_sub = this.searchField.search_by_category.subscribe(category => {
-      this.loadFilters();
-    });
-
-    // const params = this.route.snapshot.queryParamMap;
-    // const query = params.get('query') || '';
-    // const filter = parse(params.get('filter') || '');
-    //
-    // this.search.reset();
-    // this.search.query = query;
-    // this.search.filter = filter;
-    //
-    // this.loadFilters();
-    // this.search.invoke(this.page_number, this.page_size);
-
-    // this.query_params_sub = this.route.queryParamMap.subscribe(params => {
-    //   const query = params.get('query') || '';
-    //   const filter = parse(params.get('filter') || '');
-    //
-    //   this.search.reset();
-    //   this.search.query = query;
-    //   this.search.filter = filter;
-    //
-    //   this.loadFilters();
-    //   this.search.invoke(this.page_number, this.page_size);
-    // });
   }
 
   ngOnDestroy() {
     this.result_sub.unsubscribe();
-    this.invoked_sub.unsubscribe();
-    this.query_field_sub.unsubscribe();
-    this.category_sub.unsubscribe();
-    // this.query_params_sub.unsubscribe();
+    this.query_params_sub.unsubscribe();
   }
 
   async initialize() {
@@ -171,7 +123,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     this.resetPagination();
-    this.search.invoke(this.page_number, this.page_size);
+    this.search.navigate();
   }
 
   async filterByCity() {
@@ -184,7 +136,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     this.resetPagination();
-    this.search.invoke(this.page_number, this.page_size);
+    this.search.navigate();
   }
 
   async loadCities() {
@@ -198,11 +150,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.search.rating = this.rating;
 
     this.resetPagination();
-    this.search.invoke(this.page_number, this.page_size);
+    this.search.navigate();
   }
 
   moveToPage() {
-    this.search.invoke(this.page_number, this.page_size);
+    this.search.navigate();
   }
 
   filterByPrice() {
@@ -212,7 +164,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     };
 
     this.resetPagination();
-    this.search.invoke(this.page_number, this.page_size);
+    this.search.navigate();
   }
 
   priceChanged() {
@@ -225,6 +177,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.resetPagination();
     this.search.reset();
     this.loadFilters();
-    this.search.invoke(0, this.page_size);
+    this.search.navigate();
   }
 }

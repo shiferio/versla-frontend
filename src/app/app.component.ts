@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
@@ -8,11 +8,12 @@ import {DataService} from './data.service';
 import {CartService} from './cart.service';
 import {SearchService} from './search.service';
 import {RestApiService} from './rest-api.service';
-import {BehaviorSubject} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {SearchFieldService} from './search-field.service';
+import {parse} from 'querystring';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   title = 'app';
 
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
 
   goods_count = 0;
 
-  cart_sub: any;
+  cart_sub: Subscription;
 
   url = '';
 
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
     private search: SearchService,
     private rest: RestApiService,
     private cart: CartService,
-    private searchField: SearchFieldService
+    private searchField: SearchFieldService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -57,6 +59,18 @@ export class AppComponent implements OnInit {
 
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
+
+    const params = this.route.snapshot.queryParamMap;
+
+    this.search.reset();
+    this.search.query = params.get('query') || '';
+    this.search.filter = parse(params.get('filter') || '');
+
+    this.query = this.search.query;
+  }
+
+  ngOnDestroy() {
+    this.cart_sub.unsubscribe();
   }
 
   openModalLogin() {
@@ -103,17 +117,16 @@ export class AppComponent implements OnInit {
   async openSearch() {
     if (!this.router.url.startsWith('/search')) {
       this.search.reset();
-      await this
-        .router
-        .navigate(['search']);
     }
 
-    this.onSearchChange(this.query);
+    this.search.query = this.query;
+    this.search.navigate();
   }
 
   onSearchChange(value: string) {
     if (this.router.url.startsWith('/search')) {
-      this.searchField.query_changed.next(value);
+      this.search.query = value;
+      this.search.navigate();
     }
   }
 
@@ -140,15 +153,8 @@ export class AppComponent implements OnInit {
   }
 
   async openSearchByCategory(category: any) {
-    if (!this.router.url.startsWith('/search')) {
-      await this
-        .router
-        .navigate(['search']);
-    }
     this.search.reset();
     this.search.category = category;
-    this.search.invoke(0);
-
-    this.searchField.search_by_category.next(category);
+    this.search.navigate();
   }
 }

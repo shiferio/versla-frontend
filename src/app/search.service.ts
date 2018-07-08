@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Subject, BehaviorSubject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {RestApiService} from './rest-api.service';
 import {DataService} from './data.service';
+import {Router} from '@angular/router';
+import {stringify} from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,8 @@ export class SearchService {
 
   constructor(
     private rest: RestApiService,
-    private data: DataService
+    private data: DataService,
+    private router: Router
   ) {
     this.reset();
   }
@@ -108,20 +111,24 @@ export class SearchService {
     this._filter['max_price'] = max;
   }
 
-  update_url() {
-    this.invoked.next({
-      query: this.query,
-      filter: this.filter
-    });
+  navigate() {
+    this.router.navigate(['/search'], {
+      queryParams: {
+        query: this.query,
+        filter: stringify(this.filter)
+      }
+    })
+      .then(() => {})
+      .catch(() => {});
   }
 
-  invoke(pageNumber: number, pageSize: number = null) {
+  invoke(query: string, filter: string, pageNumber: number, pageSize: number = null) {
     pageSize = pageSize || this.PAGE_SIZE;
 
     this
       .rest
       .searchGoodsByAnyField(
-        pageNumber, pageSize, this._query, this._filter
+        pageNumber, pageSize, query, filter
       )
       .then(resp => {
         if (resp['meta'].success) {
