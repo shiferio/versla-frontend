@@ -121,6 +121,18 @@ export class SearchService {
     this._filter['max_price'] = max;
   }
 
+  get store() {
+    return {'_id': this._filter['store']};
+  }
+
+  set store(value: any) {
+    if (value && value['_id']) {
+      this._filter['store'] = value['_id'];
+    } else {
+      delete this._filter['store'];
+    }
+  }
+
   navigate() {
     const urlTree = this.router.createUrlTree(['/search'], {
       queryParams: {

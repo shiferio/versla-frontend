@@ -11,6 +11,7 @@ import {consoleTestResultHandler} from 'tslint/lib/test';
 import {CartService} from '../../cart.service';
 import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
+import {SearchService} from '../../search.service';
 
 @Component({
   selector: 'app-store',
@@ -47,7 +48,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     private rest: RestApiService,
     private data: DataService,
     private cart: CartService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private search: SearchService
   ) {
   }
 
@@ -487,5 +489,12 @@ export class StoreComponent implements OnInit, OnDestroy {
     modalRef.result.then( async () => {
       await this.getStoreInfo(this.link);
     }).catch(() => {});
+  }
+
+  openStoreSearch() {
+    this.search.reset();
+    this.search.city = this.info.city;
+    this.search.store = { '_id': this.info._id };
+    this.search.navigate();
   }
 }

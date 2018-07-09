@@ -73,6 +73,12 @@
               <!--(valuesChange)="filterByPrice()"-->
             <!--&gt;</ngx-rslide>-->
           </div>
+          <div
+            class="list-group-item"
+            *ngIf="store"
+          >
+            {{store.name}}
+          </div>
           <div class="list-group-item">
             <button type="button" class="btn btn-main" (click)="resetFilters()">Сбросить фильтры</button>
           </div>

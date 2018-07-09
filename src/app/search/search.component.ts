@@ -44,6 +44,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   pricing = [10, 1000];
 
+  store: any;
+
   result_sub: Subscription;
 
   query_params_sub: Subscription;
@@ -65,14 +67,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.total = data['total'];
     });
 
-    this.query_params_sub = this.route.queryParamMap.subscribe(() => {
+    this.query_params_sub = this.route.queryParamMap.subscribe(async () => {
       this.search.url = this.router.url;
 
       const query = this.search.query;
       const filter = stringify(this.search.filter);
       const page_number = this.search.page_number;
 
-      this.loadFilters();
+      await this.loadFilters();
       this.search.invoke(query, filter, page_number, this.page_size);
     });
   }
@@ -92,7 +94,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     await this.loadCities();
   }
 
-  loadFilters() {
+  async loadFilters() {
     const cityIndex = this
       .cities
       .findIndex(city => city['_id'] === this.search.city['_id']);
@@ -106,6 +108,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.rating = this.search.rating;
 
     this.page_number = this.search.page_number;
+
+    if (this.search.store['_id']) {
+      const resp = await this.rest.getStoreById(this.search.store['_id']);
+      this.store = resp['data']['store'];
+    } else {
+      this.store = null;
+    }
   }
 
   resetPagination() {
@@ -186,8 +195,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   resetFilters() {
+    const store = this.search.store;
     this.resetPagination();
     this.search.reset();
+    this.search.store = store;
     this.search.navigate();
   }
 }
