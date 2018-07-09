@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import qs from 'qs';
 
-const API_URL = 'http://localhost:3030';//'http://api.versla.ru';
+const API_URL = 'http://api.versla.ru';
 
 @Injectable({providedIn: 'root'})
 export class RestApiService {
