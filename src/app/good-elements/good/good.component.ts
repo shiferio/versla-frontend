@@ -7,6 +7,7 @@ import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalAddParameterComponent} from '../../modals/modal-add-parameter/modal-add-parameter.component';
 import {CartService} from '../../cart.service';
+import {SearchService} from '../../search.service';
 
 @Component({
   selector: 'app-good',
@@ -40,7 +41,8 @@ export class GoodComponent implements OnInit {
     private rest: RestApiService,
     private data: DataService,
     private cart: CartService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private search: SearchService
   ) {
   }
 
@@ -405,5 +407,13 @@ export class GoodComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  openStoreAndCategorySearch() {
+    this.search.reset();
+    this.search.category = this.info.category;
+    this.search.store = { '_id': this.store_info._id };
+    this.search.city = { '_id': this.info.city };
+    this.search.navigate();
   }
 }

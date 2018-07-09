@@ -2,7 +2,11 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
-      <li class="breadcrumb-item"><a [routerLink]="">{{info.category ? info.category.name : '...'}}</a></li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="" (click)="openStoreAndCategorySearch()">
+          {{info.category ? info.category.name : '...'}}
+        </a>
+      </li>
       <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info._id}}">{{ info.name }}</li>
     </ol>
   </nav>
