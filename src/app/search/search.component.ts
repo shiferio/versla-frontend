@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Compiler} from '@angular/core';
 import {RestApiService} from '../rest-api.service';
 import {SearchService} from '../search.service';
 import {DataService} from '../data.service';
@@ -53,8 +53,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private rest: RestApiService,
     private data: DataService,
     private route: ActivatedRoute,
-    private router: Router,
-    private searchField: SearchFieldService
+    private router: Router
   ) {
   }
 
@@ -81,9 +80,14 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.result_sub.unsubscribe();
     this.query_params_sub.unsubscribe();
+    this.search.reset();
+    this.goods = [];
+    this.total = 0;
   }
 
   async initialize() {
+    this.goods = [];
+    this.total = 0;
     await this.loadCategories();
     await this.loadCities();
   }

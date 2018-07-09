@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {RestApiService} from './rest-api.service';
 import {DataService} from './data.service';
 import {Router} from '@angular/router';
@@ -10,15 +10,7 @@ import {parse, stringify} from 'querystring';
 })
 export class SearchService {
 
-  result = new BehaviorSubject({
-    'goods': [],
-    'total': 0
-  });
-
-  invoked = new BehaviorSubject({
-    query: '',
-    filter: {}
-  });
+  result = new Subject();
 
   private _filter: any;
 
@@ -37,8 +29,10 @@ export class SearchService {
   reset() {
     this._filter = {};
     this._query = '';
+    this._url = '';
 
     this.city = this.data.getPreferredCity();
+    this.page_number = 1;
   }
 
   get PAGE_SIZE() {
