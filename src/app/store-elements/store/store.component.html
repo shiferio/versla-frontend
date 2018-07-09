@@ -1,5 +1,13 @@
+
 <header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background"
         [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
+  <ngx-spinner
+    bdColor = "rgba(255,255,255,0.8)"
+    size = "large"
+    color = "#00b5eb"
+    type = "ball-pulse"
+    loadingText="Загрузка магазина"
+  ></ngx-spinner>
   <div class="storeoverlay">
     <ngx-loading [show]="editMode.logo"></ngx-loading>
     <ngx-loading [show]="editMode.background"></ngx-loading>
@@ -185,7 +193,9 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-main" (click)="openStoreSearch()">Больше товаров</button>
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-add" (click)="openStoreSearch()">Больше товаров</button>
+    </div>
   </div>
 </section>
 

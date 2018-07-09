@@ -1,20 +1,44 @@
+<ngx-spinner
+  bdColor = "rgba(255,255,255,0.8)"
+  size = "large"
+  color = "#00b5eb"
+  type = "ball-pulse"
+  loadingText="Загрузка профиля"
+></ngx-spinner>
 <div class="profilepos">
     <h4>Мои заказы</h4>
 </div>
+
 <div *ngIf="orders.length === 0">
   <div class="text-center">
     <h5>У вас еще нет заказов</h5>
     <img height="100px" src="assets/img/box.svg" />
   </div>
 </div>
-<ul *ngIf="orders.length !== 0" class="list-group">
+
+<ul *ngIf="orders.length !== 0" class="list-group orders-list">
   <li
     class="list-group-item"
     *ngFor="let order of orders"
   >
-    <img [src]="order.good.picture">
-    <h4><a routerLink="/good/{{order.good._id}}">{{ order.good.name }}</a></h4>
-    <p>Кол-во: {{ order.quantity | fixedFloat: 0 }}</p>
-    <p>Цена: {{order.price * order.quantity}} ₽</p>
+
+    <div>
+      <div class="img-good">
+        <a [routerLink]="['/good', order.good._id]">
+          <img [src]="order.good.picture"  class="img-image-good">
+        </a>
+      </div>
+
+      <div class="desc-good">
+        <a class="links" [routerLink]="['/good', order.good._id]">
+          <h5>{{order.good.name}}</h5>
+        </a>
+        <p>Количество: {{ order.quantity | fixedFloat: 0 }}</p>
+        Цена:
+        <div class="price">
+          {{order.price * order.quantity}} ₽
+        </div>
+      </div>
+    </div>
   </li>
 </ul>

@@ -46,7 +46,7 @@ export class ModalAddGoodComponent implements OnInit {
 
   get shopOwnerProfit(): string {
     if (isNaN(this.price)) {
-      return '0';
+      return '0.00';
     } else {
       const profit: number = this.price * 0.97;
       return profit.toFixed(2);

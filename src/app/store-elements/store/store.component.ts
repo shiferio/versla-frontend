@@ -13,6 +13,7 @@ import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-
 import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 import {SearchService} from '../../search.service';
 import {SearchFieldService} from '../../search-field.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-store',
@@ -51,7 +52,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     private cart: CartService,
     private modalService: NgbModal,
     private search: SearchService,
-    private searchField: SearchFieldService
+    private searchField: SearchFieldService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -89,11 +91,13 @@ export class StoreComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.sub = this.route.params.subscribe(async (params) => {
       this.link = params['link'];
+      this.spinner.show();
       await this.getStoreInfo(this.link);
       this.searchField.reset();
       this.searchField.store();
       this.searchField.show();
       this.searchField.store_info = this.info;
+      this.spinner.hide();
     });
   }
 

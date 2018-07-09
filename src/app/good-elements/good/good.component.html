@@ -1,4 +1,11 @@
 <div class="container">
+  <ngx-spinner
+    bdColor = "rgba(255,255,255,0.8)"
+    size = "large"
+    color = "#00b5eb"
+    type = "ball-pulse"
+    loadingText="Загрузка товара"
+  ></ngx-spinner>
   <nav aria-label="breadcrumb" *ngIf="!unavailable && info">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
@@ -168,7 +175,7 @@
               <ul class="nav nav-tabs">
                 <li class="nav-item p-b-10">
                   <a
-                    class="nav-link"
+                    class="nav-link tabs"
                     [class.active]="additionalTabPane === 'description'"
                     data-toggle="tab"
                     (click)="additionalTabPane = 'description'"
@@ -176,19 +183,19 @@
                   >Описание</a>
                 </li>
 
-                <li class="nav-item p-b-10">
-                  <a
-                    class="nav-link"
-                    [class.active]="additionalTabPane === 'information'"
-                    data-toggle="tab"
-                    (click)="additionalTabPane = 'information'"
-                    role="tab"
-                  >Дополнительная информация</a>
-                </li>
+                <!--<li class="nav-item p-b-10">-->
+                  <!--<a-->
+                    <!--class="nav-link tabs"-->
+                    <!--[class.active]="additionalTabPane === 'information'"-->
+                    <!--data-toggle="tab"-->
+                    <!--(click)="additionalTabPane = 'information'"-->
+                    <!--role="tab"-->
+                  <!--&gt;Дополнительная информация</a>-->
+                <!--</li>-->
 
                 <li class="nav-item p-b-10">
                   <a
-                    class="nav-link"
+                    class="nav-link tabs"
                     [class.active]="additionalTabPane === 'reviews'"
                     data-toggle="tab"
                     (click)="additionalTabPane = 'reviews'"
@@ -246,18 +253,19 @@
                     class="list-group-item"
                   >
                     <div class="ava">
-                      <img [src]="comment.creator_id.picture" class="rounded-circle" height="50px">
+                      <img [src]="comment.creator_id.picture" class="rounded-circle" height="50px" width="50px">
                     </div>
                     <div class="comment">
-                      <p class="mb-1"><b>{{ comment.creator_id.first_name }} {{ comment.creator_id.last_name }}</b></p>
-                      <p class="mb-1">{{ comment.title }}</p>
+                      <p *ngIf="comment.creator_id.first_name || comment.creator_id.last_name" class="mb-1">Имя: <b>{{ comment.creator_id.first_name }} {{ comment.creator_id.last_name }}</b></p>
+                      <p class="mb-1">Заголовок: <br/> {{ comment.title }}</p>
 
-                      <p class="mb-1">{{ comment.text }}</p>
-                      <!--<ngb-rating [rate]="comment.rating"></ngb-rating>-->
+                      <p class="mb-1">Отзыв: <br/> {{ comment.text }}</p>
+                      <ngb-rating max="5" [readonly]="true" [rate]="comment.rating"></ngb-rating>
+                      <p class="mb-1">Дата: {{ comment.created | date: 'dd.mm.yyyy'}}</p>
                     </div>
                   </li>
                 </ul>
-                <div class="mt-5">
+                <div *ngIf="isWritingAvailable" class="mt-5">
                   <app-new-comment
                     [comment_id]=""
                     [good_id]="info._id"

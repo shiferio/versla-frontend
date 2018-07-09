@@ -14,7 +14,7 @@
                 [routerLink]=""
                 (click)="collapsed[item._id] = !collapsed[item._id]"
               >
-                Подробнее {{collapsed[item._id] ? '⮝' : '⮟'}}
+                Параметры <!--{{collapsed[item._id] ? '⮝' : '⮟'}}-->
               </a>
               <div [ngbCollapse]="collapsed[item._id]">
                 <app-item-params
@@ -68,9 +68,10 @@
                   <br>
                   <a
                     [routerLink]=""
+                    class="links"
                     (click)="collapsed[item._id] = !collapsed[item._id]"
                   >
-                    Подробнее {{collapsed[item._id] ? '⮝' : '⮟'}}
+                    Параметры <!--{{collapsed[item._id] ? '⮝' : '⮟'}}-->
                   </a>
                   <div [ngbCollapse]="collapsed[item._id]">
                     <app-item-params
@@ -79,7 +80,7 @@
                     ></app-item-params>
                   </div>
                 </td>
-                <td><a routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a></td>
+                <td><a class="links" routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a></td>
                 <td>{{ item.good.is_available ? 'Доступен': 'Не доступен'}}</td>
                 <td>
                   <app-integer-counter

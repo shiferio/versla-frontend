@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 
 @Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
 export class ModalLoginComponent implements OnInit {
-  email = '';
+  phone = '';
   password = '';
   btnDisabled = false;
 
@@ -24,7 +24,7 @@ export class ModalLoginComponent implements OnInit {
   }
 
   validate() {
-    if (this.email) {
+    if (this.phone) {
       if (this.password) {
         return true;
       } else {
@@ -33,7 +33,7 @@ export class ModalLoginComponent implements OnInit {
       }
     } else {
       this
-        .data.addToast('Ошибка', 'Вы не ввели email!', 'error');
+        .data.addToast('Ошибка', 'Вы не ввели номер телефона!', 'error');
     }
   }
 
@@ -45,7 +45,7 @@ export class ModalLoginComponent implements OnInit {
         const data = await this
           .rest
           .loginUser({
-            email: this.email,
+            phone: this.phone,
             password: this.password
           });
         if (data['meta'].success) {

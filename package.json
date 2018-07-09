@@ -31,6 +31,7 @@
     "ngx-loading": "^1.0.14",
     "ngx-mask": "^2.9.3",
     "ngx-rslide": "0.0.4",
+    "ngx-spinner": "^6.0.0",
     "ngx-toasty": "^1.0.0",
     "npm": "^6.1.0",
     "qs": "^6.5.2",

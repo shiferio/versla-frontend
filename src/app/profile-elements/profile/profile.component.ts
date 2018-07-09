@@ -5,17 +5,18 @@ import {Router, NavigationEnd} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({selector: 'app-profile', templateUrl: './profile.component.html', styleUrls: ['./profile.component.scss']})
 export class ProfileComponent implements OnInit {
   tabNum = 1;
 
-  constructor(public data: DataService, private router: Router, private rest: RestApiService) {
+  constructor(public data: DataService, private router: Router, private rest: RestApiService, private spinner: NgxSpinnerService) {
     this
       .data
       .getProfile();
 
-    router
+    this.router
       .events
       .subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -44,8 +45,7 @@ export class ProfileComponent implements OnInit {
     return this.tabNum === tabNum;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async fileChange(event) {
     const fileList: FileList = event.target.files;

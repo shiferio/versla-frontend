@@ -152,6 +152,8 @@ export class SearchService {
       })
       .catch(() => {
       });
+
+    return false;
   }
 
   set url(value: string) {

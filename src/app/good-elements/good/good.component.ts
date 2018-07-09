@@ -8,6 +8,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalAddParameterComponent} from '../../modals/modal-add-parameter/modal-add-parameter.component';
 import {CartService} from '../../cart.service';
 import {SearchService} from '../../search.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-good',
@@ -43,11 +44,13 @@ export class GoodComponent implements OnInit {
     private data: DataService,
     private cart: CartService,
     private modalService: NgbModal,
-    private search: SearchService
+    private search: SearchService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     await this.data.getProfile();
 
     this.sub = this.route.params.subscribe(async (params) => {
@@ -58,9 +61,28 @@ export class GoodComponent implements OnInit {
         await this.getCommentsForGood();
         await this.getStoreInfo();
       }
-    });
 
+    });
+    this.spinner.hide();
     this.additionalTabPane = 'description';
+  }
+
+  get isCommented(): boolean {
+    if (this.isRegistered) {
+      const count = this.commentsForGood.length;
+
+      for (let i = 0; i < count; i++) {
+        if (this.commentsForGood[i].creator_id._id === this.data.user._id) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  get isWritingAvailable(): boolean {
+    return !this.isCommented && this.isRegistered;
   }
 
   async getCommentsForGood() {
@@ -93,7 +115,7 @@ export class GoodComponent implements OnInit {
   }
 
   get isRegistered(): boolean {
-    return this.info && this.data.user._id;
+    return this.info && this.data.user !== null && this.data.user !== undefined;
   }
 
   async updateRating() {

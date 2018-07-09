@@ -55,6 +55,7 @@ import { StoresListComponent } from './stores-list/stores-list.component';
 import { GoodCategoryChooserComponent } from './good-category-chooser/good-category-chooser.component';
 import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 import {SliderModule} from 'ngx-rslide';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import {SliderModule} from 'ngx-rslide';
     Ng4GeoautocompleteModule.forRoot(),
     NgxMaskModule.forRoot(),
     ClickOutsideModule,
-    SliderModule
+    SliderModule,
+    NgxSpinnerModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService

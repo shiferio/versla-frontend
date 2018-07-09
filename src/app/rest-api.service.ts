@@ -58,6 +58,12 @@ export class RestApiService {
       .toPromise();
   }
 
+  subscribe(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/subscription/subscribe`, body)
+      .toPromise();
+  }
   getUserProfile() {
     return this
       .http

@@ -7,7 +7,13 @@
                     с Versla</h1>
             </div>
             <div class="col-md-10">
-                <h5>This is how ProGears will change the world. Again</h5>
+                <h5>Вы продавец? Теперь создать свой интернет-магазин, получить первых клиентов и составить портрет потребителей ваших товаров можно в два клика!
+                </h5>
+              <h5>
+              <p>
+                Вы покупатель? Ищите и покупайте все товары в одном маркетплейсе!
+              </p>
+              </h5>
             </div>
         </div>
     </div>
@@ -80,8 +86,8 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="input-group">
-                      <input type="text" class="text-subscribe" placeholder="Введите Ваш Email" />
-                      <div class="input-group-append"><button type="button" class="btn btn-main">Подписаться</button></div>
+                      <input type="text" class="text-subscribe" [(ngModel)]="email" placeholder="Введите Ваш Email" />
+                      <div class="input-group-append"><button type="button" (click)="subscribe()" class="btn btn-main">Подписаться</button></div>
                 </div>
 
             </div>

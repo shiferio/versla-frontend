@@ -131,6 +131,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.goods.length === 0;
   }
 
+  get loading(): boolean {
+    return this.goods === null && this.goods === undefined;
+  }
+
   async loadCategories() {
     const resp = await this.rest.getAllGoodCategories();
     const categories = resp['data']['categories'];

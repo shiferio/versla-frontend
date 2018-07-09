@@ -6,7 +6,7 @@
   </div>
 
   <div class="desc-good">
-    <a [routerLink]="['/good', good._id]">
+    <a class="links" [routerLink]="['/good', good._id]">
       <h5>{{good.name}}</h5>
     </a>
     <p *ngIf="good.short_description" >{{good.short_description}}</p>
@@ -18,8 +18,7 @@
   <div class="card-bottom">
     <div class="card-icons">
       <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart()"/>
-      <img height="15px" class="card-icon" src="assets/img/like.svg"/>
-      <div ngbDropdown class="d-inline-block">
+      <div *ngIf="isCreator"  ngbDropdown class="d-inline-block">
         <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button
