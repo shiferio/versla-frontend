@@ -108,8 +108,8 @@ export class SearchService {
 
   get pricing() {
     return {
-      min: this._filter['min_price'] || 0,
-      max: this._filter['max_price'] || Number.MAX_VALUE
+      min: this._filter['min_price'],
+      max: this._filter['max_price']
     };
   }
 
