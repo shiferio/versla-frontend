@@ -23,7 +23,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   cart_sub: Subscription;
 
-  route_sub: Subscription;
+  query_params_sub: Subscription;
+
+  route_params_sub: Subscription;
 
   url = '';
 
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private search: SearchService,
     private rest: RestApiService,
     private cart: CartService,
-    private searchField: SearchFieldService,
+    public searchField: SearchFieldService,
     private route: ActivatedRoute
   ) {
   }
@@ -62,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
 
-    this.route_sub = this
+    this.query_params_sub = this
       .route
       .queryParamMap
       .subscribe(params => {
@@ -72,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.cart_sub.unsubscribe();
-    this.route_sub.unsubscribe();
+    this.query_params_sub.unsubscribe();
   }
 
   openModalLogin() {
@@ -117,11 +119,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async openSearch() {
+    const type = this.searchField.selected;
     if (!this.router.url.startsWith('/search')) {
       this.search.reset();
     }
 
     this.search.query = this.query;
+    if (type === this.searchField.dropdown_menu[1] && this.dropdownVisible) {
+      this.search.store = { '_id': this.searchField.store_info._id };
+    }
     this.search.navigate();
   }
 
@@ -138,6 +144,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   get preferredCity(): any {
     return this.data.getPreferredCity();
+  }
+
+  get dropdownVisible(): boolean {
+    return this.searchField.dropdown_visible;
   }
 
   toggleCityMenu() {

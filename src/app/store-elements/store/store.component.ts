@@ -12,6 +12,7 @@ import {CartService} from '../../cart.service';
 import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 import {SearchService} from '../../search.service';
+import {SearchFieldService} from '../../search-field.service';
 
 @Component({
   selector: 'app-store',
@@ -49,7 +50,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     private data: DataService,
     private cart: CartService,
     private modalService: NgbModal,
-    private search: SearchService
+    private search: SearchService,
+    private searchField: SearchFieldService
   ) {
   }
 
@@ -88,11 +90,17 @@ export class StoreComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(async (params) => {
       this.link = params['link'];
       await this.getStoreInfo(this.link);
+      this.searchField.reset();
+      this.searchField.store();
+      this.searchField.show();
+      this.searchField.store_info = this.info;
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.searchField.reset();
+    this.searchField.hide();
   }
 
   async deleteLogo() {

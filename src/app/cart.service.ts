@@ -122,7 +122,7 @@ export class CartService {
 
   private async fetchItemData(cart: Array<any>) {
     return await Promise.all(cart.map(async (good) => {
-      const resp = await this.rest.getGoodById(good.good_id);
+      const resp = await this.rest.getGoodInCart(good.good_id);
       const good_info = resp['data']['good'];
 
       const new_good = Object.assign({}, good);

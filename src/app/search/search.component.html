@@ -77,7 +77,7 @@
             class="list-group-item"
             *ngIf="store"
           >
-            {{store.name}}
+            {{store.name}}<span class="ml-3" [routerLink]="" (click)="resetStore()">X</span>
           </div>
           <div class="list-group-item">
             <button type="button" class="btn btn-main" (click)="resetFilters()">Сбросить фильтры</button>

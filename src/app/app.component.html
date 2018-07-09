@@ -82,6 +82,26 @@
                         placeholder="Введите название товара, магазина или услуги"
                         [(ngModel)]="query"
                         (input)="onSearchChange($event.target.value)"/>
+                      <div class="btn-group" ngbDropdown role="group" *ngIf="dropdownVisible">
+                        <button class="btn btn-main dropdown-toggle-split" ngbDropdownToggle>{{searchField.selected}}</button>
+                        <div
+                          class="dropdown-menu"
+                          ngbDropdownMenu
+                        >
+                          <button
+                            class="dropdown-item"
+                            (click)="searchField.everywhere()"
+                          >
+                            {{searchField.dropdown_menu[0]}}
+                          </button>
+                          <button
+                            class="dropdown-item"
+                            (click)="searchField.store()"
+                          >
+                            {{searchField.dropdown_menu[1]}}
+                          </button>
+                        </div>
+                      </div>
                       <button type="button" class="btn btn-search input-group-append" (click)="openSearch()">
                         <i class="fa fa-search"></i>
                       </button>

@@ -19,7 +19,7 @@ export class GoodComponent implements OnInit {
 
   good_id: string;
 
-  info: any = {};
+  info: any;
 
   rating: number;
 
@@ -35,6 +35,7 @@ export class GoodComponent implements OnInit {
 
   userParams = {};
 
+  unavailable = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +54,10 @@ export class GoodComponent implements OnInit {
       this.good_id = params['good_id'];
 
       await this.getGoodInfo();
-      await this.getCommentsForGood();
-      await this.getStoreInfo();
+      if (!this.unavailable) {
+        await this.getCommentsForGood();
+        await this.getStoreInfo();
+      }
     });
 
     this.additionalTabPane = 'description';
@@ -68,9 +71,13 @@ export class GoodComponent implements OnInit {
   async getGoodInfo() {
     const resp = await this.rest.getGoodById(this.good_id);
     this.info = resp['data']['good'];
-    this.rating = this.info.rating;
-    this.info.tags = this.info.tags.filter(item => item != null);
-    this.new_tags = this.info.tags.slice();
+    if (this.info) {
+      this.rating = this.info.rating;
+      this.info.tags = this.info.tags.filter(item => item != null);
+      this.new_tags = this.info.tags.slice();
+    } else {
+      this.unavailable = true;
+    }
   }
 
   async getStoreInfo() {
@@ -79,7 +86,10 @@ export class GoodComponent implements OnInit {
   }
 
   get isCreator(): boolean {
-    return this.info && this.data.user && this.info.creator_id._id === this.data.user._id;
+    return this.info &&
+      this.data.user &&
+      this.info.creator_id &&
+      this.info.creator_id._id === this.data.user._id;
   }
 
   get isRegistered(): boolean {

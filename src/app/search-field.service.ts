@@ -6,9 +6,37 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class SearchFieldService {
 
-  query_changed = new BehaviorSubject('');
+  dropdown_visible = false;
 
-  search_by_category = new BehaviorSubject({});
+  dropdown_menu = [
+    'Везде', 'В этом магазине'
+  ];
+
+  selected: string;
+
+  store_info: any;
+
+  reset() {
+    this.dropdown_visible = false;
+    this.selected = this.dropdown_menu[0];
+    this.store_info = null;
+  }
+
+  show() {
+    this.dropdown_visible = true;
+  }
+
+  hide() {
+    this.dropdown_visible = false;
+  }
+
+  everywhere() {
+    this.selected = this.dropdown_menu[0];
+  }
+
+  store() {
+    this.selected = this.dropdown_menu[1];
+  }
 
   constructor() { }
 

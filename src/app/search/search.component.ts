@@ -206,4 +206,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.search.store = store;
     this.search.navigate();
   }
+
+  resetStore() {
+    this.search.store = null;
+    this.resetPagination();
+    this.search.navigate();
+  }
 }

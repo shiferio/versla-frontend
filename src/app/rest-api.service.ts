@@ -402,6 +402,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getGoodInCart(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/goods/cart/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   searchGoodsByAllFields(page: number, size: number, query: any) {
     let params = new HttpParams();
 
