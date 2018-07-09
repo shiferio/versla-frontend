@@ -45,6 +45,20 @@ export class SearchService {
     return 5;
   }
 
+  get page_number(): number {
+    if (this._filter['page_number']) {
+      return this._filter['page_number'];
+    } else {
+      return 0;
+    }
+  }
+
+  set page_number(value: number) {
+    if (value > 0) {
+      this._filter['page_number'] = value;
+    }
+  }
+
   get query(): string {
     return this._query;
   }

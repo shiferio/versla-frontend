@@ -71,9 +71,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       const query = this.search.query;
       const filter = stringify(this.search.filter);
+      const page_number = this.search.page_number;
 
       this.loadFilters();
-      this.search.invoke(query, filter, this.page_number, this.page_size);
+      this.search.invoke(query, filter, page_number, this.page_size);
     });
   }
 
@@ -99,10 +100,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.category = this.categories[categoryIndex >= 0 ? categoryIndex : 0];
 
     this.rating = this.search.rating;
+
+    this.page_number = this.search.page_number;
   }
 
   resetPagination() {
     this.page_number = 1;
+    this.search.page_number = this.page_number;
   }
 
   get noResults(): boolean {
@@ -157,6 +161,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   moveToPage() {
+    this.search.page_number = this.page_number;
     this.search.navigate();
   }
 
@@ -179,7 +184,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   resetFilters() {
     this.resetPagination();
     this.search.reset();
-    this.loadFilters();
     this.search.navigate();
   }
 }
