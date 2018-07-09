@@ -115,6 +115,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     } else {
       this.store = null;
     }
+
+    this.pricing = [
+      this.search.pricing['min'] || 10,
+      this.search.pricing['max'] || 1000
+    ];
   }
 
   resetPagination() {
