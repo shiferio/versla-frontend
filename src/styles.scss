@@ -68,6 +68,10 @@ header.masthead h1 {
   }
 }
 
+.top-bar {
+  height: 25px;
+}
+
 .profilepos {
   padding-right: 40px;
   padding-left: 40px;
@@ -257,6 +261,10 @@ a.links:hover {
   background: #fafafa;
 }
 
+.bg-dark-gray {
+  background: #383838;
+}
+
 .bg-white {
   background: #ffffff;
 }
@@ -291,10 +299,39 @@ a.nav-link:hover {
   color: #fff !important;
 }
 
+.btn-top {
+  font-size: 10px !important;
+  height: 20px !important;
+}
+
+.btn-red {
+  margin-left: 3px;
+  background: #d1372c !important;
+  border: 1px solid #9c0013 !important;
+}
+
+.btn-red:hover,
+.btn-red:focus,
+.btn-red.active {
+  background: #a73429 !important;
+  color: #fff !important;
+}
+
 .btn-dropdown {
   border-radius: 0px !important;
 }
 
+.top-right {
+  display: inline-block;
+  float: right;
+}
+.top-left {
+  margin-top: 3px;
+  color: #FFFFFF;
+  font-size: 12px;
+  display: inline-block;
+  float: left;
+}
 
 .subscribe-text {
   color: #00b5eb;

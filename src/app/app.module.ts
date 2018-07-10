@@ -56,6 +56,8 @@ import { GoodCategoryChooserComponent } from './good-category-chooser/good-categ
 import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 import {SliderModule} from 'ngx-rslide';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
+import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     StoreCardComponent,
     StoresListComponent,
     GoodCategoryChooserComponent,
-    ModalEditStoreContactsComponent
+    ModalEditStoreContactsComponent,
+    ModalSendErrorComponent,
+    ModalSendFeatureComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -126,7 +130,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ModalAddParameterComponent,
     ModalUnavailableGoodsComponent,
     ModalEditStoreCredentialsComponent,
-    ModalEditStoreContactsComponent
+    ModalEditStoreContactsComponent,
+    ModalSendErrorComponent,
+    ModalSendFeatureComponent
   ]
 })
 export class AppModule {

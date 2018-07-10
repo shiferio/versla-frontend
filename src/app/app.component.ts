@@ -11,6 +11,8 @@ import {RestApiService} from './rest-api.service';
 import {Subscription} from 'rxjs';
 import {SearchFieldService} from './search-field.service';
 import {parse} from 'querystring';
+import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-error.component';
+import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -91,6 +93,37 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log(error);
       });
   }
+
+  openModalSendError() {
+    const modalRef = this
+      .modalService
+      .open(ModalSendErrorComponent);
+
+    modalRef
+      .result
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  openModalSendFeature() {
+    const modalRef = this
+      .modalService
+      .open(ModalSendFeatureComponent);
+
+    modalRef
+      .result
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
 
   openModalRegistration() {
     const modalRef = this

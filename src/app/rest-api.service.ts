@@ -100,6 +100,20 @@ export class RestApiService {
       .toPromise();
   }
 
+  sendError(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/errors/add`, body)
+      .toPromise();
+  }
+
+  sendFeature(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/features/add`, body)
+      .toPromise();
+  }
+
   deleteStore(link: string) {
     return this
       .http

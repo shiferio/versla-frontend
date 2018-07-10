@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title">Отправить сообщение об ошибке</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Dismiss click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <input type="email" name="email" class="form-control text-modal" placeholder="E-mail" [(ngModel)]="email">
+  </div>
+  <div class="form-group">
+    <label for="error_description">Опишите ошибку ниже:</label>
+    <textarea style="width:100%; height: 100px;" rows="7" cols="150" type="text" name="error_description" id="error_description"
+              class="form-control text-settings"
+              [(ngModel)]="text"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="button" (click)="sendError()" class="btn btn-main" [disabled]="btnDisabled">Отправить сообщение</button>
+  </div>
+</div>
