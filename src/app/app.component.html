@@ -83,7 +83,7 @@
                         [(ngModel)]="query"
                         (input)="onSearchChange($event.target.value)"/>
                       <div class="btn-group" ngbDropdown role="group" *ngIf="dropdownVisible">
-                        <button class="btn btn-main dropdown-toggle-split" ngbDropdownToggle>{{searchField.selected}}</button>
+                        <button class="btn btn-main btn-dropdown dropdown-toggle dropdown-toggle-split" ngbDropdownToggle>{{searchField.selected}}</button>
                         <div
                           class="dropdown-menu"
                           ngbDropdownMenu
