@@ -2,7 +2,7 @@
   <img class="card-img-top" [src]="good.picture" alt="Card image cap">
 </a>
 <div class="card-body">
-  <a [routerLink]="['/good', good._id]">
+  <a class="links" [routerLink]="['/good', good._id]">
     <h5 class="card-title">{{good.name}}</h5>
   </a>
   <p *ngIf="good.short_description" class="card-text">{{good.short_description}}</p>
