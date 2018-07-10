@@ -1,0 +1,16 @@
+.store-logo {
+  margin-right: 10px;
+  width: 10%;
+  min-width: 100px; }
+
+.desc-store p {
+  word-break: break-word; }
+
+.store-img {
+  max-height: 100px;
+  max-width: 100px; }
+
+h5 {
+  word-break: break-word; }
+
+/*# sourceMappingURL=store-card.component.css.map */
