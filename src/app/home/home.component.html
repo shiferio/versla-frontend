@@ -62,13 +62,10 @@
 <section class="features-icons bg-gray">
     <div class="container">
         <h2 class="mb-5 text-center">Товары</h2>
-        <div class="row">
-          <div
-            *ngFor="let good of goods"
-            class="col-lg-4 col-xs-6 good mx-auto">
-            <div class="card" style="width: 18rem;">
-              <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
-            </div>
+        <div class="items-fluid d-flex justify-content-around flex-wrap">
+          <div class="card" style="width: 18rem; margin-bottom: 25px;"
+            *ngFor="let good of goods">
+            <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
           </div>
         </div>
     </div>
