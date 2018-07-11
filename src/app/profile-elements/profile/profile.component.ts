@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('image', file, file.name);
       const data = await this.rest.uploadImage(formData);
-      console.log();
+      console.log(data);
 
       try {
         const resp = await this

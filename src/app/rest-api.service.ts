@@ -142,9 +142,7 @@ export class RestApiService {
     console.log(body);
     return this
       .http
-      .post(`http://images.versla.ru/api/upload/file`, body, {
-        headers: headers
-      })
+      .post(`http://images2.versla.ru/new.php`, body)
       .toPromise();
   }
 
