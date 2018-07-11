@@ -61,9 +61,11 @@ export class CartService {
           cart: data
         });
     } else {
-      localStorage.setItem('cart', JSON.stringify({
-        cart: data
-      }));
+      // set fictive ids
+      data.forEach((item, index) => {
+        item['_id'] = index;
+      });
+      localStorage.setItem('cart', JSON.stringify(data));
     }
 
     this.onCartChanged.next({
