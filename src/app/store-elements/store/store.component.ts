@@ -469,6 +469,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ModalAddGoodComponent);
 
     modalRef.componentInstance.store_id = this.info._id;
+    modalRef.componentInstance.city_id = this.info.city._id;
 
     modalRef.result.then((result) => {
       console.log(result);

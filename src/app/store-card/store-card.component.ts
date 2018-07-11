@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from '../data.service';
 import {RestApiService} from '../rest-api.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-store-card',
@@ -12,7 +13,8 @@ export class StoreCardComponent implements OnInit {
   store: any;
 
   constructor(private data: DataService,
-              private rest: RestApiService) { }
+              private rest: RestApiService,
+              private router: Router) { }
 
   async ngOnInit() {
   }
@@ -23,6 +25,12 @@ export class StoreCardComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  async openStore(link: string) {
+    await this
+      .router
+      .navigate(['/store', link]);
   }
 
 }

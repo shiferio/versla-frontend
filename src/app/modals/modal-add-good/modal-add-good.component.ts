@@ -14,6 +14,8 @@ export class ModalAddGoodComponent implements OnInit {
 
   store_id: string;
 
+  city_id: string;
+
   name: string;
 
   price: number;
@@ -116,6 +118,7 @@ export class ModalAddGoodComponent implements OnInit {
   }
 
   async createGood() {
+    console.log(this.city_id);
     if (this.validate()) {
       this.btnDisabled = true;
 
@@ -127,6 +130,7 @@ export class ModalAddGoodComponent implements OnInit {
       try {
         const resp = await this.rest.createGood({
           store_id: this.store_id,
+          city: this.city_id,
           name: this.name,
           price: this.price,
           picture: data['file'],

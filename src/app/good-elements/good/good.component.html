@@ -261,7 +261,7 @@
 
                       <p class="mb-1">Отзыв: <br/> {{ comment.text }}</p>
                       <ngb-rating max="5" [readonly]="true" [rate]="comment.rating"></ngb-rating>
-                      <p class="mb-1">Дата: {{ comment.created | date: 'dd.mm.yyyy'}}</p>
+                      <p class="mb-1">Дата: {{ comment.created | date: 'dd.MM.yyyy'}}</p>
                     </div>
                   </li>
                 </ul>

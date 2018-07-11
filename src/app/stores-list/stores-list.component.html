@@ -1,14 +1,10 @@
+
 <div class="container">
   <div class="row store-list">
     <div class="col-md-12">
       <div *ngIf="!noResults">
-        <h4 class="mb-5 text-center">Магазины</h4>
-
-        <ul class="list-group">
-          <li *ngFor="let store of stores" class="list-group-item">
-            <app-store-card [store]="store"></app-store-card>
-          </li>
-        </ul>
+        <h2 class="mb-5 text-center">Магазины</h2>
+        <app-store-card *ngFor="let store of stores" [store]="store"></app-store-card>
       </div>
     </div>
   </div>
