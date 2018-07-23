@@ -1,34 +1,73 @@
-<div>
-  <div class="img-good">
+<!--<div>-->
+  <!--<div class="img-good">-->
+    <!--<a [routerLink]="['/good', good._id]">-->
+      <!--<img [src]="good.picture"  class="img-image-good">-->
+    <!--</a>-->
+  <!--</div>-->
+
+  <!--<div class="desc-good">-->
+    <!--<a class="links" [routerLink]="['/good', good._id]">-->
+      <!--<h5>{{good.name}}</h5>-->
+    <!--</a>-->
+    <!--<p *ngIf="good.short_description" >{{good.short_description}}</p>-->
+    <!--<ngb-rating [(rate)]="good.rating" max="5" [readonly]="true"></ngb-rating>-->
+    <!--<div class="price">-->
+      <!--{{good.price}} ₽-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="card-bottom">-->
+    <!--<div class="card-icons">-->
+      <!--<img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart()"/>-->
+      <!--<div *ngIf="isCreator"  ngbDropdown class="d-inline-block">-->
+        <!--<img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>-->
+        <!--<div ngbDropdownMenu aria-labelledby="dropdownBasic1">-->
+          <!--<button-->
+            <!--class="dropdown-item"-->
+            <!--(click)="confirmGoodDeleting()"-->
+            <!--*ngIf="isCreator"-->
+          <!--&gt;Удалить-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+<div class="d-flex justify-content-start">
+  <div class="good-logo">
     <a [routerLink]="['/good', good._id]">
-      <img [src]="good.picture"  class="img-image-good">
+      <img [src]="good.picture" class="store-img">
     </a>
   </div>
 
-  <div class="desc-good">
-    <a class="links" [routerLink]="['/good', good._id]">
-      <h5>{{good.name}}</h5>
+  <div class="desc-good d-flex flex-column">
+    <a class="links" style="margin-right: 10px;" [routerLink]="['/good', good._id]">
+      <h5>{{ good.name }}</h5>
     </a>
     <p *ngIf="good.short_description" >{{good.short_description}}</p>
-    <div class="price">
-      {{good.price}} ₽
+    <ngb-rating [(rate)]="good.rating" max="5" [readonly]="true"></ngb-rating>
+    <div class="card-price">
+      {{ good.price | fixedFloat: 2 }} ₽
     </div>
-  </div>
 
-  <div class="card-bottom">
-    <div class="card-icons">
-      <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart()"/>
-      <div *ngIf="isCreator"  ngbDropdown class="d-inline-block">
-        <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button
-            class="dropdown-item"
-            (click)="confirmGoodDeleting()"
-            *ngIf="isCreator"
-          >Удалить
-          </button>
-        </div>
+
+    <div class="d-inline-block">
+      <div class="d-inline-block">
+          <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="addGoodToCart()"/>
+          <div *ngIf="isCreator"  ngbDropdown class="d-inline-block">
+            <img height="15px" class="card-icon" id="dropdownBasic1" ngbDropdownToggle src="assets/img/more.svg"/>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button
+                class="dropdown-item"
+                (click)="confirmGoodDeleting()"
+                *ngIf="isCreator"
+              >Удалить
+              </button>
+            </div>
+          </div>
       </div>
     </div>
+
   </div>
 </div>

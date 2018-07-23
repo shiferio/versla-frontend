@@ -60,19 +60,19 @@ export class ModalLoginComponent implements OnInit {
             .navigate(['/']);
 
           this
-            .data.addToast('Вы успешно авторизованы', data['meta'].message, 'success');
+            .data.addToast('Вы успешно авторизованы', '', 'success');
 
           this
             .activeModal
             .close();
         } else {
           this
-            .data.addToast('Ошибка', data['meta'].message, 'error');
+            .data.addToast('Не удалось авторизоваться!', '', 'error');
         }
       }
     } catch (error) {
       this
-        .data.addToast('Ошибка', error['message'], 'error');
+        .data.addToast('Не удалось авторизоваться!', '', 'error');
     }
     this.btnDisabled = false;
   }

@@ -19,13 +19,6 @@
                     <h5>{{ item.good.name }}</h5>
                   </a>
 
-                  <div [ngbCollapse]="collapsed[item._id]">
-                    <app-item-params
-                      [item]="item"
-                      [readonly]="false"
-                    ></app-item-params>
-                  </div>
-
                   <div class="card-price">
                     {{ item.good.price | fixedFloat: 2 }} ₽
                   </div>
@@ -34,10 +27,17 @@
                   </div>
                   <a
                     [routerLink]=""
+                    class="links"
                     (click)="collapsed[item._id] = !collapsed[item._id]"
                   >
                     Параметры <!--{{collapsed[item._id] ? '⮝' : '⮟'}}-->
                   </a>
+                  <div [ngbCollapse]="collapsed[item._id]">
+                    <app-item-params
+                      [item]="item"
+                      [readonly]="false"
+                    ></app-item-params>
+                  </div>
                 </div>
               </div>
               </div>

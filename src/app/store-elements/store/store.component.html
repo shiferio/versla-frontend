@@ -237,6 +237,9 @@
             </div>
           </div>
         </div>
+        <div *ngIf="!info.contacts">
+          Владелец магазина не добавил контактные данные.
+        </div>
         <div class="input-group">
           <div class="input-group-prepend">
             <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">
@@ -286,7 +289,8 @@
             </div>
           </div>
         </div>
-        <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
+
+        <agm-map *ngIf="(this.location.lat && this.location.lng) || isCreator" [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
           <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
         </agm-map>
       </div>

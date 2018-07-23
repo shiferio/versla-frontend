@@ -6,6 +6,7 @@
     <h5 class="card-title">{{good.name}}</h5>
   </a>
   <p *ngIf="good.short_description" class="card-text">{{good.short_description}}</p>
+  <ngb-rating [(rate)]="good.rating" max="5" [readonly]="true"></ngb-rating>
   <div class="card-bottom">
     <div class="card-price">
       {{good.price}} ₽
