@@ -13,6 +13,7 @@ import {SearchFieldService} from './search-field.service';
 import {parse} from 'querystring';
 import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-error.component';
 import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
+import {Title} from '@angular/platform-browser';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private rest: RestApiService,
     private cart: CartService,
     public searchField: SearchFieldService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title
   ) {
   }
 
@@ -74,6 +76,10 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  public setTitle(newTitle: string) {
+    this.titleService.setTitle( newTitle );
+  }
+
   ngOnDestroy() {
     this.cart_sub.unsubscribe();
     this.query_params_sub.unsubscribe();
@@ -97,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
   openModalSendError() {
     const modalRef = this
       .modalService
-      .open(ModalSendErrorComponent);
+      .open(ModalSendErrorComponent, { windowClass: 'modal-dialog-centered' });
 
     modalRef
       .result

@@ -1,4 +1,5 @@
 .store-logo {
+  pointer-events: none;
   margin-right: 10px;
   margin-left: 10px;
   width: 10%;
@@ -7,6 +8,7 @@
 }
 
 .desc-store {
+  pointer-events: none;
   p {
     word-break: break-word;
   }
@@ -79,20 +81,14 @@ header.storehead {
 }
 
 .storeoverlay:hover {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
   opacity: 0.4;
-  z-index: 0;
-  transition: .5s ease;
-  background-color: #000000;
 }
 
 .title {
   color: #FFFFFF;
   text-decoration: none;
+}
+
+.store-box {
+  padding-top: 20px;
 }

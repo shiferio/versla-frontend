@@ -6,7 +6,7 @@
 body {
   font-family: 'CircleRounded', Helvetica, Arial, sans-serif;
   color: #556c75;
-  min-width: 320px;
+  min-width: 350px;
 }
 
 h1,
@@ -27,7 +27,8 @@ header.masthead {
 }
 
 .navbar {
-  min-height: 80px !important
+  min-height: 80px !important;
+
 }
 
 header.masthead h1 {
@@ -66,10 +67,6 @@ header.masthead h1 {
       white-space: nowrap;
     }
   }
-}
-
-.top-bar {
-  height: 25px;
 }
 
 .profilepos {
@@ -325,16 +322,18 @@ a.nav-link:hover {
   border-radius: 0px !important;
 }
 
+.top-bar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 .top-right {
   display: inline-block;
-  float: right;
 }
 .top-left {
   margin-top: 3px;
   color: #FFFFFF;
   font-size: 12px;
   display: inline-block;
-  float: left;
 }
 
 .subscribe-text {
@@ -408,14 +407,6 @@ a.nav-link:hover {
 footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
-}
-
-.modal-open .modal {
-  display: flex !important;
-  align-items: center !important;
-  .modal-dialog {
-    flex-grow: 1;
-  }
 }
 
 //Toasty

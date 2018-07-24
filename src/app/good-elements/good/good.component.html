@@ -54,7 +54,7 @@
               <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
             </div>
             <h4 *ngIf="!editMode.price && info.price">
-              {{ info.price | fixedFloat: 2 }}
+              {{ info.price | fixedFloat: 2 }} ₽
               <label
                 *ngIf="isCreator"
                 (click)="editMode.price = true"

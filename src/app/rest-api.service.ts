@@ -143,7 +143,7 @@ export class RestApiService {
     console.log(body);
     return this
       .http
-      .post(`http://images2.versla.ru/new.php`, body)
+      .post(`http://images.versla.ru/new.php`, body)
       .toPromise();
   }
 
