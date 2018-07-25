@@ -58,6 +58,7 @@ import {SliderModule} from 'ngx-rslide';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
 import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
+import {NgChatModule} from 'ng-chat';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-sen
     NgxMaskModule.forRoot(),
     ClickOutsideModule,
     SliderModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgChatModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
