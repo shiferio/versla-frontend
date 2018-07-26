@@ -89,6 +89,6 @@ export class VerslaChatAdapter extends ChatAdapter {
   }
 
   onUserClicker(user: User): void {
-    this.chatService.markChatAsSeen(user.id);
+    // this.chatService.markChatAsSeen(user.id);
   }
 }
