@@ -136,7 +136,7 @@
 </div>
 <ng2-toasty [position]="'bottom-right'"></ng2-toasty>
 <router-outlet></router-outlet>
-<div *ngIf="isLoggedIn && !isCreator">
+<div *ngIf="isLoggedIn">
   <ng-chat
     [adapter]="chatAdapter"
     [userId]="chatUserId"
