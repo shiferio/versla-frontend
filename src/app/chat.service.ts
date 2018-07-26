@@ -12,9 +12,13 @@ export class ChatService {
 
   private apiUrl = environment.apiUrl;
 
-  private sockets = new Map<string, any>();
+  private socket: any;
 
-  chats = new BehaviorSubject<any[]>([]);
+  private chatsInfo = new Map<string, any>();
+
+  private _userId = '';
+
+  chats = new Subject<any[]>();
 
   incomingMessage = new Subject<any>();
 
@@ -22,18 +26,29 @@ export class ChatService {
     private rest: RestApiService,
     private data: DataService
   ) {
-    this.chats.subscribe(chats => {
-      this.connect(chats);
+    this.data.observableUser.subscribe(user => {
+      if (user && this._userId !== user['_id']) {
+        this._userId = user['_id'];
+        this.connect();
+      }
     });
   }
 
-  async getChatDisplayName(chat: any, userId: string) {
+  get userId(): string {
+    return this._userId;
+  }
+
+  private async getChatDisplayName(chat: any) {
+    if (this.chatsInfo.has(chat['_id'])) {
+      return this.chatsInfo.get(chat['_id'])['display_name'];
+    }
+
     const participants = chat['participants'];
 
     if (participants.length > 2) { // group chat
       return chat['display_name'];
     } else { // tet-a-tet chat
-      const index = participants.findIndex(id => id !== userId);
+      const index = participants.findIndex(id => id !== this.userId);
 
       const res = await this.rest.getUserById(participants[index]);
       if (res['meta'].success) {
@@ -44,76 +59,114 @@ export class ChatService {
     }
   }
 
-  sendMessage(chat: string, data: any, cb: (status) => void) {
-    const socket = this.sockets.get(chat);
+  private async normalizeChats(chats: Array<any>) {
+    for (const chat of chats) {
+      chat['display_name'] = await this.getChatDisplayName(chat);
+      this.chatsInfo.set(chat['_id'], chat);
+    }
+  }
 
-    socket.emit('message', data, (status) => {
+  sendMessage(data: any, cb: (status) => void) {
+    this.socket.emit('message', data, (status) => {
       console.log(status);
       cb(status);
     });
   }
 
-  connect(chats: Array<any>) {
+  markChatAsSeen(chatId: string) {
+    const data = {
+      chat: chatId,
+      user: this.userId
+    };
+
+    this.socket.emit('seen', data, (status) => {
+      console.log(status);
+    });
+  }
+
+  connect() {
     this.disconnect();
 
-    chats.forEach(chat => {
-      const socket = io.connect(`${this.apiUrl}?chat=${chat._id}`);
+    this.socket = io.connect(`${this.apiUrl}?user=${this.data.user._id}`);
 
-      socket.on('message', (data) => {
-        console.log(data);
-        this.incomingMessage.next({
-          chat: chat,
-          data: data
-        });
+    /**
+     * data: {
+     *   chat: 'chat_id',
+     *   from: 'from_id',
+     *   message: 'message'
+     * }
+     */
+    this.socket.on('message', (data) => {
+      console.log(data);
+      const {chat, from, message} = data;
+      const chatInfo = this.chatsInfo.get(chat);
+
+      this.incomingMessage.next({
+        chat: chatInfo,
+        data: {
+          from,
+          message
+        }
       });
-
-      this.sockets.set(chat._id, socket);
     });
+
+    /**
+     * data: {
+     *   chats: [chats]
+     * }
+     */
+    this.socket.on('allchats', async (data) => {
+      console.log(data);
+      const {chats} = data;
+      await this.normalizeChats(chats);
+      this.chats.next(chats);
+    });
+
+    this.updateChats();
   }
 
   disconnect() {
-    this.sockets.forEach(socket => {
-      socket.disconnect();
-    });
-
-    this.sockets.clear();
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+    this.chatsInfo.clear();
   }
 
-  async updateChats() {
-    try {
-      const res = await this.rest.getAllChats();
-      if (res['meta'].success) {
-        const chats = res['data'].chats;
-        for (const chat of chats) {
-          chat['display_name'] = await this.getChatDisplayName(chat, this.data.user._id);
-        }
-        this.chats.next(res['data'].chats);
-      }
-    } catch (error) {
+  updateChats() {
+    this
+      .rest
+      .getAllChats()
+      .then(async (res) => {
+        const chats = res['data']['chats'];
+        await this.normalizeChats(chats);
+        this.chats.next(chats);
+      })
+      .catch(err => console.log(err));
+  }
 
+  async openNewChat(toId: string) {
+    if (this.socket) {
+      const data = {
+        from: this.userId,
+        to: toId
+      };
+
+      this.socket.emit('newchat', data, (status) => {
+        console.log(status);
+      });
     }
   }
 
-  async openNewChat(user_id: string) {
-    try {
-      const res = await this.rest.openNewChat(user_id);
-      if (res['meta'].success) {
-        await this.updateChats();
-      }
-    } catch (error) {
-
-    }
-  }
-
-  getChatHistory(chat_id: string): Observable<any[]> {
+  getChatHistory(chatId: string): Observable<any[]> {
     return Observable.create(async (observer) => {
       try {
-        const res = await this.rest.getChatHistory(chat_id);
+        const res = await this.rest.getChatHistory(chatId);
         if (res['meta'].success) {
           observer.next(res['data'].history);
           observer.complete();
         } else {
-          return [];
+          console.log(res['meta'].message);
+          observer.error(res['meta'].message);
         }
       } catch (error) {
         console.log(error);

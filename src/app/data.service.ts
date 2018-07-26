@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
 import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Injectable({providedIn: 'root'})
@@ -11,6 +12,7 @@ export class DataService {
   user: any;
   stores: any;
   cities: Array<any>;
+  observableUser = new BehaviorSubject(null);
 
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
               private toastyConfig: ToastyConfig) {
@@ -91,6 +93,7 @@ export class DataService {
           .rest
           .getUserProfile();
         this.user = profile_data['data'].user;
+        this.observableUser.next(this.user);
 
         if (this.user.isSeller) {
           const storeData = await this

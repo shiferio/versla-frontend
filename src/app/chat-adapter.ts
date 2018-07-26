@@ -15,6 +15,7 @@ export class VerslaChatAdapter extends ChatAdapter {
      * message: {
      *   chat: {
      *     '_id': 'chat_id',
+     *     'display_name': 'display_name',
      *     'participants': [participants]
      *   },
      *   data: {
@@ -23,14 +24,10 @@ export class VerslaChatAdapter extends ChatAdapter {
      *   }
      * }
      */
-    this.chatService.incomingMessage.subscribe(async (message) => {
-      const displayName = await this
-        .chatService
-        .getChatDisplayName(
-          message['chat'],
-          this.data.user._id
-        );
-      const chatId = message['chat']['_id'];
+    this.chatService.incomingMessage.subscribe(async (messageData) => {
+      const chatId = messageData['chat']['_id'];
+      const displayName = messageData['chat']['display_name'];
+      const message = messageData['data']['message'];
 
       this.onMessageReceived(
         {
@@ -39,14 +36,12 @@ export class VerslaChatAdapter extends ChatAdapter {
           status: UserStatus.Online,
           avatar: null
         }, {
-          toId: this.data.user._id,
+          toId: this.chatService.userId,
           fromId: chatId,
-          message: message['data']['message']
+          message: message
         }
       );
     });
-
-    this.chatService.updateChats();
   }
 
   listFriends(): Observable<User[]> {
@@ -85,11 +80,15 @@ export class VerslaChatAdapter extends ChatAdapter {
 
   sendMessage(message: Message): void {
     this.chatService.sendMessage(
-      message.toId,
       {
+        chat: message['toId'],
         from: message['fromId'],
         message: message['message']
       },
       () => { });
+  }
+
+  onUserClicker(user: User): void {
+    this.chatService.markChatAsSeen(user.id);
   }
 }

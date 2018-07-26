@@ -144,6 +144,8 @@
     [messagePlaceholder]="'Ваше сообщение...'"
     [searchPlaceholder]="'Начните вводить имя...'"
     [maximizeWindowOnNewMessage]="false"
+    (onUserChatOpened)="chatAdapter.onUserClicker($event)"
+    (click)="chatAdapter.onUserClicker({})"
   ></ng-chat>
 </div>
 
