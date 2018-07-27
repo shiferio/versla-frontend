@@ -461,4 +461,40 @@ export class RestApiService {
       })
       .toPromise();
   }
+
+  addJointPurchase(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getJointPurchaseById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/get/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllMeasurementUnits() {
+    return this
+      .http
+      .get(`${API_URL}/api/measurementunits/get`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addMeasurementUnit(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/measurementunits/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
 }

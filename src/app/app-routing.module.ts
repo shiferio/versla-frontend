@@ -11,6 +11,8 @@ import {OrderComponent} from './order-elements/order/order.component';
 import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
 import {SearchComponent} from './search/search.component';
 import { StoresListComponent} from './stores-list/stores-list.component';
+import {JointPurchaseSearchComponent} from './joint-purchase-elements/joint-purchase-search/joint-purchase-search.component';
+import {JointPurchaseComponent} from './joint-purchase-elements/joint-purchase/joint-purchase.component';
 
 const routes: Routes = [
   {
@@ -46,7 +48,20 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    component: SearchComponent
+    children: [
+      {
+        path: '',
+        component: SearchComponent
+      },
+      {
+        path: 'purchase',
+        component: JointPurchaseSearchComponent
+      }
+    ]
+  },
+  {
+    path: 'purchase/:purchase_id',
+    component: JointPurchaseComponent
   },
   {
     path: '**',

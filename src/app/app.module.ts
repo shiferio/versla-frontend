@@ -58,6 +58,10 @@ import {SliderModule} from 'ngx-rslide';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
 import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
+import { ModalAddJointPurchaseComponent } from './modals/modal-add-joint-purchase/modal-add-joint-purchase.component';
+import { JointPurchaseSearchComponent } from './joint-purchase-elements/joint-purchase-search/joint-purchase-search.component';
+import { MeasurementUnitChooserComponent } from './measurement-unit-chooser/measurement-unit-chooser.component';
+import { JointPurchaseComponent } from './joint-purchase-elements/joint-purchase/joint-purchase.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +102,11 @@ import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-sen
     GoodCategoryChooserComponent,
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
-    ModalSendFeatureComponent
+    ModalSendFeatureComponent,
+    ModalAddJointPurchaseComponent,
+    JointPurchaseSearchComponent,
+    MeasurementUnitChooserComponent,
+    JointPurchaseComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -132,7 +140,8 @@ import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-sen
     ModalEditStoreCredentialsComponent,
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
-    ModalSendFeatureComponent
+    ModalSendFeatureComponent,
+    ModalAddJointPurchaseComponent
   ]
 })
 export class AppModule {
