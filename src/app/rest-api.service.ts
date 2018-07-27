@@ -480,6 +480,20 @@ export class RestApiService {
       .toPromise();
   }
 
+  searchJointPurchases(page: number, size: number, query: string, filter: string) {
+    const params = new HttpParams()
+      .append('query', query)
+      .append('filter', filter);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http

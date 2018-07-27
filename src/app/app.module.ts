@@ -62,6 +62,8 @@ import { ModalAddJointPurchaseComponent } from './modals/modal-add-joint-purchas
 import { JointPurchaseSearchComponent } from './joint-purchase-elements/joint-purchase-search/joint-purchase-search.component';
 import { MeasurementUnitChooserComponent } from './measurement-unit-chooser/measurement-unit-chooser.component';
 import { JointPurchaseComponent } from './joint-purchase-elements/joint-purchase/joint-purchase.component';
+import { JointPurchaseCartComponent } from './joint-purchase-elements/joint-purchase-cart/joint-purchase-cart.component';
+import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purchase-list/joint-purchase-list.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +108,9 @@ import { JointPurchaseComponent } from './joint-purchase-elements/joint-purchase
     ModalAddJointPurchaseComponent,
     JointPurchaseSearchComponent,
     MeasurementUnitChooserComponent,
-    JointPurchaseComponent
+    JointPurchaseComponent,
+    JointPurchaseCartComponent,
+    JointPurchaseListComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

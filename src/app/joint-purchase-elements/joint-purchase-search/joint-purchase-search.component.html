@@ -1,4 +1,94 @@
-<p>
-  joint-purchase-search works!
-</p>
-<button type="button" class="btn btn-main" (click)="openAddJointPurchase()">Создать закупку</button>
+<div class="container mb-1 mt-1">
+  <div class="row">
+    <div class="col-lg-3">
+      <button
+        type="button"
+        class="btn btn-main"
+        (click)="openAddJointPurchase()"
+      >
+        Создать закупку
+      </button>
+    </div>
+  </div>
+</div>
+<section class="features-icons pt-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <h4>Фильтры</h4>
+        <div class="list-group">
+          <div class="list-group-item">
+            <label for="category">Категории</label>
+            <select
+              id="category"
+              class="custom-select"
+              (change)="filterByCategory()"
+              [(ngModel)]="category"
+            >
+              <option
+                *ngFor="let item of categories"
+                [ngValue]="item"
+              >
+                {{item.name}}
+              </option>
+            </select>
+          </div>
+          <div class="list-group-item">
+            Цена<br>
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">От</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[0]"
+              >
+            </div>
+            <div class="input-group" style="margin-bottom: 40px;">
+              <div class="input-group-prepend"><span class="input-group-text">До</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[1]"
+              >
+            </div>
+          </div>
+          <div class="list-group-item">
+            <button
+              type="button"
+              class="btn btn-main"
+              (click)="resetFilters()"
+            >
+              Сбросить фильтры
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div *ngIf="noResults">
+          <h4 class="text-center">Ничего не найдено</h4>
+        </div>
+        <div *ngIf="!noResults">
+          <h4 class="text-center">Результаты поиска</h4>
+          <ul class="list-group">
+            <li *ngFor="let purchase of purchases" class="list-group-item">
+              <app-joint-purchase-list [purchase]="purchase"></app-joint-purchase-list>
+            </li>
+          </ul>
+          <ngb-pagination
+            class="d-flex justify-content-center paginat"
+            [boundaryLinks]="true"
+            [collectionSize]="total"
+            [pageSize]="page_size"
+            [(page)]="page_number"
+            [maxSize]="5"
+            (pageChange)="moveToPage()"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
