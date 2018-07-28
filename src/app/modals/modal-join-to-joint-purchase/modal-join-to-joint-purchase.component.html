@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title">Присоединение к закупке</h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="dismiss()"><span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <h5>
+      <label for="volume">Количество товара</label>
+    </h5>
+    <div class="input-group">
+      <input
+        type="text"
+        [dropSpecialCharacters]="false"
+        mask="0*.00"
+        name="volume"
+        id="volume"
+        class="form-control text-modal"
+        placeholder="Введите количество товара"
+        [(ngModel)]="volume"
+      >
+      <div class="input-group-append">
+        <span class="input-group-text">{{ measurementUnit }}</span>
+        <span class="input-group-text">{{ cost | fixedFloat: 2 }} ₽</span>
+      </div>
+    </div>
+    <div *ngIf="volume < minimum" class="text-danger pt-2">Минимальный объем заказа: {{ minimum }}</div>
+    <div *ngIf="volume > maximum" class="text-danger pt-2">Максимальный объем заказа: {{ maximum }}</div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn-main"
+      (click)="joinToPurchase()"
+    >
+      Присоединится
+    </button>
+  </div>
+</div>

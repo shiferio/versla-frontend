@@ -1,3 +1,243 @@
-<p>
-  {{purchase_info | json}}
-</p>
+<div class="container">
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0.8)"
+    size="large"
+    color="#00b5eb"
+    type="ball-pulse"
+    loadingText="Загрузка закупки"
+  ></ngx-spinner>
+
+  <div *ngIf="purchaseInfo">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <img class="card-img-top good-img" [src]="purchaseInfo.picture" alt="Card image cap">
+            <div class="good-img-container" *ngIf="isCreator">
+              <div class="base-good-img-overlay">
+              </div>
+              <label class="good-img-overlay">
+                <img class="camera" src="assets/img/camera.png">
+                <input type="file" (change)="purchaseImageChange($event)" style="display: none;"
+                       accept=".png,.jpg,.jpeg">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title" *ngIf="!editMode.name">
+              {{ purchaseInfo.name }}
+              <label *ngIf="isCreator" (click)="editMode.name = true">
+                (изменить)
+              </label>
+            </h3>
+            <div *ngIf="editMode.name" class="form-group">
+              <label for="name">Название закупки</label>
+              <input id="name" type="text" [(ngModel)]="purchaseInfo.name" class="form-control text-good card-title">
+              <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
+            </div>
+
+            <h5 *ngIf="!editMode.price_per_unit">
+              {{ purchaseInfo.price_per_unit | fixedFloat: 2 }} ₽/{{ measurementUnit }}
+              <label *ngIf="isCreator" (click)="editMode.price_per_unit = true">
+                (изменить)
+              </label>
+            </h5>
+            <div *ngIf="editMode.price_per_unit" class="form-group">
+              <label for="price_per_unit">Цена за единицу товара</label>
+              <input
+                id="price_per_unit"
+                type="text"
+                [(ngModel)]="purchaseInfo.price_per_unit"
+                class="form-control text-good card-title"
+                [dropSpecialCharacters]="false"
+                mask="0*.00"
+              >
+              <button type="button" class="btn btn-main" (click)="updatePrice()">Обновить</button>
+            </div>
+
+            <h5 *ngIf="!editMode.volume">
+              Количество товара: {{ purchaseInfo.volume | fixedFloat: 2}} {{ measurementUnit }}
+              <label *ngIf="isCreator" (click)="editMode.volume = true">
+                (изменить)
+              </label>
+            </h5>
+            <div *ngIf="editMode.volume" class="form-group">
+              <label for="volume">Количество товара</label>
+              <input
+                id="volume"
+                type="text"
+                [(ngModel)]="purchaseInfo.volume"
+                class="form-control text-good card-title"
+                [dropSpecialCharacters]="false"
+                mask="0*.00"
+              >
+              <button type="button" class="btn btn-main" (click)="updateVolume()">Обновить</button>
+            </div>
+
+            <h5>
+              Осталось: {{ purchaseInfo.remaining_volume | fixedFloat: 2}} {{ measurementUnit }}
+            </h5>
+
+            <h5 *ngIf="!editMode.date">
+              Закрытие: {{ purchaseInfo.date | russianLocaleDate }}
+              <label *ngIf="isCreator" (click)="editMode.date = true">
+                (изменить)
+              </label>
+            </h5>
+            <div *ngIf="editMode.date" class="form-group">
+              <label for="date">Дата закрытия</label>
+              <div class="input-group card-title">
+                <input
+                  id="date"
+                  class="form-control"
+                  placeholder="гггг-мм-дд"
+                  [(ngModel)]="date"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                >
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-main" (click)="updateDate()">Обновить</button>
+            </div>
+
+            <p class="card-text" *ngIf="!isJoint">
+              <button class="btn-main" (click)="joinToPurchase()">
+                Присоединится к закупке
+              </button>
+            </p>
+            <p class="card-text" *ngIf="isJoint">
+              <button class="btn btn-sm btn-danger" (click)="detachFromPurchase()">
+                Отказаться от участия
+              </button>
+            </p>
+            <div *ngIf="purchaseInfo" class="card-text">
+              <div *ngIf="!editMode.category">
+                Категория: {{ purchaseInfo.category.name }}
+                <label *ngIf="isCreator" (click)="editMode.category = true">
+                  (изменить)
+                </label>
+              </div>
+              <div *ngIf="editMode.category" class="form-group">
+                <label for="category">Категория</label>
+                <app-good-category-chooser id="category" [category]="purchaseInfo.category"
+                                           (categoryChanged)="updateCategory($event)">
+                </app-good-category-chooser>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row additional">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="tab01">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs">
+                <li class="nav-item p-b-10">
+                  <a class="nav-link tabs" [class.active]="additionalTabPane === 'description'" data-toggle="tab"
+                     (click)="additionalTabPane = 'description'"
+                     role="tab">Описание</a>
+                </li>
+
+                <li class="nav-item p-b-10" *ngIf="isCreator">
+                  <a class="nav-link tabs" [class.active]="additionalTabPane === 'participants'" data-toggle="tab"
+                     (click)="additionalTabPane = 'participants'"
+                     role="tab">Участники</a>
+                </li>
+
+                <li class="nav-item p-b-10">
+                  <a class="nav-link tabs" [class.active]="additionalTabPane === 'history'" data-toggle="tab"
+                     (click)="additionalTabPane = 'history'"
+                     role="tab">История изменений</a>
+                </li>
+              </ul>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
+                <div *ngIf="!editMode.description">
+                  <div *ngIf="purchaseInfo.description">
+                    {{ purchaseInfo.description }}
+                    <label *ngIf="isCreator" (click)="editMode.description = true">
+                      (изменить)
+                    </label>
+                  </div>
+                </div>
+                <div *ngIf="editMode.description" class="form-group">
+                  <label for="description">О закупке</label>
+                  <input
+                    id="description"
+                    type="text"
+                    [(ngModel)]="purchaseInfo.description"
+                    class="form-control text-good"
+                  >
+                  <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
+                </div>
+              </div>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'participants'">
+                <div *ngIf="participants">
+                  <div class="list-group">
+                    <div class="list-group-item" *ngFor="let participant of participants">
+                      <div class="row">
+                        <div class="col-12 col-md-4">{{ participant.user.login }}</div>
+                        <div class="col-12 col-md-3">
+                          {{ participant.volume | fixedFloat: 2 }} {{ measurementUnit }}
+                          ({{ participant.cost | fixedFloat: 2}} ₽)
+                        </div>
+                        <div class="col-12 col-md-5">
+                          Связаться по чату
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="!purchaseInfo.participants">
+                  <p>К закупке еще никто не присоединился</p>
+                </div>
+              </div>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'history'">
+                <div *ngIf="history">
+                  <div class="list-group">
+                    <div class="list-group-item" *ngFor="let item of history">
+                      <h5>{{ item.date | russianLocaleDate }}</h5>
+                      <p *ngIf="item.parameter === 'name'">
+                        Организатор изменил название закупки на <b>{{item.value}}</b>
+                      </p>
+                      <p *ngIf="item.parameter === 'picture'">
+                        Организатор изменил изображение товара
+                      </p>
+                      <p *ngIf="item.parameter === 'description'">
+                        Организатор изменил описание закупки
+                      </p>
+                      <p *ngIf="item.parameter === 'category'">
+                        Организатор изменил категорию товара на <b>{{item.value}}</b>
+                      </p>
+                      <p *ngIf="item.parameter === 'volume'">
+                        Организатор изменил количество товара: <b>{{item.value}} {{measurementUnit}}</b>
+                      </p>
+                      <p *ngIf="item.parameter === 'price_per_unit'">
+                        Организатор изменил цену: <b>{{item.value}} ₽</b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -64,6 +64,8 @@ import { MeasurementUnitChooserComponent } from './measurement-unit-chooser/meas
 import { JointPurchaseComponent } from './joint-purchase-elements/joint-purchase/joint-purchase.component';
 import { JointPurchaseCartComponent } from './joint-purchase-elements/joint-purchase-cart/joint-purchase-cart.component';
 import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purchase-list/joint-purchase-list.component';
+import { RussianLocaleDatePipe } from './pipes/russian-locale-date.pipe';
+import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +112,9 @@ import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purc
     MeasurementUnitChooserComponent,
     JointPurchaseComponent,
     JointPurchaseCartComponent,
-    JointPurchaseListComponent
+    JointPurchaseListComponent,
+    RussianLocaleDatePipe,
+    ModalJoinToJointPurchaseComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -145,7 +149,8 @@ import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purc
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
     ModalSendFeatureComponent,
-    ModalAddJointPurchaseComponent
+    ModalAddJointPurchaseComponent,
+    ModalJoinToJointPurchaseComponent
   ]
 })
 export class AppModule {

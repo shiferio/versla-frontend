@@ -370,7 +370,7 @@ export class RestApiService {
   getGoodCategoryById(id: string) {
     return this
       .http
-      .get(`${API_URL}/api/category/get/good/id/:id${id}`, {
+      .get(`${API_URL}/api/category/get/good/id/${id}`, {
         headers: this.getHeaders()
       })
       .toPromise();
@@ -490,6 +490,46 @@ export class RestApiService {
       .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
         params: params,
         headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updatePurchaseInfo(id: string, field: string, value: any) {
+    const body = {
+      id: id,
+      value: value
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/update/${field}`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  joinToPurchase(id: string, volume: number) {
+    const body = {
+      id: id,
+      volume: volume
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/participants`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  detachFromPurchase(id: string) {
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/participants`, {
+        headers: this.getHeaders(),
+        body: {
+          id: id
+        }
       })
       .toPromise();
   }
