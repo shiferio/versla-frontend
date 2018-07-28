@@ -163,7 +163,12 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   openAddJointPurchase() {
-    const modalRef = this.modalService.open(ModalAddJointPurchaseComponent);
+    const modalRef = this.modalService.open(
+      ModalAddJointPurchaseComponent,
+      {
+        size: 'lg'
+      }
+    );
 
     modalRef.result.then((result) => {
       console.log(result);

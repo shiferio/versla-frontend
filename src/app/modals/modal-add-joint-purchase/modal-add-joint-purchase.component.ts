@@ -50,6 +50,12 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     this.activeModal.close('dismissed');
   }
 
+  get total(): number {
+    const volume = Number.parseFloat(this.volume) || 0;
+    const price = Number.parseFloat(this.pricePerUnit) || 0;
+    return volume * price;
+  }
+
   imageChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
