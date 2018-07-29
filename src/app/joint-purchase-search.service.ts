@@ -109,7 +109,7 @@ export class JointPurchaseSearchService {
   }
 
   get volume(): number {
-    return Number.parseFloat(this._filter['volume']);
+    return Number.parseFloat(this._filter['volume'] || 0);
   }
 
   set volume(value: number) {
@@ -119,7 +119,7 @@ export class JointPurchaseSearchService {
   }
 
   get min_volume(): number {
-    return Number.parseFloat(this._filter['min_volume']);
+    return Number.parseFloat(this._filter['min_volume'] || 0);
   }
 
   set min_volume(value: number) {
