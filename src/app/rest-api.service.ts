@@ -534,6 +534,20 @@ export class RestApiService {
       .toPromise();
   }
 
+  approvePaymentPurchase(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/payments/approve`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http

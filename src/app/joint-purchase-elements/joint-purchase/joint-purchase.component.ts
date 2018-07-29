@@ -8,6 +8,7 @@ import { SearchService } from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import {ModalJoinToJointPurchaseComponent} from '../../modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
+import {ChatService} from '../../chat.service';
 
 @Component({
   selector: 'app-joint-purchase',
@@ -37,7 +38,8 @@ export class JointPurchaseComponent implements OnInit {
     private cart: CartService,
     private modalService: NgbModal,
     private search: SearchService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private chatService: ChatService
   ) { }
 
   ngOnInit() {
@@ -63,12 +65,33 @@ export class JointPurchaseComponent implements OnInit {
       this.purchaseInfo['creator']['_id'] === this.data.user['_id'];
   }
 
-  get isJoint(): boolean {
+  get isParticipant(): boolean {
     if (this.purchaseInfo && this.data.user) {
       const index = this
         .purchaseInfo['participants']
         .findIndex(participant => participant['user'] === this.data.user['_id']);
       return index !== -1;
+    } else {
+      return false;
+    }
+  }
+
+  get isOpened(): boolean {
+    if (this.purchaseInfo) {
+      return this.purchaseInfo['state'] === 0;
+    }
+  }
+
+  get isPaymentApproved(): boolean {
+    if (this.purchaseInfo && this.data.user) {
+      const index = this
+        .purchaseInfo['participants']
+        .findIndex(participant => participant['user'] === this.data.user['_id']);
+      if (index !== -1) {
+        return this.purchaseInfo['participants'][index]['paid'];
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -371,6 +394,32 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateState(newState: number) {
+    try {
+      const resp = await this.rest.updatePurchaseInfo(
+        this.purchaseInfo['_id'],
+        'state',
+        newState
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .success('Информация обновлена');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
   async joinToPurchase() {
     const modalRef = this.modalService.open(ModalJoinToJointPurchaseComponent);
 
@@ -405,5 +454,34 @@ export class JointPurchaseComponent implements OnInit {
         .data
         .addToast('Ошибка', error['message'], 'error');
     }
+  }
+
+  async approvePayment(participantId: string) {
+    try {
+      const resp = await this.rest.approvePaymentPurchase(
+        this.purchaseInfo['_id'],
+        participantId
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .success('Вы подтвердили платеж');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
+  async openChatWithParticipant(participantId: string) {
+    await this.chatService.openNewChat(participantId);
   }
 }

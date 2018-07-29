@@ -8,6 +8,9 @@
   ></ngx-spinner>
 
   <div *ngIf="purchaseInfo">
+    <ngb-alert [dismissible]="false" *ngIf="!isPaymentApproved && isParticipant">
+      Ваш платеж еще не подтвержден организатором
+    </ngb-alert>
     <div class="row">
       <div class="col-md-6">
         <div class="card">
@@ -84,22 +87,22 @@
             </h5>
 
             <!--<h5 *ngIf="!editMode.minVolume">-->
-              <!--Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}-->
-              <!--<label *ngIf="isCreator" (click)="editMode.minVolume = true">-->
-                <!--(изменить)-->
-              <!--</label>-->
+            <!--Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}-->
+            <!--<label *ngIf="isCreator" (click)="editMode.minVolume = true">-->
+            <!--(изменить)-->
+            <!--</label>-->
             <!--</h5>-->
             <!--<div *ngIf="editMode.minVolume" class="form-group">-->
-              <!--<label for="volume">Минимальный объем заказа</label>-->
-              <!--<input-->
-                <!--id="minVolume"-->
-                <!--type="text"-->
-                <!--[(ngModel)]="purchaseInfo.min_volume"-->
-                <!--class="form-control text-good card-title"-->
-                <!--[dropSpecialCharacters]="false"-->
-                <!--mask="0*.00"-->
-              <!--&gt;-->
-              <!--<button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>-->
+            <!--<label for="volume">Минимальный объем заказа</label>-->
+            <!--<input-->
+            <!--id="minVolume"-->
+            <!--type="text"-->
+            <!--[(ngModel)]="purchaseInfo.min_volume"-->
+            <!--class="form-control text-good card-title"-->
+            <!--[dropSpecialCharacters]="false"-->
+            <!--mask="0*.00"-->
+            <!--&gt;-->
+            <!--<button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>-->
             <!--</div>-->
 
             <h5>
@@ -108,9 +111,9 @@
 
             <h5 *ngIf="!editMode.date">
               Закрытие: {{ purchaseInfo.date | russianLocaleDate }}
-              <label *ngIf="isCreator" (click)="editMode.date = true">
-                (изменить)
-              </label>
+              <!--<label *ngIf="isCreator" (click)="editMode.date = true">-->
+              <!--(изменить)-->
+              <!--</label>-->
             </h5>
             <div *ngIf="editMode.date" class="form-group">
               <label for="date">Дата закрытия</label>
@@ -132,13 +135,13 @@
               <button type="button" class="btn btn-main" (click)="updateDate()">Обновить</button>
             </div>
 
-            <p class="card-text" *ngIf="!isJoint">
-              <button class="btn-main" (click)="joinToPurchase()">
+            <p class="card-text" *ngIf="!isParticipant && isOpened">
+              <button class="btn btn-main" (click)="joinToPurchase()">
                 Присоединится к закупке
               </button>
             </p>
-            <p class="card-text" *ngIf="isJoint">
-              <button class="btn btn-sm btn-danger" (click)="detachFromPurchase()">
+            <p class="card-text" *ngIf="isParticipant">
+              <button class="btn btn-detach" (click)="detachFromPurchase()">
                 Отказаться от участия
               </button>
             </p>
@@ -198,12 +201,11 @@
                 </div>
                 <div *ngIf="editMode.description" class="form-group">
                   <label for="description">О закупке</label>
-                  <input
+                  <textarea
                     id="description"
-                    type="text"
+                    class="form-control"
                     [(ngModel)]="purchaseInfo.description"
-                    class="form-control text-good"
-                  >
+                  ></textarea>
                   <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
                 </div>
               </div>
@@ -213,13 +215,36 @@
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let participant of participants">
                       <div class="row">
-                        <div class="col-12 col-md-4">{{ participant.user.login }}</div>
+                        <div class="col-12 col-md-4">
+                          {{ participant.user.login }}
+                        </div>
                         <div class="col-12 col-md-3">
                           {{ participant.volume | fixedFloat: 2 }} {{ measurementUnit }}
                           ({{ participant.cost | fixedFloat: 2}} ₽)
                         </div>
-                        <div class="col-12 col-md-5">
-                          Связаться по чату
+                        <div class="col-11 col-md-4">
+                          <button
+                            type="button"
+                            class="btn btn-main"
+                            *ngIf="!participant.paid"
+                            (click)="approvePayment(participant.user._id)"
+                          >
+                            Подтвердить платеж
+                          </button>
+                          <span *ngIf="participant.paid">
+                            Вы подтвердили платеж пользователя
+                          </span>
+                        </div>
+                        <div class="col-1 col-md-1">
+                          <button
+                            type="button"
+                            class="btn btn-main"
+                            (click)="openChatWithParticipant(participant.user._id)"
+                            ngbPopover="Связаться по чату"
+                            triggers="mouseenter:mouseleave"
+                          >
+                            <i class="fa fa-comment"></i>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -256,9 +281,61 @@
                       <p *ngIf="item.parameter === 'price_per_unit'">
                         Организатор изменил цену: <b>{{item.value}} ₽</b>
                       </p>
+                      <p *ngIf="item.parameter === 'state'">
+                        <span *ngIf="item.value === 0">
+                          Организатор объявил об <b>открытии закупки</b>
+                        </span>
+                        <span *ngIf="item.value === 1">
+                          Организатор объявил о <b>завершении приема заказов</b>
+                        </span>
+                        <span *ngIf="item.value === 2">
+                          Организатор объявил о <b>закрытии закупки</b>
+                        </span>
+                      </p>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isCreator">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">
+              Управление закупкой
+            </h4>
+            <div ngbDropdown class="d-inline-block">
+              <button
+                class="btn btn-main"
+                id="purchaseState"
+                ngbDropdownToggle
+                ngbPopover="Изменить состояние закупки"
+                triggers="mouseenter:mouseleave"
+              >Состояние закупки
+              </button>
+              <div ngbDropdownMenu aria-labelledby="purchaseState">
+                <button
+                  class="dropdown-item"
+                  *ngIf="purchaseInfo.state != 0"
+                  (click)="updateState(0)"
+                >Объявить об открытии
+                </button>
+                <button
+                  class="dropdown-item"
+                  *ngIf="purchaseInfo.state != 1"
+                  (click)="updateState(1)"
+                >Объявить о завершении приема заказов
+                </button>
+                <button
+                  class="dropdown-item"
+                  *ngIf="purchaseInfo.state != 2"
+                  (click)="updateState(2)"
+                >Объявить о закрытии
+                </button>
               </div>
             </div>
           </div>

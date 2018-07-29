@@ -156,3 +156,26 @@
 .tabs {
   cursor: pointer;
 }
+
+.btn-detach {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  background: #E84441;
+  border: 1px solid #E42724;
+  color: #fff;
+  font-family: 'CircleRounded';
+  text-align: center;
+  padding: 0px 15px;
+  border-radius: 4px 4px 4px 4px;
+  height: 31px;
+}
+
+.btn-detach:hover {
+  background: #E42724;
+  color: #fff;
+}
+
+.btn-detach:focus {
+  background-color: #E42724;
+  color: #fff;
+}
