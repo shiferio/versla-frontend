@@ -66,6 +66,7 @@ import { JointPurchaseCartComponent } from './joint-purchase-elements/joint-purc
 import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purchase-list/joint-purchase-list.component';
 import { RussianLocaleDatePipe } from './pipes/russian-locale-date.pipe';
 import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
+import {NgChatModule} from 'ng-chat';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-
     NgxMaskModule.forRoot(),
     ClickOutsideModule,
     SliderModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgChatModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService

@@ -462,38 +462,6 @@ export class RestApiService {
       .toPromise();
   }
 
-  addJointPurchase(body: any) {
-    return this
-      .http
-      .post(`${API_URL}/api/jointpurchases/add`, body, {
-        headers: this.getHeaders()
-      })
-      .toPromise();
-  }
-
-  getJointPurchaseById(id: string) {
-    return this
-      .http
-      .get(`${API_URL}/api/jointpurchases/get/${id}`, {
-        headers: this.getHeaders()
-      })
-      .toPromise();
-  }
-
-  searchJointPurchases(page: number, size: number, query: string, filter: string) {
-    const params = new HttpParams()
-      .append('query', query)
-      .append('filter', filter);
-
-    return this
-      .http
-      .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
-        params: params,
-        headers: this.getHeaders()
-      })
-      .toPromise();
-  }
-
   updatePurchaseInfo(id: string, field: string, value: any) {
     const body = {
       id: id,
@@ -547,6 +515,46 @@ export class RestApiService {
     return this
       .http
       .post(`${API_URL}/api/measurementunits/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllChats() {
+    return this
+      .http
+      .get(`${API_URL}/api/chats/all`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  openNewChat(user_id: string) {
+    const body = {
+      user_id: user_id
+    };
+
+    return this
+      .http
+      .post(`${API_URL}/api/chats/new`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getChatHistory(chat_id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/chats/history/${chat_id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getChatById(chat_id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/chats/id/${chat_id}`, {
         headers: this.getHeaders()
       })
       .toPromise();

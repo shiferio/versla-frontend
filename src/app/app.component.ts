@@ -15,6 +15,8 @@ import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-erro
 import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
 import {Title} from '@angular/platform-browser';
 import {JointPurchaseSearchService} from './joint-purchase-search.service';
+import {VerslaChatAdapter} from './chat-adapter';
+import {ChatService} from './chat.service';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -39,6 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   categories = [];
 
+  chatAdapter: any;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -49,8 +53,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private cart: CartService,
     public searchField: SearchFieldService,
     private route: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private chatService: ChatService
   ) {
+    this.chatAdapter = new VerslaChatAdapter(this.chatService, this.data);
   }
 
   async ngOnInit() {
@@ -157,6 +163,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   get token() {
     return localStorage.getItem('token');
+  }
+
+  get chatUserId() {
+    return this.data.user._id;
+  }
+
+  get isLoggedIn() {
+    return this.data.user;
   }
 
   async openSearch() {

@@ -14,6 +14,7 @@ import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-con
 import {SearchService} from '../../search.service';
 import {SearchFieldService} from '../../search-field.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {ChatService} from '../../chat.service';
 
 @Component({
   selector: 'app-store',
@@ -53,7 +54,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private search: SearchService,
     private searchField: SearchFieldService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private chatService: ChatService
   ) {
   }
 
@@ -509,5 +511,9 @@ export class StoreComponent implements OnInit, OnDestroy {
     this.search.city = this.info.city;
     this.search.store = { '_id': this.info._id };
     this.search.navigate();
+  }
+
+  async openChat() {
+    await this.chatService.openNewChat(this.info.creator_id);
   }
 }

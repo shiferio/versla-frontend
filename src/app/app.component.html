@@ -136,6 +136,18 @@
 </div>
 <ng2-toasty [position]="'bottom-right'"></ng2-toasty>
 <router-outlet></router-outlet>
+<div *ngIf="isLoggedIn">
+  <ng-chat
+    [adapter]="chatAdapter"
+    [userId]="chatUserId"
+    [title]="'Сообщения'"
+    [messagePlaceholder]="'Ваше сообщение...'"
+    [searchPlaceholder]="'Начните вводить имя...'"
+    [maximizeWindowOnNewMessage]="false"
+    (onUserChatOpened)="chatAdapter.onUserClicker($event)"
+    (click)="chatAdapter.onUserClicker({})"
+  ></ng-chat>
+</div>
 
 <!-- Footer -->
 <footer class="footer bg-dark">
