@@ -14,6 +14,7 @@ import {parse} from 'querystring';
 import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-error.component';
 import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
 import {Title} from '@angular/platform-browser';
+import {JointPurchaseSearchService} from './joint-purchase-search.service';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private data: DataService,
     private search: SearchService,
+    private purchaseSearch: JointPurchaseSearchService,
     private rest: RestApiService,
     private cart: CartService,
     public searchField: SearchFieldService,
@@ -171,7 +173,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onSearchChange(value: string) {
-    if (this.router.url.startsWith('/search')) {
+    if (this.router.url.startsWith('/search/purchase')) {
+      this.purchaseSearch.query = value;
+      this.purchaseSearch.navigate();
+    } else if (this.router.url.startsWith('/search')) {
       this.search.query = value;
       this.search.navigate();
     }

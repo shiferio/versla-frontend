@@ -12,13 +12,17 @@ export class SearchFieldService {
     'Везде', 'В этом магазине'
   ];
 
-  selected: string;
+  private _selected: string;
 
   store_info: any;
 
+  get selected(): string {
+    return this._selected;
+  }
+
   reset() {
     this.dropdown_visible = false;
-    this.selected = this.dropdown_menu[0];
+    this._selected = this.dropdown_menu[0];
     this.store_info = null;
   }
 
@@ -31,11 +35,11 @@ export class SearchFieldService {
   }
 
   everywhere() {
-    this.selected = this.dropdown_menu[0];
+    this._selected = this.dropdown_menu[0];
   }
 
   store() {
-    this.selected = this.dropdown_menu[1];
+    this._selected = this.dropdown_menu[1];
   }
 
   constructor() { }
