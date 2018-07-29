@@ -45,7 +45,7 @@
                 [(ngModel)]="pricing[0]"
               >
             </div>
-            <div class="input-group" style="margin-bottom: 40px;">
+            <div class="input-group">
               <div class="input-group-prepend"><span class="input-group-text">До</span></div>
               <input
                 type="text"
@@ -54,6 +54,54 @@
                 (change)="priceChanged()"
                 [(ngModel)]="pricing[1]"
               >
+            </div>
+          </div>
+          <div class="list-group-item">
+            Минимальный объем заказа<br>
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">От</span></div>
+              <input
+                type="text"
+                [dropSpecialCharacters]="false"
+                mask="0*.00"
+                class="form-control"
+                (change)="filterByMinVolume()"
+                [(ngModel)]="minVolume"
+              >
+            </div>
+          </div>
+          <div class="list-group-item">
+            Количество товара<br>
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">От</span></div>
+              <input
+                type="text"
+                [dropSpecialCharacters]="false"
+                mask="0*.00"
+                class="form-control"
+                (change)="filterByVolume()"
+                [(ngModel)]="volume"
+              >
+            </div>
+          </div>
+          <div class="list-group-item">
+            Закупка закрывается после<br>
+            <div class="input-group">
+              <input
+                id="date"
+                class="form-control"
+                readonly
+                placeholder="гггг-мм-дд"
+                [(ngModel)]="date"
+                (dateSelect)="filterByDate()"
+                ngbDatepicker
+                #d="ngbDatepicker"
+              >
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div class="list-group-item">

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {RestApiService} from './rest-api.service';
 import {DataService} from './data.service';
@@ -125,6 +125,31 @@ export class JointPurchaseSearchService {
   set min_volume(value: number) {
     if (value >= 0) {
       this._filter['min_volume'] = value;
+    }
+  }
+
+  get date(): any {
+    if (this._filter['date']) {
+      const date = this._filter['date'];
+
+      const day = Number.parseInt(date.slice(0, 2));
+      const month = Number.parseInt(date.slice(2, 4));
+      const year = Number.parseInt(date.slice(4, 8));
+      return {
+        day, month, year
+      };
+    } else {
+      return {};
+    }
+  }
+
+  set date(value: any) {
+    if (value['day'] && value['month'] && value['year']) {
+      const day = value['day'].toString().padStart(2, '0');
+      const month = value['month'].toString().padStart(2, '0');
+      const year = value['year'];
+
+      this._filter['date'] = `${day}${month}${year}`;
     }
   }
 

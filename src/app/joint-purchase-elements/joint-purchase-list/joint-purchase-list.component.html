@@ -10,13 +10,13 @@
       <h5>{{ purchase.name }}</h5>
     </a>
     <div class="row">
-      <div class="col-7">
+      <div class="col-12 col-md-7">
         <p>{{purchase.description}}</p>
         <div class="card-price">
           {{ purchase.price_per_unit | fixedFloat: 2 }} ₽/{{measurementUnit}}
         </div>
       </div>
-      <div class="col-5">
+      <div class="col-12 col-md-5">
         <p class="mb-1">Объем: {{purchase.volume | fixedFloat: 2}} {{measurementUnit}}</p>
         <p class="mb-1">Осталось: {{purchase.remaining_volume | fixedFloat: 2}} {{measurementUnit}}</p>
         <p class="mb-1">Дата завершения закупки: {{date}}</p>

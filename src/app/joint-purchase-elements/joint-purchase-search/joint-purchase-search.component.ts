@@ -42,6 +42,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
   minVolume = 0;
 
+  date: any;
+
   constructor(
     private search: JointPurchaseSearchService,
     private rest: RestApiService,
@@ -96,6 +98,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.volume = this.search.volume;
 
     this.minVolume = this.search.min_volume;
+
+    this.date = this.search.date;
 
     this.pricing = [
       this.search.pricing['min'] || 10,
@@ -156,6 +160,27 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.filterByPrice();
   }
 
+  filterByMinVolume() {
+    this.search.min_volume = this.minVolume;
+
+    this.resetPagination();
+    this.search.navigate();
+  }
+
+  filterByVolume() {
+    this.search.volume = this.volume;
+
+    this.resetPagination();
+    this.search.navigate();
+  }
+
+  filterByDate() {
+    this.search.date = this.date;
+
+    this.resetPagination();
+    this.search.navigate();
+  }
+
   resetFilters() {
     this.resetPagination();
     this.search.reset();
@@ -176,5 +201,4 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
       console.log(error);
     });
   }
-
 }
