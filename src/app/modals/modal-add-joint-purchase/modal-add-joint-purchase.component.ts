@@ -22,11 +22,13 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   volume: string;
 
+  minVolume: string;
+
   pricePerUnit: string;
 
   measurementUnit: any;
 
-  date: any = {};
+  date: any;
 
   paymentType: number = null;
 
@@ -91,12 +93,12 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
-    if (!this.pictureUrl) {
-      this
-        .data
-        .addToast('Добавьте изображение', '', 'error');
-      return false;
-    }
+    // if (!this.pictureUrl) {
+    //   this
+    //     .data
+    //     .addToast('Добавьте изображение', '', 'error');
+    //   return false;
+    // }
 
     if (!this.description) {
       this
@@ -126,6 +128,13 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
+    if (!this.minVolume) {
+      this
+        .data
+        .addToast('Введите объем минимального заказа', '', 'error');
+      return false;
+    }
+
     if (!this.measurementUnit) {
       this
         .data
@@ -140,7 +149,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
-    if (!this.pricePerUnit) {
+    if (!this.date) {
       this
         .data
         .addToast('Укажите дату завершения закупки', '', 'error');
@@ -158,7 +167,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   }
 
   async uploadImage(file) {
-    if (!environment.production) {
+    if (!environment.production || !file) {
       return 'http://via.placeholder.com/350x350';
     } else {
       const formData: FormData = new FormData();
@@ -180,7 +189,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
           category_id: this.category['_id'],
           address: this.address,
           volume: Number.parseFloat(this.volume),
-          min_volume: 0,
+          min_volume: Number.parseFloat(this.minVolume),
           price_per_unit: Number.parseFloat(this.pricePerUnit),
           measurement_unit_id: this.measurementUnit['_id'],
           date: new Date(this.date['year'], this.date['month'], this.date['day']),

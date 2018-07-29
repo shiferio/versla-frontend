@@ -19,20 +19,22 @@
       </div>
       <div class="form-group">
         <label>Изображение</label><br>
-        <label
-          class="btn btn-main"
-          *ngIf="!pictureUrl"
-        >
-          Добавить изображение
-          <input
-            id="picture"
-            type="file"
-            [(ngModel)]="picturePath"
-            (change)="imageChange($event)"
-            style="display: none;"
-            accept=".png,.jpg,.jpeg"
+        <div *ngIf="!pictureUrl">
+          <label
+            class="btn btn-main"
+            *ngIf="!pictureUrl"
           >
-        </label><br>
+            Добавить изображение
+            <input
+              id="picture"
+              type="file"
+              [(ngModel)]="picturePath"
+              (change)="imageChange($event)"
+              style="display: none;"
+              accept=".png,.jpg,.jpeg"
+            >
+          </label><br>
+        </div>
         <div class="picture-preview-container" *ngIf="pictureUrl">
           <img [src]="pictureUrl" class="picture-preview-image">
           <label
@@ -63,57 +65,6 @@
         >
       </div>
       <div class="form-group">
-        <label for="category">Категория товара</label>
-        <app-good-category-chooser
-          id="category"
-          [category]="category"
-          (categoryChanged)="updateCategory($event)"
-        ></app-good-category-chooser>
-      </div>
-    </div>
-    <div class="col-12 col-lg-6">
-      <div class="form-group">
-        <label for="volume">Количество товара</label>
-        <div class="input-group">
-          <input
-            type="text"
-            [dropSpecialCharacters]="false"
-            mask="0*.00"
-            name="volume"
-            id="volume"
-            class="form-control text-modal"
-            placeholder="Введите количество товара"
-            [(ngModel)]="volume"
-          >
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="measurement_unit">Единица измерения</label>
-        <app-measurement-unit-chooser
-          id="measurement_unit"
-          [unit]="measurementUnit"
-          (unitChanged)="updateUnit($event)"
-        ></app-measurement-unit-chooser>
-      </div>
-      <div class="form-group">
-        <label for="price">Цена за единицу товара</label>
-        <div class="input-group">
-          <input
-            type="text"
-            [dropSpecialCharacters]="false"
-            mask="0*.00"
-            id="price"
-            class="form-control text-modal"
-            placeholder="Введите цену"
-            [(ngModel)]="pricePerUnit"
-          >
-          <div class="input-group-append">
-            <span class="input-group-text">Итого: </span>
-            <span class="input-group-text">{{ total | fixedFloat: 2 }} ₽</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
         <label for="date">Дата завершения закупки</label>
         <div class="input-group">
           <input
@@ -142,6 +93,72 @@
           <option [ngValue]="1">На карту организатору</option>
           <option [ngValue]="2">В момент выдачи товара</option>
         </select>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="form-group">
+        <label for="category">Категория товара</label>
+        <app-good-category-chooser
+          id="category"
+          [category]="category"
+          (categoryChanged)="updateCategory($event)"
+        ></app-good-category-chooser>
+      </div>
+      <div class="form-group">
+        <label for="volume">Количество товара</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [dropSpecialCharacters]="false"
+            mask="0*.00"
+            name="volume"
+            id="volume"
+            class="form-control text-modal"
+            placeholder="100"
+            [(ngModel)]="volume"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="minVolume">Минимальный объем заказа</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [dropSpecialCharacters]="false"
+            mask="0*.00"
+            name="minVolume"
+            id="minVolume"
+            class="form-control text-modal"
+            placeholder="0"
+            [(ngModel)]="minVolume"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="measurement_unit">Единица измерения</label>
+        <app-measurement-unit-chooser
+          id="measurement_unit"
+          [unit]="measurementUnit"
+          (unitChanged)="updateUnit($event)"
+        ></app-measurement-unit-chooser>
+      </div>
+      <div class="form-group">
+        <label for="price">Цена за единицу товара</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [dropSpecialCharacters]="false"
+            mask="0*.00"
+            id="price"
+            class="form-control text-modal"
+            placeholder="10"
+            [(ngModel)]="pricePerUnit"
+          >
+          <div class="input-group-append">
+            <span class="input-group-text">Итого: </span>
+            <span class="input-group-text">{{ total | fixedFloat: 2 }} ₽</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
