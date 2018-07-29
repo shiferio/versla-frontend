@@ -16,9 +16,7 @@ export class JointPurchaseListComponent implements OnInit {
     private rest: RestApiService
   ) { }
 
-  ngOnInit() {
-    console.log(new Date(this.purchase.date));
-  }
+  ngOnInit() {  }
 
   get measurementUnit(): string {
     return this.purchase['measurement_unit']['name'] || '';
