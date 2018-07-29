@@ -80,6 +80,29 @@
             </div>
 
             <h5>
+              Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}
+            </h5>
+
+            <!--<h5 *ngIf="!editMode.minVolume">-->
+              <!--Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}-->
+              <!--<label *ngIf="isCreator" (click)="editMode.minVolume = true">-->
+                <!--(изменить)-->
+              <!--</label>-->
+            <!--</h5>-->
+            <!--<div *ngIf="editMode.minVolume" class="form-group">-->
+              <!--<label for="volume">Минимальный объем заказа</label>-->
+              <!--<input-->
+                <!--id="minVolume"-->
+                <!--type="text"-->
+                <!--[(ngModel)]="purchaseInfo.min_volume"-->
+                <!--class="form-control text-good card-title"-->
+                <!--[dropSpecialCharacters]="false"-->
+                <!--mask="0*.00"-->
+              <!--&gt;-->
+              <!--<button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>-->
+            <!--</div>-->
+
+            <h5>
               Осталось: {{ purchaseInfo.remaining_volume | fixedFloat: 2}} {{ measurementUnit }}
             </h5>
 
@@ -226,6 +249,9 @@
                       </p>
                       <p *ngIf="item.parameter === 'volume'">
                         Организатор изменил количество товара: <b>{{item.value}} {{measurementUnit}}</b>
+                      </p>
+                      <p *ngIf="item.parameter === 'min_volume'">
+                        Организатор изменил минимальный объем закупки: <b>{{item.value}} {{measurementUnit}}</b>
                       </p>
                       <p *ngIf="item.parameter === 'price_per_unit'">
                         Организатор изменил цену: <b>{{item.value}} ₽</b>

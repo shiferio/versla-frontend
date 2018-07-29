@@ -243,6 +243,39 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateMinVolume() {
+    if (this.purchaseInfo['min_volume']) {
+      this.editMode['minVolume'] = false;
+      try {
+        const resp = await this.rest.updatePurchaseInfo(
+          this.purchaseInfo['_id'],
+          'min_volume',
+          Number.parseFloat(this.purchaseInfo['min_volume'])
+        );
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .success('Информация обновлена');
+
+          await this.loadAdditionalInfo(resp['data']['purchase']);
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
+        this
+          .data
+          .error(error['message']);
+      }
+    } else {
+      this
+        .data
+        .error('Вы не количество товара');
+    }
+  }
+
   async updateCategory(category: any) {
     this.purchaseInfo['category'] = category;
 
