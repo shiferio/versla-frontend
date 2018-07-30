@@ -82,6 +82,18 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get isCollected(): boolean {
+    if (this.purchaseInfo) {
+      return this.purchaseInfo['state'] === 1;
+    }
+  }
+
+  get isClosed(): boolean {
+    if (this.purchaseInfo) {
+      return this.purchaseInfo['state'] === 2;
+    }
+  }
+
   get isPaymentApproved(): boolean {
     if (this.purchaseInfo && this.data.user) {
       const index = this

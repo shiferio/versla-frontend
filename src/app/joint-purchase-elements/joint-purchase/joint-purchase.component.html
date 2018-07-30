@@ -140,6 +140,12 @@
                 Присоединится к закупке
               </button>
             </p>
+            <p class="card-text text-danger" *ngIf="!isParticipant && isCollected">
+              Прием заказов завершен
+            </p>
+            <p class="card-text text-danger" *ngIf="!isParticipant && isClosed">
+              Закупка закрыта
+            </p>
             <p class="card-text" *ngIf="isParticipant">
               <button class="btn btn-detach" (click)="detachFromPurchase()">
                 Отказаться от участия
