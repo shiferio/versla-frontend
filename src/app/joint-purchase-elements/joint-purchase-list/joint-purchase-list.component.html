@@ -15,6 +15,7 @@
         <div class="card-price">
           {{ purchase.price_per_unit | fixedFloat: 2 }} ₽/{{measurementUnit}}
         </div>
+        <p *ngIf="purchase.state === 1" class="text-danger">Прием заказов завершен</p>
       </div>
       <div class="col-12 col-md-5">
         <p class="mb-1">Объем: {{purchase.volume | fixedFloat: 2}} {{measurementUnit}}</p>
@@ -22,7 +23,7 @@
         <p class="mb-1">Дата завершения закупки: {{date}}</p>
       </div>
     </div>
-    <div class="d-inline-block">
+<!--    <div class="d-inline-block">
       <div class="d-inline-block">
         <img height="15px" class="card-icon" src="assets/img/cart.svg" (click)="joinToPurchase()"/>
         <div ngbDropdown class="d-inline-block">
@@ -31,6 +32,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
