@@ -420,6 +420,34 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updatePaymentType() {
+    try {
+      this.editMode['payment_type'] = false;
+
+      const resp = await this.rest.updatePurchaseInfo(
+        this.purchaseInfo['_id'],
+        'payment_type',
+        this.purchaseInfo['payment_type']
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .success('Информация обновлена');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
   async joinToPurchase() {
     const modalRef = this.modalService.open(ModalJoinToJointPurchaseComponent);
 
@@ -483,5 +511,9 @@ export class JointPurchaseComponent implements OnInit {
 
   async openChatWithParticipant(participantId: string) {
     await this.chatService.openNewChat(participantId);
+  }
+
+  async openChatWithCreator() {
+    await this.chatService.openNewChat(this.purchaseInfo['creator']['_id']);
   }
 }
