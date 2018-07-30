@@ -67,6 +67,7 @@ import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purc
 import { RussianLocaleDatePipe } from './pipes/russian-locale-date.pipe';
 import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
 import {NgChatModule} from 'ng-chat';
+import { JointPurchasesComponent } from './profile-elements/joint-purchases/joint-purchases.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import {NgChatModule} from 'ng-chat';
     JointPurchaseCartComponent,
     JointPurchaseListComponent,
     RussianLocaleDatePipe,
-    ModalJoinToJointPurchaseComponent
+    ModalJoinToJointPurchaseComponent,
+    JointPurchasesComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

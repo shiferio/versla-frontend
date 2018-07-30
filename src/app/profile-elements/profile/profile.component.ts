@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
             this.tabNum = 4;
           } else if (event.url.includes('stores')) {
             this.tabNum = 5;
+          } else if (event.url.includes('purchases')) {
+            this.tabNum = 6;
           } else {
             this.tabNum = 1;
           }

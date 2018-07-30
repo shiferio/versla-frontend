@@ -548,6 +548,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getUserPurchases(userId: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/owner`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http
