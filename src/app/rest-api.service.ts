@@ -557,6 +557,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getPurchaseOrders() {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/orders`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http

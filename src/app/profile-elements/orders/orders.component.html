@@ -9,7 +9,7 @@
     <h4>Мои заказы</h4>
 </div>
 
-<div *ngIf="orders.length === 0">
+<div *ngIf="orders.length === 0 && purchaseOrders.length === 0">
   <div class="text-center">
     <h5>У вас еще нет заказов</h5>
     <img height="100px" src="assets/img/box.svg" />
@@ -38,6 +38,36 @@
         <div class="price">
           {{order.price * order.quantity}} ₽
         </div>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<ul *ngIf="purchaseOrders.length !== 0" class="list-group orders-list">
+  <li
+    class="list-group-item"
+    *ngFor="let order of purchaseOrders"
+  >
+
+    <div>
+      <div class="img-good">
+        <a [routerLink]="['/purchase', order.purchase._id]">
+          <img [src]="order.purchase.picture"  class="img-image-good">
+        </a>
+      </div>
+
+      <div class="desc-good">
+        <a class="links" [routerLink]="['/purchase', order.purchase._id]">
+          <h5>{{order.purchase.name}}</h5>
+        </a>
+        <p class="mb-1">Количество: {{ order.volume | fixedFloat: 2 }} {{order.unit}}</p>
+        <div class="price">
+          {{order.price * order.volume | fixedFloat: 2}} ₽
+        </div>
+        <p class="mb-1">
+          <span *ngIf="order.paid" class="text-success"><b>Платеж подтвержден</b></span>
+          <span *ngIf="!order.paid  " class="text-danger"><b>Платеж обрабатывается</b></span>
+        </p>
       </div>
     </div>
   </li>
