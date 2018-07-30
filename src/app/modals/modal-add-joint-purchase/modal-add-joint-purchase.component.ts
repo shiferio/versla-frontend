@@ -36,6 +36,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   picturePath: any = null;
 
+  paymentInfo: string;
+
   private pictureFile: any = null;
 
   constructor(
@@ -163,6 +165,13 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
+    if (this.paymentType === 1 && !this.paymentInfo) {
+      this
+        .data
+        .addToast('Укажите номер банковской карты', '', 'error');
+      return false;
+    }
+
     return true;
   }
 
@@ -194,7 +203,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
           measurement_unit_id: this.measurementUnit['_id'],
           date: new Date(this.date['year'], this.date['month'], this.date['day']),
           state: 0,
-          payment_type: this.paymentType
+          payment_type: this.paymentType,
+          payment_info: this.paymentInfo
         });
 
         if (resp['meta'].success) {

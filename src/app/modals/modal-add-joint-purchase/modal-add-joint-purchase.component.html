@@ -94,6 +94,17 @@
           <option [ngValue]="2">В момент выдачи товара</option>
         </select>
       </div>
+      <div class="form-group" *ngIf="paymentType === 1">
+        <label for="payment_info">Номер банковской карты</label>
+        <input
+          type="text"
+          id="payment_info"
+          mask="0000 0000 0000 0000"
+          class="form-control text-modal"
+          placeholder="0000 0000 0000 0000"
+          [(ngModel)]="paymentInfo"
+        >
+      </div>
     </div>
     <div class="col-12 col-lg-6">
       <div class="form-group">
