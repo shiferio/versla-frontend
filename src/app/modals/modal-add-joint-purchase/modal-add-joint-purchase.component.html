@@ -71,12 +71,19 @@
             id="date"
             class="form-control"
             placeholder="гггг-мм-дд"
+            readonly
             [(ngModel)]="date"
             ngbDatepicker
             #d="ngbDatepicker"
           >
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="d.toggle()"
+              type="button"
+              ngbPopover="Выбрать дату"
+              triggers="mouseenter:mouseleave"
+            >
               <i class="fa fa-calendar"></i>
             </button>
           </div>
