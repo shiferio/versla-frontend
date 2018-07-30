@@ -94,6 +94,10 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.data.user;
+  }
+
   get isPaymentApproved(): boolean {
     if (this.purchaseInfo && this.data.user) {
       const index = this

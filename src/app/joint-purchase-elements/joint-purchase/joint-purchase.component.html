@@ -135,7 +135,7 @@
               <button type="button" class="btn btn-main" (click)="updateDate()">Обновить</button>
             </div>
 
-            <p class="card-text" *ngIf="!isParticipant && isOpened">
+            <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn">
               <button class="btn btn-main" (click)="joinToPurchase()">
                 Присоединится к закупке
               </button>

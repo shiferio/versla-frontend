@@ -188,17 +188,23 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   openAddJointPurchase() {
-    const modalRef = this.modalService.open(
-      ModalAddJointPurchaseComponent,
-      {
-        size: 'lg'
-      }
-    );
+    if (this.date.user) {
+      const modalRef = this.modalService.open(
+        ModalAddJointPurchaseComponent,
+        {
+          size: 'lg'
+        }
+      );
 
-    modalRef.result.then((result) => {
-      console.log(result);
-    }).catch((error) => {
-      console.log(error);
-    });
+      modalRef.result.then((result) => {
+        console.log(result);
+      }).catch((error) => {
+        console.log(error);
+      });
+    } else {
+      this
+        .data
+        .addToast('Зарегистрируйтесь, чтобы создавать закупку', '', 'error');
+    }
   }
 }
