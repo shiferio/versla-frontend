@@ -1,47 +1,67 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {SearchService} from './search.service';
+import {JointPurchaseSearchService} from './joint-purchase-search.service';
+
+export class ScopeModel {
+
+  applyFilters(): void {
+    this._filterFn(this.search);
+  }
+
+  constructor(
+    public readonly name: string,
+    public readonly search: any,
+    private _filterFn: (search: any) => void = () => {}
+  ) { }
+
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchFieldService {
 
-  dropdown_visible = false;
+  constructor(
+    private _goodsSearch: SearchService,
+    private _purchaseSearch: JointPurchaseSearchService
+  ) { }
 
-  dropdown_menu = [
-    'Везде', 'В этом магазине'
+  readonly SCOPE_GOODS = new ScopeModel(
+    'Товары',
+    this._goodsSearch
+  );
+
+  readonly SCOPE_PURCHASES = new ScopeModel(
+    'Закупки',
+    this._purchaseSearch
+  );
+
+  private _activeScope: ScopeModel;
+
+  private _scopes = [
+    this.SCOPE_GOODS,
+    this.SCOPE_PURCHASES
   ];
 
-  private _selected: string;
-
-  store_info: any;
-
-  get selected(): string {
-    return this._selected;
+  get scopes(): Array<ScopeModel> {
+    return this._scopes;
   }
 
-  reset() {
-    this.dropdown_visible = false;
-    this._selected = this.dropdown_menu[0];
-    this.store_info = null;
+  get activeScope(): ScopeModel {
+    return this._activeScope;
   }
 
-  show() {
-    this.dropdown_visible = true;
+  set activeScope(newScope: ScopeModel) {
+    this._activeScope = newScope;
   }
 
-  hide() {
-    this.dropdown_visible = false;
+  setStoreScope(storeScope: ScopeModel) {
+    this._scopes.push(storeScope);
   }
 
-  everywhere() {
-    this._selected = this.dropdown_menu[0];
+  deleteStoreScope() {
+    this._scopes.pop();
+    this._activeScope = this._scopes[0];
   }
-
-  store() {
-    this._selected = this.dropdown_menu[1];
-  }
-
-  constructor() { }
 
 }

@@ -102,25 +102,20 @@
               placeholder="Введите название товара"
               [(ngModel)]="query"
               (input)="onSearchChange($event.target.value)"/>
-            <div class="btn-group" ngbDropdown role="group" *ngIf="dropdownVisible">
+            <div class="btn-group" ngbDropdown role="group">
               <button class="btn btn-main btn-dropdown dropdown-toggle dropdown-toggle-split" ngbDropdownToggle>
-                {{searchField.selected}}
+                {{searchField.activeScope.name}}
               </button>
               <div
                 class="dropdown-menu"
                 ngbDropdownMenu
               >
                 <button
+                  *ngFor="let scope of availableScopes"
                   class="dropdown-item"
-                  (click)="searchField.everywhere()"
+                  (click)="searchField.activeScope = scope"
                 >
-                  {{searchField.dropdown_menu[0]}}
-                </button>
-                <button
-                  class="dropdown-item"
-                  (click)="searchField.store()"
-                >
-                  {{searchField.dropdown_menu[1]}}
+                  {{scope.name}}
                 </button>
               </div>
             </div>

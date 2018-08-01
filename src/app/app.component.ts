@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 
@@ -9,8 +9,7 @@ import {CartService} from './cart.service';
 import {SearchService} from './search.service';
 import {RestApiService} from './rest-api.service';
 import {Subscription} from 'rxjs';
-import {SearchFieldService} from './search-field.service';
-import {parse} from 'querystring';
+import {ScopeModel, SearchFieldService} from './search-field.service';
 import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-error.component';
 import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
 import {Title} from '@angular/platform-browser';
@@ -174,25 +173,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async openSearch() {
-    const type = this.searchField.selected;
     if (!this.router.url.startsWith('/search')) {
-      this.search.reset();
+      this.searchField.activeScope.search.reset();
     }
 
-    this.search.query = this.query;
-    if (type === this.searchField.dropdown_menu[1] && this.dropdownVisible) {
-      this.search.store = { '_id': this.searchField.store_info._id };
-    }
-    this.search.navigate();
+    this.searchField.activeScope.search.query = this.query;
+    this.searchField.activeScope.applyFilters();
+    this.searchField.activeScope.search.navigate();
   }
 
   onSearchChange(value: string) {
-    if (this.router.url.startsWith('/search/purchase')) {
-      this.purchaseSearch.query = value;
-      this.purchaseSearch.navigate();
-    } else if (this.router.url.startsWith('/search')) {
-      this.search.query = value;
-      this.search.navigate();
+    if (this.router.url.startsWith('/search')) {
+      this.searchField.activeScope.search.query = value;
+      this.searchField.activeScope.search.navigate();
     }
   }
 
@@ -204,8 +197,8 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.data.getPreferredCity();
   }
 
-  get dropdownVisible(): boolean {
-    return this.searchField.dropdown_visible;
+  get availableScopes(): Array<ScopeModel> {
+    return this.searchField.scopes;
   }
 
   toggleCityMenu() {
@@ -223,8 +216,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async openSearchByCategory(category: any) {
-    this.search.reset();
-    this.search.category = category;
-    this.search.navigate();
+    this.searchField.activeScope.search.reset();
+    this.searchField.activeScope.search.category = category;
+    this.searchField.activeScope.search.navigate();
   }
 }

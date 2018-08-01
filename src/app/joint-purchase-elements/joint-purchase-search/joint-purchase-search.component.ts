@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {JointPurchaseSearchService} from '../../joint-purchase-search.service';
 import {stringify} from 'querystring';
 import {Subscription} from 'rxjs';
+import {SearchFieldService} from '../../search-field.service';
 
 @Component({
   selector: 'app-joint-purchase-search',
@@ -46,6 +47,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private search: JointPurchaseSearchService,
+    private searchField: SearchFieldService,
     private rest: RestApiService,
     private data: DataService,
     private modalService: NgbModal,
@@ -55,6 +57,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.initialize();
+
+    this.searchField.activeScope = this.searchField.SCOPE_PURCHASES;
 
     this.resultSub = this.search.result.subscribe(data => {
       this.purchases = data['purchases'];

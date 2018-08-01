@@ -1,19 +1,16 @@
-import {Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {TagModel} from 'ngx-chips/core/accessor';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalAddStoreComponent} from '../../modals/modal-add-store/modal-add-store.component';
 import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.component';
-import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-delete-good.component';
-import {consoleTestResultHandler} from 'tslint/lib/test';
 import {CartService} from '../../cart.service';
 import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
 import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
 import {SearchService} from '../../search.service';
-import {SearchFieldService} from '../../search-field.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import {ScopeModel, SearchFieldService} from '../../search-field.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 import {ChatService} from '../../chat.service';
 
 @Component({
@@ -45,6 +42,15 @@ export class StoreComponent implements OnInit, OnDestroy {
   new_user_login: string;
 
   private sub: any;
+
+  private storeScope = new ScopeModel(
+    'В этом магазине',
+    this.search,
+    search => {
+      search.store = { _id: this.info._id };
+      search.city = this.info.city;
+    }
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -92,21 +98,21 @@ export class StoreComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.sub = this.route.params.subscribe(async (params) => {
-      this.link = params['link'];
       this.spinner.show();
+
+      this.link = params['link'];
       await this.getStoreInfo(this.link);
-      this.searchField.reset();
-      this.searchField.store();
-      this.searchField.show();
-      this.searchField.store_info = this.info;
+
+      this.searchField.setStoreScope(this.storeScope);
+      this.searchField.activeScope = this.storeScope;
+
       this.spinner.hide();
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-    this.searchField.reset();
-    this.searchField.hide();
+    this.searchField.deleteStoreScope();
   }
 
   async deleteLogo() {
@@ -507,10 +513,9 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   openStoreSearch() {
-    this.search.reset();
-    this.search.city = this.info.city;
-    this.search.store = { '_id': this.info._id };
-    this.search.navigate();
+    this.searchField.activeScope = this.storeScope;
+    this.searchField.activeScope.applyFilters();
+    this.searchField.activeScope.search.navigate();
   }
 
   async openChat() {
