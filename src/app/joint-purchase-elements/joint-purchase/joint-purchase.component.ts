@@ -337,26 +337,63 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updatePaymentInfo() {
+    if (this.purchaseInfo['payment_type'] === 1 && this.purchaseInfo['payment_info'].length !== 16) {
+      this
+        .data
+        .addToast('Укажите номер банковской карты', '', 'error');
+      return false;
+    }
+
+    try {
+      const resp = await this.rest.updatePurchaseInfo(
+        this.purchaseInfo['_id'],
+        'payment_info',
+        this.purchaseInfo['payment_info']
+      );
+
+      if (!resp['meta'].success) {
+        this
+          .data
+          .error(resp['meta'].message);
+        return false;
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+      return false;
+    }
+    return true;
+  }
+
   async updatePaymentType() {
+    if (this.purchaseInfo['payment_type'] === 1) {
+      const updateInfoRes = await this.updatePaymentInfo();
+
+      if (!updateInfoRes) {
+        return;
+      }
+    }
     try {
       this.editMode['payment_type'] = false;
 
-      const resp = await this.rest.updatePurchaseInfo(
+      const typeResp = await this.rest.updatePurchaseInfo(
         this.purchaseInfo['_id'],
         'payment_type',
         this.purchaseInfo['payment_type']
       );
 
-      if (resp['meta'].success) {
+      if (typeResp['meta'].success) {
         this
           .data
           .success('Информация обновлена');
 
-        await this.loadAdditionalInfo(resp['data']['purchase']);
+        await this.loadAdditionalInfo(typeResp['data']['purchase']);
       } else {
         this
           .data
-          .error(resp['meta'].message);
+          .error(typeResp['meta'].message);
       }
     } catch (error) {
       this
