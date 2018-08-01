@@ -216,39 +216,6 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updatePrice() {
-    if (this.purchaseInfo['price_per_unit']) {
-      this.editMode['price_per_unit'] = false;
-      try {
-        const resp = await this.rest.updatePurchaseInfo(
-          this.purchaseInfo['_id'],
-          'price_per_unit',
-          Number.parseFloat(this.purchaseInfo['price_per_unit'])
-        );
-
-        if (resp['meta'].success) {
-          this
-            .data
-            .success('Информация обновлена');
-
-          await this.loadAdditionalInfo(resp['data']['purchase']);
-        } else {
-          this
-            .data
-            .error(resp['meta'].message);
-        }
-      } catch (error) {
-        this
-          .data
-          .error(error['message']);
-      }
-    } else {
-      this
-        .data
-        .error('Вы не указали цену');
-    }
-  }
-
   async updateVolume() {
     if (this.purchaseInfo['volume']) {
       this.editMode['volume'] = false;
@@ -257,39 +224,6 @@ export class JointPurchaseComponent implements OnInit {
           this.purchaseInfo['_id'],
           'volume',
           Number.parseFloat(this.purchaseInfo['volume'])
-        );
-
-        if (resp['meta'].success) {
-          this
-            .data
-            .success('Информация обновлена');
-
-          await this.loadAdditionalInfo(resp['data']['purchase']);
-        } else {
-          this
-            .data
-            .error(resp['meta'].message);
-        }
-      } catch (error) {
-        this
-          .data
-          .error(error['message']);
-      }
-    } else {
-      this
-        .data
-        .error('Вы не количество товара');
-    }
-  }
-
-  async updateMinVolume() {
-    if (this.purchaseInfo['min_volume']) {
-      this.editMode['minVolume'] = false;
-      try {
-        const resp = await this.rest.updatePurchaseInfo(
-          this.purchaseInfo['_id'],
-          'min_volume',
-          Number.parseFloat(this.purchaseInfo['min_volume'])
         );
 
         if (resp['meta'].success) {
@@ -374,39 +308,6 @@ export class JointPurchaseComponent implements OnInit {
       this
         .data
         .error('Нет описания закупки');
-    }
-  }
-
-  async updateDate() {
-    if (this.date) {
-      this.editMode['date'] = false;
-      try {
-        const resp = await this.rest.updatePurchaseInfo(
-          this.purchaseInfo['_id'],
-          'date',
-          new Date(this.date['year'], this.date['month'], this.date['day'])
-        );
-
-        if (resp['meta'].success) {
-          this
-            .data
-            .success('Информация обновлена');
-
-          await this.loadAdditionalInfo(resp['data']['purchase']);
-        } else {
-          this
-            .data
-            .error(resp['meta'].message);
-        }
-      } catch (error) {
-        this
-          .data
-          .error(error['message']);
-      }
-    } else {
-      this
-        .data
-        .error('Укажите дату');
     }
   }
 

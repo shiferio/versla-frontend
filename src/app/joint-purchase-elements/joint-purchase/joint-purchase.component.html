@@ -44,24 +44,9 @@
               <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
             </div>
 
-            <h5 *ngIf="!editMode.price_per_unit">
+            <h5>
               {{ purchaseInfo.price_per_unit | fixedFloat: 2 }} ₽/{{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.price_per_unit = true">
-                (изменить)
-              </label>
             </h5>
-            <div *ngIf="editMode.price_per_unit" class="form-group">
-              <label for="price_per_unit">Цена за единицу товара</label>
-              <input
-                id="price_per_unit"
-                type="text"
-                [(ngModel)]="purchaseInfo.price_per_unit"
-                class="form-control text-good card-title"
-                [dropSpecialCharacters]="false"
-                mask="0*.00"
-              >
-              <button type="button" class="btn btn-main" (click)="updatePrice()">Обновить</button>
-            </div>
 
             <h5 *ngIf="!editMode.volume">
               Количество товара: {{ purchaseInfo.volume | fixedFloat: 2}} {{ measurementUnit }}
@@ -86,54 +71,13 @@
               Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}
             </h5>
 
-            <!--<h5 *ngIf="!editMode.minVolume">-->
-            <!--Минимальный объем заказа: {{ purchaseInfo.min_volume | fixedFloat: 2}} {{ measurementUnit }}-->
-            <!--<label *ngIf="isCreator" (click)="editMode.minVolume = true">-->
-            <!--(изменить)-->
-            <!--</label>-->
-            <!--</h5>-->
-            <!--<div *ngIf="editMode.minVolume" class="form-group">-->
-            <!--<label for="volume">Минимальный объем заказа</label>-->
-            <!--<input-->
-            <!--id="minVolume"-->
-            <!--type="text"-->
-            <!--[(ngModel)]="purchaseInfo.min_volume"-->
-            <!--class="form-control text-good card-title"-->
-            <!--[dropSpecialCharacters]="false"-->
-            <!--mask="0*.00"-->
-            <!--&gt;-->
-            <!--<button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>-->
-            <!--</div>-->
-
             <h5>
               Осталось: {{ purchaseInfo.remaining_volume | fixedFloat: 2}} {{ measurementUnit }}
             </h5>
 
-            <h5 *ngIf="!editMode.date">
+            <h5>
               Закрытие: {{ purchaseInfo.date | russianLocaleDate }}
-              <!--<label *ngIf="isCreator" (click)="editMode.date = true">-->
-              <!--(изменить)-->
-              <!--</label>-->
             </h5>
-            <div *ngIf="editMode.date" class="form-group">
-              <label for="date">Дата закрытия</label>
-              <div class="input-group card-title">
-                <input
-                  id="date"
-                  class="form-control"
-                  placeholder="гггг-мм-дд"
-                  [(ngModel)]="date"
-                  ngbDatepicker
-                  #d="ngbDatepicker"
-                >
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </div>
-              </div>
-              <button type="button" class="btn btn-main" (click)="updateDate()">Обновить</button>
-            </div>
 
             <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn">
               <button class="btn btn-main" (click)="joinToPurchase()">
