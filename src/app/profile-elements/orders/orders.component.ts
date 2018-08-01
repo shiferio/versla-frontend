@@ -44,10 +44,35 @@ export class OrdersComponent implements OnInit {
           purchase: purchase,
           volume: orderInfo['volume'],
           paid: orderInfo['paid'],
+          delivered: orderInfo['delivered'],
           price: purchase['price_per_unit'],
           unit: purchase['measurement_unit']['name']
         };
       });
   }
 
+  async approveDelivery(order: any) {
+    try {
+      const resp = await this.rest.approveDeliveryPurchase(
+        order['purchase']['_id'],
+        this.data.user['_id']
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Вы подтвердили доставку товара', '', 'success');
+
+        await this.ngOnInit();
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
 }

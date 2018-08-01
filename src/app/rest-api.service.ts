@@ -548,6 +548,20 @@ export class RestApiService {
       .toPromise();
   }
 
+  approveDeliveryPurchase(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/deliveries/approve`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getUserPurchases(userId: string) {
     return this
       .http

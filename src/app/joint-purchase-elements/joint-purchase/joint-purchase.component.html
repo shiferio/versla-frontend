@@ -229,14 +229,14 @@
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let participant of participants">
                       <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                           {{ participant.user.login }}
                         </div>
                         <div class="col-12 col-md-3">
                           {{ participant.volume | fixedFloat: 2 }} {{ measurementUnit }}
                           ({{ participant.cost | fixedFloat: 2}} ₽)
                         </div>
-                        <div class="col-11 col-md-4">
+                        <div class="col-12 col-md-3">
                           <button
                             type="button"
                             class="btn btn-main"
@@ -247,6 +247,19 @@
                           </button>
                           <span *ngIf="participant.paid">
                             Вы подтвердили платеж пользователя
+                          </span>
+                        </div>
+                        <div class="col-11 col-md-2">
+                          <span
+                            *ngIf="!participant.delivered"
+                            class="text-danger"
+                            ngbPopover="Заказчик еще не получил товар"
+                            triggers="mouseenter:mouseleave"
+                          >
+                            Товар еще не доставлен
+                          </span>
+                          <span *ngIf="participant.delivered">
+                            Товар доставлен
                           </span>
                         </div>
                         <div class="col-1 col-md-1">

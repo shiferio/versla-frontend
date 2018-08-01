@@ -68,6 +68,17 @@
           <span *ngIf="order.paid" class="text-success"><b>Платеж подтвержден</b></span>
           <span *ngIf="!order.paid  " class="text-danger"><b>Платеж обрабатывается</b></span>
         </p>
+        <button
+          type="button"
+          *ngIf="order.paid && !order.delivered"
+          class="btn btn-main"
+          (click)="approveDelivery(order)"
+        >
+          Подтвердить доставку товара
+        </button>
+        <p class="mb-1 text-success" *ngIf="order.paid && order.delivered">
+          <b>Товар доставлен</b>
+        </p>
       </div>
     </div>
   </li>
