@@ -24,7 +24,9 @@ export class SearchFieldService {
   constructor(
     private _goodsSearch: SearchService,
     private _purchaseSearch: JointPurchaseSearchService
-  ) { }
+  ) {
+    this.setDefaultScope();
+  }
 
   readonly SCOPE_GOODS = new ScopeModel(
     'Товары',
@@ -61,7 +63,11 @@ export class SearchFieldService {
 
   deleteStoreScope() {
     this._scopes.pop();
-    this._activeScope = this._scopes[0];
+    this.setDefaultScope();
+  }
+
+  setDefaultScope() {
+    this._activeScope = this.SCOPE_GOODS;
   }
 
 }
