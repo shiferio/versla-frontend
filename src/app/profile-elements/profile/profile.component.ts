@@ -45,7 +45,9 @@ export class ProfileComponent implements OnInit {
     return this.tabNum === tabNum;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.data.setTitle('Профиль');
+  }
 
   async fileChange(event) {
     const fileList: FileList = event.target.files;

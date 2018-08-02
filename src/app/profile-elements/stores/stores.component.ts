@@ -13,6 +13,7 @@ export class StoresComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.data.setTitle('Мои магазины - Профиль');
   }
 
   addNewStore() {

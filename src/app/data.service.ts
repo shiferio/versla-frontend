@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {RestApiService} from './rest-api.service';
 import {ToastData, ToastOptions, ToastyConfig, ToastyService} from 'ngx-toasty';
+import {Title} from '@angular/platform-browser';
 
 
 @Injectable({providedIn: 'root'})
@@ -13,7 +14,7 @@ export class DataService {
   cities: Array<any>;
 
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
-              private toastyConfig: ToastyConfig) {
+              private toastyConfig: ToastyConfig, private titleService: Title) {
     this
       .router
       .events
@@ -37,6 +38,10 @@ export class DataService {
         }
       })
       .catch(err => console.log(err));
+  }
+
+  setTitle(title: string) {
+    this.titleService.setTitle(title + ' - Versla');
   }
 
   addToast(title: string, message: string, type: string) {
