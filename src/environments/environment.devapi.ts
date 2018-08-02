@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.versla.ru'
+  apiUrl: 'http://devapi.versla.ru'
 };

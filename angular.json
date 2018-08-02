@@ -48,6 +48,15 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "devapi": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.devapi.ts"
+                }
+              ],
+              "optimization": false
             }
           }
         },
@@ -59,6 +68,9 @@
           "configurations": {
             "production": {
               "browserTarget": "Versla:build:production"
+            },
+            "devapi": {
+              "browserTarget": "Versla:build:devapi"
             }
           }
         },
