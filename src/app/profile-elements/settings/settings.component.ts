@@ -13,6 +13,7 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadProfile();
+    this.data.setTitle('Настройки - Профиль');
   }
 
   validate(settings) {

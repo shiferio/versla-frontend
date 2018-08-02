@@ -24,6 +24,7 @@ export class OrdersComponent implements OnInit {
     this.spinner.show();
     await this.fetchOrdersInfo();
     this.spinner.hide();
+    this.data.setTitle('Мои заказы - Профиль');
   }
 
   async fetchOrdersInfo() {

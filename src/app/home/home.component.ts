@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadGoods();
+    this.data.setTitle('Главная');
   }
 
   async loadGoods() {

@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
 
   async ngOnInit() {
     await this.cart.loadCart();
-
+    this.data.setTitle('Корзина');
     this.cart.cart.forEach(item => {
       this.collapsed[item._id] = true;
     });

@@ -69,6 +69,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     const storeInfo = await this.rest.getStoreByLink(storeLink);
     if (storeInfo['meta'].success) {
       this.info = storeInfo['data'].store;
+      this.data.setTitle(this.info.name);
       this.info.tags = this.info.tags.map(item => ({display: item, value: item}));
       const storeGoods = await this.rest.getGoodsByStoreId(this.info._id);
 

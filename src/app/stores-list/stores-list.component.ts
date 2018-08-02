@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {RestApiService} from '../rest-api.service';
 import {DataService} from '../data.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-stores-list',
@@ -11,7 +12,7 @@ export class StoresListComponent implements OnInit {
   stores = [];
   noResults = true;
   constructor(private rest: RestApiService,
-              private data: DataService) { }
+              private data: DataService, private router: Router) { }
 
   async loadAllMarkets() {
     try {
@@ -36,6 +37,14 @@ export class StoresListComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadAllMarkets();
+    this.router
+      .events
+      .subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          if (event.url.includes('stores')) {
+            this.data.setTitle('Магазины');
+          }
+        }
+      });
   }
-
 }

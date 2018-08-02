@@ -76,6 +76,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       const query = this.search.query;
       const filter = stringify(this.search.filter);
       const page_number = this.search.page_number;
+      if (query && query.length > 0) {
+        this.data.setTitle(query + ' - Поиск');
+      } else {
+        this.data.setTitle('Поиск');
+      }
 
       await this.loadFilters();
       this.search.invoke(query, filter, page_number, this.page_size);

@@ -17,6 +17,7 @@ export class SecurityComponent implements OnInit {
   constructor(private rest: RestApiService, private data: DataService) { }
 
   ngOnInit() {
+    this.data.setTitle('Безопасность - Профиль');
   }
 
   validate(): boolean {

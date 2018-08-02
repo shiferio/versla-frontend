@@ -9,6 +9,7 @@ import {ModalAddParameterComponent} from '../../modals/modal-add-parameter/modal
 import {CartService} from '../../cart.service';
 import {SearchService} from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-good',
@@ -45,13 +46,15 @@ export class GoodComponent implements OnInit {
     private cart: CartService,
     private modalService: NgbModal,
     private search: SearchService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private titleService: Title
   ) {
   }
 
   async ngOnInit() {
     this.spinner.show();
     await this.data.getProfile();
+
 
     this.sub = this.route.params.subscribe(async (params) => {
       this.good_id = params['good_id'];
@@ -97,8 +100,11 @@ export class GoodComponent implements OnInit {
       this.rating = this.info.rating;
       this.info.tags = this.info.tags.filter(item => item != null);
       this.new_tags = this.info.tags.slice();
+      await this.getStoreInfo();
+      this.data.setTitle(this.info.name + ' - ' + this.store_info.name);
     } else {
       this.unavailable = true;
+      this.data.setTitle('Товар не найден');
     }
   }
 

@@ -22,6 +22,7 @@ export class AddressComponent implements OnInit {
 
   ngOnInit() {
     Object.assign(this.address, this.data.user.address);
+    this.data.setTitle('Адрес - Профиль');
   }
 
   validate(): boolean {
