@@ -63,7 +63,7 @@
               <input
                 type="text"
                 [dropSpecialCharacters]="false"
-                mask="0*.00"
+                mask="0*.0*"
                 class="form-control"
                 (change)="filterByMinVolume()"
                 [(ngModel)]="minVolume"
@@ -77,7 +77,7 @@
               <input
                 type="text"
                 [dropSpecialCharacters]="false"
-                mask="0*.00"
+                mask="0*.0*"
                 class="form-control"
                 (change)="filterByVolume()"
                 [(ngModel)]="volume"
@@ -85,20 +85,29 @@
             </div>
           </div>
           <div class="list-group-item">
-            Закупка закрывается после<br>
+            Прием заказов завершается после<br>
             <div class="input-group">
               <input
-                id="date"
-                class="form-control"
+                [ngModel]="date | russianLocaleDate"
                 readonly
-                placeholder="гггг-мм-дд"
+                placeholder="01.01.2018"
+                class="form-control"
+              >
+              <input
+                class="d-none"
                 [(ngModel)]="date"
                 (dateSelect)="filterByDate()"
                 ngbDatepicker
                 #d="ngbDatepicker"
               >
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <button
+                  class="btn btn-outline-secondary"
+                  (click)="d.toggle()"
+                  type="button"
+                  ngbPopover="Выбрать дату"
+                  triggers="mouseenter:mouseleave"
+                >
                   <i class="fa fa-calendar"></i>
                 </button>
               </div>

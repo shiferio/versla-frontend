@@ -60,13 +60,17 @@
         <a class="links" [routerLink]="['/purchase', order.purchase._id]">
           <h5>{{order.purchase.name}}</h5>
         </a>
-        <p class="mb-1">Количество: {{ order.volume | fixedFloat: 2 }} {{order.unit}}</p>
+        <p class="mb-1">Количество: {{ order.volume }} {{order.unit}}</p>
         <div class="price">
           {{order.price * order.volume | fixedFloat: 2}} ₽
         </div>
         <p class="mb-1">
           <span *ngIf="order.paid" class="text-success"><b>Платеж подтвержден</b></span>
-          <span *ngIf="!order.paid  " class="text-danger"><b>Платеж обрабатывается</b></span>
+          <span *ngIf="!order.paid" class="text-danger"><b>Платеж ожидает подтверждения организатора</b></span>
+        </p>
+        <p class="mb-1">
+          <span *ngIf="order.sent" class="text-success"><b>Товар выдан организатором</b></span>
+          <span *ngIf="!order.sent" class="text-danger"><b>Организатор обрабатывает заказ</b></span>
         </p>
         <button
           type="button"

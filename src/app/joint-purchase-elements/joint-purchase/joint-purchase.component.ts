@@ -123,6 +123,10 @@ export class JointPurchaseComponent implements OnInit {
     return this.purchaseInfo['measurement_unit']['name'];
   }
 
+  get totalOrderedVolume(): number {
+    return this.purchaseInfo['participants'].reduce((all, value) => value['volume'], 0);
+  }
+
   async loadAdditionalInfo(purchase_info: any) {
     this.purchaseInfo = purchase_info;
 
@@ -338,10 +342,13 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updatePaymentInfo() {
-    if (this.purchaseInfo['payment_type'] === 1 && this.purchaseInfo['payment_info'].length !== 16) {
+    if (
+      this.purchaseInfo['payment_type'] === 1 &&
+      !this.purchaseInfo['payment_info'] &&
+      this.purchaseInfo['payment_info'].length === 0) {
       this
         .data
-        .addToast('Укажите номер банковской карты', '', 'error');
+        .addToast('Укажите платежную информацию', '', 'error');
       return false;
     }
 

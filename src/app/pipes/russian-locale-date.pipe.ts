@@ -5,11 +5,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RussianLocaleDatePipe implements PipeTransform {
 
-  transform(value: string): string {
+  transform(value: any): string {
+    if (!value) {
+      return '';
+    }
+
     let date = null;
     if (typeof value === 'string') {
       date = new Date(value);
-    } else {
+    } else if (value['year'] && value['month'] && value['day']) {
+      date = new Date(value['year'], value['month'] - 1, value['day']);
+    } else if (
+      <Date>value.getDate &&
+      <Date>value.getMonth &&
+      <Date>value.getFullYear
+    ) {
       date = value;
     }
 
