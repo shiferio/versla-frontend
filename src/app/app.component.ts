@@ -42,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   chatAdapter: any;
 
+  categoryMenuCollapsed = true;
+
+  categoryTree: any;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -74,6 +78,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
+
+    this.categoryTree = (await this.rest.getGoodCategoryTree())['data']['categories'];
 
     this.query_params_sub = this
       .route
@@ -216,8 +222,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async openSearchByCategory(category: any) {
+    this.categoryMenuCollapsed = true;
+
     this.searchField.activeScope.search.reset();
-    this.searchField.activeScope.search.category = category;
+    this.searchField.activeScope.search.category = { _id: category.id};
     this.searchField.activeScope.search.navigate();
   }
 }

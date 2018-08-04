@@ -77,23 +77,21 @@
     <div class="row">
       <div class="col-md-12 search-container">
         <div class="input-group">
-          <div ngbDropdown class="btn-cats">
+          <div ngbDropdown class="btn-cats" (clickOutside)="categoryMenuCollapsed = true">
             <a
               data-toggle="dropdown"
               aria-expanded="false"
               ngbDropdownToggle
               id="categoriesMenu"
+              (click)="categoryMenuCollapsed = !categoryMenuCollapsed"
             >
               <i class="fa fa-bars"></i> Категории
             </a>
-            <div class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="categoriesMenu">
-              <button
-                *ngFor="let category of categories"
-                class="dropdown-item"
-                (click)="openSearchByCategory(category)"
-              >{{category.name}}
-              </button>
-            </div>
+            <app-category-nested-chooser
+              [data]="categoryTree"
+              [ngbCollapse]="categoryMenuCollapsed"
+              (selected)="openSearchByCategory($event)"
+            ></app-category-nested-chooser>
           </div>
           <div class="search-wrap">
             <input

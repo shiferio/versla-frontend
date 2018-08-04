@@ -68,6 +68,8 @@ import { RussianLocaleDatePipe } from './pipes/russian-locale-date.pipe';
 import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
 import {NgChatModule} from 'ng-chat';
 import { JointPurchasesComponent } from './profile-elements/joint-purchases/joint-purchases.component';
+import { CategoryNestedChooserComponent } from './category-chooser-elements/category-nested-chooser/category-nested-chooser.component';
+import { InternalCategoryNodeComponent } from './category-chooser-elements/internal-category-node/internal-category-node.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +119,9 @@ import { JointPurchasesComponent } from './profile-elements/joint-purchases/join
     JointPurchaseListComponent,
     RussianLocaleDatePipe,
     ModalJoinToJointPurchaseComponent,
-    JointPurchasesComponent
+    JointPurchasesComponent,
+    CategoryNestedChooserComponent,
+    InternalCategoryNodeComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

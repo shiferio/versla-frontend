@@ -367,6 +367,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  getGoodCategoryTree() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good/tree`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getGoodCategoryById(id: string) {
     return this
       .http
