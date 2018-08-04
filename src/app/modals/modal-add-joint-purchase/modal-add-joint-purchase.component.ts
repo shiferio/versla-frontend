@@ -168,7 +168,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     if (this.paymentType === 1 && !this.paymentInfo) {
       this
         .data
-        .addToast('Укажите номер банковской карты', '', 'error');
+        .addToast('Введите платежную информацию', '', 'error');
       return false;
     }
 
