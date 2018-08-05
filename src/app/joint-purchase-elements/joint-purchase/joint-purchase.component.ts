@@ -173,7 +173,7 @@ export class JointPurchaseComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .success('Информация обновлена');
+            .addToast('Информация обновлена', '', 'success');
 
           await this.loadAdditionalInfo(resp['data']['purchase']);
         } else {
@@ -202,7 +202,7 @@ export class JointPurchaseComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .success('Информация обновлена');
+            .addToast('Информация обновлена', '', 'success');
 
           await this.loadAdditionalInfo(resp['data']['purchase']);
         } else {
@@ -235,7 +235,7 @@ export class JointPurchaseComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .success('Информация обновлена');
+            .addToast('Информация обновлена', '', 'success');
 
           await this.loadAdditionalInfo(resp['data']['purchase']);
         } else {
@@ -269,7 +269,7 @@ export class JointPurchaseComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .success('Информация обновлена');
+          .addToast('Информация обновлена', '', 'success');
 
         await this.loadAdditionalInfo(resp['data']['purchase']);
       } else {
@@ -297,7 +297,7 @@ export class JointPurchaseComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .success('Информация обновлена');
+            .addToast('Информация обновлена', '', 'success');
 
           await this.loadAdditionalInfo(resp['data']['purchase']);
         } else {
@@ -328,7 +328,7 @@ export class JointPurchaseComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .success('Информация обновлена');
+          .addToast('Информация обновлена', '', 'success');
 
         await this.loadAdditionalInfo(resp['data']['purchase']);
       } else {
@@ -396,7 +396,7 @@ export class JointPurchaseComponent implements OnInit {
       if (typeResp['meta'].success) {
         this
           .data
-          .success('Информация обновлена');
+          .addToast('Информация обновлена', '', 'success');
 
         await this.loadAdditionalInfo(typeResp['data']['purchase']);
       } else {
@@ -457,7 +457,7 @@ export class JointPurchaseComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .success('Вы подтвердили платеж');
+          .addToast('Вы подтвердили платеж', '', 'success');
 
         await this.loadAdditionalInfo(resp['data']['purchase']);
       } else {
