@@ -97,12 +97,12 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
-    // if (!this.pictureUrl) {
-    //   this
-    //     .data
-    //     .addToast('Добавьте изображение', '', 'error');
-    //   return false;
-    // }
+    if (!this.pictureUrl) {
+      this
+        .data
+        .addToast('Добавьте изображение', '', 'error');
+      return false;
+    }
 
     if (!this.description) {
       this
