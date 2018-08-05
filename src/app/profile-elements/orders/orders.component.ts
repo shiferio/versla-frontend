@@ -46,6 +46,7 @@ export class OrdersComponent implements OnInit {
           volume: orderInfo['volume'],
           paid: orderInfo['paid'],
           delivered: orderInfo['delivered'],
+          sent: orderInfo['sent'],
           price: purchase['price_per_unit'],
           unit: purchase['measurement_unit']['name']
         };

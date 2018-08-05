@@ -260,6 +260,18 @@
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input
+                              #userSent
+                              id="userSent"
+                              type="checkbox"
+                              class="custom-control-input"
+                              [checked]="participant.sent"
+                              (change)="updateOrderSentState(participant.user._id, userSent.checked)"
+                            >
+                            <label class="custom-control-label" for="userSent"
+                            >Товар отправлен</label>
+                          </div>
+                          <div class="custom-control custom-checkbox">
+                            <input
                               id="userDelivered"
                               type="checkbox"
                               class="custom-control-input"

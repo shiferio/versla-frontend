@@ -572,6 +572,21 @@ export class RestApiService {
       .toPromise();
   }
 
+  updateOrderSentPurchase(id: string, userId: string, state: boolean) {
+    const body = {
+      id: id,
+      user_id: userId,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/sent/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getUserPurchases(userId: string) {
     return this
       .http

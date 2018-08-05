@@ -477,6 +477,32 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateOrderSentState(participantId: string, state: boolean) {
+    try {
+      const resp = await this.rest.updateOrderSentPurchase(
+        this.purchaseInfo['_id'],
+        participantId,
+        state
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Информация обновлена', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
   async openChatWithParticipant(participantId: string) {
     await this.chatService.openNewChat(participantId);
   }
