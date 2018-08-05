@@ -34,9 +34,8 @@
           <div class="card-body">
             <h3 class="card-title" *ngIf="!editMode.name">
               {{ purchaseInfo.name }}
-              <label *ngIf="isCreator" (click)="editMode.name = true">
-                (изменить)
-              </label>
+              <label *ngIf="isCreator" (click)="editMode.name = true" class="btn-edit"
+              >изменить</label>
             </h3>
             <div *ngIf="editMode.name" class="form-group">
               <label for="name">Название закупки</label>
@@ -50,8 +49,8 @@
 
             <h5 *ngIf="!editMode.volume">
               Количество товара: {{ purchaseInfo.volume }} {{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.volume = true">
-                (изменить)
+              <label *ngIf="isCreator" (click)="editMode.volume = true" class="btn-edit">
+                изменить
               </label>
             </h5>
             <div *ngIf="editMode.volume" class="form-group">
@@ -105,8 +104,8 @@
             <div *ngIf="purchaseInfo" class="card-text">
               <div *ngIf="!editMode.category">
                 Категория: {{ purchaseInfo.category.name }}
-                <label *ngIf="isCreator" (click)="editMode.category = true">
-                  (изменить)
+                <label *ngIf="isCreator" (click)="editMode.category = true" class="btn-edit">
+                  изменить
                 </label>
               </div>
               <div *ngIf="editMode.category" class="form-group">
@@ -150,19 +149,19 @@
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
                 <div class="row">
                   <div class="col-12 col-md-6">
-                    <h5>О закупке</h5>
+                    <h5>О закупке
+                      <label *ngIf="isCreator && !editMode.description" (click)="editMode.description = true" class="btn-edit">
+                      изменить
+                      </label>
+                    </h5>
                     <div *ngIf="!editMode.description">
-                      <div *ngIf="purchaseInfo.description">
-                        {{ purchaseInfo.description }}
-                        <label *ngIf="isCreator" (click)="editMode.description = true">
-                          (изменить)
-                        </label>
-                      </div>
+                      <div *ngIf="purchaseInfo.description" class="preserve-line-breaks"
+                      >{{purchaseInfo.description}}</div>
                     </div>
                     <div *ngIf="editMode.description" class="form-group">
                       <textarea
                         id="description"
-                        class="form-control"
+                        class="form-control card-title"
                         [(ngModel)]="purchaseInfo.description"
                       ></textarea>
                       <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
@@ -186,18 +185,22 @@
                       </button>
                     </p>
                     <div>
-                      <b>Платежные данные </b>
-                      <label *ngIf="isCreator && !editMode.payment_type" (click)="editMode.payment_type = true">
-                        (изменить)
-                      </label><br>
+                      <b>Платежные данные
+                        <label
+                          *ngIf="isCreator && !editMode.payment_type"
+                          (click)="editMode.payment_type = true"
+                          class="btn-edit"
+                        >изменить</label>
+                      </b><br>
                       <div *ngIf="!editMode.payment_type">
                         <span *ngIf="purchaseInfo.payment_type === 0">
                           Перевод денежных средств осуществляется через сайт
                         </span>
                           <span *ngIf="purchaseInfo.payment_type === 1">
                           Денежные средства переводятся напрямую организатору.<br>
-                            <span *ngIf="isParticipant || isCreator">
-                              Платежная информация:<br> {{purchaseInfo.payment_info}}
+                            <span *ngIf="isParticipant || isCreator"
+                            >Платежная информация:<br>
+                              <span class="preserve-line-breaks">{{purchaseInfo.payment_info}}</span>
                             </span>
                         </span>
                           <span *ngIf="purchaseInfo.payment_type === 2">

@@ -170,6 +170,24 @@
   height: 31px;
 }
 
+.btn-edit {
+  display: inline-block;
+  border: 1px solid #000000;
+  vertical-align: middle;
+  margin-left: 10px;
+  margin-bottom: 0.2rem !important;
+  color: #000;
+  font-size: 14px !important;
+  font-family: 'CircleRounded';
+  font-weight: normal !important;
+  line-height: normal !important;
+  text-align: center;
+  padding: 0 8px;
+  border-radius: 4px;
+  height: auto;
+  cursor: pointer;
+}
+
 .btn-detach:hover {
   background: #E42724;
   color: #fff;
@@ -178,4 +196,8 @@
 .btn-detach:focus {
   background-color: #E42724;
   color: #fff;
+}
+
+.preserve-line-breaks {
+  white-space: pre-wrap;
 }
