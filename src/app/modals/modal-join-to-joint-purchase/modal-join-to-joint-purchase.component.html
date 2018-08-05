@@ -25,8 +25,8 @@
         <span class="input-group-text">{{ cost | fixedFloat: 2 }} ₽</span>
       </div>
     </div>
-    <div *ngIf="volume < minimum" class="text-danger pt-2">Минимальный объем заказа: {{ minimum }}</div>
-    <div *ngIf="volume > maximum" class="text-danger pt-2">Максимальный объем заказа: {{ maximum }}</div>
+    <div *ngIf="volume < minimum" class="text-danger pt-2">Минимальный объем заказа: {{ minimum }} {{ measurementUnit }}</div>
+    <div *ngIf="volume > maximum" class="text-danger pt-2">Максимальный объем заказа: {{ maximum }} {{ measurementUnit }}</div>
   </div>
   <div class="modal-footer">
     <button
