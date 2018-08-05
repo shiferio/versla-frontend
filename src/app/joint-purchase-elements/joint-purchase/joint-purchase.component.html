@@ -289,7 +289,7 @@
                 <div *ngIf="history">
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let item of history">
-                      <h5>{{ item.date | russianLocaleDate }}</h5>
+                      <h5>{{ item.date | date:'dd.MM.yyyy HH:mm' }}</h5>
                       <p *ngIf="item.parameter === 'name'">
                         Организатор изменил название закупки на <b>{{item.value}}</b>
                       </p>
@@ -351,26 +351,21 @@
                 ngbDropdownToggle
                 ngbPopover="Изменить состояние закупки"
                 triggers="mouseenter:mouseleave"
+                [disabled]="purchaseInfo.state === 2"
               >Состояние закупки
               </button>
               <div ngbDropdownMenu aria-labelledby="purchaseState">
                 <button
                   class="dropdown-item"
-                  *ngIf="purchaseInfo.state != 0"
-                  (click)="updateState(0)"
-                >Объявить об открытии
-                </button>
-                <button
-                  class="dropdown-item"
-                  *ngIf="purchaseInfo.state != 1"
+                  *ngIf="purchaseInfo.state < 1"
                   (click)="updateState(1)"
-                >Объявить о завершении приема заказов
+                >Завершить прием заказов
                 </button>
                 <button
                   class="dropdown-item"
-                  *ngIf="purchaseInfo.state != 2"
+                  *ngIf="purchaseInfo.state < 2"
                   (click)="updateState(2)"
-                >Объявить о закрытии
+                >Закрыть закупку
                 </button>
               </div>
             </div>
