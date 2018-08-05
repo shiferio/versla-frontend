@@ -126,7 +126,7 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   get totalOrderedVolume(): number {
-    return this.purchaseInfo['participants'].reduce((all, value) => value['volume'], 0);
+    return this.purchaseInfo['participants'].reduce((all, value) => all + value['volume'], 0);
   }
 
   async loadAdditionalInfo(purchase_info: any) {
