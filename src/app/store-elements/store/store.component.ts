@@ -12,6 +12,7 @@ import {SearchService} from '../../search.service';
 import {ScopeModel, SearchFieldService} from '../../search-field.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ChatService} from '../../chat.service';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({
   selector: 'app-store',
@@ -61,7 +62,8 @@ export class StoreComponent implements OnInit, OnDestroy {
     private search: SearchService,
     private searchField: SearchFieldService,
     private spinner: NgxSpinnerService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private fileUploader: UploadFileService
   ) {
   }
 
@@ -181,16 +183,15 @@ export class StoreComponent implements OnInit, OnDestroy {
 
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const file: File = fileList[0];
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-
-      const data = await this.rest.uploadImage(formData);
+      const file = fileList[0];
+      const pictureUrl = await this
+        .fileUploader
+        .uploadImage(file);
 
       try {
         const resp = await this.rest.updateStoreInfo(this.link, 'logo', {
           link: this.link,
-          logo: data['file']
+          logo: pictureUrl
         });
 
         if (resp['meta'].success) {
@@ -220,16 +221,15 @@ export class StoreComponent implements OnInit, OnDestroy {
 
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const file: File = fileList[0];
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-
-      const data = await this.rest.uploadImage(formData);
+      const file = fileList[0];
+      const pictureUrl = await this
+        .fileUploader
+        .uploadImage(file);
 
       try {
         const resp = await this.rest.updateStoreInfo(this.link, 'background', {
           link: this.link,
-          background: data['file']
+          background: pictureUrl
         });
 
         if (resp['meta'].success) {

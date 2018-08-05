@@ -4,6 +4,7 @@ import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 import {validate} from 'codelyzer/walkerFactory/walkerFn';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({
   selector: 'app-modal-add-good',
@@ -40,7 +41,8 @@ export class ModalAddGoodComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private router: Router,
     private rest: RestApiService,
-    private data: DataService
+    private data: DataService,
+    private fileUploader: UploadFileService
   ) { }
 
   ngOnInit() {
@@ -122,18 +124,17 @@ export class ModalAddGoodComponent implements OnInit {
     if (this.validate()) {
       this.btnDisabled = true;
 
-      const formData: FormData = new FormData();
-      formData.append('image', this.preview_file, this.preview_file.name);
-
-      const data = await this.rest.uploadImage(formData);
-
       try {
+        const pictureUrl = await this
+          .fileUploader
+          .uploadImage(this.preview_file);
+
         const resp = await this.rest.createGood({
           store_id: this.store_id,
           city: this.city_id,
           name: this.name,
           price: this.price,
-          picture: data['file'],
+          picture: pictureUrl,
           tags: this.tags.map(item => item['value']),
           category: this.category['_id']
         });
