@@ -115,6 +115,10 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get haveEnoughRemainingVolume(): boolean {
+    return this.purchaseInfo['remaining_volume'] >= this.purchaseInfo['min_volume'];
+  }
+
   get history(): Array<any> {
     const reversed = Array.from(this.purchaseInfo['history']);
     reversed.reverse();

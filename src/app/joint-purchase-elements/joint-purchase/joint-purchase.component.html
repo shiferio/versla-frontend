@@ -84,9 +84,12 @@
             </h5>
 
             <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn">
-              <button class="btn btn-main" (click)="joinToPurchase()">
+              <button class="btn btn-main" (click)="joinToPurchase()" *ngIf="haveEnoughRemainingVolume">
                 Присоединится к закупке
               </button>
+              <span *ngIf="!haveEnoughRemainingVolume" class="text-danger">
+                <b>Товара осталось недостаточно для минимального заказа</b>
+              </span>
             </p>
             <p class="card-text text-danger" *ngIf="!isParticipant && isCollected">
               Прием заказов завершен
