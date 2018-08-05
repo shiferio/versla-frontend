@@ -543,15 +543,16 @@ export class RestApiService {
       .toPromise();
   }
 
-  approvePaymentPurchase(id: string, userId: string) {
+  updatePaymentPurchase(id: string, userId: string, state: boolean) {
     const body = {
       id: id,
-      user_id: userId
+      user_id: userId,
+      state: state
     };
 
     return this
       .http
-      .put(`${API_URL}/api/jointpurchases/payments/approve`, body, {
+      .put(`${API_URL}/api/jointpurchases/payments/update`, body, {
         headers: this.getHeaders()
       })
       .toPromise();

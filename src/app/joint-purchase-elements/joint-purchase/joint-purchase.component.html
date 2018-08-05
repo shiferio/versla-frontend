@@ -245,33 +245,32 @@
                           {{ participant.volume }} {{ measurementUnit }}
                           ({{ participant.cost }} ₽)
                         </div>
-                        <div class="col-12 col-md-3">
-                          <button
-                            type="button"
-                            class="btn btn-main"
-                            *ngIf="!participant.paid"
-                            (click)="approvePayment(participant.user._id)"
-                          >
-                            Подтвердить платеж
-                          </button>
-                          <span *ngIf="participant.paid">
-                            Вы подтвердили платеж пользователя
-                          </span>
+                        <div class="col-12 col-md-4">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              #userPayment
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="userPayment"
+                              [checked]="participant.paid"
+                              (change)="updatePaymentState(participant.user._id, userPayment.checked)"
+                            >
+                            <label class="custom-control-label" for="userPayment"
+                            >Платеж подтвержден</label>
+                          </div>
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              id="userDelivered"
+                              type="checkbox"
+                              class="custom-control-input"
+                              disabled
+                              [checked]="participant.delivered"
+                            >
+                            <label class="custom-control-label" for="userDelivered"
+                            >Товар доставлен</label>
+                          </div>
                         </div>
-                        <div class="col-11 col-md-2">
-                          <span
-                            *ngIf="!participant.delivered"
-                            class="text-danger"
-                            ngbPopover="Заказчик еще не получил товар"
-                            triggers="mouseenter:mouseleave"
-                          >
-                            Товар еще не доставлен
-                          </span>
-                          <span *ngIf="participant.delivered">
-                            Товар доставлен
-                          </span>
-                        </div>
-                        <div class="col-1 col-md-1">
+                        <div class="col-12 col-md-2">
                           <button
                             type="button"
                             class="btn btn-main"

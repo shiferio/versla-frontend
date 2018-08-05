@@ -451,17 +451,18 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async approvePayment(participantId: string) {
+  async updatePaymentState(participantId: string, state: boolean) {
     try {
-      const resp = await this.rest.approvePaymentPurchase(
+      const resp = await this.rest.updatePaymentPurchase(
         this.purchaseInfo['_id'],
-        participantId
+        participantId,
+        state
       );
 
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Вы подтвердили платеж', '', 'success');
+          .addToast('Информация обновлена', '', 'success');
 
         await this.loadAdditionalInfo(resp['data']['purchase']);
       } else {
