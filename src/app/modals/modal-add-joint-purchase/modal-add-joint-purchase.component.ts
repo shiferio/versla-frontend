@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {environment} from '../../../environments/environment';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({
   selector: 'app-modal-add-joint-purchase',
@@ -44,7 +45,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private router: Router,
     private rest: RestApiService,
-    private data: DataService
+    private data: DataService,
+    private fileUploader: UploadFileService
   ) { }
 
   ngOnInit() {
@@ -175,25 +177,13 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     return true;
   }
 
-  async uploadImage(file) {
-    if (!environment.production || !file) {
-      return 'http://via.placeholder.com/350x350';
-    } else {
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-
-      const data = await this.rest.uploadImage(formData);
-      return data['file'];
-    }
-  }
-
   async createPurchase() {
     if (this.validate()) {
       try {
-        const imageUrl = await this.uploadImage(this.pictureFile);
+        const pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
         const resp = await this.rest.addJointPurchase({
           name: this.name,
-          picture: imageUrl,
+          picture: pictureUrl,
           description: this.description,
           category_id: this.category['_id'],
           address: this.address,

@@ -6,12 +6,19 @@ import {RestApiService} from '../../rest-api.service';
 import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({selector: 'app-profile', templateUrl: './profile.component.html', styleUrls: ['./profile.component.scss']})
 export class ProfileComponent implements OnInit {
   tabNum = 1;
 
-  constructor(public data: DataService, private router: Router, private rest: RestApiService, private spinner: NgxSpinnerService) {
+  constructor(
+    public data: DataService,
+    private router: Router,
+    private rest: RestApiService,
+    private spinner: NgxSpinnerService,
+    private fileUploader: UploadFileService
+  ) {
     this
       .data
       .getProfile();
@@ -54,17 +61,16 @@ export class ProfileComponent implements OnInit {
   async fileChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const file: File = fileList[0];
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-      const data = await this.rest.uploadImage(formData);
-      console.log(data);
+      const file = fileList[0];
+      const pictureUrl = await this
+        .fileUploader
+        .uploadImage(file);
 
       try {
         const resp = await this
           .rest
           .updateAvatar({
-            picture: data['file']
+            picture: pictureUrl
           });
 
         if (resp['meta'].success) {

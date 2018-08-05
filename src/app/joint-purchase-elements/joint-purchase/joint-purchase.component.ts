@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
 import {ModalJoinToJointPurchaseComponent} from '../../modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
 import {ChatService} from '../../chat.service';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({
   selector: 'app-joint-purchase',
@@ -39,7 +40,8 @@ export class JointPurchaseComponent implements OnInit {
     private modalService: NgbModal,
     private search: SearchService,
     private spinner: NgxSpinnerService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private fileUploader: UploadFileService
   ) { }
 
   ngOnInit() {
@@ -154,18 +156,18 @@ export class JointPurchaseComponent implements OnInit {
   async purchaseImageChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const file: File = fileList[0];
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-      const data = await this.rest.uploadImage(formData);
-
       try {
+        const file = fileList[0];
+        const pictureUrl = await this
+          .fileUploader
+          .uploadImage(file);
+
         const resp = await this
           .rest
           .updatePurchaseInfo(
             this.purchaseInfo['_id'],
             'picture',
-            data['file']
+            pictureUrl
           );
 
         if (resp['meta'].success) {
