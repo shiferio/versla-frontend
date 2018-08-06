@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import {ModalJoinToJointPurchaseComponent} from '../../modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
 import {ChatService} from '../../chat.service';
 import {UploadFileService} from '../../upload-file.service';
+import {JointPurchaseHistoryService} from '../../joint-purchase-history.service';
 
 @Component({
   selector: 'app-joint-purchase',
@@ -32,6 +33,8 @@ export class JointPurchaseComponent implements OnInit {
 
   participants = [];
 
+  history = [];
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -41,7 +44,8 @@ export class JointPurchaseComponent implements OnInit {
     private search: SearchService,
     private spinner: NgxSpinnerService,
     private chatService: ChatService,
-    private fileUploader: UploadFileService
+    private fileUploader: UploadFileService,
+    private purchaseHistoryService: JointPurchaseHistoryService
   ) { }
 
   ngOnInit() {
@@ -119,12 +123,6 @@ export class JointPurchaseComponent implements OnInit {
     return this.purchaseInfo['remaining_volume'] >= this.purchaseInfo['min_volume'];
   }
 
-  get history(): Array<any> {
-    const reversed = Array.from(this.purchaseInfo['history']);
-    reversed.reverse();
-    return reversed;
-  }
-
   get measurementUnit(): string {
     return this.purchaseInfo['measurement_unit']['name'];
   }
@@ -148,13 +146,14 @@ export class JointPurchaseComponent implements OnInit {
           return data;
       }));
 
-    for (const item of this.purchaseInfo['history']) {
-      if (item['parameter'] === 'category') {
-        const resp = await this.rest.getGoodCategoryById(item['value']);
-        console.log(resp);
-        item['value'] = resp['data']['category']['name'];
-      }
-    }
+    this.history = await Promise.all(
+      this.purchaseInfo['history']
+        .map(async (item) => {
+          const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
+          return Object.assign({blocks}, item);
+        })
+        .reverse()
+    );
   }
 
   async purchaseImageChange(event) {

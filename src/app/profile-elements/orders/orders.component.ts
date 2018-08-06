@@ -53,17 +53,18 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  async approveDelivery(order: any) {
+  async updateDeliveryStatus(order: any, status: boolean) {
     try {
-      const resp = await this.rest.approveDeliveryPurchase(
+      const resp = await this.rest.updateDeliveryPurchase(
         order['purchase']['_id'],
-        this.data.user['_id']
+        this.data.user['_id'],
+        status
       );
 
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Вы подтвердили доставку товара', '', 'success');
+          .addToast('Информация обновлена', '', 'success');
 
         await this.ngOnInit();
       } else {

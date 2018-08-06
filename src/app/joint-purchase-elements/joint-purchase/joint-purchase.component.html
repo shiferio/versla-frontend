@@ -236,7 +236,7 @@
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'participants'">
                 <div *ngIf="participants">
                   <div class="list-group">
-                    <div class="list-group-item" *ngFor="let participant of participants">
+                    <div class="list-group-item" *ngFor="let participant of participants; let i = index">
                       <div class="row">
                         <div class="col-12 col-md-3">
                           {{ participant.user.login }}
@@ -251,34 +251,34 @@
                               #userPayment
                               type="checkbox"
                               class="custom-control-input"
-                              id="userPayment"
+                              id="userPayment_{{i}}"
                               [checked]="participant.paid"
                               (change)="updatePaymentState(participant.user._id, userPayment.checked)"
                             >
-                            <label class="custom-control-label" for="userPayment"
+                            <label class="custom-control-label" for="userPayment_{{i}}"
                             >Платеж подтвержден</label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input
                               #userSent
-                              id="userSent"
+                              id="userSent_{{i}}"
                               type="checkbox"
                               class="custom-control-input"
                               [checked]="participant.sent"
                               (change)="updateOrderSentState(participant.user._id, userSent.checked)"
                             >
-                            <label class="custom-control-label" for="userSent"
+                            <label class="custom-control-label" for="userSent_{{i}}"
                             >Товар отправлен</label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input
-                              id="userDelivered"
+                              id="userDelivered_{{i}}"
                               type="checkbox"
                               class="custom-control-input"
                               disabled
                               [checked]="participant.delivered"
                             >
-                            <label class="custom-control-label" for="userDelivered"
+                            <label class="custom-control-label" for="userDelivered_{{i}}"
                             >Товар доставлен</label>
                           </div>
                         </div>
@@ -307,43 +307,11 @@
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let item of history">
                       <h5>{{ item.date | date:'dd.MM.yyyy HH:mm' }}</h5>
-                      <p *ngIf="item.parameter === 'name'">
-                        Организатор изменил название закупки на <b>{{item.value}}</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'picture'">
-                        Организатор изменил изображение товара
-                      </p>
-                      <p *ngIf="item.parameter === 'description'">
-                        Организатор изменил описание закупки
-                      </p>
-                      <p *ngIf="item.parameter === 'category'">
-                        Организатор изменил категорию товара на <b>{{item.value}}</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'volume'">
-                        Организатор изменил количество товара: <b>{{item.value}} {{measurementUnit}}</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'min_volume'">
-                        Организатор изменил минимальный объем закупки: <b>{{item.value}} {{measurementUnit}}</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'price_per_unit'">
-                        Организатор изменил цену: <b>{{item.value}} ₽</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'state'">
-                        <span *ngIf="item.value === 0">
-                          Организатор объявил об <b>открытии закупки</b>
-                        </span>
-                        <span *ngIf="item.value === 1">
-                          Организатор объявил о <b>завершении приема заказов</b>
-                        </span>
-                        <span *ngIf="item.value === 2">
-                          Организатор объявил о <b>закрытии закупки</b>
-                        </span>
-                      </p>
-                      <p *ngIf="item.parameter === 'payment_type'">
-                        Организатор изменил <b>способ оплаты</b>
-                      </p>
-                      <p *ngIf="item.parameter === 'payment_info'">
-                        Организатор обновил <b>данные для платежей</b>
+                      <p>
+                        <span
+                          *ngFor="let block of item.blocks"
+                          [ngClass]="{'font-weight-bold': block.bold}"
+                        >{{block.text}}</span>
                       </p>
                     </div>
                   </div>
