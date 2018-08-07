@@ -27,6 +27,8 @@ export class JointPurchaseComponent implements OnInit {
 
   editMode: any = {};
 
+  editModeInfo: any = {};
+
   additionalTabPane = 'description';
 
   date = {};
@@ -133,6 +135,7 @@ export class JointPurchaseComponent implements OnInit {
 
   async loadAdditionalInfo(purchase_info: any) {
     this.purchaseInfo = purchase_info;
+    Object.assign(this.editModeInfo, this.purchaseInfo);
 
     this.participants = await Promise.all(
       this
@@ -193,13 +196,13 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updateName() {
-    if (this.purchaseInfo['name']) {
+    if (this.editModeInfo['name']) {
       this.editMode['name'] = false;
       try {
         const resp = await this.rest.updatePurchaseInfo(
           this.purchaseInfo['_id'],
           'name',
-          this.purchaseInfo['name']
+          this.editModeInfo['name']
         );
 
         if (resp['meta'].success) {
@@ -226,13 +229,13 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updateVolume() {
-    if (this.purchaseInfo['volume']) {
+    if (this.editModeInfo['volume']) {
       this.editMode['volume'] = false;
       try {
         const resp = await this.rest.updatePurchaseInfo(
           this.purchaseInfo['_id'],
           'volume',
-          Number.parseFloat(this.purchaseInfo['volume'])
+          Number.parseFloat(this.editModeInfo['volume'])
         );
 
         if (resp['meta'].success) {
@@ -259,7 +262,7 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updateCategory(category: any) {
-    this.purchaseInfo['category'] = category;
+    this.editModeInfo['category'] = category;
 
     this.editMode['category'] = false;
     try {
@@ -288,13 +291,13 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updateDescription() {
-    if (this.purchaseInfo['description']) {
+    if (this.editModeInfo['description']) {
       this.editMode['description'] = false;
       try {
         const resp = await this.rest.updatePurchaseInfo(
           this.purchaseInfo['_id'],
           'description',
-          this.purchaseInfo['description']
+          this.editModeInfo['description']
         );
 
         if (resp['meta'].success) {
@@ -348,9 +351,9 @@ export class JointPurchaseComponent implements OnInit {
 
   async updatePaymentInfo() {
     if (
-      this.purchaseInfo['payment_type'] === 1 &&
-      !this.purchaseInfo['payment_info'] &&
-      this.purchaseInfo['payment_info'].length === 0) {
+      this.editModeInfo['payment_type'] === 1 &&
+      !this.editModeInfo['payment_info'] &&
+      this.editModeInfo['payment_info'].length === 0) {
       this
         .data
         .addToast('Укажите платежную информацию', '', 'error');
@@ -361,7 +364,7 @@ export class JointPurchaseComponent implements OnInit {
       const resp = await this.rest.updatePurchaseInfo(
         this.purchaseInfo['_id'],
         'payment_info',
-        this.purchaseInfo['payment_info']
+        this.editModeInfo['payment_info']
       );
 
       if (!resp['meta'].success) {
@@ -380,7 +383,7 @@ export class JointPurchaseComponent implements OnInit {
   }
 
   async updatePaymentType() {
-    if (this.purchaseInfo['payment_type'] === 1) {
+    if (this.editModeInfo['payment_type'] === 1) {
       const updateInfoRes = await this.updatePaymentInfo();
 
       if (!updateInfoRes) {
@@ -393,7 +396,7 @@ export class JointPurchaseComponent implements OnInit {
       const typeResp = await this.rest.updatePurchaseInfo(
         this.purchaseInfo['_id'],
         'payment_type',
-        this.purchaseInfo['payment_type']
+        this.editModeInfo['payment_type']
       );
 
       if (typeResp['meta'].success) {
