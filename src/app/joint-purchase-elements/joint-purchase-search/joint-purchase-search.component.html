@@ -94,13 +94,6 @@
                 placeholder="01.01.2018"
                 class="form-control"
               >
-              <input
-                class="d-none"
-                [(ngModel)]="date"
-                (dateSelect)="filterByDate()"
-                ngbDatepicker
-                #d="ngbDatepicker"
-              >
               <div class="input-group-append">
                 <button
                   class="btn btn-outline-secondary"
@@ -113,6 +106,13 @@
                 </button>
               </div>
             </div>
+            <input
+              class="input-hidden"
+              [(ngModel)]="date"
+              (dateSelect)="filterByDate()"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            >
           </div>
           <div class="list-group-item">
             <button
