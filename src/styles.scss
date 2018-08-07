@@ -409,6 +409,30 @@ footer.footer {
   padding-bottom: 4rem;
 }
 
+//Custom checkbox background
+.custom-checkbox {
+  .custom-control-input:checked ~ .custom-control-label {
+    &::before {
+      background-color: #00B5EB;
+    }
+  }
+
+  .custom-control-input:indeterminate ~ .custom-control-label {
+    &::before {
+      background-color: #00B5EB;
+    }
+  }
+
+  .custom-control-input:disabled {
+    &:checked ~ .custom-control-label::before {
+      background-color: rgba(#00B5EB, .5);
+    }
+    &:indeterminate ~ .custom-control-label::before {
+      background-color: rgba(#00B5EB, .5);
+    }
+  }
+}
+
 //Toasty
 #toasty {
   position: fixed;
