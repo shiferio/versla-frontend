@@ -27,6 +27,10 @@ export class JointPurchaseHistoryService {
     'participants.sent', 'participants.paid', 'participants.delivered'
   ];
 
+  public readonly participantActivity = [
+    'participants.joint', 'participants.detached'
+  ];
+
   constructor(
     private rest: RestApiService
   ) { }
@@ -155,6 +159,26 @@ export class JointPurchaseHistoryService {
     }
   }
 
+  private async parseParticipantActivity(item: any): Promise<Array<TextBlock>> {
+    const parameter = item['parameter'];
+    const {user: userId} = item['value'];
+
+    const user = await this.getUser(userId);
+    if (parameter === 'participants.joint') {
+      return [
+        { text: 'Пользователь ', bold: false},
+        { text: `${user['login']}`, bold: true},
+        { text: ' присоединился к закупке', bold: false}
+      ];
+    } else if (parameter === 'participants.detached') {
+      return [
+        { text: 'Пользователь ', bold: false},
+        { text: `${user['login']}`, bold: true},
+        { text: ' отказался от участия в закупке', bold: false}
+      ];
+    }
+  }
+
   async parseHistoryItem(item: any): Promise<Array<TextBlock>> {
       if (this.purchaseParameters.indexOf(item['parameter']) !== -1) {
         return await this.parsePurchaseParameter(item);
@@ -164,6 +188,8 @@ export class JointPurchaseHistoryService {
         return this.parsePurchaseState(item);
       } else if (this.participantParameters.indexOf(item['parameter']) !== -1) {
         return await this.parseParticipantParameter(item);
+      } else if (this.participantActivity.indexOf(item['parameter']) !== -1) {
+        return await this.parseParticipantActivity(item);
       }
   }
 }
