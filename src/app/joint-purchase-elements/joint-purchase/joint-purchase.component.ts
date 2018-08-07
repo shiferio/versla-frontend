@@ -37,6 +37,8 @@ export class JointPurchaseComponent implements OnInit {
 
   history = [];
 
+  visibleHistoryLength = 0;
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -133,6 +135,22 @@ export class JointPurchaseComponent implements OnInit {
     return this.purchaseInfo['participants'].reduce((all, value) => all + value['volume'], 0);
   }
 
+  get visibleHistory(): Array<any> {
+    if (this.visibleHistoryLength === this.history.length) {
+      return this.history;
+    } else {
+      return this.history.slice(0, this.visibleHistoryLength);
+    }
+  }
+
+  showMoreHistoryItems() {
+    if (this.visibleHistoryLength + 5 > this.history.length) {
+      this.visibleHistoryLength = this.history.length;
+    } else {
+      this.visibleHistoryLength += 5;
+    }
+  }
+
   async loadAdditionalInfo(purchase_info: any) {
     this.purchaseInfo = purchase_info;
     Object.assign(this.editModeInfo, this.purchaseInfo);
@@ -157,6 +175,7 @@ export class JointPurchaseComponent implements OnInit {
         })
         .reverse()
     );
+    this.visibleHistoryLength = Math.min(this.history.length, 5);
   }
 
   async purchaseImageChange(event) {

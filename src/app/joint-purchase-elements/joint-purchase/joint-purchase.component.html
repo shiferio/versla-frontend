@@ -305,7 +305,7 @@
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'history'">
                 <div *ngIf="history">
                   <div class="list-group">
-                    <div class="list-group-item" *ngFor="let item of history">
+                    <div class="list-group-item" *ngFor="let item of visibleHistory">
                       <h5>{{ item.date | date:'dd.MM.yyyy HH:mm' }}</h5>
                       <p>
                         <span
@@ -314,6 +314,12 @@
                         >{{block.text}}</span>
                       </p>
                     </div>
+                    <button
+                      type="button"
+                      class="btn btn-main ml-auto mr-auto mt-2"
+                      *ngIf="visibleHistoryLength < history.length"
+                      (click)="showMoreHistoryItems()"
+                    >Показать еще</button>
                   </div>
                 </div>
               </div>
