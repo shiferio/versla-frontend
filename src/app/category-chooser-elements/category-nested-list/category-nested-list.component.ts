@@ -5,6 +5,7 @@ export class Settings {
   selectOnlyLeafs: boolean;
   description: string;
   backToTopTitle: string;
+  limitHeight: boolean;
 }
 
 @Component({
@@ -21,7 +22,8 @@ export class CategoryNestedListComponent implements OnInit {
   settings: Settings = {
     selectOnlyLeafs: false,
     description: 'Категории',
-    backToTopTitle: 'Назад'
+    backToTopTitle: 'Назад',
+    limitHeight: true
   };
 
   @Input('data')

@@ -6,7 +6,10 @@
   <div class="p-2 flex-grow-1">{{settings.backToTopTitle}}</div>
 </div>
 
-<div class="list-group list-group-scrollable">
+<div
+  class="list-group list-group-scrollable"
+  [ngClass]="{'list-limit-height': settings.limitHeight}"
+>
   <div
     class="list-group-item select-item p-0"
     *ngFor="let item of activeItem.children"

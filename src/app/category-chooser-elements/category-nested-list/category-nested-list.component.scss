@@ -1,6 +1,9 @@
 .list-group-scrollable {
-  max-height: 250px;
   overflow-y: auto;
+}
+
+.list-limit-height {
+  max-height: 250px;
 }
 
 .select-item {
