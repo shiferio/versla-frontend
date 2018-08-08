@@ -71,6 +71,7 @@ import { JointPurchasesComponent } from './profile-elements/joint-purchases/join
 import { CategoryNestedChooserComponent } from './category-chooser-elements/category-nested-chooser/category-nested-chooser.component';
 import { InternalCategoryNodeComponent } from './category-chooser-elements/internal-category-node/internal-category-node.component';
 import { CategoryNestedListComponent } from './category-chooser-elements/category-nested-list/category-nested-list.component';
+import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/modal-category-chooser.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { CategoryNestedListComponent } from './category-chooser-elements/categor
     JointPurchasesComponent,
     CategoryNestedChooserComponent,
     InternalCategoryNodeComponent,
-    CategoryNestedListComponent
+    CategoryNestedListComponent,
+    ModalCategoryChooserComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -160,7 +162,8 @@ import { CategoryNestedListComponent } from './category-chooser-elements/categor
     ModalSendErrorComponent,
     ModalSendFeatureComponent,
     ModalAddJointPurchaseComponent,
-    ModalJoinToJointPurchaseComponent
+    ModalJoinToJointPurchaseComponent,
+    ModalCategoryChooserComponent
   ]
 })
 export class AppModule {
