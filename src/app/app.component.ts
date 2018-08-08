@@ -16,6 +16,7 @@ import {Title} from '@angular/platform-browser';
 import {JointPurchaseSearchService} from './joint-purchase-search.service';
 import {VerslaChatAdapter} from './chat-adapter';
 import {ChatService} from './chat.service';
+import {ModalCategoryChooserComponent} from './modals/modal-category-chooser/modal-category-chooser.component';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -149,6 +150,23 @@ export class AppComponent implements OnInit, OnDestroy {
       .result
       .then(result => {
         console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  openModalCategoryChooser() {
+    const modalRef = this
+      .modalService
+      .open(ModalCategoryChooserComponent);
+
+    modalRef
+      .result
+      .then(async (category) => {
+        if (category) {
+          await this.openSearchByCategory(category);
+        }
       })
       .catch(error => {
         console.log(error);
