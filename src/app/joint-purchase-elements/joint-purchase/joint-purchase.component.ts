@@ -280,15 +280,13 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateCategory(category: any) {
-    this.editModeInfo['category'] = category;
-
+  async updateCategory() {
     this.editMode['category'] = false;
     try {
       const resp = await this.rest.updatePurchaseInfo(
         this.purchaseInfo['_id'],
         'category',
-        category['_id']
+        this.editModeInfo['category']['_id']
       );
 
       if (resp['meta'].success) {

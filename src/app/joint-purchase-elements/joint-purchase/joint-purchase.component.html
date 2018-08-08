@@ -110,9 +110,16 @@
               </div>
               <div *ngIf="editMode.category" class="form-group">
                 <label for="category">Категория</label>
-                <app-good-category-chooser id="category" [category]="editModeInfo.category"
-                                           (categoryChanged)="updateCategory($event)">
-                </app-good-category-chooser>
+                <app-good-category-chooser
+                  id="category"
+                  [category]="editModeInfo.category"
+                  (categoryChanged)="editModeInfo.category = $event"
+                ></app-good-category-chooser>
+                <button
+                  type="button"
+                  class="btn btn-main mt-3"
+                  (click)="updateCategory()"
+                >Обновить</button>
               </div>
             </div>
           </div>
