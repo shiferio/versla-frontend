@@ -1,0 +1,29 @@
+<div class="d-flex" *ngIf="history.length > 0">
+  <div
+    class="p-2"
+    (click)="backToTop()"
+  ><i class="fa fa-arrow-up"></i></div>
+  <div class="p-2 flex-grow-1">{{settings.backToTopTitle}}</div>
+</div>
+
+<div class="list-group list-group-scrollable">
+  <div
+    class="list-group-item select-item p-0"
+    *ngFor="let item of activeItem.children"
+  >
+    <div class="d-flex">
+      <div
+        class="p-2 w-100"
+        (click)="itemSelected(item)"
+      >{{item.name}}
+      </div>
+      <div
+        class="pt-2 pb-2 pl-3 pr-3"
+        *ngIf="item.children.length > 0"
+        (click)="showSubitems(item)"
+      >
+        <i class="fa fa-plus-square"></i>
+      </div>
+    </div>
+  </div>
+</div>

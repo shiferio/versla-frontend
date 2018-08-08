@@ -70,6 +70,7 @@ import {NgChatModule} from 'ng-chat';
 import { JointPurchasesComponent } from './profile-elements/joint-purchases/joint-purchases.component';
 import { CategoryNestedChooserComponent } from './category-chooser-elements/category-nested-chooser/category-nested-chooser.component';
 import { InternalCategoryNodeComponent } from './category-chooser-elements/internal-category-node/internal-category-node.component';
+import { CategoryNestedListComponent } from './category-chooser-elements/category-nested-list/category-nested-list.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { InternalCategoryNodeComponent } from './category-chooser-elements/inter
     ModalJoinToJointPurchaseComponent,
     JointPurchasesComponent,
     CategoryNestedChooserComponent,
-    InternalCategoryNodeComponent
+    InternalCategoryNodeComponent,
+    CategoryNestedListComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
