@@ -46,18 +46,24 @@ export class CategoryNestedListComponent implements OnInit {
   ngOnInit() {
   }
 
-  showSubitems(item: NodeModel) {
+  showSubitems(event: Event, item: NodeModel) {
+    event.stopPropagation();
+
     this.history.push(this.activeItem);
     this.activeItem = item;
   }
 
-  itemSelected(item: NodeModel) {
+  itemSelected(event: Event, item: NodeModel) {
+    event.stopPropagation();
+
     if (!this.settings.selectOnlyLeafs || item.children.length === 0) {
       this.selected.emit(item);
     }
   }
 
-  backToTop() {
+  backToTop(event: Event) {
+    event.stopPropagation();
+
     this.activeItem = this.history.pop();
   }
 
