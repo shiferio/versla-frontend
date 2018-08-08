@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {RestApiService} from '../rest-api.service';
 import {DataService} from '../data.service';
 
 @Component({
@@ -11,9 +10,7 @@ export class GoodCategoryChooserComponent implements OnInit {
 
   menu_visible = false;
 
-  categories: Array<any>;
-
-  new_category_name: string;
+  /*new_category_name: string;*/
 
   @Input('category')
   category: any;
@@ -24,21 +21,24 @@ export class GoodCategoryChooserComponent implements OnInit {
   categoryChanged = new EventEmitter();
 
   constructor(
-    private data: DataService,
-    private rest: RestApiService
+    private data: DataService
   ) { }
 
   async ngOnInit() {
-    const resp = await this.rest.getAllGoodCategories();
-    this.categories = resp['data']['categories'];
-
     this.selected_category = this.category || {};
+  }
+
+  get categories() {
+    return this.data.categoryTree;
   }
 
   selectCategory(category: any) {
     this.hideMenu();
-    if (this.selected_category['_id'] !== category['_id']) {
-      this.selected_category = category;
+    if (this.selected_category['_id'] !== category['id']) {
+      this.selected_category = {
+        _id: category['id'],
+        name: category['name']
+      };
       this.categoryChanged.emit(this.selected_category);
     }
   }
@@ -50,7 +50,7 @@ export class GoodCategoryChooserComponent implements OnInit {
   hideMenu() {
     this.menu_visible = false;
   }
-
+/*
   async addNewCategory() {
     const index = this
       .categories
@@ -81,5 +81,5 @@ export class GoodCategoryChooserComponent implements OnInit {
         .addToast('Ошибка', error.toString(), 'error');
     }
   }
-
+*/
 }
