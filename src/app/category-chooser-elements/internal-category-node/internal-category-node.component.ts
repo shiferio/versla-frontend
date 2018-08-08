@@ -19,9 +19,7 @@ export class InternalCategoryNodeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this.data.name, Math.trunc(this.level / 2) % 2);
-  }
+  ngOnInit() { }
 
   nodeSelected() {
     this.selected.emit(this.data);

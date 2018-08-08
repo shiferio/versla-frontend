@@ -20,7 +20,6 @@ export class CategoryNestedChooserComponent implements OnInit {
   }
 
   childrenSelected(data: NodeModel) {
-    console.log(data.name);
     this.selected.emit(data);
   }
 
