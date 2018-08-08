@@ -44,8 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   categoryMenuCollapsed = true;
 
-  categoryTree: any;
-
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -78,8 +76,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const resp = await this.rest.getAllGoodCategories();
     this.categories = resp['data']['categories'];
-
-    this.categoryTree = (await this.rest.getGoodCategoryTree())['data']['categories'];
 
     this.query_params_sub = this
       .route
@@ -176,6 +172,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   get isLoggedIn() {
     return this.data.user;
+  }
+
+  get categoryTree() {
+    return this.data.categoryTree;
   }
 
   async openSearch() {

@@ -14,6 +14,7 @@ export class DataService {
   stores: any;
   cities: Array<any>;
   observableUser = new BehaviorSubject(null);
+  categoryTree = new BehaviorSubject([]);
 
   constructor(private router: Router, private rest: RestApiService, private toastyService: ToastyService,
               private toastyConfig: ToastyConfig, private titleService: Title) {
@@ -37,6 +38,16 @@ export class DataService {
       .then(data => {
         if (data['meta'].success) {
           this.cities = data['data'].cities;
+        }
+      })
+      .catch(err => console.log(err));
+
+    this
+      .rest
+      .getGoodCategoryTree()
+      .then(resp => {
+        if (resp['meta'].success) {
+          this.categoryTree.next(resp['data']['categories']);
         }
       })
       .catch(err => console.log(err));

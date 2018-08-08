@@ -88,7 +88,7 @@
               <i class="fa fa-bars"></i> Категории
             </a>
             <app-category-nested-chooser
-              [data]="categoryTree"
+              [data]="categoryTree | async"
               [ngbCollapse]="categoryMenuCollapsed"
               (selected)="openSearchByCategory($event)"
             ></app-category-nested-chooser>

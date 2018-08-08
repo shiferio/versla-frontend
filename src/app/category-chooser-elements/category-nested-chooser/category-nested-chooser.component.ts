@@ -12,7 +12,7 @@ export class CategoryNestedChooserComponent implements OnInit {
   selected = new EventEmitter<NodeModel>();
 
   @Input('data')
-  data: Array<NodeModel>;
+  data: Array<NodeModel> = [];
 
   constructor() { }
 
@@ -20,7 +20,6 @@ export class CategoryNestedChooserComponent implements OnInit {
   }
 
   childrenSelected(data: NodeModel) {
-    console.log(data.name);
     this.selected.emit(data);
   }
 
