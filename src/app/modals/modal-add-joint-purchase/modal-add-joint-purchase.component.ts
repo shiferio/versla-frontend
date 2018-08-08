@@ -39,6 +39,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   paymentInfo: string;
 
+  isPrivate = false;
+
   private pictureFile: any = null;
 
   constructor(
@@ -194,7 +196,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
           date: new Date(this.date['year'], this.date['month'], this.date['day']),
           state: 0,
           payment_type: this.paymentType,
-          payment_info: this.paymentInfo
+          payment_info: this.paymentInfo,
+          is_public: !this.isPrivate
         });
 
         if (resp['meta'].success) {
