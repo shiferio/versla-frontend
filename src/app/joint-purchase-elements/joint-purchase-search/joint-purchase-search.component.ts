@@ -196,7 +196,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
       const modalRef = this.modalService.open(
         ModalAddJointPurchaseComponent,
         {
-          size: 'lg'
+          size: 'lg',
+          backdrop: 'static'
         }
       );
 
