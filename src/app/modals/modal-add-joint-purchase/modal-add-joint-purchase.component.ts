@@ -189,6 +189,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
           description: this.description,
           category_id: this.category['_id'],
           address: this.address,
+          city_id: this.data.getPreferredCity()['_id'],
           volume: Number.parseFloat(this.volume),
           min_volume: Number.parseFloat(this.minVolume),
           price_per_unit: Number.parseFloat(this.pricePerUnit),
