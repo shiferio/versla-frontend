@@ -31,6 +31,10 @@ export class JointPurchaseHistoryService {
     'participants.joint', 'participants.detached'
   ];
 
+  public readonly blackListActivity = [
+    'black_list.add', 'black_list.remove'
+  ];
+
   constructor(
     private rest: RestApiService
   ) { }
@@ -179,6 +183,28 @@ export class JointPurchaseHistoryService {
     }
   }
 
+  private async parseBlackListActivity(item: any): Promise<Array<TextBlock>> {
+    const parameter = item['parameter'];
+    const {user: userId} = item['value'];
+
+    const user = await this.getUser(userId);
+    if (parameter === 'black_list.add') {
+      return [
+        { text: 'Организатор ', bold: false},
+        { text: 'заблокировал ', bold: true},
+        { text: 'пользователя ', bold: false},
+        { text: `${user['login']}`, bold: true}
+      ];
+    } else if (parameter === 'black_list.remove') {
+      return [
+        { text: 'Организатор ', bold: false},
+        { text: 'разблокировал ', bold: true},
+        { text: 'пользователя ', bold: false},
+        { text: `${user['login']}`, bold: true}
+      ];
+    }
+  }
+
   async parseHistoryItem(item: any): Promise<Array<TextBlock>> {
       if (this.purchaseParameters.indexOf(item['parameter']) !== -1) {
         return await this.parsePurchaseParameter(item);
@@ -190,6 +216,8 @@ export class JointPurchaseHistoryService {
         return await this.parseParticipantParameter(item);
       } else if (this.participantActivity.indexOf(item['parameter']) !== -1) {
         return await this.parseParticipantActivity(item);
+      } else if (this.blackListActivity.indexOf(item['parameter']) !== -1) {
+        return await this.parseBlackListActivity(item);
       }
   }
 }

@@ -151,6 +151,12 @@
                      (click)="additionalTabPane = 'history'"
                      role="tab">История изменений</a>
                 </li>
+
+                <li class="nav-item p-b-10" *ngIf="isCreator">
+                  <a class="nav-link tabs" [class.active]="additionalTabPane === 'black_list'" data-toggle="tab"
+                     (click)="additionalTabPane = 'black_list'"
+                     role="tab">Черный список</a>
+                </li>
               </ul>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
@@ -289,16 +295,27 @@
                             >Товар доставлен</label>
                           </div>
                         </div>
-                        <div class="col-12 col-md-2">
-                          <button
-                            type="button"
-                            class="btn btn-main"
-                            (click)="openChatWithParticipant(participant.user._id)"
-                            ngbPopover="Связаться по чату"
-                            triggers="mouseenter:mouseleave"
-                          >
-                            <i class="fa fa-comment"></i>
-                          </button>
+                        <div class="col-12 col-md-2 justify-content-md-end">
+                          <div class="d-inline-flex flex-md-column flex-row">
+                            <button
+                              type="button"
+                              class="btn btn-main mb-md-2 mr-2 mr-md-0"
+                              (click)="openChatWithParticipant(participant.user._id)"
+                              ngbPopover="Связаться по чату"
+                              triggers="mouseenter:mouseleave"
+                            >
+                              <i class="fa fa-comment"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-detach mr-2 mr-md-0"
+                              (click)="addUserToBlackList(participant.user._id)"
+                              ngbPopover="Заблокировать пользователя"
+                              triggers="mouseenter:mouseleave"
+                            >
+                              <i class="fa fa-ban"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -327,6 +344,27 @@
                       *ngIf="visibleHistoryLength < history.length"
                       (click)="showMoreHistoryItems()"
                     >Показать еще</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'black_list'">
+                <div *ngIf="blackList">
+                  <div class="list-group">
+                    <div class="list-group-item" *ngFor="let user of blackList; let i = index">
+                      <div class="row">
+                        <div class="col-12 col-md-7 mb-2 mb-md-0">
+                          {{user.login}}
+                        </div>
+                        <div class="col-12 col-md-5 d-flex justify-content-md-end">
+                          <button
+                            type="button"
+                            class="btn btn-detach"
+                            (click)="removeUserFromBlackList(user._id)"
+                          >Разблокировать</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

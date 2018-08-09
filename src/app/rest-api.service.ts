@@ -606,6 +606,35 @@ export class RestApiService {
       .toPromise();
   }
 
+  addUserToPurchaseBlackList(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/black_list`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  removeUserFromPurchaseBlackList(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/black_list`, {
+        headers: this.getHeaders(),
+        body: body
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http

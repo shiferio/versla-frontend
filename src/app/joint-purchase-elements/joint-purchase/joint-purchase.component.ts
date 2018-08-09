@@ -39,6 +39,8 @@ export class JointPurchaseComponent implements OnInit {
 
   visibleHistoryLength = 0;
 
+  blackList = [];
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -166,6 +168,14 @@ export class JointPurchaseComponent implements OnInit {
           data['cost'] = participant['volume'] * this.purchaseInfo['price_per_unit'];
           return data;
       }));
+
+    this.blackList = await Promise.all(
+      this.purchaseInfo['black_list']
+        .map(async (userId) => {
+          const resp = await this.rest.getUserById(userId);
+          return resp['data']['user'];
+        })
+    );
 
     this.history = await Promise.all(
       this.purchaseInfo['history']
@@ -528,5 +538,55 @@ export class JointPurchaseComponent implements OnInit {
 
   async openChatWithCreator() {
     await this.chatService.openNewChat(this.purchaseInfo['creator']['_id']);
+  }
+
+  async addUserToBlackList(participantId: string) {
+    try {
+      const resp = await this.rest.addUserToPurchaseBlackList(
+        this.purchaseInfo['_id'],
+        participantId
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Пользователь добавлен в черный список', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
+  async removeUserFromBlackList(participantId: string) {
+    try {
+      const resp = await this.rest.removeUserFromPurchaseBlackList(
+        this.purchaseInfo['_id'],
+        participantId
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Пользователь разблокирован', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
   }
 }
