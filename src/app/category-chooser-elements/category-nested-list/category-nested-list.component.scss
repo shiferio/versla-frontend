@@ -8,6 +8,8 @@
 
 .select-item {
   width: 100%;
+  cursor: default;
+  user-select: none;
 }
 
 .select-item:hover {

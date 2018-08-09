@@ -10,3 +10,8 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 10;
 }
+
+.custom-select {
+  cursor: default;
+  user-select: none;
+}
