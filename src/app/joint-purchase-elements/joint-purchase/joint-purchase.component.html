@@ -309,6 +309,7 @@
                               <i class="fa fa-comment"></i>
                             </button>
                             <button
+                              *ngIf="purchaseInfo.creator._id !== participant.user._id"
                               type="button"
                               class="btn btn-detach mr-2 mr-md-0"
                               (click)="addUserToBlackList(participant.user._id)"
