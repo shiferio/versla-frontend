@@ -177,14 +177,21 @@ export class JointPurchaseComponent implements OnInit {
         })
     );
 
-    this.history = await Promise.all(
-      this.purchaseInfo['history']
-        .map(async (item) => {
-          const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
-          return Object.assign({blocks}, item);
-        })
-        .reverse()
-    );
+    this.history = [];
+    for (const item of this.purchaseInfo['history']) {
+      const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
+      this.history.push(Object.assign({blocks}, item));
+    }
+    this.history.reverse();
+    //
+    // this.history = await Promise.all(
+    //   this.purchaseInfo['history']
+    //     .map(async (item) => {
+    //       const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
+    //       return Object.assign({blocks}, item);
+    //     })
+    //     .reverse()
+    // );
     this.visibleHistoryLength = Math.min(this.history.length, 5);
   }
 

@@ -39,6 +39,8 @@ export class JointPurchaseHistoryService {
     private rest: RestApiService
   ) { }
 
+  private userCache = new Map<string, any>();
+
   private async getCategory(id: string) {
     try {
       const resp = await this.rest.getGoodCategoryById(id);
@@ -49,9 +51,15 @@ export class JointPurchaseHistoryService {
   }
 
   private async getUser(id: string) {
+    if (this.userCache.has(id)) {
+      return this.userCache.get(id);
+    }
+
     try {
       const resp = await this.rest.getUserById(id);
-      return resp['data']['user'];
+      const user = resp['data']['user'];
+      this.userCache.set(id, user);
+      return user;
     } catch (error) {
       return {};
     }
