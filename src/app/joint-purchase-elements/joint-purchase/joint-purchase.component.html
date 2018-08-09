@@ -380,6 +380,12 @@
             <h4 class="card-title">
               Управление закупкой
             </h4>
+            <p *ngIf="purchaseInfo.state === 0"
+            >Закупка <b>открыта</b>, идет прием заказов</p>
+            <p *ngIf="purchaseInfo.state === 1"
+            >Прием заказов <b>завершен</b></p>
+            <p *ngIf="purchaseInfo.state === 2"
+            >Закупка <span class="text-danger font-weight-bold">закрыта</span></p>
             <div ngbDropdown class="d-inline-block">
               <button
                 class="btn btn-main"
