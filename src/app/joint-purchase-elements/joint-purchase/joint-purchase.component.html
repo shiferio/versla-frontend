@@ -168,8 +168,8 @@
                       </label>
                     </h5>
                     <div *ngIf="!editMode.description">
-                      <div *ngIf="purchaseInfo.description" class="preserve-line-breaks"
-                      >{{purchaseInfo.description}}</div>
+                      <p *ngIf="purchaseInfo.description" class="preserve-line-breaks"
+                      >{{purchaseInfo.description}}</p>
                     </div>
                     <div *ngIf="editMode.description" class="form-group">
                       <textarea
@@ -188,43 +188,43 @@
                   <div class="col-12 col-md-6">
                     <h5>Сведения об организаторе</h5>
                     <p>
-                      Пользователь: {{purchaseInfo.creator.login}}<br>
-                      <button
-                        type="button"
-                        class="btn btn-main"
-                        (click)="openChatWithCreator()"
-                      >
-                        Связаться по чату <i class="fa fa-comment"></i>
-                      </button>
+                      Пользователь: {{purchaseInfo.creator.login}}
                     </p>
+                    <button
+                      type="button"
+                      class="btn btn-main mb-3"
+                      (click)="openChatWithCreator()"
+                    >
+                      Связаться по чату <i class="fa fa-comment"></i>
+                    </button>
                     <div>
-                      <b>Платежные данные
+                      <h5>Платежные данные
                         <label
                           *ngIf="isCreator && !editMode.payment_type"
                           (click)="editMode.payment_type = true"
                           class="btn-edit"
                         >изменить</label>
-                      </b><br>
+                      </h5>
                       <div *ngIf="!editMode.payment_type">
-                        <span *ngIf="purchaseInfo.payment_type === 0">
+                        <p *ngIf="purchaseInfo.payment_type === 0">
                           Перевод денежных средств осуществляется через сайт
-                        </span>
-                          <span *ngIf="purchaseInfo.payment_type === 1">
-                          Денежные средства переводятся напрямую организатору.<br>
-                            <span *ngIf="isParticipant || isCreator"
-                            >Платежная информация:<br>
-                              <span class="preserve-line-breaks">{{purchaseInfo.payment_info}}</span>
-                            </span>
-                        </span>
-                          <span *ngIf="purchaseInfo.payment_type === 2">
+                        </p>
+                        <p *ngIf="purchaseInfo.payment_type === 1">
+                          Денежные средства переводятся напрямую организатору.
+                        </p>
+                        <p *ngIf="isParticipant || isCreator">
+                          <b>Платежная информация:</b><br>
+                          <span class="preserve-line-breaks">{{purchaseInfo.payment_info}}</span>
+                        </p>
+                        <p *ngIf="purchaseInfo.payment_type === 2">
                           Оплата производится в момент выдачи товара
-                        </span>
+                        </p>
                       </div>
                       <div *ngIf="editMode.payment_type" class="form-group">
                         <label for="payment_type">Способ оплаты</label>
                         <select
                           id="payment_type"
-                          class="custom-select"
+                          class="custom-select mb-2"
                           [(ngModel)]="editModeInfo.payment_type"
                         >
                           <option [ngValue]="0" disabled>Через сайт</option>
