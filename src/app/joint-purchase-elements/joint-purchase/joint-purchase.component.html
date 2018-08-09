@@ -247,7 +247,9 @@
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'participants'">
-                <div *ngIf="participants">
+                <div *ngIf="blackList.length === 0" class="text-center"
+                >Участников нет</div>
+                <div *ngIf="participants.length > 0">
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let participant of participants; let i = index">
                       <div class="row">
@@ -349,7 +351,9 @@
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'black_list'">
-                <div *ngIf="blackList">
+                <div *ngIf="blackList.length === 0" class="text-center"
+                >Список пуст</div>
+                <div *ngIf="blackList.length > 0">
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let user of blackList; let i = index">
                       <div class="row">
