@@ -19,20 +19,11 @@
         <div class="list-group">
           <div class="list-group-item">
             <label for="category">Категории</label>
-            <select
-              disabled
+            <app-good-category-chooser
               id="category"
-              class="custom-select"
-              (change)="filterByCategory()"
-              [(ngModel)]="category"
-            >
-              <option
-                *ngFor="let item of categories"
-                [ngValue]="item"
-              >
-                {{item.name}}
-              </option>
-            </select>
+              [category]="category"
+              (categoryChanged)="filterByCategory($event)"
+            ></app-good-category-chooser>
           </div>
           <div class="list-group-item">
             Цена<br>

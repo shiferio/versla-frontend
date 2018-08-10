@@ -12,8 +12,13 @@ export class GoodCategoryChooserComponent implements OnInit {
 
   /*new_category_name: string;*/
 
+  private _category: any;
+
   @Input('category')
-  category: any;
+  set category(value: any) {
+    this._category = value;
+    this.selected_category = value || {};
+  }
 
   selected_category = {};
 
@@ -25,7 +30,7 @@ export class GoodCategoryChooserComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.selected_category = this.category || {};
+    this.selected_category = this._category || {};
   }
 
   get categories() {

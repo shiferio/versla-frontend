@@ -21,6 +21,8 @@ export class RussianLocaleDatePipe implements PipeTransform {
       <Date>value.getFullYear
     ) {
       date = value;
+    } else {
+      return '';
     }
 
     const day = date.getDate().toString().padStart(2, '0');

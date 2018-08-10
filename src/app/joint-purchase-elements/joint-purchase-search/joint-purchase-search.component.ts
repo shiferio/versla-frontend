@@ -88,6 +88,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   async initialize() {
     this.purchases = [];
     this.total = 0;
+    this.category = this.default_category;
     await this.loadCategories();
   }
 
@@ -131,13 +132,12 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.categories = categories;
   }
 
-  async filterByCategory() {
-    if (this.category) {
-      if (this.category['all']) {
-        this.search.category = null;
-      } else {
-        this.search.category = this.category;
-      }
+  async filterByCategory(category: any) {
+    this.category = category;
+    if (category['all']) {
+      this.search.category = null;
+    } else {
+      this.search.category = category;
     }
 
     this.resetPagination();
