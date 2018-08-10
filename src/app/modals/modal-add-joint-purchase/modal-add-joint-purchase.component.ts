@@ -99,12 +99,14 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       return false;
     }
 
+    /*
     if (!this.pictureUrl) {
       this
         .data
         .addToast('Добавьте изображение', '', 'error');
       return false;
     }
+    */
 
     if (!this.description) {
       this
@@ -182,7 +184,12 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   async createPurchase() {
     if (this.validate()) {
       try {
-        const pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
+        let pictureUrl;
+        if (this.pictureUrl) {
+          pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
+        } else {
+          pictureUrl = 'assets/img/purchase.jpg'; // default picture's url
+        }
         const resp = await this.rest.addJointPurchase({
           name: this.name,
           picture: pictureUrl,
