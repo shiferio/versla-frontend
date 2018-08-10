@@ -12,7 +12,7 @@
   user-select: none;
 }
 
-.select-item:hover {
+.select-item:hover, .list-head:hover {
   background-color: rgb(0, 164, 212);
   color: rgb(255, 255, 255);
 }
