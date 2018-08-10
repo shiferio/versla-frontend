@@ -58,6 +58,7 @@ import {SliderModule} from 'ngx-rslide';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
 import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
+import { StoreOrdersComponent } from './store-elements/store-orders/store-orders.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-sen
     GoodCategoryChooserComponent,
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
-    ModalSendFeatureComponent
+    ModalSendFeatureComponent,
+    StoreOrdersComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
