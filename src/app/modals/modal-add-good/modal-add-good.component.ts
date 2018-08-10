@@ -14,6 +14,8 @@ export class ModalAddGoodComponent implements OnInit {
 
   store_id: string;
 
+  city_id: string;
+
   name: string;
 
   price: number;
@@ -30,9 +32,7 @@ export class ModalAddGoodComponent implements OnInit {
 
   tags = [];
 
-  available_types = [
-    'one', 'two', 'three'
-  ];
+  category: any;
 
   btnDisabled = false;
 
@@ -48,7 +48,7 @@ export class ModalAddGoodComponent implements OnInit {
 
   get shopOwnerProfit(): string {
     if (isNaN(this.price)) {
-      return '0';
+      return '0.00';
     } else {
       const profit: number = this.price * 0.97;
       return profit.toFixed(2);
@@ -79,12 +79,12 @@ export class ModalAddGoodComponent implements OnInit {
       if (this.price) {
         if (this.preview_url) {
           if (this.tags.length > 0) {
-            if (this.type) {
+            if (this.category) {
               return true;
             } else {
               this
                 .data
-                .addToast('Ошибка', 'Укажите тип товара', 'error');
+                .addToast('Ошибка', 'Укажите категорию товара', 'error');
               return false;
             }
           } else {
@@ -113,7 +113,12 @@ export class ModalAddGoodComponent implements OnInit {
     }
   }
 
+  updateCategory(category: any) {
+    this.category = category;
+  }
+
   async createGood() {
+    console.log(this.city_id);
     if (this.validate()) {
       this.btnDisabled = true;
 
@@ -125,11 +130,12 @@ export class ModalAddGoodComponent implements OnInit {
       try {
         const resp = await this.rest.createGood({
           store_id: this.store_id,
+          city: this.city_id,
           name: this.name,
           price: this.price,
           picture: data['file'],
           tags: this.tags.map(item => item['value']),
-          type: this.type
+          category: this.category['_id']
         });
 
         if (resp['meta'].success) {

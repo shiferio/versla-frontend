@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h4 class="modal-title">Добавить новый товар</h4>
   <button type="button" class="close" aria-label="Close"
-          (click)="activeModal.dismiss('Cross click')">
+          (click)="activeModal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
@@ -53,10 +53,12 @@
     ></tag-input>
   </div>
   <div class="form-group">
-    <label for="type">Тип</label>
-    <select class="custom-select" id="type" [(ngModel)]="type">
-      <option *ngFor="let t of available_types">{{ t }}</option>
-    </select>
+    <label for="category">Категория товара</label>
+    <app-good-category-chooser
+      id="category"
+      [category]="category"
+      (categoryChanged)="updateCategory($event)"
+    ></app-good-category-chooser>
   </div>
 
 </div>

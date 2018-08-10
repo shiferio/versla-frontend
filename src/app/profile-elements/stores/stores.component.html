@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div *ngIf="this.data.stores[0]" class="card">
+  <div *ngIf="this.data.stores" class="card">
     <div class="card-body">
       <div *ngFor="let store of this.data.stores">
         <div class="store">
@@ -17,8 +17,8 @@
             {{store.name}}
           </div>
           <div class="card-right">
-            <button type="button" (click)="openStore(store.link)" class="btn btn-open">Открыть</button>
-            <button type="button" (click)="deleteStore(store.link)" class="btn btn-delete">Удалить</button>
+            <button type="button" (click)="openStore(store.link)" class="btn btn-main">Открыть</button>
+            <!--<button type="button" (click)="deleteStore(store.link)" class="btn btn-delete">Удалить</button>-->
           </div>
         </div>
         <hr *ngIf="!(this.data.stores.length == 1)">

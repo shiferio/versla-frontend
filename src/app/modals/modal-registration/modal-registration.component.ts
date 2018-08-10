@@ -6,8 +6,6 @@ import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
 
-const API_URL = 'http://api.versla.ru';
-
 @Component({
   selector: 'app-registration',
   templateUrl: './modal-registration.component.html',
@@ -17,8 +15,10 @@ export class ModalRegistrationComponent implements OnInit {
 
   login = '';
   email = '';
+  phone = '';
   password = '';
   password_confirmation = '';
+  city: any;
   btnDisabled = false;
 
   constructor(private router: Router, private data: DataService, private rest: RestApiService, public activeModal: NgbActiveModal) {
@@ -28,39 +28,55 @@ export class ModalRegistrationComponent implements OnInit {
   }
 
   validate() {
-    if (this.login) {
-      if (this.email) {
-        if (this.password) {
-          if (this.password_confirmation) {
-            if (this.password === this.password_confirmation) {
-              return true;
+    if (this.phone) {
+      if (this.login) {
+        if (this.email) {
+          if (this.city) {
+            if (this.password) {
+              if (this.password_confirmation) {
+                if (this.password === this.password_confirmation) {
+                  return true;
+                } else {
+                  this
+                    .data
+                    .error('Passwords don\'t match.');
+                }
+              } else {
+                this
+                  .data
+                  .error('Confirmation password is not entered.');
+              }
             } else {
               this
                 .data
-                .error('Passwords don\'t match.');
+                .error('Password is not entered.');
             }
           } else {
             this
               .data
-              .error('Confirmation password is not entered.');
+              .error('City is not chosen.');
           }
         } else {
           this
             .data
-            .error('Password is not entered.');
+            .error('Email is not entered.');
         }
       } else {
         this
           .data
-          .error('Email is not entered.');
+          .error('Login is not entered.');
       }
     } else {
       this
         .data
-        .error('Login is not entered.');
+        .error('Phone is not entered.');
     }
 
     return false;
+  }
+
+  updateCity(city: any) {
+    this.city = city;
   }
 
   async register() {
@@ -69,17 +85,24 @@ export class ModalRegistrationComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/signup`, {
+          .signupUser({
             login: this.login,
             email: this.email,
+            phone: this.phone,
+            city: this.city['_id'],
             password: this.password
           });
         if (data['meta'].success) {
           this
             .data.addToast('Вы успешно зарегистрированы', data['meta'].message, 'success');
-          this
+
+          await this
             .router
             .navigate(['/']);
+
+          this
+            .activeModal
+            .close();
         } else {
           this
             .data.addToast('Ошибка', data['meta'].message, 'error');

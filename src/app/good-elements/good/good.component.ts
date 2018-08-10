@@ -7,6 +7,9 @@ import {ModalAddGoodComponent} from '../../modals/modal-add-good/modal-add-good.
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ModalAddParameterComponent} from '../../modals/modal-add-parameter/modal-add-parameter.component';
 import {CartService} from '../../cart.service';
+import {SearchService} from '../../search.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-good',
@@ -18,7 +21,9 @@ export class GoodComponent implements OnInit {
 
   good_id: string;
 
-  info: any = {};
+  info: any;
+
+  rating: number;
 
   new_tags = [];
 
@@ -26,38 +31,61 @@ export class GoodComponent implements OnInit {
 
   editMode: any = {};
 
-  available_types = [
-    'one', 'two', 'three'
-  ];
-
   additionalTabPane: string;
 
   commentsForGood = [];
 
   userParams = {};
 
+  unavailable = false;
 
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
     private data: DataService,
     private cart: CartService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private search: SearchService,
+    private spinner: NgxSpinnerService,
+    private titleService: Title
   ) {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     await this.data.getProfile();
+
 
     this.sub = this.route.params.subscribe(async (params) => {
       this.good_id = params['good_id'];
 
       await this.getGoodInfo();
-      await this.getCommentsForGood();
-      await this.getStoreInfo();
-    });
+      if (!this.unavailable) {
+        await this.getCommentsForGood();
+        await this.getStoreInfo();
+      }
 
+    });
+    this.spinner.hide();
     this.additionalTabPane = 'description';
+  }
+
+  get isCommented(): boolean {
+    if (this.isRegistered) {
+      const count = this.commentsForGood.length;
+
+      for (let i = 0; i < count; i++) {
+        if (this.commentsForGood[i].creator_id._id === this.data.user._id) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  get isWritingAvailable(): boolean {
+    return !this.isCommented && this.isRegistered;
   }
 
   async getCommentsForGood() {
@@ -68,8 +96,16 @@ export class GoodComponent implements OnInit {
   async getGoodInfo() {
     const resp = await this.rest.getGoodById(this.good_id);
     this.info = resp['data']['good'];
-    this.info.tags = this.info.tags.filter(item => item != null);
-    this.new_tags = this.info.tags.slice();
+    if (this.info) {
+      this.rating = this.info.rating;
+      this.info.tags = this.info.tags.filter(item => item != null);
+      this.new_tags = this.info.tags.slice();
+      await this.getStoreInfo();
+      this.data.setTitle(this.info.name + ' - ' + this.store_info.name);
+    } else {
+      this.unavailable = true;
+      this.data.setTitle('Товар не найден');
+    }
   }
 
   async getStoreInfo() {
@@ -78,9 +114,49 @@ export class GoodComponent implements OnInit {
   }
 
   get isCreator(): boolean {
-    return this.info && this.data.user && this.info.creator_id._id === this.data.user._id;
+    return this.info &&
+      this.data.user &&
+      this.info.creator_id &&
+      this.info.creator_id._id === this.data.user._id;
   }
 
+  get isRegistered(): boolean {
+    return this.info && this.data.user !== null && this.data.user !== undefined;
+  }
+
+  async updateRating() {
+    if (this.info.rating) {
+      try {
+        console.log(this.rating);
+        const resp = await this.rest.updateGoodInfo(this.info._id, 'rating', {
+          good: this.info._id,
+          rate: this.rating
+        });
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Ура!', resp['meta'].message, 'success');
+
+          await this.getGoodInfo();
+
+          this.editMode.name = false;
+        } else {
+          this
+            .data
+            .addToast('Ошибка', resp['meta'].message, 'error');
+        }
+      } catch (error) {
+        this
+          .data
+          .addToast('Ошибка', error['meta'].message, 'error');
+      }
+    } else {
+      this
+        .data
+        .addToast('Ошибка', 'Название товара не может быть пустой строкой', 'error');
+    }
+  }
   async updateName() {
     if (this.info.name) {
       try {
@@ -234,12 +310,13 @@ export class GoodComponent implements OnInit {
     }
   }
 
-  async updateType() {
+  async updateCategory(category: any) {
+    this.info.category = category;
     try {
-      this.editMode.type = false;
-      const resp = await this.rest.updateGoodInfo(this.info._id, 'type', {
+      this.editMode.category = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'category', {
         good_id: this.info._id,
-        type: this.info.type
+        category: this.info.category._id
       });
 
       if (resp['meta'].success) {
@@ -249,7 +326,7 @@ export class GoodComponent implements OnInit {
 
         await this.getGoodInfo();
 
-        this.editMode.type = false;
+        this.editMode.category = false;
       } else {
         this
           .data
@@ -322,12 +399,14 @@ export class GoodComponent implements OnInit {
     try {
       console.log({
         title: commentInfo.title,
+        rating: commentInfo.rating,
         type: 1,
         text: commentInfo.text,
         good_id: this.info._id
       });
       const resp = await this.rest.addComment({
         title: commentInfo.title,
+        rating: commentInfo.rating,
         type: 1,
         text: commentInfo.text,
         good_id: this.info._id
@@ -366,5 +445,13 @@ export class GoodComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  openStoreAndCategorySearch() {
+    this.search.reset();
+    this.search.category = this.info.category;
+    this.search.store = { '_id': this.store_info._id };
+    this.search.city = { '_id': this.info.city };
+    this.search.navigate();
   }
 }

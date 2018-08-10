@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
     this.cart.cart.forEach(item => {
       this.collapsed[item._id] = true;
     });
+    this.data.setTitle('Заказ');
   }
 
   get summary(): number {

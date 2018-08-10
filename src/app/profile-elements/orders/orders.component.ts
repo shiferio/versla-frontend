@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-orders',
@@ -13,11 +14,15 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private data: DataService,
-    private rest: RestApiService
+    private rest: RestApiService,
+    private spinner: NgxSpinnerService
   ) { }
 
   async ngOnInit() {
+    this.spinner.show();
     await this.fetchOrdersInfo();
+    this.spinner.hide();
+    this.data.setTitle('Мои заказы - Профиль');
   }
 
   async fetchOrdersInfo() {

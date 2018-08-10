@@ -4,23 +4,110 @@
       <div class="col-lg-3">
         <h4>Фильтры</h4>
         <div class="list-group">
-          <a href="#" class="list-group-item active">Фильтр 1</a>
-          <a href="#" class="list-group-item">Фильтр 2</a>
-          <a href="#" class="list-group-item">Фильтр 3</a>
+          <div class="list-group-item">
+            <label for="category">Категории</label>
+            <select
+              id="category"
+              class="custom-select"
+              (change)="filterByCategory()"
+              [(ngModel)]="category"
+            >
+              <option
+                *ngFor="let item of categories"
+                [ngValue]="item"
+              >
+                {{item.name}}
+              </option>
+            </select>
+          </div>
+          <div class="list-group-item">
+            <label for="city">Город</label>
+            <select
+              id="city"
+              class="custom-select"
+              (change)="filterByCity()"
+              [(ngModel)]="city"
+            >
+              <option
+                *ngFor="let item of cities"
+                [ngValue]="item"
+              >
+                {{item.name}}
+              </option>
+            </select>
+          </div>
+          <div class="list-group-item">
+            Рейтинг
+            <ngb-rating
+              [(rate)]="rating"
+              [resettable]="true"
+              [max]="5"
+              (rateChange)="filterByRating()"
+            ></ngb-rating>
+          </div>
+          <div class="list-group-item">
+            Цена<br>
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">От</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[0]"
+              >
+            </div>
+            <div class="input-group" style="margin-bottom: 40px;">
+              <div class="input-group-prepend"><span class="input-group-text">До</span></div>
+              <input
+                type="text"
+                mask="0*"
+                class="form-control"
+                (change)="priceChanged()"
+                [(ngModel)]="pricing[1]"
+              >
+            </div>
+            <!--<ngx-rslide-->
+              <!--[step]="1"-->
+              <!--[(values)]="pricing"-->
+              <!--(valuesChange)="filterByPrice()"-->
+            <!--&gt;</ngx-rslide>-->
+          </div>
+          <div
+            class="list-group-item"
+            *ngIf="store"
+          >
+            {{store.name}}<span class="ml-3 remove-store" [routerLink]="" (click)="resetStore()">X</span>
+          </div>
+          <div class="list-group-item">
+            <button type="button" class="btn btn-main" (click)="resetFilters()">Сбросить фильтры</button>
+          </div>
         </div>
       </div>
       <div class="col-lg-9">
+        <!--<ngx-loading [show]="loading" [config]="{-->
+        <!--backdropBackgroundColour: 'rgba(255,255,255,0.3)',-->
+        <!--primaryColour: '#000', secondaryColour: '#000' }"></ngx-loading>-->
         <div *ngIf="noResults">
-          <h4 class="mb-5 text-center">Ничего не найдено</h4>
+          <h4 class="text-center">Ничего не найдено</h4>
         </div>
         <div *ngIf="!noResults">
-          <h4 class="mb-5 text-center">Результаты поиска</h4>
+          <h4 class="text-center">Результаты поиска</h4>
 
           <ul class="list-group">
             <li *ngFor="let good of goods" class="list-group-item">
               <app-good-list [good]="good"></app-good-list>
             </li>
           </ul>
+          <ngb-pagination
+            class="d-flex justify-content-center paginat"
+            [boundaryLinks]="true"
+            [collectionSize]="total"
+            [pageSize]="page_size"
+            [(page)]="page_number"
+            [maxSize]="5"
+            (pageChange)="moveToPage()"
+          ></ngb-pagination>
         </div>
       </div>
     </div>

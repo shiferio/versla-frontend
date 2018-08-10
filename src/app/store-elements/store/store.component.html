@@ -1,5 +1,12 @@
 <header class="storehead" [class.storebackground]="info.background" [class.storehead]="!info.background"
-        [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../../assets/img/bg.png)'">
+        [style.backgroundImage]="info.background ? 'url('+ info.background +')' : 'url(../../assets/img/bg.png)'">
+  <ngx-spinner
+    bdColor="rgba(255,255,255,0.8)"
+    size="large"
+    color="#00b5eb"
+    type="ball-pulse"
+    loadingText="Загрузка магазина"
+  ></ngx-spinner>
   <div class="storeoverlay">
     <ngx-loading [show]="editMode.logo"></ngx-loading>
     <ngx-loading [show]="editMode.background"></ngx-loading>
@@ -185,49 +192,70 @@
         </div>
       </div>
     </div>
+    <div  *ngIf="this.goods.length !== 0" class="d-flex justify-content-center">
+      <button type="button" class="btn btn-add" (click)="openStoreSearch()">Больше товаров</button>
+    </div>
   </div>
 </section>
 
 <section class="features-icons container-map bg-gray">
   <div class="container-map container-fluid">
     <div class="row">
-      <div class="col-md-6 contacts">
+      <div class="col-md-6 contacts" *ngIf="info">
         <h2 class="mb-5 contact-title">Контакты</h2>
-        <div>
-          <div class="d-flex align-items-center">
-            <div class="icon"><i class="fa fa-phone"></i></div>
-            <div class="contact-text">8 (800) 555 35 35</div>
-          </div>
-        </div>
-        <!-- /contact -->
-
-        <!-- contact -->
-        <div>
-          <div class="contact">
+        <div *ngIf="info.contacts">
+          <div *ngIf="info.contacts.phone">
             <div class="d-flex align-items-center">
-              <i class=" fa fa-envelope"></i>
-              <div class="contact-text">contact@terminal11.ru</div>
+              <div class="icon"><i class="fa fa-phone"></i></div>
+              <div class="contact-text">{{ info.contacts.phone }}</div>
             </div>
+          </div>
+          <!-- /contact -->
+
+          <!-- contact -->
+          <div>
+            <div *ngIf="info.contacts.email" class="contact">
+              <div class="d-flex align-items-center">
+                <div class="icon"><i class=" fa fa-envelope"></i></div>
+                <div class="contact-text">{{ info.contacts.email }}</div>
+              </div>
 
 
+            </div>
+          </div>
+          <!-- /contact -->
+
+          <!-- contact -->
+          <div>
+            <div *ngIf="info.contacts.address" class="contact">
+              <div class="d-flex align-items-center">
+                <div class="icon"><i class="fa fa-map-marker"></i></div>
+                <div class="contact-text">{{ info.contacts.address }}</div>
+              </div>
+
+
+            </div>
           </div>
         </div>
-        <!-- /contact -->
-
-        <!-- contact -->
-        <div>
-          <div class="contact">
-            <div class="d-flex align-items-center">
-              <i class="fa fa-map-marker"></i>
-              <div class="contact-text">ул. Пушкина 18</div>
-            </div>
-
-
+        <div *ngIf="!info.contacts">
+          Владелец магазина не добавил контактные данные.
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">
+              Редактировать
+              данные
+            </button>
+          </div>
+          <div class="input-group-append">
+            <button *ngIf="isCreator" type="button" class="btn btn-main"
+                    (click)="openEditStoreContacts()">Редактировать
+              контакты
+            </button>
           </div>
         </div>
-        <button *ngIf="isCreator" type="button" class="btn btn-main" (click)="openEditStoreCredentials()">Редактировать
-          данные
-        </button>
+
+
       </div>
       <div class="col-md-6">
         <div *ngIf="!editMode.location">
@@ -261,7 +289,8 @@
             </div>
           </div>
         </div>
-        <agm-map [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
+
+        <agm-map *ngIf="(this.location.lat && this.location.lng) || isCreator" [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49" class="map">
           <agm-marker [latitude]="this.location.lat || 55" [longitude]="this.location.lng || 49"></agm-marker>
         </agm-map>
       </div>

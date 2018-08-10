@@ -47,8 +47,17 @@ import {GoodCardComponent} from './good-elements/good-card/good-card.component';
 import {GoodListComponent} from './good-elements/good-list/good-list.component';
 import {ItemParamsComponent} from './cart-elements/item-params/item-params.component';
 import {SearchComponent} from './search/search.component';
+import { CityChooserComponent } from './city-chooser/city-chooser.component';
+import {ClickOutsideModule} from 'ng-click-outside';
+import { StoreCategoryChooserComponent } from './store-category-chooser/store-category-chooser.component';
 import { StoreCardComponent } from './store-card/store-card.component';
 import { StoresListComponent } from './stores-list/stores-list.component';
+import { GoodCategoryChooserComponent } from './good-category-chooser/good-category-chooser.component';
+import { ModalEditStoreContactsComponent } from './modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
+import {SliderModule} from 'ngx-rslide';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
+import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
 
 @NgModule({
   declarations: [
@@ -82,8 +91,14 @@ import { StoresListComponent } from './stores-list/stores-list.component';
     ItemParamsComponent,
     ModalEditStoreCredentialsComponent,
     SearchComponent,
+    CityChooserComponent,
+    StoreCategoryChooserComponent,
     StoreCardComponent,
-    StoresListComponent
+    StoresListComponent,
+    GoodCategoryChooserComponent,
+    ModalEditStoreContactsComponent,
+    ModalSendErrorComponent,
+    ModalSendFeatureComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -97,7 +112,10 @@ import { StoresListComponent } from './stores-list/stores-list.component';
       apiKey: 'AIzaSyBbRyQ6gCN8ua67jk2RoqWoZdKFi6juOpM'
     }),
     Ng4GeoautocompleteModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    ClickOutsideModule,
+    SliderModule,
+    NgxSpinnerModule
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
@@ -111,7 +129,10 @@ import { StoresListComponent } from './stores-list/stores-list.component';
     ModalDeleteGoodComponent,
     ModalAddParameterComponent,
     ModalUnavailableGoodsComponent,
-    ModalEditStoreCredentialsComponent
+    ModalEditStoreCredentialsComponent,
+    ModalEditStoreContactsComponent,
+    ModalSendErrorComponent,
+    ModalSendFeatureComponent
   ]
 })
 export class AppModule {

@@ -1,0 +1,37 @@
+<div class="dropdown" (clickOutside)="hideMenu()">
+  <div class="custom-select" (click)="toggleMenu()">{{selected_city['name']}}</div>
+  <div class="dropdown-content" *ngIf="menu_visible">
+    <div class="list-group list-group-scrollable">
+      <div
+        class="list-group-item select-item"
+        *ngFor="let city of cities"
+        (click)="selectCity(city)"
+      >
+        {{city.name}}
+      </div>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item">
+        <div class="form-group">
+          <label for="new_city">Нет вашего города?</label>
+          <div class="input-group">
+            <input
+              [(ngModel)]="new_city_name"
+              id="new_city"
+              type="text"
+              class="form-control text-modal">
+            <div class="input-group-append">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addNewCity()"
+              >
+                Добавить
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

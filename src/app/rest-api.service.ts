@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs';
+import qs from 'qs';
+import {environment} from '../environments/environment';
 
-const API_URL = 'http://api.versla.ru';
+const API_URL = environment.apiUrl;
 
 @Injectable({providedIn: 'root'})
 export class RestApiService {
@@ -45,12 +45,73 @@ export class RestApiService {
       .toPromise();
   }
 
+  loginUser(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/login`, body)
+      .toPromise();
+  }
+
+  signupUser(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/signup`, body)
+      .toPromise();
+  }
+
+  subscribe(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/subscription/subscribe`, body)
+      .toPromise();
+  }
+  getUserProfile() {
+    return this
+      .http
+      .get(`${API_URL}/api/accounts/profile`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateUserProfile(body) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/profile`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getUserStores() {
+    return this
+      .http
+      .get(`${API_URL}/api/accounts/stores`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   createStore(body: any) {
     return this
       .http
       .post(`${API_URL}/api/stores/add`, body, {
         headers: this.getHeaders()
       })
+      .toPromise();
+  }
+
+  sendError(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/errors/add`, body)
+      .toPromise();
+  }
+
+  sendFeature(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/features/add`, body)
       .toPromise();
   }
 
@@ -82,9 +143,7 @@ export class RestApiService {
     console.log(body);
     return this
       .http
-      .post(`http://images.versla.ru/api/upload/file`, body, {
-        headers: headers
-      })
+      .post(`http://images.versla.ru/new.php`, body)
       .toPromise();
   }
 
@@ -150,6 +209,7 @@ export class RestApiService {
       })
       .toPromise();
   }
+
 
   updateStoreInfo(link: string, field: string, body: any) {
     return this
@@ -235,6 +295,87 @@ export class RestApiService {
       .toPromise();
   }
 
+  addCity(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/cities/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllCities() {
+    return this
+      .http
+      .get(`${API_URL}/api/cities/all`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getCityById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/cities/id/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addStoreCategory(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/category/add/store`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllStoreCategories() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/store`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getStoreCategoryById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/store/id/:id${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addGoodCategory(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/category/add/good`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllGoodCategories() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getGoodCategoryById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good/id/:id${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   updateOrders(body: any) {
     return this
       .http
@@ -280,7 +421,16 @@ export class RestApiService {
       .toPromise();
   }
 
-  searchGoods(page: number, size: number, query: any) {
+  getGoodInCart(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/goods/cart/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoodsByAllFields(page: number, size: number, query: any) {
     let params = new HttpParams();
 
     for (const param in query) {
@@ -288,13 +438,24 @@ export class RestApiService {
         params = params.append(param, query[param]);
       }
     }
-    params
-      .append('pageNumber', page.toString())
-      .append('pageSize', size.toString());
 
     return this
       .http
-      .get(`${API_URL}/api/search`, {
+      .get(`${API_URL}/api/search/all/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoodsByAnyField(page: number, size: number, query: string, filter: string) {
+    const params = new HttpParams()
+      .append('query', query)
+      .append('filter', filter);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/any/${page}/${size}`, {
         params: params,
         headers: this.getHeaders()
       })

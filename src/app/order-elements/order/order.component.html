@@ -22,9 +22,10 @@
                   <br>
                   <a
                     [routerLink]=""
+                    class="links"
                     (click)="collapsed[item._id] = !collapsed[item._id]"
                   >
-                    Подробнее {{collapsed[item._id] ? '⮝' : '⮟'}}
+                    Подробнее
                   </a>
                   <div [ngbCollapse]="collapsed[item._id]">
                     <app-item-params

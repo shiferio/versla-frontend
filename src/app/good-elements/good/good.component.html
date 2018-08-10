@@ -1,269 +1,286 @@
 <div class="container">
-  <nav aria-label="breadcrumb">
+  <ngx-spinner
+    bdColor = "rgba(255,255,255,0.8)"
+    size = "large"
+    color = "#00b5eb"
+    type = "ball-pulse"
+    loadingText="Загрузка товара"
+  ></ngx-spinner>
+  <nav aria-label="breadcrumb" *ngIf="!unavailable && info">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/store/{{store_info.link}}">{{ store_info.name }}</a></li>
-      <li class="breadcrumb-item"><a href="#">{{ info.type }}</a></li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="" (click)="openStoreAndCategorySearch()">
+          {{info.category ? info.category.name : '...'}}
+        </a>
+      </li>
       <li class="breadcrumb-item active" aria-current="page" routerLink="/good/{{info._id}}">{{ info.name }}</li>
     </ol>
   </nav>
+  <div *ngIf="!unavailable && info">
+    <div class="row">
 
-  <div class="row">
-
-    <div class="col-md-7">
-      <div class="card">
-        <div class="card-body">
-          <img class="card-img-top good-img" [src]="info.picture" alt="Card image cap">
-          <div class="good-img-container">
-            <div class="base-good-img-overlay">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-body">
+            <img class="card-img-top good-img" [src]="info.picture" alt="Card image cap">
+            <div class="good-img-container" *ngIf="isCreator">
+              <div class="base-good-img-overlay">
+              </div>
+              <label class="good-img-overlay">
+                <img class="camera" src="assets/img/camera.png">
+                <input type="file" (change)="goodImageChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
+              </label>
             </div>
-            <label class="good-img-overlay">
-              <img class="camera" src="assets/img/camera.png">
-              <input type="file" (change)="goodImageChange($event)" style="display: none;" accept=".png,.jpg,.jpeg">
-            </label>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-5">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title" *ngIf="!editMode.name">
-            {{ info.name }}
-            <label
-              *ngIf="isCreator"
-              (click)="editMode.name = true"
-            >
-              (изменить)
-            </label>
-          </h3>
-          <div *ngIf="editMode.name" class="form-group">
-            <label for="name">Название товара</label>
-            <input id="name" type="text" [(ngModel)]="info.name" class="form-control text-good card-title">
-            <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
-          </div>
-          <h4 *ngIf="!editMode.price && info.price">
-            {{ info.price | fixedFloat: 2 }}
-            <label
-              *ngIf="isCreator"
-              (click)="editMode.price = true"
-            >
-              (изменить)
-            </label>
-          </h4>
-          <div *ngIf="editMode.price" class="form-group">
-            <label for="price">Цена</label>
-            <input
-              id="price"
-              type="text"
-              [(ngModel)]="info.price"
-              class="form-control text-good"
-              [dropSpecialCharacters]="false"
-              mask="0*.00">
-            <button type="button" class="btn btn-main" (click)="updatePrice()">Обновить</button>
-          </div>
-          <div>
-            <label
-              class="btn btn-main"
-              (click)="editMode.short_description = true"
-              *ngIf="isCreator && !info.short_description && !editMode.short_description"
-            >
-              Добавить краткое описание
-            </label>
-            <div *ngIf="!editMode.short_description">
-              <p class="card-text" *ngIf="info.short_description">
-                {{ info.short_description }}
-                <label
-                  *ngIf="isCreator"
-                  (click)="editMode.short_description = true"
-                >
-                  (изменить)
-                </label>
-              </p>
-            </div>
-            <div *ngIf="editMode.short_description" class="form-group">
-              <label for="short_description">Краткое описание</label>
-              <input id="short_description" type="text" [(ngModel)]="info.short_description"
-                     class="form-control card-text">
-              <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
-            </div>
-          </div>
-          <p class="card-text">
-            <button class="btn-main" (click)="addGoodToCard(info._id)">
-              <i class="fa fa-shopping-cart"></i> Добавить в корзину
-            </button>
-          </p>
-          <div class="card-text" *ngIf="info.params">
-            <div *ngFor="let param of info.params">
-              <label for="val">{{param.name}}</label>
-              <select
-                class="custom-select"
-                id="val"
-                [(ngModel)]="userParams[param.name]"
-              >
-                <option
-                  *ngFor="let value of param.values"
-                  [value]="value"
-                >{{ value }}</option>
-              </select>
-            </div>
-          </div>
-          <p class="card-text" *ngIf="isCreator">
-            <button class="btn-main" (click)="openAddParameter()">
-              Добавить новый параметр
-            </button>
-          </p>
-          <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-          4.0 stars
-          <p class="card-text">
-            <tag-input
-              id="tags"
-              [disabled]="isCreator"
-              [(ngModel)]="new_tags"
-              [theme]="'foundation-theme'"
-              secondaryPlaceholder="Введите новый тег"
-              placeholder="Еще один тег"
-              modelAsStrings="true"
-              (onAdd)="onTagAdded($event)"
-              (onRemove)="onTagRemoved($event)"
-            ></tag-input>
-          </p>
-          <div *ngIf="info.type" class="card-text">
-            <div *ngIf="!editMode.type">
-              Тип: {{ info.type }}
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title" *ngIf="!editMode.name">
+              {{ info.name }}
               <label
                 *ngIf="isCreator"
-                (click)="editMode.type = true"
+                (click)="editMode.name = true"
               >
                 (изменить)
               </label>
+            </h3>
+            <div *ngIf="editMode.name" class="form-group">
+              <label for="name">Название товара</label>
+              <input id="name" type="text" [(ngModel)]="info.name" class="form-control text-good card-title">
+              <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
             </div>
-            <div *ngIf="editMode.type" class="form-group">
-              <label for="type">Тип</label>
-              <select
-                class="custom-select"
-                id="type"
-                [(ngModel)]="info.type"
-                (change)="updateType()">
-                <option *ngFor="let type of available_types">{{ type }}</option>
-              </select>
+            <h4 *ngIf="!editMode.price && info.price">
+              {{ info.price | fixedFloat: 2 }} ₽
+              <label
+                *ngIf="isCreator"
+                (click)="editMode.price = true"
+              >
+                (изменить)
+              </label>
+            </h4>
+            <div *ngIf="editMode.price" class="form-group">
+              <label for="price">Цена</label>
+              <input
+                id="price"
+                type="text"
+                [(ngModel)]="info.price"
+                class="form-control text-good"
+                [dropSpecialCharacters]="false"
+                mask="0*.00">
+              <button type="button" class="btn btn-main" (click)="updatePrice()">Обновить</button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="row additional">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="tab01">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs">
-              <li class="nav-item p-b-10">
-                <a
-                  class="nav-link"
-                  [class.active]="additionalTabPane === 'description'"
-                  data-toggle="tab"
-                  (click)="additionalTabPane = 'description'"
-                  role="tab"
-                >Описание</a>
-              </li>
-
-              <li class="nav-item p-b-10">
-                <a
-                  class="nav-link"
-                  [class.active]="additionalTabPane === 'information'"
-                  data-toggle="tab"
-                  (click)="additionalTabPane = 'information'"
-                  role="tab"
-                >Дополнительная информация</a>
-              </li>
-
-              <li class="nav-item p-b-10">
-                <a
-                  class="nav-link"
-                  [class.active]="additionalTabPane === 'reviews'"
-                  data-toggle="tab"
-                  (click)="additionalTabPane = 'reviews'"
-                  role="tab"
-                >Отзывы <span *ngIf="commentsForGood">({{commentsForGood.length}})</span></a>
-              </li>
-            </ul>
-
-            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
+            <div>
               <label
                 class="btn btn-main"
-                (click)="editMode.description = true"
-                *ngIf="isCreator && !info.description && !editMode.description"
+                (click)="editMode.short_description = true"
+                *ngIf="isCreator && !info.short_description && !editMode.short_description"
               >
-                Добавить подробное описание
+                Добавить краткое описание
               </label>
-              <div *ngIf="!editMode.description">
-                <div *ngIf="info.description">
-                  {{ info.description }}
+              <div *ngIf="!editMode.short_description">
+                <p class="card-text" *ngIf="info.short_description">
+                  {{ info.short_description }}
                   <label
                     *ngIf="isCreator"
-                    (click)="editMode.description = true"
+                    (click)="editMode.short_description = true"
                   >
                     (изменить)
                   </label>
+                </p>
+              </div>
+              <div *ngIf="editMode.short_description" class="form-group">
+                <label for="short_description">Краткое описание</label>
+                <input id="short_description" type="text" [(ngModel)]="info.short_description"
+                       class="form-control card-text">
+                <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
+              </div>
+            </div>
+            <p class="card-text">
+              <button class="btn-main" (click)="addGoodToCard(info._id)">
+                <i class="fa fa-shopping-cart"></i> Добавить в корзину
+              </button>
+            </p>
+            <div class="card-text" *ngIf="info.params">
+              <div *ngFor="let param of info.params">
+                <label for="val">{{param.name}}</label>
+                <select
+                  class="custom-select"
+                  id="val"
+                  [(ngModel)]="userParams[param.name]"
+                >
+                  <option
+                    *ngFor="let value of param.values"
+                    [value]="value"
+                  >{{ value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <p class="card-text" *ngIf="isCreator">
+              <button class="btn-main" (click)="openAddParameter()">
+                Добавить новый параметр
+              </button>
+            </p>
+            <p>
+              <ngb-rating [(rate)]="info.rating" max="5" [readonly]="true"></ngb-rating>
+
+            </p>
+            <p class="card-text">
+              <tag-input
+                id="tags"
+                [disable]="!isCreator"
+                [(ngModel)]="new_tags"
+                [theme]="'foundation-theme'"
+                secondaryPlaceholder="Введите новый тег"
+                placeholder="Еще один тег"
+                modelAsStrings="true"
+                (onAdd)="onTagAdded($event)"
+                (onRemove)="onTagRemoved($event)"
+              ></tag-input>
+            </p>
+            <div *ngIf="info" class="card-text">
+              <div *ngIf="!editMode.category">
+                Категория: {{ info.category ? info.category.name : 'нет' }}
+                <label
+                  *ngIf="isCreator"
+                  (click)="editMode.category = true"
+                >
+                  (изменить)
+                </label>
+              </div>
+              <div *ngIf="editMode.category" class="form-group">
+                <label for="category">Категория</label>
+                <app-good-category-chooser
+                  id="category"
+                  [category]="info.category"
+                  (categoryChanged)="updateCategory($event)">
+                </app-good-category-chooser>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row additional">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="tab01">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs">
+                <li class="nav-item p-b-10">
+                  <a
+                    class="nav-link tabs"
+                    [class.active]="additionalTabPane === 'description'"
+                    data-toggle="tab"
+                    (click)="additionalTabPane = 'description'"
+                    role="tab"
+                  >Описание</a>
+                </li>
+
+                <!--<li class="nav-item p-b-10">-->
+                  <!--<a-->
+                    <!--class="nav-link tabs"-->
+                    <!--[class.active]="additionalTabPane === 'information'"-->
+                    <!--data-toggle="tab"-->
+                    <!--(click)="additionalTabPane = 'information'"-->
+                    <!--role="tab"-->
+                  <!--&gt;Дополнительная информация</a>-->
+                <!--</li>-->
+
+                <li class="nav-item p-b-10">
+                  <a
+                    class="nav-link tabs"
+                    [class.active]="additionalTabPane === 'reviews'"
+                    data-toggle="tab"
+                    (click)="additionalTabPane = 'reviews'"
+                    role="tab"
+                  >Отзывы <span *ngIf="commentsForGood">({{commentsForGood.length}})</span></a>
+                </li>
+              </ul>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
+                <label
+                  class="btn btn-main"
+                  (click)="editMode.description = true"
+                  *ngIf="isCreator && !info.description && !editMode.description"
+                >
+                  Добавить подробное описание
+                </label>
+                <div *ngIf="!editMode.description">
+                  <div *ngIf="info.description">
+                    {{ info.description }}
+                    <label
+                      *ngIf="isCreator"
+                      (click)="editMode.description = true"
+                    >
+                      (изменить)
+                    </label>
+                  </div>
+                </div>
+                <div *ngIf="editMode.description" class="form-group">
+                  <label for="description">Краткое описание</label>
+                  <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good">
+                  <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
                 </div>
               </div>
-              <div *ngIf="editMode.description" class="form-group">
-                <label for="description">Краткое описание</label>
-                <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good">
-                <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
+                <ul class="list-group" *ngIf="info.params">
+                  <li
+                    *ngFor="let param of info.params"
+                    class="list-group-item"
+                  >
+                    {{ param.name }}
+                    <ul>
+                      <li *ngFor="let value of param.values">
+                        {{ value }}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
-            </div>
+              <!--Reviews tab pane-->
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'reviews'">
+                <ul class="list-group" *ngIf="commentsForGood">
+                  <li
+                    *ngFor="let comment of commentsForGood"
+                    class="list-group-item"
+                  >
+                    <div class="ava">
+                      <img [src]="comment.creator_id.picture" class="rounded-circle" height="50px" width="50px">
+                    </div>
+                    <div class="comment">
+                      <p *ngIf="comment.creator_id.first_name || comment.creator_id.last_name" class="mb-1">Имя: <b>{{ comment.creator_id.first_name }} {{ comment.creator_id.last_name }}</b></p>
+                      <p class="mb-1">Заголовок: <br/> {{ comment.title }}</p>
 
-            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
-              <ul class="list-group" *ngIf="info.params">
-                <li
-                  *ngFor="let param of info.params"
-                  class="list-group-item"
-                >
-                  {{ param.name }}
-                  <ul>
-                    <li *ngFor="let value of param.values">
-                      {{ value }}
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <!--Reviews tab pane-->
-            <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'reviews'">
-              <ul class="list-group" *ngIf="commentsForGood">
-                <li
-                  *ngFor="let comment of commentsForGood"
-                  class="list-group-item"
-                >
-                  <div class="ava">
-                    <img [src]="comment.creator_id.picture" class="rounded-circle" height="50px">
-                  </div>
-                  <div class="comment">
-                    <p class="mb-1"><b>{{ comment.creator_id.first_name }} {{ comment.creator_id.last_name }}</b></p>
-                    <p class="mb-1">{{ comment.title }}</p>
-
-                    <p class="mb-1">{{ comment.text }}</p>
-                    <!--<ngb-rating [rate]="comment.rating"></ngb-rating>-->
-                  </div>
-                </li>
-              </ul>
-              <div class="mt-5">
-                <app-new-comment
-                  [comment_id]=""
-                  [good_id]="info._id"
-                  (onCommentAdded)="addCommentForGood($event)"
-                ></app-new-comment>
+                      <p class="mb-1">Отзыв: <br/> {{ comment.text }}</p>
+                      <ngb-rating max="5" [readonly]="true" [rate]="comment.rating"></ngb-rating>
+                      <p class="mb-1">Дата: {{ comment.created | date: 'dd.MM.yyyy'}}</p>
+                    </div>
+                  </li>
+                </ul>
+                <div *ngIf="isWritingAvailable" class="mt-5">
+                  <app-new-comment
+                    [comment_id]=""
+                    [good_id]="info._id"
+                    (onCommentAdded)="addCommentForGood($event)"
+                  ></app-new-comment>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="unavailable">
+    Товара нет
   </div>
 </div>
 

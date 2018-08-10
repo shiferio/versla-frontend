@@ -27,6 +27,10 @@ export class ModalAddStoreComponent implements OnInit {
 
   resident_type = 'individual';
 
+  city: any;
+
+  category: any;
+
   btnDisabled = false;
 
   constructor(public activeModal: NgbActiveModal, private router: Router, private rest: RestApiService, private data: DataService) {
@@ -44,27 +48,37 @@ export class ModalAddStoreComponent implements OnInit {
   validate() {
     if (this.name) {
       if (this.link) {
-        if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
-          this.resident_type === 'individual' && this.tax_num.length === 12
-        ) {
-          if (this.resident_type === 'entity' && this.state_num ||
-            this.resident_type === 'individual'
-          ) {
-            if (this.bank_type === 'card' && this.bank_num.length === 16 ||
-              this.bank_type === 'num' && this.bank_num.length === 20
+        if (this.city) {
+          if (this.category) {
+            if (this.resident_type === 'entity' && this.tax_num.length === 10 ||
+              this.resident_type === 'individual' && this.tax_num.length === 12
             ) {
-              return true;
+              if (this.resident_type === 'entity' && this.state_num ||
+                this.resident_type === 'individual'
+              ) {
+                if (this.bank_type === 'card' && this.bank_num.length === 16 ||
+                  this.bank_type === 'num' && this.bank_num.length === 20
+                ) {
+                  return true;
+                } else {
+                  this
+                    .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
+                }
+              } else {
+                this
+                  .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
+              }
             } else {
               this
-                .data.addToast('Ошибка', 'Введите корректный № счета/карты', 'error');
+                .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
             }
           } else {
             this
-              .data.addToast('Ошибка', 'Введите корректный ОГРН', 'error');
+              .data.addToast('Ошибка', 'Вы не выбрали категорию!', 'error');
           }
         } else {
           this
-            .data.addToast('Ошибка', 'Введите корректный ИНН', 'error');
+            .data.addToast('Ошибка', 'Вы не выбрали город!', 'error');
         }
       } else {
         this
@@ -76,6 +90,14 @@ export class ModalAddStoreComponent implements OnInit {
     }
 
     return false;
+  }
+
+  updateCategory(category: any) {
+    this.category = category;
+  }
+
+  updateCity(city: any) {
+    this.city = city;
   }
 
   async createStore() {
@@ -93,7 +115,9 @@ export class ModalAddStoreComponent implements OnInit {
             bank_type: this.bank_type,
             bank_num: this.bank_num,
             resident_type: this.resident_type,
-            goods_type: this.goods_type
+            goods_type: this.goods_type,
+            city: this.city['_id'],
+            category: this.category['_id']
           });
         if (data['meta'].success) {
           await this

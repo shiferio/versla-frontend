@@ -10,6 +10,10 @@ import {ModalDeleteGoodComponent} from '../../modals/modal-delete-good/modal-del
 import {consoleTestResultHandler} from 'tslint/lib/test';
 import {CartService} from '../../cart.service';
 import {ModalEditStoreCredentialsComponent} from '../../modals/modal-edit-store-credentials/modal-edit-store-credentials.component';
+import {ModalEditStoreContactsComponent} from '../../modals/modal-edit-store-contacts/modal-edit-store-contacts.component';
+import {SearchService} from '../../search.service';
+import {SearchFieldService} from '../../search-field.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-store',
@@ -46,7 +50,10 @@ export class StoreComponent implements OnInit, OnDestroy {
     private rest: RestApiService,
     private data: DataService,
     private cart: CartService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private search: SearchService,
+    private searchField: SearchFieldService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -54,6 +61,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     const storeInfo = await this.rest.getStoreByLink(storeLink);
     if (storeInfo['meta'].success) {
       this.info = storeInfo['data'].store;
+      this.data.setTitle(this.info.name);
       this.info.tags = this.info.tags.map(item => ({display: item, value: item}));
       const storeGoods = await this.rest.getGoodsByStoreId(this.info._id);
 
@@ -84,12 +92,20 @@ export class StoreComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.sub = this.route.params.subscribe(async (params) => {
       this.link = params['link'];
+      this.spinner.show();
       await this.getStoreInfo(this.link);
+      this.searchField.reset();
+      this.searchField.store();
+      this.searchField.show();
+      this.searchField.store_info = this.info;
+      this.spinner.hide();
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.searchField.reset();
+    this.searchField.hide();
   }
 
   async deleteLogo() {
@@ -433,30 +449,6 @@ export class StoreComponent implements OnInit, OnDestroy {
         .data
         .addToast('Ошибка', error['meta'].message, 'error');
     }
-
-    try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'contacts', {
-        link: this.link,
-        address: this.address
-      });
-
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
-
-        await this.getStoreInfo(this.link);
-        this.editMode.name = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
-    } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['meta'].message, 'error');
-    }
   }
 
   get isCreator(): boolean {
@@ -478,6 +470,7 @@ export class StoreComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ModalAddGoodComponent);
 
     modalRef.componentInstance.store_id = this.info._id;
+    modalRef.componentInstance.city_id = this.info.city._id;
 
     modalRef.result.then((result) => {
       console.log(result);
@@ -498,5 +491,24 @@ export class StoreComponent implements OnInit, OnDestroy {
     modalRef.result.then( async () => {
       await this.getStoreInfo(this.link);
     }).catch(() => {});
+  }
+
+  openEditStoreContacts() {
+    const modalRef = this.modalService.open(ModalEditStoreContactsComponent);
+
+    modalRef.componentInstance.contacts = this.info.contacts;
+    modalRef.componentInstance.link = this.info.link;
+    modalRef.componentInstance.city = this.info.city;
+
+    modalRef.result.then( async () => {
+      await this.getStoreInfo(this.link);
+    }).catch(() => {});
+  }
+
+  openStoreSearch() {
+    this.search.reset();
+    this.search.city = this.info.city;
+    this.search.store = { '_id': this.info._id };
+    this.search.navigate();
   }
 }

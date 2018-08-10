@@ -3,11 +3,17 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-9">
-                <h1>Innovations, Revolutions,
-                    <br/>Amazing!</h1>
+                <h1>Покупайте и продавайте товары проще
+                    с Versla</h1>
             </div>
             <div class="col-md-10">
-                <h5>This is how ProGears will change the world. Again</h5>
+                <h5>Вы продавец? Теперь создать свой интернет-магазин, получить первых клиентов и составить портрет потребителей ваших товаров можно в два клика!
+                </h5>
+              <h5>
+              <p>
+                Вы покупатель? Ищите и покупайте все товары в одном маркетплейсе!
+              </p>
+              </h5>
             </div>
         </div>
     </div>
@@ -16,7 +22,7 @@
 <!-- Icons Grid -->
 <section class="features-icons text-center">
     <div class="container">
-        <h2 class="mb-5">Покупателям</h2>
+        <h2 class="mb-5">Преимущества</h2>
         <div class="row">
             <div class="col-lg-4">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
@@ -33,7 +39,7 @@
                         <img height="100px" src="assets/img/pay.svg" />
                     </div>
                     <h3 class="about-text">Платите
-                        <br/>в рассрочку</h3>
+                        <br/>онлайн</h3>
 
                 </div>
             </div>
@@ -51,18 +57,21 @@
         </div>
     </div>
 </section>
-
 <!-- Icons Grid -->
 <section class="features-icons bg-gray">
+  <div class="container">
+    <app-stores-list></app-stores-list>
+  </div>
+</section>
+
+<!-- Icons Grid -->
+<section class="features-icons">
     <div class="container">
         <h2 class="mb-5 text-center">Товары</h2>
-        <div class="row">
-          <div
-            *ngFor="let good of goods"
-            class="col-lg-4 col-xs-6 good mx-auto">
-            <div class="card" style="width: 18rem;">
-              <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
-            </div>
+        <div class="items-fluid d-flex justify-content-around flex-wrap">
+          <div class="card" style="width: 18rem; margin-bottom: 25px;"
+            *ngFor="let good of goods">
+            <app-good-card [good]="good" (onGoodDeleted)="onGoodDeleted($event)"></app-good-card>
           </div>
         </div>
     </div>
@@ -80,8 +89,8 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="input-group">
-                      <input type="text" class="text-subscribe" placeholder="Введите Ваш Email" />
-                      <div class="input-group-append"><button type="button" class="btn btn-main">Подписаться</button></div>
+                      <input type="text" class="text-subscribe" [(ngModel)]="email" placeholder="Введите Ваш Email" />
+                      <div class="input-group-append"><button type="button" (click)="subscribe()" class="btn btn-main">Подписаться</button></div>
                 </div>
 
             </div>

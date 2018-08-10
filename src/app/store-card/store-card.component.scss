@@ -1,0 +1,94 @@
+.store-logo {
+  pointer-events: none;
+  margin-right: 10px;
+  margin-left: 10px;
+  width: 10%;
+  min-width: 100px;
+  z-index: 1;
+}
+
+.desc-store {
+  pointer-events: none;
+  p {
+    word-break: break-word;
+  }
+  z-index: 1;
+
+}
+
+.store-img{
+  max-height: 100px;
+  max-width: 100px;
+}
+
+h5 {
+  word-break: break-word;
+  z-index: 1;
+}
+
+.storeinfo {
+  display: inline-block;
+  width: 100%;
+
+  img.image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+  }
+
+  h1 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+}
+
+.storebackground {
+  position: relative;
+  background-color: #a7e2ff;
+  background-size: cover;
+  overflow: hidden;
+  padding-top: 3rem;
+  padding-bottom: 9rem;
+}
+
+header.storehead {
+  position: relative;
+  background-color: #343a40;
+  background: url('../../assets/img/bg.png') repeat;
+  padding-top: 3rem;
+  padding-bottom: 9rem;
+}
+
+.scard {
+  max-height: 220px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.storeoverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.7;
+  z-index: 0;
+  transition: .5s ease;
+  background-color: #000000;
+}
+
+.storeoverlay:hover {
+  opacity: 0.4;
+}
+
+.title {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.store-box {
+  padding-top: 20px;
+}

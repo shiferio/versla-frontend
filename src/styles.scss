@@ -6,7 +6,7 @@
 body {
   font-family: 'CircleRounded', Helvetica, Arial, sans-serif;
   color: #556c75;
-  min-width: 320px;
+  min-width: 350px;
 }
 
 h1,
@@ -27,7 +27,8 @@ header.masthead {
 }
 
 .navbar {
-  min-height: 80px !important
+  min-height: 80px !important;
+
 }
 
 header.masthead h1 {
@@ -149,22 +150,39 @@ a.footer-link {
 
 a.cart-link {
   color: #556c75 !important;
+  text-decoration: none;
 }
 
 a.cart-link:hover {
   color: #000000 !important;
+  text-decoration: none;
+}
+
+a.links {
+  color: #556c75 !important;
+  text-decoration: none;
+}
+
+a.links:hover {
+  color: #000000 !important;
+  text-decoration: none;
 }
 
 .city {
-  border-left: 1px solid #556c75;
-  /* Border on the left */
-  width: 1px;
-  /* Width instead of height */
   height: 35px;
   padding-left: 13px;
   padding-top: 6px;
   color: #556c75;
   font-size: 15pt;
+  /* line 1 pixel width, length of "Some content" */
+}
+
+.separator {
+  border-left: 1px solid #556c75;
+  /* Border on the left */
+  width: 1px;
+  /* Width instead of height */
+  height: 35px;
   /* line 1 pixel width, length of "Some content" */
 }
 
@@ -244,6 +262,10 @@ a.cart-link:hover {
   background: #fafafa;
 }
 
+.bg-dark-gray {
+  background: #383838;
+}
+
 .bg-white {
   background: #ffffff;
 }
@@ -276,6 +298,42 @@ a.nav-link:hover {
 .btn-main.active, .btn-primary.active {
   background: #00A2D1 !important;
   color: #fff !important;
+}
+
+.btn-top {
+  font-size: 10px !important;
+  height: 20px !important;
+}
+
+.btn-red {
+  margin-left: 3px;
+  background: #d1372c !important;
+  border: 1px solid #9c0013 !important;
+}
+
+.btn-red:hover,
+.btn-red:focus,
+.btn-red.active {
+  background: #a73429 !important;
+  color: #fff !important;
+}
+
+.btn-dropdown {
+  border-radius: 0px !important;
+}
+
+.top-bar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.top-right {
+  display: inline-block;
+}
+.top-left {
+  margin-top: 3px;
+  color: #FFFFFF;
+  font-size: 12px;
+  display: inline-block;
 }
 
 .subscribe-text {
@@ -348,18 +406,12 @@ a.nav-link:hover {
   background-color: #00A2D1;
   color: #fff;
 }
-
+.f-right {
+  float: right;
+}
 footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
-}
-
-.modal-open .modal {
-  display: flex !important;
-  align-items: center !important;
-  .modal-dialog {
-    flex-grow: 1;
-  }
 }
 
 //Toasty

@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h4 class="modal-title">Добавить новый магазин</h4>
   <button type="button" class="close" aria-label="Close"
-          (click)="activeModal.dismiss('Cross click')">
+          (click)="activeModal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
@@ -14,6 +14,24 @@
     <label for="link">Короткая ссылка</label>
     <input type="link" name="link" id="link" maxlength="10" class="form-control text-modal"
            placeholder="Введите короткую ссылку" [(ngModel)]="link">
+  </div>
+
+  <div class="form-group">
+    <label for="city">Выберите город</label>
+    <app-city-chooser
+      id="city"
+      [city]="city"
+      (cityChanged)="updateCity($event)"
+    ></app-city-chooser>
+  </div>
+
+  <div class="form-group">
+    <label for="category">Выберите категорию магазина</label>
+    <app-store-category-chooser
+      id="category"
+      [category]="category"
+      (categoryChanged)="updateCategory($event)"
+    ></app-store-category-chooser>
   </div>
 
   <div class="form-group">

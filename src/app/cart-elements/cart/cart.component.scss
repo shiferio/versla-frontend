@@ -72,17 +72,33 @@ footer a {
   opacity: 0.6;
 }
 
-@media(max-width: 1199px) {
-  table {display: none}
-  .items-fluid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 50px;
+.items-fluid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  .card {
+    margin-bottom: 25px;
   }
 }
-@media(min-width: 1200px) {
-  .items-fluid {
-    display:none;
+
+.good-logo {
+  margin-right: 10px;
+  width: 10%;
+  min-width: 100px;
+}
+
+.desc-good {
+  p {
+    word-break: break-word;
   }
+
+}
+.store-img{
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.trash-btn {
+  padding-left: 10px;
 }

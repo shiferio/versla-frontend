@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../data.service';
 import {RestApiService} from '../../rest-api.service';
 
-const API_URL = 'http://api.versla.ru';
 
 @Component({selector: 'app-settings', templateUrl: './settings.component.html', styleUrls: ['./settings.component.scss']})
 export class SettingsComponent implements OnInit {
@@ -13,11 +12,8 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this
-      .data
-      .getProfile();
-
-    Object.assign(this.currentSettings, this.data.user);
+    await this.loadProfile();
+    this.data.setTitle('Настройки - Профиль');
   }
 
   validate(settings) {
@@ -30,23 +26,34 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  async loadProfile() {
+    await this
+      .data
+      .getProfile();
+
+    Object.assign(this.currentSettings, this.data.user);
+  }
+
+  onCityChanged(city: any) {
+    this.currentSettings.city = city;
+  }
+
   async update() {
     if (this.validate(this.currentSettings)) {
       console.log(this.currentSettings);
       try {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/profile`, {
+          .updateUserProfile({
             first_name: this.currentSettings.first_name,
             last_name: this.currentSettings.last_name,
             phone: this.currentSettings.phone,
-            email: this.currentSettings.email
+            email: this.currentSettings.email,
+            city: this.currentSettings.city['_id']
           });
-        console.log(data);
+
         if (data['meta'].success) {
-          this
-            .data
-            .getProfile();
+          await this.loadProfile();
 
           this
             .data
@@ -56,7 +63,6 @@ export class SettingsComponent implements OnInit {
         this
           .data
           .error(error['message']);
-        console.log(error);
       }
     }
   }

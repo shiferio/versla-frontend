@@ -2,6 +2,7 @@
   <div class="container">
 
     <div class="row">
+
       <div class="col-md-4">
         <div *ngIf="data.user" class="card" style="width: 90%;">
 
@@ -37,7 +38,7 @@
             <div class="user-info">E-mail: {{ data.user.email }}</div>
             <hr>
             <div *ngIf="data.user.phone">
-              <div class="user-info">Телефон: +7{{ data.user.phone }}</div>
+              <div class="user-info">Телефон: {{ data.user.phone }}</div>
               <hr>
             </div>
 

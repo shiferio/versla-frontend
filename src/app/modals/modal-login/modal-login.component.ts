@@ -5,11 +5,9 @@ import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 
 
-const API_URL = 'http://api.versla.ru';
-
 @Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
 export class ModalLoginComponent implements OnInit {
-  email = '';
+  phone = '';
   password = '';
   btnDisabled = false;
 
@@ -26,7 +24,7 @@ export class ModalLoginComponent implements OnInit {
   }
 
   validate() {
-    if (this.email) {
+    if (this.phone) {
       if (this.password) {
         return true;
       } else {
@@ -35,7 +33,7 @@ export class ModalLoginComponent implements OnInit {
       }
     } else {
       this
-        .data.addToast('Ошибка', 'Вы не ввели email!', 'error');
+        .data.addToast('Ошибка', 'Вы не ввели номер телефона!', 'error');
     }
   }
 
@@ -46,31 +44,35 @@ export class ModalLoginComponent implements OnInit {
       if (this.validate()) {
         const data = await this
           .rest
-          .post(`${API_URL}/api/accounts/login`, {
-            email: this.email,
+          .loginUser({
+            phone: this.phone,
             password: this.password
           });
         if (data['meta'].success) {
           localStorage.setItem('token', data['data'].token);
+
           await this
             .data
             .getProfile();
-          this
+
+          await this
             .router
             .navigate(['/']);
+
           this
-            .data.addToast('Вы успешно авторизованы', data['meta'].message, 'success');
+            .data.addToast('Вы успешно авторизованы', '', 'success');
+
           this
             .activeModal
             .close();
         } else {
           this
-            .data.addToast('Ошибка', data['meta'].message, 'error');
+            .data.addToast('Не удалось авторизоваться!', '', 'error');
         }
       }
     } catch (error) {
       this
-        .data.addToast('Ошибка', error['message'], 'error');
+        .data.addToast('Не удалось авторизоваться!', '', 'error');
     }
     this.btnDisabled = false;
   }
