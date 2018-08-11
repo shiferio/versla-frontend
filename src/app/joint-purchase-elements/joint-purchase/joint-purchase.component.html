@@ -11,6 +11,9 @@
     <ngb-alert [dismissible]="false" *ngIf="!isPaymentApproved && isParticipant">
       Ваш платеж еще не подтвержден организатором
     </ngb-alert>
+    <ngb-alert type="danger" [dismissible]="false" *ngIf="isBanned">
+      Организатор заблокировал вас. Вы не можете участвовать в закупке
+    </ngb-alert>
     <div class="row">
       <div class="col-md-6">
         <div class="card">
@@ -82,7 +85,7 @@
               Прием заказов завершается: {{ purchaseInfo.date | russianLocaleDate }}
             </h5>
 
-            <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn">
+            <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn && !isBanned">
               <button class="btn btn-main" (click)="joinToPurchase()" *ngIf="haveEnoughRemainingVolume">
                 Присоединится к закупке
               </button>

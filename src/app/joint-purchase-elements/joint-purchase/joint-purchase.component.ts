@@ -88,6 +88,12 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get isBanned(): boolean {
+    return this.isLoggedIn &&
+      this.purchaseInfo &&
+      this.purchaseInfo['black_list'].findIndex(user => user === this.data.user['_id']) !== -1;
+  }
+
   get isOpened(): boolean {
     if (this.purchaseInfo) {
       return this.purchaseInfo['state'] === 0;
