@@ -1,27 +1,41 @@
 # Versla
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.5.
+Проект создан с помощью [Angular CLI](https://github.com/angular/angular-cli) v6.0.5.
 
-## Development server
+Требования к ПО:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Node.js >= `8.11.3`
 
-## Code scaffolding
+- NPM >= `5.6.0`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Установка зависимостей
 
-## Build
+```
+$ npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Сервер для разработки
 
-## Running unit tests
+Запуск:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+$ ng serve
+```
 
-## Running end-to-end tests
+Приложение доступно по адресу `http://localhost:4200/`. Приложение автоматически перезагружается, если обнаружены изменения в файлах.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Сборка
 
-## Further help
+С окружением по умолчанию:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+$ ng build
+```
+
+С production-окружением:
+
+```
+ng build --prod
+```
+
+Файлы скомпилированного приложения будут расположены в папке `dist/Versla`.
