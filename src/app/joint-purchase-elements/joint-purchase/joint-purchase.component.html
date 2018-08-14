@@ -160,6 +160,12 @@
                      (click)="additionalTabPane = 'black_list'"
                      role="tab">Черный список</a>
                 </li>
+
+                <li class="nav-item p-b-10">
+                  <a class="nav-link tabs" [class.active]="additionalTabPane === 'comments'" data-toggle="tab"
+                     (click)="additionalTabPane = 'comments'"
+                     role="tab">Комментарии</a>
+                </li>
               </ul>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'description'">
@@ -375,6 +381,25 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'comments'">
+                <app-comment-branch
+                  *ngFor="let comment of comments"
+                  [comment]="comment"
+                  [level]="1"
+                  [settings]="commentSettings"
+                  (commentSent)="onCommentSent($event)"
+                ></app-comment-branch>
+                <div class="mt-3" *ngIf="isLoggedIn">
+                  <h4>Написать комментарий</h4>
+                  <app-comment-reply
+                    (sent)="onCommentSent()"
+                  ></app-comment-reply>
+                </div>
+                <ngb-alert type="danger" [dismissible]="false" *ngIf="!isLoggedIn">
+                  Только зарегистрированные пользователи могут оставлять комментарии.
+                </ngb-alert>
               </div>
             </div>
           </div>

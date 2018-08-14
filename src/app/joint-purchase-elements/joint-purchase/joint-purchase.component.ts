@@ -11,6 +11,8 @@ import {ModalJoinToJointPurchaseComponent} from '../../modals/modal-join-to-join
 import {ChatService} from '../../chat.service';
 import {UploadFileService} from '../../upload-file.service';
 import {JointPurchaseHistoryService} from '../../joint-purchase-history.service';
+import {CommentModel} from '../comment-elements/comment-model';
+import {CommentSettings} from '../comment-elements/comment-settings';
 
 @Component({
   selector: 'app-joint-purchase',
@@ -40,6 +42,8 @@ export class JointPurchaseComponent implements OnInit {
   visibleHistoryLength = 0;
 
   blackList = [];
+
+  comments: Array<CommentModel> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -151,6 +155,16 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get commentSettings(): CommentSettings {
+    const creatorLogin = this.purchaseInfo ? this.purchaseInfo['creator']['login'] : null;
+    const canReply = this.isLoggedIn;
+
+    return {
+      creatorLogin: creatorLogin,
+      canReply: canReply
+    };
+  }
+
   showMoreHistoryItems() {
     if (this.visibleHistoryLength + 5 > this.history.length) {
       this.visibleHistoryLength = this.history.length;
@@ -199,6 +213,12 @@ export class JointPurchaseComponent implements OnInit {
     //     .reverse()
     // );
     this.visibleHistoryLength = Math.min(this.history.length, 5);
+
+    await this.loadComments();
+  }
+
+  async loadComments() {
+    this.comments = (await this.rest.getPurchaseCommentTree(this.purchaseInfo['_id']))['data']['comments'];
   }
 
   async purchaseImageChange(event) {
@@ -601,5 +621,9 @@ export class JointPurchaseComponent implements OnInit {
         .data
         .error(error['message']);
     }
+  }
+
+  async onCommentSent() {
+    await this.loadComments();
   }
 }

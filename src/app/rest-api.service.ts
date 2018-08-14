@@ -635,6 +635,30 @@ export class RestApiService {
       .toPromise();
   }
 
+  addCommentToPurchase(id: string, text: string, parentId: string = null) {
+    const body = {
+      id: id,
+      text: text,
+      parent_id: parentId
+    };
+
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/comment/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getPurchaseCommentTree(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/comment/tree/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getAllMeasurementUnits() {
     return this
       .http
