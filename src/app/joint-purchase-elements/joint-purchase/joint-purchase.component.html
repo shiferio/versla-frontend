@@ -218,7 +218,7 @@
                         <p *ngIf="purchaseInfo.payment_type === 1">
                           Денежные средства переводятся напрямую организатору.
                         </p>
-                        <p *ngIf="isParticipant || isCreator">
+                        <p *ngIf="(isParticipant || isCreator) && purchaseInfo.payment_type === 1">
                           <b>Платежная информация:</b><br>
                           <span class="preserve-line-breaks">{{purchaseInfo.payment_info}}</span>
                         </p>
@@ -253,7 +253,7 @@
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'participants'">
-                <div *ngIf="blackList.length === 0" class="text-center"
+                <div *ngIf="participants.length === 0" class="text-center"
                 >Участников нет</div>
                 <div *ngIf="participants.length > 0">
                   <div class="list-group">
