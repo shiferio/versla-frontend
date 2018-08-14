@@ -72,6 +72,9 @@ import { CategoryNestedChooserComponent } from './category-chooser-elements/cate
 import { InternalCategoryNodeComponent } from './category-chooser-elements/internal-category-node/internal-category-node.component';
 import { CategoryNestedListComponent } from './category-chooser-elements/category-nested-list/category-nested-list.component';
 import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/modal-category-chooser.component';
+import { CommentBranchComponent } from './joint-purchase-elements/comment-elements/comment-branch/comment-branch.component';
+import { CommentReplyComponent } from './joint-purchase-elements/comment-elements/comment-reply/comment-reply.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 @NgModule({
   declarations: [
@@ -125,7 +128,9 @@ import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/m
     CategoryNestedChooserComponent,
     InternalCategoryNodeComponent,
     CategoryNestedListComponent,
-    ModalCategoryChooserComponent
+    ModalCategoryChooserComponent,
+    CommentBranchComponent,
+    CommentReplyComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -143,7 +148,8 @@ import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/m
     ClickOutsideModule,
     SliderModule,
     NgxSpinnerModule,
-    NgChatModule
+    NgChatModule,
+    ScrollToModule.forRoot()
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
