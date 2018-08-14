@@ -8,7 +8,10 @@
   ></ngx-spinner>
 
   <div *ngIf="purchaseInfo">
-    <ngb-alert [dismissible]="false" *ngIf="!isPaymentApproved && isParticipant">
+    <ngb-alert
+      [dismissible]="false"
+      *ngIf="!isPaymentApproved && isParticipant && purchaseInfo.payment_type === 1"
+    >
       Ваш платеж еще не подтвержден организатором
     </ngb-alert>
     <ngb-alert type="danger" [dismissible]="false" *ngIf="isBanned">
