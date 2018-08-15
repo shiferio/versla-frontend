@@ -10,9 +10,9 @@ import {CartComponent} from './cart-elements/cart/cart.component';
 import {OrderComponent} from './order-elements/order/order.component';
 import {OrderConfirmationComponent} from './order-elements/order-confirmation/order-confirmation.component';
 import {SearchComponent} from './search/search.component';
-import { StoresListComponent} from './stores-list/stores-list.component';
 import {JointPurchaseSearchComponent} from './joint-purchase-elements/joint-purchase-search/joint-purchase-search.component';
 import {JointPurchaseComponent} from './joint-purchase-elements/joint-purchase/joint-purchase.component';
+import {StoresListComponent} from './stores-list/stores-list.component';
 
 const routes: Routes = [
   {

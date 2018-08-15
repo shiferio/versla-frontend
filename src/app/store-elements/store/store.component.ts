@@ -99,6 +99,10 @@ export class StoreComponent implements OnInit, OnDestroy {
     }
   }
 
+  get storeId() {
+    return this.info._id;
+  }
+
   async ngOnInit() {
     this.sub = this.route.params.subscribe(async (params) => {
       this.spinner.show();

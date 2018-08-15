@@ -75,6 +75,7 @@ import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/m
 import { CommentBranchComponent } from './joint-purchase-elements/comment-elements/comment-branch/comment-branch.component';
 import { CommentReplyComponent } from './joint-purchase-elements/comment-elements/comment-reply/comment-reply.component';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { StoreOrdersComponent } from './store-elements/store-orders/store-orders.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
     CategoryNestedListComponent,
     ModalCategoryChooserComponent,
     CommentBranchComponent,
-    CommentReplyComponent
+    CommentReplyComponent,
+    StoreOrdersComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
