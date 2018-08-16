@@ -29,6 +29,8 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   measurementUnit: any;
 
+  city: any;
+
   date: any;
 
   paymentType: number = null;
@@ -52,6 +54,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.city = this.data.getPreferredCity();
   }
 
   dismiss() {
@@ -89,6 +92,10 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   updateUnit(unit: any) {
     this.measurementUnit = unit;
+  }
+
+  updateCity(city: any) {
+    this.city = city;
   }
 
   validate() {
@@ -196,7 +203,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
           description: this.description,
           category_id: this.category['_id'],
           address: this.address,
-          city_id: this.data.getPreferredCity()['_id'],
+          city_id: this.city['_id'],
           volume: Number.parseFloat(this.volume),
           min_volume: Number.parseFloat(this.minVolume),
           price_per_unit: Number.parseFloat(this.pricePerUnit),

@@ -179,6 +179,14 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="city">Город</label>
+        <app-city-chooser
+          id="city"
+          [city]="city"
+          (cityChanged)="updateCity($event)"
+        ></app-city-chooser>
+      </div>
+      <div class="form-group">
         <div
           class="custom-control custom-checkbox"
         >
