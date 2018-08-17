@@ -12,7 +12,12 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
   @Input('purchaseInfo')
   purchaseInfo: any;
 
+  @Input('fakeUser')
+  fakeUser = false;
+
   volume: any;
+
+  userLogin: string;
 
   validated = false;
 
@@ -63,11 +68,21 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
       return false;
     }
 
+    if (this.fakeUser && !this.userLogin) {
+      this
+        .data
+        .addToast('Введите имя пользователя', '', 'error');
+      return false;
+    }
+
     return true;
   }
 
   async joinToPurchase() {
-    if (this.validate()) {
+    if (!this.validate()) {
+      return;
+    }
+    if (!this.fakeUser) {
       try {
         const resp = await this.rest.joinToPurchase(
           this.purchaseInfo['_id'],
@@ -83,6 +98,29 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
           this
             .data
             .addToast('Не удалось присоединится к закупке', '', 'error');
+        }
+      } catch (error) {
+        this
+          .data
+          .addToast('Ошибка', error['message'], 'error');
+      }
+    } else {
+      try {
+        const resp = await this.rest.joinFakeUserToPurchase(
+          this.purchaseInfo['_id'],
+          this.userLogin,
+          Number.parseFloat(this.volume)
+        );
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Пользователь присоединен к закупке', '', 'success');
+          this.activeModal.close(resp['data']['purchase']);
+        } else {
+          this
+            .data
+            .addToast('Не удалось присоединить к закупке', '', 'error');
         }
       } catch (error) {
         this

@@ -264,7 +264,55 @@
                 <div *ngIf="participants.length > 0">
                   <div class="list-group">
                     <div class="list-group-item" *ngFor="let participant of participants; let i = index">
-                      <div class="row">
+                      <div class="row" *ngIf="!participant.user">
+                        <div class="col-12 col-md-3">
+                          {{ participant.fake_user.login }}
+                        </div>
+                        <div class="col-12 col-md-3">
+                          {{ participant.volume }} {{ measurementUnit }}
+                          ({{ participant.cost | fixedFloat: 2 }} ₽)
+                        </div>
+                        <div class="col-12 col-md-4">
+                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
+                            <input
+                              #userPayment
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="fakeUserPayment_{{i}}"
+                              [checked]="participant.paid"
+                              (change)="updateFakeUserPaymentState(participant.fake_user.login, userPayment.checked)"
+                            >
+                            <label class="custom-control-label" for="fakeUserPayment_{{i}}"
+                            >Платеж подтвержден</label>
+                          </div>
+                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
+                            <input
+                              #userSent
+                              id="fakeUserSent_{{i}}"
+                              type="checkbox"
+                              class="custom-control-input"
+                              [checked]="participant.sent"
+                              (change)="updateFakeUserOrderSentState(participant.fake_user.login, userSent.checked)"
+                            >
+                            <label class="custom-control-label" for="fakeUserSent_{{i}}"
+                            >Товар отправлен</label>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-2 justify-content-md-end">
+                          <div class="d-inline-flex flex-md-column flex-row">
+                            <button
+                              type="button"
+                              class="btn btn-detach mr-2 mr-md-0"
+                              (click)="detachFakeUserFromPurchase(participant.fake_user.login)"
+                              ngbPopover="Удалить пользователя"
+                              triggers="mouseenter:mouseleave"
+                            >
+                              <i class="fa fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="participant.user">
                         <div class="col-12 col-md-3">
                           {{ participant.user.login }}
                         </div>
@@ -339,6 +387,11 @@
                 <div *ngIf="!purchaseInfo.participants">
                   <p>К закупке еще никто не присоединился</p>
                 </div>
+                <button
+                  type="button"
+                  class="btn btn-main ml-auto mr-auto mt-2"
+                  (click)="joinToPurchase(true)"
+                >Добавить пользователя</button>
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'history'">

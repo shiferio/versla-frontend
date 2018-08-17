@@ -540,6 +540,21 @@ export class RestApiService {
       .toPromise();
   }
 
+  joinFakeUserToPurchase(id: string, login: string, volume: number) {
+    const body = {
+      id: id,
+      volume: volume,
+      login: login
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/participants/fake`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   detachFromPurchase(id: string) {
     return this
       .http
@@ -547,6 +562,19 @@ export class RestApiService {
         headers: this.getHeaders(),
         body: {
           id: id
+        }
+      })
+      .toPromise();
+  }
+
+  detachFakeUserFromPurchase(id: string, login: string) {
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/participants/fake`, {
+        headers: this.getHeaders(),
+        body: {
+          id: id,
+          login: login
         }
       })
       .toPromise();
@@ -562,6 +590,21 @@ export class RestApiService {
     return this
       .http
       .put(`${API_URL}/api/jointpurchases/payments/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateFakeUserPaymentPurchase(id: string, login: string, state: boolean) {
+    const body = {
+      id: id,
+      login: login,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/payments/update/fake`, body, {
         headers: this.getHeaders()
       })
       .toPromise();
@@ -592,6 +635,21 @@ export class RestApiService {
     return this
       .http
       .put(`${API_URL}/api/jointpurchases/sent/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateFakeUserOrderSentPurchase(id: string, login: string, state: boolean) {
+    const body = {
+      id: id,
+      login: login,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/sent/update/fake`, body, {
         headers: this.getHeaders()
       })
       .toPromise();

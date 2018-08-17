@@ -182,9 +182,11 @@ export class JointPurchaseComponent implements OnInit {
         .purchaseInfo['participants']
         .map(async (participant) => {
           const data = Object.create(participant);
-          const resp = await this.rest.getUserById(participant['user']);
+          if (participant['user']) {
+            const resp = await this.rest.getUserById(participant['user']);
+            data['user'] = resp['data']['user'];
+          }
 
-          data['user'] = resp['data']['user'];
           data['cost'] = participant['volume'] * this.purchaseInfo['price_per_unit'];
           return data;
       }));
@@ -477,10 +479,11 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async joinToPurchase() {
+  async joinToPurchase(fakeUser: boolean = false) {
     const modalRef = this.modalService.open(ModalJoinToJointPurchaseComponent);
 
     modalRef.componentInstance.purchaseInfo = this.purchaseInfo;
+    modalRef.componentInstance.fakeUser = fakeUser;
 
     modalRef.result.then(async (purchaseInfo) => {
       if (purchaseInfo) {
@@ -499,6 +502,31 @@ export class JointPurchaseComponent implements OnInit {
         this
           .data
           .addToast('Вы отсоединились от закупки', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .addToast('Не удалось отсоединиться от закупки', '', 'success');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['message'], 'error');
+    }
+  }
+
+  async detachFakeUserFromPurchase(login: string) {
+    try {
+      const resp = await this.rest.detachFakeUserFromPurchase(
+        this.purchaseInfo['_id'],
+        login
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Пользователь отсоединен от закупки', '', 'success');
 
         await this.loadAdditionalInfo(resp['data']['purchase']);
       } else {
@@ -539,11 +567,63 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateFakeUserPaymentState(login: string, state: boolean) {
+    try {
+      const resp = await this.rest.updateFakeUserPaymentPurchase(
+        this.purchaseInfo['_id'],
+        login,
+        state
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Информация обновлена', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
   async updateOrderSentState(participantId: string, state: boolean) {
     try {
       const resp = await this.rest.updateOrderSentPurchase(
         this.purchaseInfo['_id'],
         participantId,
+        state
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Информация обновлена', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
+  async updateFakeUserOrderSentState(login: string, state: boolean) {
+    try {
+      const resp = await this.rest.updateFakeUserOrderSentPurchase(
+        this.purchaseInfo['_id'],
+        login,
         state
       );
 
