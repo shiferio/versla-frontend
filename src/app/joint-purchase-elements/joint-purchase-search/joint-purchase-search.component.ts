@@ -201,7 +201,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
       );
 
       if (this.category && !this.category['all']) {
-        modalRef.componentInstance.category = this.category;
+        modalRef.componentInstance.category.setValue(this.category);
       }
 
       modalRef.result.then((result) => {

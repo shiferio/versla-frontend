@@ -3,8 +3,8 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
-import {environment} from '../../../environments/environment';
 import {UploadFileService} from '../../upload-file.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-modal-add-joint-purchase',
@@ -13,48 +13,72 @@ import {UploadFileService} from '../../upload-file.service';
 })
 export class ModalAddJointPurchaseComponent implements OnInit {
 
-  name: string;
+  name = new FormControl('', Validators.required);
 
-  description: string;
+  description = new FormControl('', Validators.required);
 
-  category: any;
+  category = new FormControl(null, Validators.required);
 
-  address: string;
+  address = new FormControl('', Validators.required);
 
-  volume: string;
+  volume = new FormControl('', Validators.required);
 
-  minVolume: string;
+  minVolume = new FormControl('', Validators.required);
 
-  pricePerUnit: string;
+  pricePerUnit = new FormControl('', Validators.required);
 
-  measurementUnit: any;
+  measurementUnit = new FormControl(null, Validators.required);
 
-  city: any;
+  city = new FormControl(null, Validators.required);
 
-  date: any;
+  date = new FormControl(null, Validators.required);
 
-  paymentType: number = null;
+  paymentType = new FormControl(null, Validators.required);
+
+  paymentInfo = new FormControl('');
+
+  isPrivate = new FormControl(false);
 
   pictureUrl: string = null;
 
-  picturePath: any = null;
+  picturePath = new FormControl('');
 
-  paymentInfo: string;
+  pictureFile: any = null;
 
-  isPrivate = false;
+  form: FormGroup;
 
-  private pictureFile: any = null;
+  btnDisabled = false;
 
   constructor(
     private activeModal: NgbActiveModal,
     private router: Router,
     private rest: RestApiService,
     private data: DataService,
-    private fileUploader: UploadFileService
+    private fileUploader: UploadFileService,
+    private builder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.city = this.data.getPreferredCity();
+    this.city.setValue(this.data.getPreferredCity());
+
+    this.form = this.builder.group({
+      'name': this.name,
+      'description': this.description,
+      'category': this.category,
+      'address': this.address,
+      'volume': this.volume,
+      'minVolume': this.minVolume,
+      'pricePerUnit': this.pricePerUnit,
+      'measurementUnit': this.measurementUnit,
+      'city': this.city,
+      'date': this.date,
+      'picturePath': this.picturePath,
+      'payment': this.builder.group({
+        'paymentType': this.paymentType,
+        'paymentInfo': this.paymentInfo
+      }, { validator: this.paymentValidator }),
+      'isPrivate': this.isPrivate
+    });
   }
 
   dismiss() {
@@ -62,9 +86,24 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   }
 
   get total(): number {
-    const volume = Number.parseFloat(this.volume) || 0;
-    const price = Number.parseFloat(this.pricePerUnit) || 0;
+    const volume = Number.parseFloat(this.volume.value) || 0;
+    const price = Number.parseFloat(this.pricePerUnit.value) || 0;
     return volume * price;
+  }
+
+  paymentValidator(group: FormGroup) {
+    const paymentType = group.controls['paymentType'].value;
+    const paymentInfo = group.controls['paymentInfo'].value;
+
+    if (paymentType !== 1) {
+      return null;
+    } else if (paymentType === 1 && !!paymentInfo) {
+      return null;
+    } else {
+      return {
+        infoMismatch: true
+      };
+    }
   }
 
   imageChange(event) {
@@ -83,159 +122,68 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   deleteImage() {
     this.pictureUrl = null;
-    this.picturePath = null;
+    this.pictureFile = null;
+    this.picturePath.reset();
   }
 
   updateCategory(category: any) {
-    this.category = category;
+    this.category.setValue(category);
   }
 
   updateUnit(unit: any) {
-    this.measurementUnit = unit;
+    this.measurementUnit.setValue(unit);
   }
 
   updateCity(city: any) {
-    this.city = city;
-  }
-
-  validate() {
-    if (!this.name) {
-      this
-        .data
-        .addToast('Введите название', '', 'error');
-      return false;
-    }
-
-    /*
-    if (!this.pictureUrl) {
-      this
-        .data
-        .addToast('Добавьте изображение', '', 'error');
-      return false;
-    }
-    */
-
-    if (!this.description) {
-      this
-        .data
-        .addToast('Введите описание', '', 'error');
-      return false;
-    }
-
-    if (!this.address) {
-      this
-        .data
-        .addToast('Введите адрес', '', 'error');
-      return false;
-    }
-
-    if (!this.category) {
-      this
-        .data
-        .addToast('Выберите категорию', '', 'error');
-      return false;
-    }
-
-    if (!this.volume) {
-      this
-        .data
-        .addToast('Введите количество товара', '', 'error');
-      return false;
-    }
-
-    if (!this.minVolume) {
-      this
-        .data
-        .addToast('Введите объем минимального заказа', '', 'error');
-      return false;
-    }
-
-    if (!this.measurementUnit) {
-      this
-        .data
-        .addToast('Укажите единицу измерения', '', 'error');
-      return false;
-    }
-
-    if (!this.pricePerUnit) {
-      this
-        .data
-        .addToast('Укажите цену за единицу товара', '', 'error');
-      return false;
-    }
-
-    if (!this.date) {
-      this
-        .data
-        .addToast('Укажите дату завершения закупки', '', 'error');
-      return false;
-    }
-
-    if (this.paymentType === null) {
-      this
-        .data
-        .addToast('Укажите способ оплаты', '', 'error');
-      return false;
-    }
-
-    if (this.paymentType === 1 && !this.paymentInfo) {
-      this
-        .data
-        .addToast('Введите платежную информацию', '', 'error');
-      return false;
-    }
-
-    return true;
+    this.city.setValue(city);
   }
 
   async createPurchase() {
-    if (this.validate()) {
-      try {
-        let pictureUrl;
-        if (this.pictureUrl) {
-          pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
-        } else {
-          pictureUrl = 'assets/img/purchase.jpg'; // default picture's url
-        }
-        const resp = await this.rest.addJointPurchase({
-          name: this.name,
-          picture: pictureUrl,
-          description: this.description,
-          category_id: this.category['_id'],
-          address: this.address,
-          city_id: this.city['_id'],
-          volume: Number.parseFloat(this.volume),
-          min_volume: Number.parseFloat(this.minVolume),
-          price_per_unit: Number.parseFloat(this.pricePerUnit),
-          measurement_unit_id: this.measurementUnit['_id'],
-          date: new Date(this.date['year'], this.date['month'], this.date['day']),
-          state: 0,
-          payment_type: this.paymentType,
-          payment_info: this.paymentInfo,
-          is_public: !this.isPrivate
-        });
-
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Закупка создана', '', 'success');
-
-          const id = resp['data']['purchase']['_id'];
-
-          await this.router.navigate(['/purchase', id]);
-
-          this.activeModal.close();
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
-
-      } catch (error) {
-        this
-          .data
-          .addToast('Ошибка', error.message, 'error');
+    try {
+      let pictureUrl;
+      if (this.pictureUrl) {
+        pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
+      } else {
+        pictureUrl = 'assets/img/purchase.jpg'; // default picture's url
       }
+      const {day, month, year} = this.date.value;
+
+      const resp = await this.rest.addJointPurchase({
+        name: this.name.value,
+        picture: pictureUrl,
+        description: this.description.value,
+        category_id: this.category.value['_id'],
+        address: this.address.value,
+        city_id: this.city.value['_id'],
+        volume: Number.parseFloat(this.volume.value),
+        min_volume: Number.parseFloat(this.minVolume.value),
+        price_per_unit: Number.parseFloat(this.pricePerUnit.value),
+        measurement_unit_id: this.measurementUnit.value['_id'],
+        date: new Date(year, month, day),
+        state: 0,
+        payment_type: this.paymentType.value,
+        payment_info: this.paymentInfo.value,
+        is_public: !this.isPrivate.value
+      });
+
+      this
+        .data
+        .addToast('Закупка создана', '', 'success');
+
+      const id = resp['data']['purchase']['_id'];
+
+      await this
+        .router
+        .navigate(['/purchase', id]);
+
+      this
+        .activeModal
+        .close();
+    } catch (error) {
+      const message = error.error.meta.message;
+      this
+        .data
+        .addToast('Ошибка', message, 'error');
     }
   }
 }
