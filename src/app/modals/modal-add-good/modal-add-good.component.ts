@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
-import {validate} from 'codelyzer/walkerFactory/walkerFn';
 import {UploadFileService} from '../../upload-file.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-modal-add-good',
@@ -17,9 +17,9 @@ export class ModalAddGoodComponent implements OnInit {
 
   city_id: string;
 
-  name: string;
+  name = new FormControl('', Validators.required);
 
-  price: number;
+  price = new FormControl('', Validators.required);
 
   picture: string;
 
@@ -27,32 +27,42 @@ export class ModalAddGoodComponent implements OnInit {
 
   preview_url: string = null;
 
-  preview_path: any = null;
+  preview = new FormControl('', Validators.required);
 
   preview_file: any = null;
 
-  tags = [];
+  tags = new FormControl([], Validators.required);
 
-  category: any;
+  category = new FormControl(null, Validators.required);
 
   btnDisabled = false;
+
+  form: FormGroup;
 
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
     private rest: RestApiService,
     private data: DataService,
-    private fileUploader: UploadFileService
+    private fileUploader: UploadFileService,
+    private builder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.form = this.builder.group({
+      'name': this.name,
+      'preview': this.preview,
+      'price': this.price,
+      'tags': this.tags,
+      'category': this.category
+    });
   }
 
   get shopOwnerProfit(): string {
-    if (isNaN(this.price)) {
+    if (isNaN(this.price.value)) {
       return '0.00';
     } else {
-      const profit: number = this.price * 0.97;
+      const profit: number = this.price.value * 0.97;
       return profit.toFixed(2);
     }
   }
@@ -73,55 +83,15 @@ export class ModalAddGoodComponent implements OnInit {
 
   deletePreview() {
     this.preview_url = null;
-    this.preview_path = null;
-  }
-
-  validate(): boolean {
-    if (this.name) {
-      if (this.price) {
-        if (this.preview_url) {
-          if (this.tags.length > 0) {
-            if (this.category) {
-              return true;
-            } else {
-              this
-                .data
-                .addToast('Ошибка', 'Укажите категорию товара', 'error');
-              return false;
-            }
-          } else {
-            this
-              .data
-              .addToast('Ошибка', 'Добавьте хотя бы один тег', 'error');
-            return false;
-          }
-        } else {
-          this
-            .data
-            .addToast('Ошибка', 'Добавьте изображение товара', 'error');
-          return false;
-        }
-      } else {
-        this
-          .data
-          .addToast('Ошибка', 'Введите цену товара', 'error');
-        return false;
-      }
-    } else {
-      this
-        .data
-        .addToast('Ошибка', 'Введите название товара', 'error');
-      return false;
-    }
+    this.preview_file = null;
+    this.preview.reset();
   }
 
   updateCategory(category: any) {
-    this.category = category;
+    this.category.setValue(category);
   }
 
   async createGood() {
-    console.log(this.city_id);
-    if (this.validate()) {
       this.btnDisabled = true;
 
       try {
@@ -132,29 +102,26 @@ export class ModalAddGoodComponent implements OnInit {
         const resp = await this.rest.createGood({
           store_id: this.store_id,
           city: this.city_id,
-          name: this.name,
-          price: this.price,
+          name: this.name.value,
+          price: this.price.value,
           picture: pictureUrl,
-          tags: this.tags.map(item => item['value']),
-          category: this.category['_id']
+          tags: this.tags.value.map(item => item['value']),
+          category: this.category.value['_id']
         });
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+        this
+          .data
+          .addToast('Товар добавлен', '', 'success');
 
-          const _id = resp['data']['good']['_id'];
+        const _id = resp['data']['good']['_id'];
 
-          await this.router.navigate(['/good', _id]);
+        await this
+          .router
+          .navigate(['/good', _id]);
 
-          this.activeModal.close();
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
-
+        this
+          .activeModal
+          .close();
       } catch (error) {
         this
           .data
@@ -163,6 +130,5 @@ export class ModalAddGoodComponent implements OnInit {
 
       this.btnDisabled = false;
     }
-  }
 
 }

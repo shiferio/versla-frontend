@@ -1,69 +1,116 @@
 <div class="modal-header">
   <h4 class="modal-title">Добавить новый товар</h4>
   <button type="button" class="close" aria-label="Close"
-          (click)="activeModal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
+          (click)="activeModal.dismiss()"><span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  <div class="form-group">
-    <label for="name">Название товара</label>
-    <input type="text" name="name" id="name" class="form-control text-modal" placeholder="Введите название товара"
-           [(ngModel)]="name">
-  </div>
-  <div class="form-group">
-    <label for="price">Цена</label>
-    <div class="input-group">
-      <input type="text" [dropSpecialCharacters]="false" mask="0*.00"
-             name="price" id="price" class="form-control text-modal"
-             placeholder="Введите цену" [(ngModel)]="price">
-      <div class="input-group-append">
-        <span class="input-group-text">₽</span>
-        <span class="input-group-text">Вы получите: {{shopOwnerProfit}}</span>
+  <form
+    [formGroup]="form"
+    novalidate
+  >
+    <div class="form-group">
+      <label for="name">Название товара</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        class="form-control text-modal"
+        placeholder="Товар"
+        [ngClass]="name.errors ? 'is-invalid': 'is-valid'"
+        formControlName="name"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(name.errors && name.errors.required)">
+        Введите название товара
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <label>Изображение</label><br>
-    <label
-      class="btn btn-main"
-      *ngIf="!preview_url"
-    >
-      Добавить изображение
-      <input
-        id="picture"
-        type="file"
-        [(ngModel)]="preview_path"
-        (change)="previewImageChange($event)"
-        style="display: none;"
-        accept=".png,.jpg,.jpeg">
-    </label><br>
-    <div class="picture-preview-container" *ngIf="preview_url">
-      <img [src]="preview_url" class="picture-preview-image">
-      <label class="picture-preview-button" (click)="deletePreview()">X</label>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="tags">Теги</label>
-    <tag-input
-      id="tags"
-      [(ngModel)]="tags"
-      [theme]="'foundation-theme'"
-      secondaryPlaceholder="Введите новый тег"
-      placeholder="Еще один тег"
-    ></tag-input>
-  </div>
-  <div class="form-group">
-    <label for="category">Категория товара</label>
-    <app-good-category-chooser
-      id="category"
-      [category]="category"
-      (categoryChanged)="updateCategory($event)"
-    ></app-good-category-chooser>
-  </div>
 
+    <div class="form-group">
+      <label for="price">Цена</label>
+      <div class="input-group">
+        <input
+          type="text"
+          [dropSpecialCharacters]="false"
+          mask="0*.00"
+          name="price"
+          id="price"
+          class="form-control text-modal"
+          placeholder="100"
+          [ngClass]="price.errors ? 'is-invalid': 'is-valid'"
+          formControlName="price"
+          required
+        >
+        <div class="input-group-append">
+          <span class="input-group-text">₽</span>
+          <span class="input-group-text">Вы получите: {{shopOwnerProfit}}</span>
+        </div>
+        <div class="invalid-feedback" [hidden]="!(price.errors && price.errors.required)">
+          Введите цену товара
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Изображение</label><br>
+      <label
+        class="btn btn-main"
+        *ngIf="!preview_url"
+      >
+        Добавить изображение
+        <input
+          id="picture"
+          type="file"
+          (change)="previewImageChange($event)"
+          style="display: none;"
+          accept=".png,.jpg,.jpeg"
+          formControlName="preview"
+          required
+        >
+      </label>
+      <div class="invalid-feedback d-block" *ngIf="preview.errors && preview.errors.required">
+        Добавьте изображение
+      </div>
+      <div class="picture-preview-container" *ngIf="preview_url">
+        <img [src]="preview_url" class="picture-preview-image">
+        <label class="picture-preview-button" (click)="deletePreview()">X</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tags">Теги</label>
+      <tag-input
+        id="tags"
+        [theme]="'foundation-theme'"
+        secondaryPlaceholder="Введите новый тег"
+        placeholder="Еще один тег"
+        formControlName="tags"
+        required
+      ></tag-input>
+      <div class="invalid-feedback d-block" *ngIf="tags.errors && tags.errors.required">
+        Добавьте хотя бы один тег
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Категория товара</label>
+      <app-good-category-chooser
+        id="category"
+        [category]="category.value"
+        (categoryChanged)="updateCategory($event)"
+      ></app-good-category-chooser>
+      <div class="invalid-feedback d-block" *ngIf="category.errors && category.errors.required">
+        Выберите категорию товара
+      </div>
+    </div>
+  </form>
 </div>
+
 <div class="modal-footer">
-  <button class="btn-main" (click)="createGood()" [disabled]="btnDisabled">
-    Добавить
-  </button>
+  <button
+    type="submit"
+    class="btn btn-main"
+    (click)="createGood()"
+    [disabled]="!form.valid || btnDisabled"
+  >Добавить</button>
 </div>
