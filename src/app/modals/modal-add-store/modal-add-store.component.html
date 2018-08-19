@@ -1,134 +1,214 @@
 <div class="modal-header">
   <h4 class="modal-title">Добавить новый магазин</h4>
   <button type="button" class="close" aria-label="Close"
-          (click)="activeModal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
+          (click)="activeModal.dismiss()"><span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  <div class="form-group">
-    <label for="name">Название магазина</label>
-    <input type="name" name="name" id="name" class="form-control text-modal" placeholder="Введите название магазина"
-           [(ngModel)]="name">
-  </div>
-  <div class="form-group">
-    <label for="link">Короткая ссылка</label>
-    <input type="link" name="link" id="link" maxlength="10" class="form-control text-modal"
-           placeholder="Введите короткую ссылку" [(ngModel)]="link">
-  </div>
-
-  <div class="form-group">
-    <label for="city">Выберите город</label>
-    <app-city-chooser
-      id="city"
-      [city]="city"
-      (cityChanged)="updateCity($event)"
-    ></app-city-chooser>
-  </div>
-
-  <div class="form-group">
-    <label for="category">Выберите категорию магазина</label>
-    <app-store-category-chooser
-      id="category"
-      [category]="category"
-      (categoryChanged)="updateCategory($event)"
-    ></app-store-category-chooser>
-  </div>
-
-  <div class="form-group">
-    <label for="goods_type">Выберите тип товара</label>
-    <br>
-    <div
-      id="goods_type"
-      class="btn-group btn-group-toggle"
-      ngbRadioGroup
-      [(ngModel)]="goods_type">
-      <label ngbButtonLabel class="btn btn-primary active">
-        <input ngbButton type="radio" value="retail">Розничный
-      </label>
-      <label ngbButtonLabel class="btn btn-primary">
-        <input ngbButton type="radio" value="wholesale">Оптовый
-      </label>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="resident_type">Кто вы?</label>
-    <br>
-    <div
-      id="resident_type"
-      class="btn-group btn-group-toggle"
-      ngbRadioGroup
-      [(ngModel)]="resident_type">
-      <label ngbButtonLabel class="btn btn-primary active">
-        <input ngbButton type="radio" value="individual">Физическое лицо
-      </label>
-      <label ngbButtonLabel class="btn btn-primary">
-        <input ngbButton type="radio" value="entity">Юридическое лицо
-      </label>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="tax_num">ИНН</label>
-    <input
-      type="text"
-      name="tax_num"
-      id="tax_num"
-      class="form-control text-modal"
-      placeholder="Введите ИНН"
-      mask="0*"
-      [maxlength]="resident_type === 'entity' ? 10 : 12"
-      [(ngModel)]="tax_num">
-  </div>
-
-  <div
-    *ngIf="resident_type === 'entity'"
-    class="form-group"
+  <form
+    [formGroup]="form"
+    novalidate
   >
-    <label for="state_num">ОГРН</label>
-    <input
-      type="text"
-      name="state_num"
-      id="state_num"
-      class="form-control text-modal"
-      placeholder="Введите ОГРН"
-      mask="0*"
-      maxlength="13"
-      [(ngModel)]="state_num">
-  </div>
-
-  <div class="form-group">
-    <label for="bank_type">Тип счета</label>
-    <br>
-    <div
-      id="bank_type"
-      class="btn-group btn-group-toggle"
-      ngbRadioGroup
-      [(ngModel)]="bank_type">
-      <label ngbButtonLabel class="btn btn-primary active">
-        <input ngbButton type="radio" value="card">Банковская карта
-      </label>
-      <label ngbButtonLabel class="btn btn-primary">
-        <input ngbButton type="radio" value="num">Номер счета
-      </label>
+    <div class="form-group">
+      <label for="name">Название магазина</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        class="form-control text-modal"
+        placeholder="Магазин"
+        [ngClass]="name.errors ? 'is-invalid': 'is-valid'"
+        formControlName="name"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(name.errors && name.errors.required)">
+        Введите название магазина
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="bank_num">№ {{bank_type === 'card' ? 'карты' : 'счета'}}</label>
-    <input
-      type="text"
-      name="bank_num"
-      id="bank_num"
-      class="form-control text-modal"
-      mask="0*"
-      [maxlength]="bank_type === 'card' ? 16 : 20"
-      [(ngModel)]="bank_num">
-  </div>
+    <div class="form-group">
+      <label for="link">Короткая ссылка</label>
+      <input
+        type="text"
+        name="link"
+        id="link"
+        class="form-control text-modal"
+        placeholder="Ссылка"
+        [ngClass]="link.errors ? 'is-invalid': 'is-valid'"
+        formControlName="link"
+        maxlength="10"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(link.errors && link.errors.required)">
+        Введите короткую ссылку
+      </div>
+      <div class="invalid-feedback" [hidden]="!(link.errors && link.errors.maxlength)">
+        Ссылка должна быть не больше 10 символов
+      </div>
+    </div>
 
+    <div class="form-group">
+      <label for="city">Город</label>
+      <app-city-chooser
+        id="city"
+        [city]="city"
+        (cityChanged)="updateCity($event)"
+      ></app-city-chooser>
+      <div class="invalid-feedback d-block" *ngIf="city.errors && city.errors.required">
+        Выберите город
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Категория магазина</label>
+      <app-store-category-chooser
+        id="category"
+        [category]="category"
+        (categoryChanged)="updateCategory($event)"
+      ></app-store-category-chooser>
+      <div class="invalid-feedback d-block" *ngIf="category.errors && category.errors.required">
+        Выберите категорию магазина
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="goods_type">Тип товара</label>
+      <br>
+      <div
+        id="goods_type"
+        class="btn-group btn-group-toggle"
+        ngbRadioGroup
+        [formControl]="goods_type"
+        required
+      >
+        <label ngbButtonLabel class="btn btn-primary active">
+          <input ngbButton type="radio" value="retail">Розничный
+        </label>
+        <label ngbButtonLabel class="btn btn-primary">
+          <input ngbButton type="radio" value="wholesale">Оптовый
+        </label>
+      </div>
+    </div>
+
+    <div formGroupName="resident">
+      <div class="form-group">
+        <label for="resident_type">Кто вы?</label>
+        <br>
+        <div
+          id="resident_type"
+          class="btn-group btn-group-toggle"
+          ngbRadioGroup
+          [formControl]="resident_type"
+          required
+        >
+          <label ngbButtonLabel class="btn btn-primary active">
+            <input ngbButton type="radio" value="individual">Физическое лицо
+          </label>
+          <label ngbButtonLabel class="btn btn-primary">
+            <input ngbButton type="radio" value="entity">Юридическое лицо
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tax_num">ИНН</label>
+        <input
+          type="text"
+          name="tax_num"
+          id="tax_num"
+          class="form-control text-modal"
+          placeholder="ИНН"
+          mask="0*"
+          [maxlength]="resident_type.value === 'entity' ? 10 : 12"
+          [ngClass]="tax_num.errors ? 'is-invalid' : 'is-valid'"
+          formControlName="tax_num"
+          required
+        >
+        <div class="invalid-feedback" [hidden]="!(tax_num.errors && tax_num.errors.required)">
+          Укажите ИНН
+        </div>
+        <div class="invalid-feedback" [hidden]="!(tax_num.errors && tax_num.errors.taxNumMismatch)">
+          Некорректный ИНН
+        </div>
+      </div>
+
+      <div
+        *ngIf="resident_type.value === 'entity'"
+        class="form-group"
+      >
+        <label for="state_num">ОГРН</label>
+        <input
+          type="text"
+          name="state_num"
+          id="state_num"
+          class="form-control text-modal"
+          placeholder="ОГРН"
+          mask="0*"
+          maxlength="13"
+          [ngClass]="state_num.errors ? 'is-invalid': 'is-valid'"
+          formControlName="state_num"
+        >
+        <div
+          class="invalid-feedback"
+          [hidden]="!(state_num.errors && state_num.errors.stateNumRequired)"
+        >
+          Укажите ОГРН
+        </div>
+        <div class="invalid-feedback" [hidden]="!(state_num.errors && state_num.errors.stateNumMismatch)">
+          Некорректный ОГРН
+        </div>
+      </div>
+    </div>
+
+    <div formGroupName="bank">
+      <div class="form-group">
+        <label for="bank_type">Тип счета</label>
+        <br>
+        <div
+          id="bank_type"
+          class="btn-group btn-group-toggle"
+          ngbRadioGroup
+          [formControl]="bank_type"
+        >
+          <label ngbButtonLabel class="btn btn-primary active">
+            <input ngbButton type="radio" value="card">Банковская карта
+          </label>
+          <label ngbButtonLabel class="btn btn-primary">
+            <input ngbButton type="radio" value="num">Номер счета
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bank_num">№ {{bank_type.value === 'card' ? 'карты' : 'счета'}}</label>
+        <input
+          type="text"
+          name="bank_num"
+          id="bank_num"
+          class="form-control text-modal"
+          mask="0*"
+          [maxlength]="bank_type.value === 'card' ? 16 : 20"
+          [ngClass]="bank_num.errors ? 'is-invalid': 'is-valid'"
+          formControlName="bank_num"
+          required
+        >
+        <div class="invalid-feedback" [hidden]="!(bank_num.errors && bank_num.errors.required)">
+          Укажите № {{bank_type.value === 'card' ? 'карты' : 'счета'}}
+        </div>
+        <div class="invalid-feedback" [hidden]="!(bank_num.errors && bank_num.errors.bankNumMismatch)">
+          Некорректный № {{bank_type.value === 'card' ? 'карты' : 'счета'}}
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
+
 <div class="modal-footer">
-  <button class="btn-main" (click)="createStore()">
-    Добавить
-  </button>
+  <button
+    type="submit"
+    class="btn btn-main"
+    (click)="createStore()"
+    [disabled]="!form.valid || btnDisabled"
+  >Добавить</button>
 </div>
