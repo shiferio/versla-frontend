@@ -1,39 +1,117 @@
 <div class="modal-header">
   <h4 class="modal-title">Регистрация</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Dismiss click')">
+  <button type="button" class="close" aria-label="Close" (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  <div class="form-group">
-    <label class="form-control-label">Логин</label>
-    <input type="text" name="login" class="form-control" [(ngModel)]="login">
-  </div>
-  <div class="form-group">
-    <label class="form-control-label">Email</label>
-    <input type="email" name="email" class="form-control" [(ngModel)]="email">
-  </div>
-  <div class="form-group">
-    <label class="form-control-label">Телефон</label>
-    <input type="text" name="phone" mask='+9-999-999-99-99' class="form-control" [(ngModel)]="phone">
-  </div>
-  <div class="form-group">
-    <label class="form-control-label" for="city">Выберите город</label>
-    <app-city-chooser
-      id="city"
-      [city]="city"
-      (cityChanged)="updateCity($event)"
-    ></app-city-chooser>
-  </div>
-  <div class="form-group">
-    <label class="form-control-label">Пароль</label>
-    <input type="password" name="password" class="form-control" [(ngModel)]="password">
-  </div>
-  <div class="form-group">
-    <label class="form-control-label">Подтвердите пароль</label>
-    <input type="password" name="password_confirmation" class="form-control" [(ngModel)]="password_confirmation">
-  </div>
-  <hr>
-  <button type="button" class="btn btn-main btn-block" (click)="register()" [disabled]="btnDisabled">Регистрация
-  </button>
+  <form
+    [formGroup]="form"
+    novalidate
+  >
+    <div class="form-group">
+      <label class="form-control-label" for="login">Логин</label>
+      <input
+        type="text"
+        id="login"
+        name="login"
+        class="form-control"
+        [ngClass]="login.errors ? 'is-invalid': 'is-valid'"
+        formControlName="login"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(login.errors && login.errors.required)">
+        Введите логин
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        [ngClass]="email.errors ? 'is-invalid': 'is-valid'"
+        formControlName="email"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="error !== 'EMAIL ALREADY EXISTS'">
+        Пользователь с таким e-mail уже есть
+      </div>
+      <div class="invalid-feedback" [hidden]="!(email.errors && email.errors.required)">
+        Введите e-mail
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="phone">Телефон</label>
+      <input
+        type="text"
+        id="phone"
+        name="phone"
+        mask='+9-999-999-99-99'
+        class="form-control"
+        [ngClass]="phone.errors ? 'is-invalid': 'is-valid'"
+        formControlName="phone"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="error !== 'PHONE ALREADY EXISTS'">
+        Пользователь с таким номером телефона уже есть
+      </div>
+      <div class="invalid-feedback" [hidden]="!(phone.errors && phone.errors.required)">
+        Введите телефон
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" for="city">Выберите город</label>
+      <select
+        id="city"
+        name="city"
+        class="form-control custom-select"
+        [ngClass]="city.errors ? 'is-invalid': 'is-valid'"
+        [formControl]="city"
+        required
+      >
+        <option *ngFor="let city of data.cities" [ngValue]="city">{{city.name}}</option>
+      </select>
+    </div>
+    <div class="form-group" formGroupName="passwords">
+      <label class="form-control-label" for="password">Пароль</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        [ngClass]="password.errors ? 'is-invalid': 'is-valid'"
+        formControlName="password"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(password.errors && password.errors.required)">
+        Введите пароль
+      </div>
+
+      <label class="form-control-label" for="passwordConfirmation">Подтвердите пароль</label>
+      <input
+        type="password"
+        id="passwordConfirmation"
+        name="passwordConfirmation"
+        class="form-control"
+        [ngClass]="confirmation.errors || passwordForm.errors ? 'is-invalid': 'is-valid'"
+        formControlName="confirmation"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(passwordForm.errors && passwordForm.errors.passwordMismatch)">
+        Пароли не совпадают
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="submit"
+    class="btn btn-main btn-block"
+    (click)="register()"
+    [disabled]="!form.valid || submitDisabled"
+  >Регистрация</button>
 </div>
