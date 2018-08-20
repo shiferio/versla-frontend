@@ -107,7 +107,9 @@
               class="text-search"
               placeholder="Введите название товара"
               [(ngModel)]="query"
-              (input)="onSearchChange($event.target.value)"/>
+              (input)="onSearchChange($event.target.value)"
+              (keyup.enter)="openSearch()"
+            />
             <div class="btn-group" ngbDropdown role="group">
               <button class="btn btn-main btn-dropdown dropdown-toggle dropdown-toggle-split" ngbDropdownToggle>
                 {{searchField.activeScope.name}}
