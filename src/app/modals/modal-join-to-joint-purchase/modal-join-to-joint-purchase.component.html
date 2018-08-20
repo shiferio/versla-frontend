@@ -39,18 +39,18 @@
     </div>
 
     <div class="form-group" *ngIf="fakeUser">
-      <label for="user">Имя пользователя</label>
+      <label for="user">Имя участника</label>
       <input
         type="text"
         id="user"
         class="form-control text-modal"
-        placeholder="Пользователь"
+        placeholder="Участник"
         [ngClass]="userLogin.errors ? 'is-invalid': 'is-valid'"
         formControlName="userLogin"
         required
       >
       <div class="invalid-feedback" [hidden]="!(userLogin.errors && userLogin.errors.required)">
-        Введите имя пользователя
+        Введите имя участника
       </div>
     </div>
   </form>

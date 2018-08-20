@@ -304,7 +304,7 @@
                               type="button"
                               class="btn btn-detach mr-2 mr-md-0"
                               (click)="detachFakeUserFromPurchase(participant.fake_user.login)"
-                              ngbPopover="Удалить пользователя"
+                              ngbPopover="Удалить участника"
                               triggers="mouseenter:mouseleave"
                             >
                               <i class="fa fa-times"></i>
@@ -373,7 +373,7 @@
                               type="button"
                               class="btn btn-detach mr-2 mr-md-0"
                               (click)="addUserToBlackList(participant.user._id)"
-                              ngbPopover="Заблокировать пользователя"
+                              ngbPopover="Заблокировать участника"
                               triggers="mouseenter:mouseleave"
                             >
                               <i class="fa fa-ban"></i>
@@ -384,14 +384,11 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!purchaseInfo.participants">
-                  <p>К закупке еще никто не присоединился</p>
-                </div>
                 <button
                   type="button"
                   class="btn btn-main ml-auto mr-auto mt-2"
                   (click)="joinToPurchase(true)"
-                >Добавить пользователя</button>
+                >Добавить участника</button>
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'history'">
