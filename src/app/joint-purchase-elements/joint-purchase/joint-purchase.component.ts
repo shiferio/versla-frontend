@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { RestApiService } from '../../rest-api.service';
 import { DataService } from '../../data.service';
 import { CartService } from '../../cart.service';
@@ -22,6 +22,8 @@ import {CommentSettings} from '../comment-elements/comment-settings';
 export class JointPurchaseComponent implements OnInit {
 
   private routeSub: Subscription;
+
+  private querySub: Subscription;
 
   purchaseId: string;
 
@@ -55,7 +57,8 @@ export class JointPurchaseComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private chatService: ChatService,
     private fileUploader: UploadFileService,
-    private purchaseHistoryService: JointPurchaseHistoryService
+    private purchaseHistoryService: JointPurchaseHistoryService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -205,22 +208,25 @@ export class JointPurchaseComponent implements OnInit {
       this.history.push(Object.assign({blocks}, item));
     }
     this.history.reverse();
-    //
-    // this.history = await Promise.all(
-    //   this.purchaseInfo['history']
-    //     .map(async (item) => {
-    //       const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
-    //       return Object.assign({blocks}, item);
-    //     })
-    //     .reverse()
-    // );
     this.visibleHistoryLength = Math.min(this.history.length, 5);
 
+    await this.loadTab();
     await this.loadComments();
   }
 
   async loadComments() {
     this.comments = (await this.rest.getPurchaseCommentTree(this.purchaseInfo['_id']))['data']['comments'];
+  }
+
+  async loadTab() {
+    this.querySub = this.route.queryParamMap.subscribe(async (params) => {
+      const tab = params.get('tab') || this.additionalTabPane;
+      if (!this.isCreator && (tab === 'participants' || tab === 'black_list')) {
+        await this.switchTab('description');
+      } else {
+        this.additionalTabPane = tab;
+      }
+    });
   }
 
   async purchaseImageChange(event) {
@@ -705,5 +711,13 @@ export class JointPurchaseComponent implements OnInit {
 
   async onCommentSent() {
     await this.loadComments();
+  }
+
+  async switchTab(tab: string) {
+    await this.router.navigate([], {
+      queryParams: {
+        tab: tab
+      }
+    });
   }
 }

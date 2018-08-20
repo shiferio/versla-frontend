@@ -142,31 +142,31 @@
               <ul class="nav nav-tabs">
                 <li class="nav-item p-b-10">
                   <a class="nav-link tabs" [class.active]="additionalTabPane === 'description'" data-toggle="tab"
-                     (click)="additionalTabPane = 'description'"
+                     (click)="switchTab('description')"
                      role="tab">Описание</a>
                 </li>
 
                 <li class="nav-item p-b-10" *ngIf="isCreator">
                   <a class="nav-link tabs" [class.active]="additionalTabPane === 'participants'" data-toggle="tab"
-                     (click)="additionalTabPane = 'participants'"
+                     (click)="switchTab('participants')"
                      role="tab">Участники</a>
                 </li>
 
                 <li class="nav-item p-b-10">
                   <a class="nav-link tabs" [class.active]="additionalTabPane === 'history'" data-toggle="tab"
-                     (click)="additionalTabPane = 'history'"
+                     (click)="switchTab('history')"
                      role="tab">История изменений</a>
                 </li>
 
                 <li class="nav-item p-b-10" *ngIf="isCreator">
                   <a class="nav-link tabs" [class.active]="additionalTabPane === 'black_list'" data-toggle="tab"
-                     (click)="additionalTabPane = 'black_list'"
+                     (click)="switchTab('black_list')"
                      role="tab">Черный список</a>
                 </li>
 
                 <li class="nav-item p-b-10">
                   <a class="nav-link tabs" [class.active]="additionalTabPane === 'comments'" data-toggle="tab"
-                     (click)="additionalTabPane = 'comments'"
+                     (click)="switchTab('comments')"
                      role="tab">Комментарии</a>
                 </li>
               </ul>
