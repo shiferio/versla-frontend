@@ -39,11 +39,3 @@ ng build --prod
 ```
 
 Файлы скомпилированного приложения будут расположены в папке `dist/Versla`.
-
-## Патчи
-
-`chat.patch`:
-
-```
-patch -i patches/chat.patch node_modules/ng-chat/ng-chat.es5.js
-```
