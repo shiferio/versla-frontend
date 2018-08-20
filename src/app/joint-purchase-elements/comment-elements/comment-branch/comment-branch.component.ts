@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommentModel} from '../comment-model';
 import {CommentSettings} from '../comment-settings';
+import {RestApiService} from '../../../rest-api.service';
+import {ChatService} from '../../../chat.service';
 
 @Component({
   selector: 'app-comment-branch',
@@ -29,13 +31,25 @@ export class CommentBranchComponent implements OnInit {
 
   replyVisible = false;
 
-  constructor() { }
+  constructor(
+    private chatService: ChatService,
+    private rest: RestApiService
+  ) { }
 
   ngOnInit() { }
 
   onSend() {
     this.replyVisible = false;
     this.commentSent.emit();
+  }
+
+  async openChat() {
+    try {
+      const info = (await this.rest.getUserByLogin(this.comment.user))['data']['user'];
+      await this.chatService.openNewChat(info['_id']);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

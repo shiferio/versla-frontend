@@ -2,6 +2,14 @@
   <div class="d-block p-1" [ngClass]="{'bg-light': comment.user === settings.creatorLogin}">
     <b>{{comment.user}}</b>
     <span class="ml-2 text-secondary font-weight-light">{{comment.date | date:'dd.MM.yyyy HH:mm'}}</span>
+    <span
+      class="ml-2"
+      ngbPopover="Связаться по чату"
+      triggers="mouseenter:mouseleave"
+      (click)="openChat()"
+    >
+      <i class="fa fa-comment"></i>
+    </span>
     <!--<a-->
       <!--*ngIf="parent"-->
       <!--class="ml-2"-->
