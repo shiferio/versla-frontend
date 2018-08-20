@@ -753,32 +753,10 @@ export class RestApiService {
       .toPromise();
   }
 
-  openNewChat(user_id: string) {
-    const body = {
-      user_id: user_id
-    };
-
-    return this
-      .http
-      .post(`${API_URL}/api/chats/new`, body, {
-        headers: this.getHeaders()
-      })
-      .toPromise();
-  }
-
   getChatHistory(chat_id: string) {
     return this
       .http
       .get(`${API_URL}/api/chats/history/${chat_id}`, {
-        headers: this.getHeaders()
-      })
-      .toPromise();
-  }
-
-  getChatById(chat_id: string) {
-    return this
-      .http
-      .get(`${API_URL}/api/chats/id/${chat_id}`, {
         headers: this.getHeaders()
       })
       .toPromise();
