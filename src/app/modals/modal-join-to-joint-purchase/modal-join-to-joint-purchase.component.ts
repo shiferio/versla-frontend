@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RestApiService} from '../../rest-api.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DataService} from '../../data.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-modal-join-to-joint-purchase',
@@ -15,20 +16,38 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
   @Input('fakeUser')
   fakeUser = false;
 
-  volume: any;
+  volume: FormControl;
 
-  userLogin: string;
+  userLogin: FormControl;
 
-  validated = false;
+  form: FormGroup;
+
+  btnDisabled = false;
 
   constructor(
     private rest: RestApiService,
     private activeModal: NgbActiveModal,
-    private data: DataService
+    private data: DataService,
+    private builder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.volume = this.purchaseInfo['min_volume'];
+    this.volume = new FormControl(this.purchaseInfo['min_volume'], Validators.compose([
+      Validators.required,
+      Validators.min(this.purchaseInfo['min_volume']),
+      Validators.max(this.purchaseInfo['remaining_volume'])
+    ]));
+
+    if (this.fakeUser) {
+      this.userLogin = new FormControl('', Validators.required);
+    } else {
+      this.userLogin = new FormControl('');
+    }
+
+    this.form = this.builder.group({
+      'volume': this.volume,
+      'userLogin': this.userLogin
+    });
   }
 
   dismiss() {
@@ -36,7 +55,22 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
   }
 
   get cost(): number {
-    return this.volume * this.purchaseInfo['price_per_unit'];
+    return this.volume.value * this.purchaseInfo['price_per_unit'];
+  }
+
+  volumeValidate(control) {
+    const volume = Number.parseFloat(control.value);
+    const errors = {};
+
+    if (volume < this.minimum) {
+      errors['minimumVolume'] = true;
+    } else if (volume > this.maximum) {
+      errors['maximumVolume'] = true;
+    }
+
+    control.setErrors(errors);
+
+    return null;
   }
 
   get minimum(): number {
@@ -51,83 +85,36 @@ export class ModalJoinToJointPurchaseComponent implements OnInit {
     return this.purchaseInfo['measurement_unit']['name'];
   }
 
-  validate() {
-    this.validated = true;
-
-    if (this.volume > this.purchaseInfo['remaining_volume']) {
-      this
-        .data
-        .addToast('Нельзя заказать больше, чем доступно', '', 'error');
-      return false;
-    }
-
-    if (this.volume < this.purchaseInfo['min_volume']) {
-      this
-        .data
-        .addToast('Нельзя заказть меньше допустимого объема', '', 'error');
-      return false;
-    }
-
-    if (this.fakeUser && !this.userLogin) {
-      this
-        .data
-        .addToast('Введите имя пользователя', '', 'error');
-      return false;
-    }
-
-    return true;
-  }
-
   async joinToPurchase() {
-    if (!this.validate()) {
-      return;
-    }
-    if (!this.fakeUser) {
-      try {
-        const resp = await this.rest.joinToPurchase(
-          this.purchaseInfo['_id'],
-          Number.parseFloat(this.volume)
-        );
+    this.btnDisabled = true;
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Вы присоединены к закупке', '', 'success');
-          this.activeModal.close(resp['data']['purchase']);
-        } else {
-          this
-            .data
-            .addToast('Не удалось присоединится к закупке', '', 'error');
-        }
-      } catch (error) {
+    try {
+      const purchaseId = this.purchaseInfo['_id'];
+      const volume = Number.parseFloat(this.volume.value);
+      const userLogin = this.userLogin.value;
+
+      let resp = null;
+      if (this.fakeUser) {
+        resp = await this.rest.joinFakeUserToPurchase(purchaseId, userLogin, volume);
         this
           .data
-          .addToast('Ошибка', error['message'], 'error');
-      }
-    } else {
-      try {
-        const resp = await this.rest.joinFakeUserToPurchase(
-          this.purchaseInfo['_id'],
-          this.userLogin,
-          Number.parseFloat(this.volume)
-        );
-
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Пользователь присоединен к закупке', '', 'success');
-          this.activeModal.close(resp['data']['purchase']);
-        } else {
-          this
-            .data
-            .addToast('Не удалось присоединить к закупке', '', 'error');
-        }
-      } catch (error) {
+          .addToast('Пользователь присоединен к закупке', '', 'success');
+      } else {
+        resp = await this.rest.joinToPurchase(purchaseId, volume);
         this
           .data
-          .addToast('Ошибка', error['message'], 'error');
+          .addToast('Вы присоединены к закупке', '', 'success');
       }
+      this
+        .activeModal
+        .close(resp['data']['purchase']);
+    } catch (error) {
+        const message = error.error.meta.message;
+        this
+          .data
+          .addToast('Ошибка', message, 'error');
     }
+
+    this.btnDisabled = false;
   }
-
 }
