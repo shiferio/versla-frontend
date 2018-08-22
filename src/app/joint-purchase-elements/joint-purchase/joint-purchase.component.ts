@@ -66,6 +66,8 @@ export class JointPurchaseComponent implements OnInit {
 
   comments: Array<CommentModel> = [];
 
+  ready = false;
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -88,6 +90,7 @@ export class JointPurchaseComponent implements OnInit {
 
       await this.initialize();
 
+      this.ready = true;
       this.spinner.hide();
     });
   }

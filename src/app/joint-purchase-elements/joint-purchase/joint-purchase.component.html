@@ -7,7 +7,7 @@
     loadingText="Загрузка закупки"
   ></ngx-spinner>
 
-  <div *ngIf="purchaseInfo">
+  <div *ngIf="ready">
     <ngb-alert
       [dismissible]="false"
       *ngIf="!isPaymentApproved && isParticipant && purchaseInfo.payment_type === 1"
