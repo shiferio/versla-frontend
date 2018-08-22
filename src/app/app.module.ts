@@ -76,6 +76,7 @@ import { CommentBranchComponent } from './joint-purchase-elements/comment-elemen
 import { CommentReplyComponent } from './joint-purchase-elements/comment-elements/comment-reply/comment-reply.component';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { StoreOrdersComponent } from './store-elements/store-orders/store-orders.component';
+import { NgbDatePipe } from './pipes/ngb-date.pipe';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,8 @@ import { StoreOrdersComponent } from './store-elements/store-orders/store-orders
     ModalCategoryChooserComponent,
     CommentBranchComponent,
     CommentReplyComponent,
-    StoreOrdersComponent
+    StoreOrdersComponent,
+    NgbDatePipe
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),

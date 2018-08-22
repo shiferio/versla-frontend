@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RestApiService} from './rest-api.service';
+import {RussianLocaleDatePipe} from './pipes/russian-locale-date.pipe';
 
 export class TextBlock {
   constructor(
@@ -14,7 +15,8 @@ export class TextBlock {
 export class JointPurchaseHistoryService {
 
   public readonly purchaseParameters = [
-    'name', 'picture', 'description', 'category', 'volume', 'min_volume', 'price_per_unit'
+    'name', 'picture', 'description', 'category', 'volume', 'min_volume', 'price_per_unit',
+    'date'
   ];
 
   public readonly paymentParameters = [
@@ -102,6 +104,11 @@ export class JointPurchaseHistoryService {
         return [
           { text: 'Организатор изменил цену: ', bold: false },
           { text: `${value} ₽`, bold: true }
+        ];
+      case 'date':
+        return [
+          { text: 'Организатор изменил дату завершения приема заказов: ', bold: false },
+          { text: `${new RussianLocaleDatePipe().transform(value)}`, bold: true }
         ];
     }
   }

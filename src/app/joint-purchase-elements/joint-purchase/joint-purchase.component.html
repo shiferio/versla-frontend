@@ -123,9 +123,22 @@
               Осталось: {{ purchaseInfo.remaining_volume }} {{ measurementUnit }}
             </h5>
 
-            <h5>
+            <h5 *ngIf="!editMode.date">
               Прием заказов завершается: {{ purchaseInfo.date | russianLocaleDate }}
+              <label *ngIf="isCreator" (click)="editMode.date = true" class="btn-edit">
+                изменить
+              </label>
             </h5>
+            <div *ngIf="editMode.date" class="form-group">
+              <label for="date">Прием заказов завершается: {{ editModeInfo.date | russianLocaleDate }}</label>
+              <ngb-datepicker
+                id="date"
+                [minDate]="purchaseInfo.date | ngbDate"
+                [(ngModel)]="editModeInfo.date"
+              ></ngb-datepicker><br>
+              <button type="button" class="btn btn-main mt-3" (click)="updateDate()">Обновить</button>
+              <button type="button" class="btn btn-detach ml-1 mt-3" (click)="disableEditMode('date')">Отмена</button>
+            </div>
 
             <p class="card-text" *ngIf="!isParticipant && isOpened && isLoggedIn && !isBanned">
               <button class="btn btn-main" (click)="joinToPurchase()" *ngIf="haveEnoughRemainingVolume">

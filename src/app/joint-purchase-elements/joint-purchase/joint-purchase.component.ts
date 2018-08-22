@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { RestApiService } from '../../rest-api.service';
 import { DataService } from '../../data.service';
 import { CartService } from '../../cart.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateAdapter, NgbDateStruct, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { SearchService } from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
@@ -14,10 +14,29 @@ import {JointPurchaseHistoryService} from '../../joint-purchase-history.service'
 import {CommentModel} from '../comment-elements/comment-model';
 import {CommentSettings} from '../comment-elements/comment-settings';
 
+@Injectable()
+export class DateNativeAdapter extends NgbDateAdapter<string> {
+
+  fromModel(value: string): NgbDateStruct {
+    const date = new Date(value);
+    return {
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear()
+    };
+  }
+
+  toModel(date: NgbDateStruct): string {
+    return new Date(date['year'], date['month'] - 1, date['day']).toDateString();
+  }
+
+}
+
 @Component({
   selector: 'app-joint-purchase',
   templateUrl: './joint-purchase.component.html',
-  styleUrls: ['./joint-purchase.component.scss']
+  styleUrls: ['./joint-purchase.component.scss'],
+  providers: [{provide: NgbDateAdapter, useClass: DateNativeAdapter}]
 })
 export class JointPurchaseComponent implements OnInit {
 
@@ -394,6 +413,39 @@ export class JointPurchaseComponent implements OnInit {
       this
         .data
         .error('Вы не указали цену');
+    }
+  }
+
+  async updateDate() {
+    if (this.editModeInfo['date']) {
+      this.editMode['date'] = false;
+      try {
+        const resp = await this.rest.updatePurchaseInfo(
+          this.purchaseInfo['_id'],
+          'date',
+          this.editModeInfo['date']
+        );
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Информация обновлена', '', 'success');
+
+          await this.loadAdditionalInfo(resp['data']['purchase']);
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
+        this
+          .data
+          .error(error['message']);
+      }
+    } else {
+      this
+        .data
+        .error('Вы не указали дату');
     }
   }
 
