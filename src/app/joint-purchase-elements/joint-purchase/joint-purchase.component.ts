@@ -786,4 +786,9 @@ export class JointPurchaseComponent implements OnInit {
       }
     });
   }
+
+  disableEditMode(field: string) {
+    this.editMode[field] = false;
+    this.editModeInfo[field] = this.purchaseInfo[field];
+  }
 }

@@ -47,6 +47,7 @@
               <label for="name">Название закупки</label>
               <input id="name" type="text" [(ngModel)]="editModeInfo.name" class="form-control text-good card-title">
               <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
+              <button type="button" class="btn btn-detach ml-1" (click)="disableEditMode('name')">Отмена</button>
             </div>
 
             <h5 *ngIf="!editMode.price_per_unit">
@@ -66,6 +67,12 @@
                 mask="0*.00"
               >
               <button type="button" class="btn btn-main" (click)="updatePricePerUnit()">Обновить</button>
+              <button
+                type="button"
+                class="btn btn-detach ml-1"
+                (click)="disableEditMode('price_per_unit')"
+              >Отмена</button>
+
             </div>
 
             <h5 *ngIf="!editMode.volume">
@@ -85,6 +92,7 @@
                 mask="0*.0*"
               >
               <button type="button" class="btn btn-main" (click)="updateVolume()">Обновить</button>
+              <button type="button" class="btn btn-detach ml-1" (click)="disableEditMode('volume')">Отмена</button>
             </div>
 
             <h5 *ngIf="!editMode.min_volume">
@@ -104,6 +112,7 @@
                 mask="0*.0*"
               >
               <button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>
+              <button type="button" class="btn btn-detach ml-1" (click)="disableEditMode('min_volume')">Отмена</button>
             </div>
 
             <h5>
@@ -156,6 +165,11 @@
                   class="btn btn-main mt-3"
                   (click)="updateCategory()"
                 >Обновить</button>
+                <button
+                  type="button"
+                  class="btn btn-detach mt-3 ml-1"
+                  (click)="disableEditMode('category')"
+                >Отмена</button>
               </div>
             </div>
           </div>
@@ -222,6 +236,11 @@
                         [(ngModel)]="editModeInfo.description"
                       ></textarea>
                       <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
+                      <button
+                        type="button"
+                        class="btn btn-detach ml-1"
+                        (click)="disableEditMode('description')"
+                      >Отмена</button>
                     </div>
                     <h5>
                       Адрес места выдачи товара
@@ -285,6 +304,11 @@
                           ></textarea>
                         </div>
                         <button type="button" class="btn btn-main" (click)="updatePaymentType()">Обновить</button>
+                        <button
+                          type="button"
+                          class="btn btn-detach ml-1"
+                          (click)="disableEditMode('payment_type') || disableEditMode('payment_info')"
+                        >Отмена</button>
                       </div>
                     </div>
                   </div>
