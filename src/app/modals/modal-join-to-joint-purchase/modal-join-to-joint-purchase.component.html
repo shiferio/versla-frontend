@@ -1,5 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title">Присоединение к закупке</h4>
+  <h4 class="modal-title" *ngIf="!fakeUser">Присоединение к закупке</h4>
+  <h4 class="modal-title" *ngIf="fakeUser">Добавление незарегистрированного участника</h4>
   <button type="button" class="close" aria-label="Close"
           (click)="dismiss()"><span aria-hidden="true">&times;</span>
   </button>
@@ -61,5 +62,5 @@
     class="btn btn-main"
     (click)="joinToPurchase()"
     [disabled]="!form.valid || btnDisabled"
-  >Присоединится</button>
+  >{{fakeUser ? 'Добавить' : 'Присоединится'}}</button>
 </div>
