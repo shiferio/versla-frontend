@@ -72,9 +72,24 @@
               <button type="button" class="btn btn-main" (click)="updateVolume()">Обновить</button>
             </div>
 
-            <h5>
+            <h5 *ngIf="!editMode.min_volume">
               Минимальный объем заказа: {{ purchaseInfo.min_volume }} {{ measurementUnit }}
+              <label *ngIf="isCreator" (click)="editMode.min_volume = true" class="btn-edit">
+                изменить
+              </label>
             </h5>
+            <div *ngIf="editMode.min_volume" class="form-group">
+              <label for="min_volume">Минимальный объем заказа</label>
+              <input
+                id="min_volume"
+                type="text"
+                [(ngModel)]="editModeInfo.min_volume"
+                class="form-control text-good card-title"
+                [dropSpecialCharacters]="false"
+                mask="0*.0*"
+              >
+              <button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>
+            </div>
 
             <h5>
               Заказано: {{ totalOrderedVolume }} {{ measurementUnit }}
