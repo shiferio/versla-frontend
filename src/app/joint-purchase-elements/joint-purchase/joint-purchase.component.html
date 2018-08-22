@@ -567,6 +567,24 @@
                 </button>
               </div>
             </div>
+
+            <div class="form-group mt-3">
+              <div
+                class="custom-control custom-checkbox"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="isPrivate"
+                  [(ngModel)]="purchaseInfo.is_public"
+                  (change)="updateIsPublicState()"
+                >
+                <label
+                  class="custom-control-label"
+                  for="isPrivate"
+                >Закупка отображается в поисковой выдаче</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

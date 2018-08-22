@@ -449,6 +449,32 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateIsPublicState() {
+    try {
+      const resp = await this.rest.updatePurchaseInfo(
+        this.purchaseInfo['_id'],
+        'is_public',
+        this.purchaseInfo['is_public']
+      );
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast('Информация обновлена', '', 'success');
+
+        await this.loadAdditionalInfo(resp['data']['purchase']);
+      } else {
+        this
+          .data
+          .error(resp['meta'].message);
+      }
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
+
   async updateCategory() {
     this.editMode['category'] = false;
     try {
