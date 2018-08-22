@@ -49,9 +49,24 @@
               <button type="button" class="btn btn-main" (click)="updateName()">Обновить</button>
             </div>
 
-            <h5>
+            <h5 *ngIf="!editMode.price_per_unit">
               {{ purchaseInfo.price_per_unit | fixedFloat: 2 }} ₽/{{ measurementUnit }}
+              <label *ngIf="isCreator" (click)="editMode.price_per_unit = true" class="btn-edit">
+                изменить
+              </label>
             </h5>
+            <div *ngIf="editMode.price_per_unit" class="form-group">
+              <label for="volume">Цена за единицу товара</label>
+              <input
+                id="price_per_unit"
+                type="text"
+                [(ngModel)]="editModeInfo.price_per_unit"
+                class="form-control text-good card-title"
+                [dropSpecialCharacters]="false"
+                mask="0*.00"
+              >
+              <button type="button" class="btn btn-main" (click)="updatePricePerUnit()">Обновить</button>
+            </div>
 
             <h5 *ngIf="!editMode.volume">
               Количество товара: {{ purchaseInfo.volume }} {{ measurementUnit }}

@@ -364,6 +364,39 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updatePricePerUnit() {
+    if (this.editModeInfo['price_per_unit']) {
+      this.editMode['price_per_unit'] = false;
+      try {
+        const resp = await this.rest.updatePurchaseInfo(
+          this.purchaseInfo['_id'],
+          'price_per_unit',
+          Number.parseFloat(this.editModeInfo['price_per_unit'])
+        );
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Информация обновлена', '', 'success');
+
+          await this.loadAdditionalInfo(resp['data']['purchase']);
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
+        this
+          .data
+          .error(error['message']);
+      }
+    } else {
+      this
+        .data
+        .error('Вы не указали цену');
+    }
+  }
+
   async updateCategory() {
     this.editMode['category'] = false;
     try {
