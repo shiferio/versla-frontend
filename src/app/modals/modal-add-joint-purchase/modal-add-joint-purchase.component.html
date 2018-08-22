@@ -64,11 +64,10 @@
             placeholder="Описание"
             [ngClass]="description.errors ? 'is-invalid': 'is-valid'"
             formControlName="description"
-            required
           ></textarea>
-          <div class="invalid-feedback" [hidden]="!(description.errors && description.errors.required)">
-            Введите описание закупки
-          </div>
+          <!--<div class="invalid-feedback" [hidden]="!(description.errors && description.errors.required)">-->
+            <!--Введите описание закупки-->
+          <!--</div>-->
         </div>
 
         <div class="form-group">

@@ -182,6 +182,8 @@
                     <div *ngIf="!editMode.description">
                       <p *ngIf="purchaseInfo.description" class="preserve-line-breaks"
                       >{{purchaseInfo.description}}</p>
+                      <p *ngIf="!purchaseInfo.description" class="preserve-line-breaks"
+                      >Организатор не предоставил описание закупки</p>
                     </div>
                     <div *ngIf="editMode.description" class="form-group">
                       <textarea

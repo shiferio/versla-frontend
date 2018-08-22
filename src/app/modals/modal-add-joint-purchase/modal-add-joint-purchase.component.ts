@@ -15,7 +15,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   name = new FormControl('', Validators.required);
 
-  description = new FormControl('', Validators.required);
+  description = new FormControl('');
 
   category = new FormControl(null, Validators.required);
 
