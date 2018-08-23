@@ -126,27 +126,20 @@ export class StoreComponent implements OnInit, OnDestroy {
     this.editMode.logo = true;
 
     try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'logo', {
+      await this.rest.updateStoreInfo(this.link, 'logo', {
         link: this.link,
         logo: ''
       });
 
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+      this
+        .data
+        .success('Логотип удален');
 
-        await this.getStoreInfo(this.link);
-        this.editMode.logo = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      await this.getStoreInfo(this.link);
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
 
     this.editMode.logo = false;
@@ -156,27 +149,20 @@ export class StoreComponent implements OnInit, OnDestroy {
     this.editMode.background = true;
 
     try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'background', {
+      await this.rest.updateStoreInfo(this.link, 'background', {
         link: this.link,
         background: ''
       });
 
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+      this
+        .data
+        .success('Фоновое изображение удалено');
 
-        await this.getStoreInfo(this.link);
-        this.editMode.logo = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      await this.getStoreInfo(this.link);
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
 
     this.editMode.background = false;
@@ -193,27 +179,20 @@ export class StoreComponent implements OnInit, OnDestroy {
         .uploadImage(file);
 
       try {
-        const resp = await this.rest.updateStoreInfo(this.link, 'logo', {
+        await this.rest.updateStoreInfo(this.link, 'logo', {
           link: this.link,
           logo: pictureUrl
         });
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+        this
+          .data
+          .success('Логотип обновлен');
 
-          await this.getStoreInfo(this.link);
-          this.editMode.logo = false;
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
+        await this.getStoreInfo(this.link);
       } catch (error) {
         this
           .data
-          .addToast('Ошибка', error['meta'].message, 'error');
+          .error(error['message']);
       }
     }
 
@@ -231,27 +210,20 @@ export class StoreComponent implements OnInit, OnDestroy {
         .uploadImage(file);
 
       try {
-        const resp = await this.rest.updateStoreInfo(this.link, 'background', {
+        await this.rest.updateStoreInfo(this.link, 'background', {
           link: this.link,
           background: pictureUrl
         });
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+        this
+          .data
+          .success('Фоновое изображение обновлено');
 
-          await this.getStoreInfo(this.link);
-          this.editMode.background = false;
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
+        await this.getStoreInfo(this.link);
       } catch (error) {
         this
           .data
-          .addToast('Ошибка', error['meta'].message, 'error');
+          .error(error['message']);
       }
     }
 
@@ -261,84 +233,66 @@ export class StoreComponent implements OnInit, OnDestroy {
   async updateStoreName() {
     if (this.info.name) {
       try {
-        const resp = await this.rest.updateStoreInfo(this.link, 'name', {
+        await this.rest.updateStoreInfo(this.link, 'name', {
           link: this.link,
           name: this.info.name
         });
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+        this
+          .data
+          .success('Информация обновлена');
 
-          await this.getStoreInfo(this.link);
-          this.editMode.name = false;
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
+        await this.getStoreInfo(this.link);
+        this.editMode.name = false;
       } catch (error) {
         this
           .data
-          .addToast('Ошибка', error['meta'].message, 'error');
+          .error(error['message']);
       }
     } else {
       this
         .data
-        .addToast('Ошибка', 'Имя магазина не может быть пустой строкой', 'error');
+        .addToast('Введите имя магазина', '', 'error');
     }
   }
 
   async updateShortDescription() {
     try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'short_description', {
+      await this.rest.updateStoreInfo(this.link, 'short_description', {
         link: this.link,
         short_description: this.info.short_description
       });
 
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+      this
+        .data
+        .success('Информация обновлена');
 
-        await this.getStoreInfo(this.link);
-        this.editMode.short_description = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      await this.getStoreInfo(this.link);
+      this.editMode.short_description = false;
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
   }
 
   async updateDescription() {
     try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'description', {
+      await this.rest.updateStoreInfo(this.link, 'description', {
         link: this.link,
         description: this.info.description
       });
 
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+      this
+        .data
+        .success('Информация обновлена');
 
-        await this.getStoreInfo(this.link);
-        this.editMode.description = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      await this.getStoreInfo(this.link);
+      this.editMode.description = false;
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
   }
 
@@ -360,83 +314,6 @@ export class StoreComponent implements OnInit, OnDestroy {
       });
   }
 
-  async deleteFace(face) {
-    if (this.info.contact_faces.length > 1) {
-      for (let i = this.info.contact_faces.length - 1; i >= 0; i--) {
-        if (this.info.contact_faces[i].id === face) {
-          this.info.contact_faces.splice(i, 1);
-        }
-      }
-
-      await this.updateContactFaces();
-    } else {
-      this
-        .data
-        .addToast('Ошибка', 'Должно быть хотя бы одно контактное лицо', 'error');
-    }
-  }
-
-  async addNewUserByLogin() {
-    try {
-      const data = await this.rest.getUserByLogin(this.new_user_login);
-
-      if (data['meta'].success) {
-
-        const user = data['data'].user;
-
-        for (const face of this.info.contact_faces) {
-          if (face.id === user._id) {
-            this
-              .data
-              .addToast('Ошибка', 'Пользователь уже есть', 'error');
-            return;
-          }
-        }
-
-        this.info.contact_faces.push({
-          id: user._id,
-          name: user.first_name || user.login
-        });
-
-        await this.updateContactFaces();
-      } else {
-        this
-          .data
-          .addToast('Ошибка', data['meta'].message, 'error');
-      }
-    } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['meta'].message, 'error');
-    }
-  }
-
-  async updateContactFaces() {
-    const faces = this.info.contact_faces.map(face => face.id);
-
-    try {
-      const resp = await this.rest.updateStoreInfo(this.link, 'contact_faces', {
-        link: this.link,
-        contact_faces: faces
-      });
-
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
-
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
-    } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['meta'].message, 'error');
-    }
-  }
-
   async updateLocation() {
     try {
       const resp = await this.rest.updateStoreInfo(this.link, 'location', {
@@ -444,22 +321,16 @@ export class StoreComponent implements OnInit, OnDestroy {
         location: this.location
       });
 
-      if (resp['meta'].success) {
-        this
-          .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+      this
+        .data
+        .success('Информация обновлена');
 
-        await this.getStoreInfo(this.link);
-        this.editMode.location = false;
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      await this.getStoreInfo(this.link);
+      this.editMode.location = false;
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
   }
 

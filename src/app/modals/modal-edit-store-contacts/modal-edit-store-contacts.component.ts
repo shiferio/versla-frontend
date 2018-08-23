@@ -85,29 +85,25 @@ export class ModalEditStoreContactsComponent implements OnInit {
 
     try {
       if (this.validate()) {
-        const resp = await this.rest.updateStoreInfo(this.link, 'contacts', {
+        await this.rest.updateStoreInfo(this.link, 'contacts', {
           link: this.link,
           email: this.email,
           phone: this.phone,
           address: this.address,
           city: this.city['_id']
         });
-        if (resp['meta'].success) {
-          this.closeModal();
-          this
-            .data
-            .addToast('Данные обновлены', '', 'success');
-        } else {
-          this
-            .data
-            .addToast('Ошибка', resp['meta'].message, 'error');
-        }
+
+        this.closeModal();
+        this
+          .data
+          .success('Данные обновлены');
       }
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['message'], 'error');
+        .error(error['message']);
     }
+
     this.btnDisabled = false;
   }
 

@@ -58,7 +58,7 @@ export class StoreCategoryChooserComponent implements OnInit {
     if (index !== -1) {
       this
         .data
-        .addToast('Ошибка', 'Такая категория уже есть', 'error');
+        .addToast('Такая категория уже есть', '', 'error');
       return;
     }
     try {
@@ -66,19 +66,13 @@ export class StoreCategoryChooserComponent implements OnInit {
         name: this.new_category_name
       });
 
-      if (resp['meta'].success) {
-        this.categories.push(resp['data']['category']);
-        this.new_category_name = '';
-        this.selectCategory(this.categories[this.categories.length - 1]);
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
-      }
+      this.categories.push(resp['data']['category']);
+      this.new_category_name = '';
+      this.selectCategory(this.categories[this.categories.length - 1]);
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error.toString(), 'error');
+        .error(error['message']);
     }
   }
 

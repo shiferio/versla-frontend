@@ -9,35 +9,36 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./stores-list.component.scss']
 })
 export class StoresListComponent implements OnInit {
-  stores = [];
-  noResults = true;
-  constructor(private rest: RestApiService,
-              private data: DataService, private router: Router) { }
 
-  async loadAllMarkets() {
+  stores = [];
+
+  noResults = true;
+
+  constructor(
+    private rest: RestApiService,
+    private data: DataService,
+    private router: Router
+  ) { }
+
+  async loadAllStores() {
     try {
       const resp = await this.rest.getAllStores();
 
-      if (resp['meta'].success) {
-        this.stores = resp['data']['stores'];
-        if (resp['data']['stores'].length !== 0) {
-          this.noResults = false;
-        }
-      } else {
-        this
-          .data
-          .addToast('Ошибка', resp['meta'].message, 'error');
+      this.stores = resp['data']['stores'];
+      if (resp['data']['stores'].length !== 0) {
+        this.noResults = false;
       }
     } catch (error) {
       this
         .data
-        .addToast('Ошибка', error['meta'].message, 'error');
+        .error(error['message']);
     }
   }
 
   async ngOnInit() {
-    await this.loadAllMarkets();
-    this.router
+    await this.loadAllStores();
+    this
+      .router
       .events
       .subscribe(event => {
         if (event instanceof NavigationEnd) {
