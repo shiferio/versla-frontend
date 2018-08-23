@@ -38,7 +38,7 @@ export class ModalLoginComponent implements OnInit {
     });
   }
 
-  close() {
+  dismiss() {
     this.activeModal.dismiss();
   }
 
