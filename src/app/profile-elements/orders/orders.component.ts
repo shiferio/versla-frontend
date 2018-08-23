@@ -72,4 +72,20 @@ export class OrdersComponent implements OnInit {
         .error(error['message']);
     }
   }
+
+  async updateObtainedStatus(order: any) {
+    try {
+      await this.rest.updateOrderStatusObtained(order._id);
+
+      this
+        .data
+        .success('Информация обновлена');
+
+      await this.ngOnInit();
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
+  }
 }
