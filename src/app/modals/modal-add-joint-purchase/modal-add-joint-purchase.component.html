@@ -101,6 +101,7 @@
             <input
               class="d-none"
               ngbDatepicker
+              [minDate]="today | ngbDate"
               #d="ngbDatepicker"
               formControlName="date"
               required

@@ -133,7 +133,7 @@
               <label for="date">Прием заказов завершается: {{ editModeInfo.date | russianLocaleDate }}</label>
               <ngb-datepicker
                 id="date"
-                [minDate]="purchaseInfo.date | ngbDate"
+                [minDate]="today | ngbDate"
                 [(ngModel)]="editModeInfo.date"
               ></ngb-datepicker><br>
               <button type="button" class="btn btn-main mt-3" (click)="updateDate()">Обновить</button>

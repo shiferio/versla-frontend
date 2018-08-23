@@ -158,4 +158,8 @@ export class DataService {
     }
   }
 
+  get currentDay(): string {
+    return new Date().toDateString();
+  }
+
 }

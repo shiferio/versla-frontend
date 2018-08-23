@@ -905,4 +905,8 @@ export class JointPurchaseComponent implements OnInit {
     this.editMode[field] = false;
     this.editModeInfo[field] = this.purchaseInfo[field];
   }
+
+  get today(): string {
+    return this.data.currentDay;
+  }
 }
