@@ -55,21 +55,21 @@ export class CartComponent implements OnInit {
   }
 
   async createOrder() {
-    this
-      .data
-      .addToast(
-        'Невозможно оформить заказ', 'Versla ещё официально не запущена', 'warning'
-      );
-    // if (!this.cartIsEmpty) {
-    //   await this.cart.saveCart();
-    //
-    //   await this
-    //     .router
-    //     .navigate(['/order']);
-    // } else {
-    //   this
-    //     .data
-    //     .addToast('Упс', 'Корзина пуста', 'error');
-    // }
+    // this
+    //   .data
+    //   .addToast(
+    //     'Невозможно оформить заказ', 'Versla ещё официально не запущена', 'warning'
+    //   );
+    if (!this.cartIsEmpty) {
+      await this.cart.saveCart();
+
+      await this
+        .router
+        .navigate(['/order']);
+    } else {
+      this
+        .data
+        .addToast('Упс', 'Корзина пуста', 'error');
+    }
   }
 }
