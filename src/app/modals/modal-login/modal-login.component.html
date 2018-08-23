@@ -30,6 +30,7 @@
         type="password"
         name="password"
         class="form-control text-modal"
+        (keyup.enter)="onEnter()"
         placeholder="Пароль"
         [ngClass]="passwordErrors ? 'is-invalid': 'is-valid'"
         formControlName="password"

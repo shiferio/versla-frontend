@@ -50,6 +50,12 @@ export class ModalLoginComponent implements OnInit {
     return !!this.password.errors || this.error === 'PASSWORD MISMATCH';
   }
 
+  async onEnter() {
+    if (this.form.valid && !this.submitDisabled) {
+      await this.login();
+    }
+  }
+
   async login() {
     this.submitDisabled = true;
     this.error = null;
