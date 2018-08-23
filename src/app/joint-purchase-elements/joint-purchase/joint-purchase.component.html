@@ -400,7 +400,7 @@
                       </div>
                       <div class="row" *ngIf="participant.user">
                         <div class="col-12 col-md-3">
-                          {{ participant.user.login }}
+                          {{participant.user | prettyUserName}}
                         </div>
                         <div class="col-12 col-md-3">
                           {{ participant.volume }} {{ measurementUnit }}
