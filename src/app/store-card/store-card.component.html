@@ -1,7 +1,7 @@
 <div class="col-md-4 col-sm-12 col-12 scard" [class.storebackground]="store.background" [class.storehead]="!store.background"
      [style.backgroundImage]="store.background ? 'url('+ store.background +')' : 'url(../../../assets/img/bg.png)'"
      (click)="openStore(store.link)">
-  <div class="d-flex justify-content-start align-items-center store-box">
+  <div class="d-flex justify-content-start align-items-center store-box h-100">
     <div class="storeoverlay"></div>
     <div class="store-logo">
       <img [src]="store.logo ? store.logo : '../../../assets/img/shop.svg'" class="store-img">
