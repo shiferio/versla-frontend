@@ -95,7 +95,7 @@ export class DataService {
   }
 
   success(message) {
-    this.addToast('Ура!', message, 'success');
+    this.addToast(message, '', 'success');
   }
 
   warning(message) {
