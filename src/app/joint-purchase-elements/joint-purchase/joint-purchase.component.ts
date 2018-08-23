@@ -13,6 +13,7 @@ import {UploadFileService} from '../../upload-file.service';
 import {JointPurchaseHistoryService} from '../../joint-purchase-history.service';
 import {CommentModel} from '../comment-elements/comment-model';
 import {CommentSettings} from '../comment-elements/comment-settings';
+import {SearchFieldService} from '../../search-field.service';
 
 @Injectable()
 export class DateNativeAdapter extends NgbDateAdapter<string> {
@@ -75,6 +76,7 @@ export class JointPurchaseComponent implements OnInit {
     private cart: CartService,
     private modalService: NgbModal,
     private search: SearchService,
+    private searchField: SearchFieldService,
     private spinner: NgxSpinnerService,
     private chatService: ChatService,
     private fileUploader: UploadFileService,
@@ -93,6 +95,8 @@ export class JointPurchaseComponent implements OnInit {
       this.ready = true;
       this.spinner.hide();
     });
+
+    this.searchField.activeScope = this.searchField.SCOPE_PURCHASES;
   }
 
   async initialize() {
