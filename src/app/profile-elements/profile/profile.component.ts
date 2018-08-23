@@ -3,8 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Router, NavigationEnd} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
-import {RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {UploadFileService} from '../../upload-file.service';
 
@@ -18,8 +16,20 @@ export class ProfileComponent implements OnInit {
     private rest: RestApiService,
     private spinner: NgxSpinnerService,
     private fileUploader: UploadFileService
-  ) {
-    this
+  ) { }
+
+  setTab(tabNum) {
+    this.tabNum = tabNum;
+  }
+
+  isTabSet(tabNum) {
+    return this.tabNum === tabNum;
+  }
+
+  async ngOnInit() {
+    this.data.setTitle('Профиль');
+
+    await this
       .data
       .getProfile();
 
@@ -46,18 +56,6 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  setTab(tabNum) {
-    this.tabNum = tabNum;
-  }
-
-  isTabSet(tabNum) {
-    return this.tabNum === tabNum;
-  }
-
-  ngOnInit() {
-    this.data.setTitle('Профиль');
-  }
-
   async fileChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
@@ -67,25 +65,19 @@ export class ProfileComponent implements OnInit {
         .uploadImage(file);
 
       try {
-        const resp = await this
+        await this
           .rest
           .updateAvatar({
             picture: pictureUrl
           });
 
-        if (resp['meta'].success) {
-          this
-            .data
-            .success(resp['meta'].message);
+        this
+          .data
+          .success('Аватар обновлен');
 
-          this
-            .data
-            .getProfile();
-        } else {
-          this
-            .data
-            .error(resp['meta'].message);
-        }
+        await this
+          .data
+          .getProfile();
       } catch (error) {
         this
           .data

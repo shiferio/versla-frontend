@@ -23,28 +23,22 @@ export class SecurityComponent implements OnInit {
   validate(): boolean {
     if (this.old_password) {
       if (this.password) {
-        if (this.confirmation_password) {
-          if (this.password === this.confirmation_password) {
-            return true;
-          } else {
-            this
-              .data
-              .error('Passwords don\'t match.');
-          }
+        if (this.password === this.confirmation_password) {
+          return true;
         } else {
           this
             .data
-            .error('Confirmation password is not entered.');
+            .addToast('Пароли не совпадают', '', 'error');
         }
       } else {
         this
           .data
-          .error('New password is not entered.');
+          .addToast('Введите новый пароль', '', 'error');
       }
     } else {
       this
         .data
-        .error('old password is not entered.');
+        .addToast('Введите старый пароль', '', 'error');
     }
 
     return false;
@@ -53,21 +47,15 @@ export class SecurityComponent implements OnInit {
   async update() {
     try {
       if (this.validate()) {
-        const data = await this.rest.updatePassword({
+        await this.rest.updatePassword({
           password: this.password,
           old_password: this.old_password,
           confirmation_password: this.confirmation_password
         });
 
-        if (data['meta'].success) {
-          this
-            .data
-            .success(data['meta'].message);
-        } else {
-          this
-            .data
-            .error(data['meta'].message);
-        }
+        this
+          .data
+          .success('Информация обновлена');
       }
     } catch (error) {
       this
