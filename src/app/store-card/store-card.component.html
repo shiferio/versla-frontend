@@ -4,7 +4,7 @@
   <div class="d-flex justify-content-start align-items-center store-box">
     <div class="storeoverlay"></div>
     <div class="store-logo">
-      <img [src]="store.logo" class="store-img">
+      <img [src]="store.logo ? store.logo : '../../../assets/img/shop.svg'" class="store-img">
     </div>
 
     <div class="desc-store d-flex flex-column">
