@@ -53,6 +53,9 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/stores">Магазины</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/search/purchase">Совместные закупки</a>
+      </li>
       <li class="nav-item" *ngIf="!token">
         <a class="nav-link" (click)="openModalLogin()">Вход</a>
       </li>
@@ -74,23 +77,29 @@
     <div class="row">
       <div class="col-md-12 search-container">
         <div class="input-group">
-          <div ngbDropdown class="btn-cats">
+          <div ngbDropdown class="btn-cats d-none d-md-block" (clickOutside)="categoryMenuCollapsed = true">
             <a
               data-toggle="dropdown"
               aria-expanded="false"
               ngbDropdownToggle
               id="categoriesMenu"
+              (click)="categoryMenuCollapsed = !categoryMenuCollapsed"
             >
               <i class="fa fa-bars"></i> Категории
             </a>
-            <div class="dropdown-menu-right" ngbDropdownMenu aria-labelledby="categoriesMenu">
-              <button
-                *ngFor="let category of categories"
-                class="dropdown-item"
-                (click)="openSearchByCategory(category)"
-              >{{category.name}}
-              </button>
-            </div>
+            <app-category-nested-chooser
+              [data]="categoryTree | async"
+              [ngbCollapse]="categoryMenuCollapsed"
+              (selected)="openSearchByCategory($event)"
+            ></app-category-nested-chooser>
+          </div>
+          <div class="btn-cats d-md-none">
+            <a
+              id="categoriesMenuSm"
+              (click)="openModalCategoryChooser()"
+            >
+              <i class="fa fa-bars"></i> Категории
+            </a>
           </div>
           <div class="search-wrap">
             <input
@@ -98,26 +107,23 @@
               class="text-search"
               placeholder="Введите название товара"
               [(ngModel)]="query"
-              (input)="onSearchChange($event.target.value)"/>
-            <div class="btn-group" ngbDropdown role="group" *ngIf="dropdownVisible">
+              (input)="onSearchChange($event.target.value)"
+              (keyup.enter)="openSearch()"
+            />
+            <div class="btn-group" ngbDropdown role="group">
               <button class="btn btn-main btn-dropdown dropdown-toggle dropdown-toggle-split" ngbDropdownToggle>
-                {{searchField.selected}}
+                {{searchField.activeScope.name}}
               </button>
               <div
                 class="dropdown-menu"
                 ngbDropdownMenu
               >
                 <button
+                  *ngFor="let scope of availableScopes"
                   class="dropdown-item"
-                  (click)="searchField.everywhere()"
+                  (click)="searchField.activeScope = scope"
                 >
-                  {{searchField.dropdown_menu[0]}}
-                </button>
-                <button
-                  class="dropdown-item"
-                  (click)="searchField.store()"
-                >
-                  {{searchField.dropdown_menu[1]}}
+                  {{scope.name}}
                 </button>
               </div>
             </div>
@@ -136,6 +142,19 @@
 </div>
 <ng2-toasty [position]="'bottom-right'"></ng2-toasty>
 <router-outlet></router-outlet>
+<div *ngIf="isLoggedIn">
+  <ng-chat
+    [adapter]="chatAdapter"
+    [userId]="chatUserId"
+    [title]="'Сообщения'"
+    [messagePlaceholder]="'Ваше сообщение...'"
+    [searchPlaceholder]="'Начните вводить имя...'"
+    [maximizeWindowOnNewMessage]="false"
+    [isCollapsed]="true"
+    (onUserChatOpened)="chatAdapter.onUserClicker($event)"
+    (click)="chatAdapter.onUserClicker({})"
+  ></ng-chat>
+</div>
 
 <!-- Footer -->
 <footer class="footer bg-dark">

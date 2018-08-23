@@ -1,17 +1,53 @@
 <div class="modal-header">
   <h4 class="modal-title">Вход</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Dismiss click')">
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  <div class="form-group">
-    <input type="text" name="phone" mask='+9-999-999-99-99' class="form-control text-modal" placeholder="Телефон" [(ngModel)]="phone">
-  </div>
-  <div class="form-group">
-    <input type="password" name="password" class="form-control text-modal" placeholder="Пароль" [(ngModel)]="password">
-  </div>
-  <div class="form-group">
-    <button type="button" (click)="login()" class="btn btn-main" [disabled]="btnDisabled">Войти</button>
-  </div>
+  <form
+    [formGroup]="form"
+    novalidate
+  >
+    <div class="form-group">
+      <input
+        type="text"
+        name="phone"
+        mask='+9-999-999-99-99'
+        class="form-control text-modal"
+        placeholder="Телефон"
+        [ngClass]="phoneErrors ? 'is-invalid': 'is-valid'"
+        formControlName="phone"
+        required
+      >
+      <div class="invalid-feedback d-block" *ngIf="error === 'NO SUCH USER'">
+        Пользователя с таким телефоном не существует
+      </div>
+    </div>
+    <div class="form-group">
+      <input
+        type="password"
+        name="password"
+        class="form-control text-modal"
+        (keyup.enter)="onEnter()"
+        placeholder="Пароль"
+        [ngClass]="passwordErrors ? 'is-invalid': 'is-valid'"
+        formControlName="password"
+        required
+      >
+      <div class="invalid-feedback d-block" *ngIf="error === 'PASSWORD MISMATCH'">
+        Неверный пароль
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="submit"
+    class="btn btn-main"
+    (click)="login()"
+    [disabled]="!form.valid || submitDisabled"
+  >Войти</button>
 </div>

@@ -3,53 +3,72 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
-@Component({selector: 'app-modal-login', templateUrl: './modal-login.component.html', styleUrls: ['./modal-login.component.scss']})
+@Component({
+  selector: 'app-modal-login',
+  templateUrl: './modal-login.component.html',
+  styleUrls: ['./modal-login.component.scss']
+})
 export class ModalLoginComponent implements OnInit {
-  phone = '';
-  password = '';
-  btnDisabled = false;
 
-  constructor(public activeModal: NgbActiveModal, private router: Router, private rest: RestApiService, private data: DataService) {
+  phone = new FormControl('', Validators.required);
+
+  password = new FormControl('', Validators.required);
+
+  form: FormGroup;
+
+  submitDisabled = false;
+
+  error: string;
+
+  constructor(
+    private activeModal: NgbActiveModal,
+    private router: Router,
+    private rest: RestApiService,
+    private data: DataService,
+    private builder: FormBuilder) {
   }
 
   ngOnInit() {
+    this.form = this.builder.group({
+      'phone': this.phone,
+      'password': this.password
+    });
   }
 
-  closeModal() {
-    this
-      .activeModal
-      .close('Modal closed');
+  dismiss() {
+    this.activeModal.dismiss();
   }
 
-  validate() {
-    if (this.phone) {
-      if (this.password) {
-        return true;
-      } else {
-        this
-          .data.addToast('Ошибка', 'Вы не ввели пароль!', 'error');
-      }
-    } else {
-      this
-        .data.addToast('Ошибка', 'Вы не ввели номер телефона!', 'error');
+  get phoneErrors(): boolean {
+    return !!this.phone.errors || this.error === 'NO SUCH USER';
+  }
+
+  get passwordErrors(): boolean {
+    return !!this.password.errors || this.error === 'PASSWORD MISMATCH';
+  }
+
+  async onEnter() {
+    if (this.form.valid && !this.submitDisabled) {
+      await this.login();
     }
   }
 
   async login() {
-    this.btnDisabled = true;
+    this.submitDisabled = true;
+    this.error = null;
 
     try {
-      if (this.validate()) {
-        const data = await this
+        const resp = await this
           .rest
           .loginUser({
-            phone: this.phone,
-            password: this.password
+            phone: this.phone.value,
+            password: this.password.value
           });
-        if (data['meta'].success) {
-          localStorage.setItem('token', data['data'].token);
+
+          localStorage.setItem('token', resp['data'].token);
 
           await this
             .data
@@ -60,20 +79,16 @@ export class ModalLoginComponent implements OnInit {
             .navigate(['/']);
 
           this
-            .data.addToast('Вы успешно авторизованы', '', 'success');
+            .data
+            .addToast('Вы успешно авторизованы', '', 'success');
 
           this
             .activeModal
             .close();
-        } else {
-          this
-            .data.addToast('Не удалось авторизоваться!', '', 'error');
-        }
-      }
     } catch (error) {
-      this
-        .data.addToast('Не удалось авторизоваться!', '', 'error');
+      this.error = error.error.meta.message;
     }
-    this.btnDisabled = false;
+
+    this.submitDisabled = false;
   }
 }

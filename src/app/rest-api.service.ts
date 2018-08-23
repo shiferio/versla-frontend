@@ -136,14 +136,14 @@ export class RestApiService {
       .toPromise();
   }
 
-  uploadImage(body: any) {
+  uploadImage(apiUrl: string, body: any) {
     const headers = this.getHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
     console.log(body);
     return this
       .http
-      .post(`http://images.versla.ru/new.php`, body)
+      .post(`${apiUrl}/new.php`, body)
       .toPromise();
   }
 
@@ -367,10 +367,19 @@ export class RestApiService {
       .toPromise();
   }
 
+  getGoodCategoryTree() {
+    return this
+      .http
+      .get(`${API_URL}/api/category/get/good/tree`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getGoodCategoryById(id: string) {
     return this
       .http
-      .get(`${API_URL}/api/category/get/good/id/:id${id}`, {
+      .get(`${API_URL}/api/category/get/good/id/${id}`, {
         headers: this.getHeaders()
       })
       .toPromise();
@@ -466,6 +475,288 @@ export class RestApiService {
       .http
       .get(`${API_URL}/api/search/any/${page}/${size}`, {
         params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addJointPurchase(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getJointPurchaseById(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/get/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchJointPurchases(page: number, size: number, query: string, filter: string) {
+    const params = new HttpParams()
+      .append('query', query)
+      .append('filter', filter);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updatePurchaseInfo(id: string, field: string, value: any) {
+    const body = {
+      id: id,
+      value: value
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/update/${field}`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  joinToPurchase(id: string, volume: number) {
+    const body = {
+      id: id,
+      volume: volume
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/participants`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  joinFakeUserToPurchase(id: string, login: string, volume: number) {
+    const body = {
+      id: id,
+      volume: volume,
+      login: login
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/participants/fake`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  detachFromPurchase(id: string) {
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/participants`, {
+        headers: this.getHeaders(),
+        body: {
+          id: id
+        }
+      })
+      .toPromise();
+  }
+
+  detachFakeUserFromPurchase(id: string, login: string) {
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/participants/fake`, {
+        headers: this.getHeaders(),
+        body: {
+          id: id,
+          login: login
+        }
+      })
+      .toPromise();
+  }
+
+  updatePaymentPurchase(id: string, userId: string, state: boolean) {
+    const body = {
+      id: id,
+      user_id: userId,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/payments/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateFakeUserPaymentPurchase(id: string, login: string, state: boolean) {
+    const body = {
+      id: id,
+      login: login,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/payments/update/fake`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateDeliveryPurchase(id: string, userId: string, state: boolean) {
+    const body = {
+      id: id,
+      user_id: userId,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/deliveries/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateOrderSentPurchase(id: string, userId: string, state: boolean) {
+    const body = {
+      id: id,
+      user_id: userId,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/sent/update`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  updateFakeUserOrderSentPurchase(id: string, login: string, state: boolean) {
+    const body = {
+      id: id,
+      login: login,
+      state: state
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/sent/update/fake`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getUserPurchases(userId: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/owner`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getPurchaseOrders() {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/orders`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addUserToPurchaseBlackList(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .put(`${API_URL}/api/jointpurchases/black_list`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  removeUserFromPurchaseBlackList(id: string, userId: string) {
+    const body = {
+      id: id,
+      user_id: userId
+    };
+
+    return this
+      .http
+      .request('DELETE', `${API_URL}/api/jointpurchases/black_list`, {
+        headers: this.getHeaders(),
+        body: body
+      })
+      .toPromise();
+  }
+
+  addCommentToPurchase(id: string, text: string, parentId: string = null) {
+    const body = {
+      id: id,
+      text: text,
+      parent_id: parentId
+    };
+
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/comment/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getPurchaseCommentTree(id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/jointpurchases/comment/tree/${id}`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllMeasurementUnits() {
+    return this
+      .http
+      .get(`${API_URL}/api/measurementunits/get`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  addMeasurementUnit(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/measurementunits/add`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getAllChats() {
+    return this
+      .http
+      .get(`${API_URL}/api/chats/all`, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  getChatHistory(chat_id: string) {
+    return this
+      .http
+      .get(`${API_URL}/api/chats/history/${chat_id}`, {
         headers: this.getHeaders()
       })
       .toPromise();

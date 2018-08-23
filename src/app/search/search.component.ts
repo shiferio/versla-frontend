@@ -52,6 +52,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
     public search: SearchService,
+    private searchField: SearchFieldService,
     private rest: RestApiService,
     private data: DataService,
     private route: ActivatedRoute,
@@ -61,6 +62,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.initialize();
+
+    this.searchField.activeScope = this.searchField.SCOPE_GOODS;
 
     this.result_sub = this.search.result.subscribe(data => {
       this.goods = data['goods'];

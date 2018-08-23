@@ -7,6 +7,7 @@ import {SettingsComponent} from '../profile-elements/settings/settings.component
 import {SecurityComponent} from '../profile-elements/security/security.component';
 import {AddressComponent} from '../profile-elements/address/address.component';
 import {StoresComponent} from '../profile-elements/stores/stores.component';
+import {JointPurchasesComponent} from '../profile-elements/joint-purchases/joint-purchases.component';
 
 export const profileRoutes: Routes = [
   {
@@ -35,6 +36,10 @@ export const profileRoutes: Routes = [
         path: 'stores',
         pathMatch: 'full',
         component: StoresComponent
+      }, {
+        path: 'purchases',
+        pathMatch: 'full',
+        component: JointPurchasesComponent
       }
     ]
   }

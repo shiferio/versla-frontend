@@ -58,7 +58,25 @@ import {SliderModule} from 'ngx-rslide';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalSendErrorComponent } from './modals/modal-send-error/modal-send-error.component';
 import { ModalSendFeatureComponent } from './modals/modal-send-feature/modal-send-feature.component';
+import { ModalAddJointPurchaseComponent } from './modals/modal-add-joint-purchase/modal-add-joint-purchase.component';
+import { JointPurchaseSearchComponent } from './joint-purchase-elements/joint-purchase-search/joint-purchase-search.component';
+import { MeasurementUnitChooserComponent } from './measurement-unit-chooser/measurement-unit-chooser.component';
+import { JointPurchaseComponent } from './joint-purchase-elements/joint-purchase/joint-purchase.component';
+import { JointPurchaseCartComponent } from './joint-purchase-elements/joint-purchase-cart/joint-purchase-cart.component';
+import { JointPurchaseListComponent } from './joint-purchase-elements/joint-purchase-list/joint-purchase-list.component';
+import { RussianLocaleDatePipe } from './pipes/russian-locale-date.pipe';
+import { ModalJoinToJointPurchaseComponent } from './modals/modal-join-to-joint-purchase/modal-join-to-joint-purchase.component';
+import {NgChatModule} from 'ng-chat';
+import { JointPurchasesComponent } from './profile-elements/joint-purchases/joint-purchases.component';
+import { CategoryNestedChooserComponent } from './category-chooser-elements/category-nested-chooser/category-nested-chooser.component';
+import { InternalCategoryNodeComponent } from './category-chooser-elements/internal-category-node/internal-category-node.component';
+import { CategoryNestedListComponent } from './category-chooser-elements/category-nested-list/category-nested-list.component';
+import { ModalCategoryChooserComponent } from './modals/modal-category-chooser/modal-category-chooser.component';
+import { CommentBranchComponent } from './joint-purchase-elements/comment-elements/comment-branch/comment-branch.component';
+import { CommentReplyComponent } from './joint-purchase-elements/comment-elements/comment-reply/comment-reply.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { StoreOrdersComponent } from './store-elements/store-orders/store-orders.component';
+import { NgbDatePipe } from './pipes/ngb-date.pipe';
 
 @NgModule({
   declarations: [
@@ -100,7 +118,23 @@ import { StoreOrdersComponent } from './store-elements/store-orders/store-orders
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
     ModalSendFeatureComponent,
-    StoreOrdersComponent
+    ModalAddJointPurchaseComponent,
+    JointPurchaseSearchComponent,
+    MeasurementUnitChooserComponent,
+    JointPurchaseComponent,
+    JointPurchaseCartComponent,
+    JointPurchaseListComponent,
+    RussianLocaleDatePipe,
+    ModalJoinToJointPurchaseComponent,
+    JointPurchasesComponent,
+    CategoryNestedChooserComponent,
+    InternalCategoryNodeComponent,
+    CategoryNestedListComponent,
+    ModalCategoryChooserComponent,
+    CommentBranchComponent,
+    CommentReplyComponent,
+    StoreOrdersComponent,
+    NgbDatePipe
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -117,7 +151,9 @@ import { StoreOrdersComponent } from './store-elements/store-orders/store-orders
     NgxMaskModule.forRoot(),
     ClickOutsideModule,
     SliderModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgChatModule,
+    ScrollToModule.forRoot()
   ],
   providers: [
     RestApiService, DataService, LoginPopupService, AuthGuardService
@@ -134,7 +170,10 @@ import { StoreOrdersComponent } from './store-elements/store-orders/store-orders
     ModalEditStoreCredentialsComponent,
     ModalEditStoreContactsComponent,
     ModalSendErrorComponent,
-    ModalSendFeatureComponent
+    ModalSendFeatureComponent,
+    ModalAddJointPurchaseComponent,
+    ModalJoinToJointPurchaseComponent,
+    ModalCategoryChooserComponent
   ]
 })
 export class AppModule {

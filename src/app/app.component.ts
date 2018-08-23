@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 
@@ -9,11 +9,14 @@ import {CartService} from './cart.service';
 import {SearchService} from './search.service';
 import {RestApiService} from './rest-api.service';
 import {Subscription} from 'rxjs';
-import {SearchFieldService} from './search-field.service';
-import {parse} from 'querystring';
+import {ScopeModel, SearchFieldService} from './search-field.service';
 import {ModalSendErrorComponent} from './modals/modal-send-error/modal-send-error.component';
 import {ModalSendFeatureComponent} from './modals/modal-send-feature/modal-send-feature.component';
 import {Title} from '@angular/platform-browser';
+import {JointPurchaseSearchService} from './joint-purchase-search.service';
+import {VerslaChatAdapter} from './chat-adapter';
+import {ChatService} from './chat.service';
+import {ModalCategoryChooserComponent} from './modals/modal-category-chooser/modal-category-chooser.component';
 
 @Component({selector: 'app-root', templateUrl: './app.component.html', styleUrls: ['./app.component.scss']})
 export class AppComponent implements OnInit, OnDestroy {
@@ -38,17 +41,24 @@ export class AppComponent implements OnInit, OnDestroy {
 
   categories = [];
 
+  chatAdapter: any;
+
+  categoryMenuCollapsed = true;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private data: DataService,
     private search: SearchService,
+    private purchaseSearch: JointPurchaseSearchService,
     private rest: RestApiService,
     private cart: CartService,
     public searchField: SearchFieldService,
     private route: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private chatService: ChatService
   ) {
+    this.chatAdapter = new VerslaChatAdapter(this.chatService, this.data);
   }
 
   async ngOnInit() {
@@ -146,6 +156,23 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  openModalCategoryChooser() {
+    const modalRef = this
+      .modalService
+      .open(ModalCategoryChooserComponent);
+
+    modalRef
+      .result
+      .then(async (category) => {
+        if (category) {
+          await this.openSearchByCategory(category);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   logout() {
     this.data.clearProfile();
     this
@@ -157,23 +184,32 @@ export class AppComponent implements OnInit, OnDestroy {
     return localStorage.getItem('token');
   }
 
+  get chatUserId() {
+    return this.data.user._id;
+  }
+
+  get isLoggedIn() {
+    return this.data.user;
+  }
+
+  get categoryTree() {
+    return this.data.categoryTree;
+  }
+
   async openSearch() {
-    const type = this.searchField.selected;
     if (!this.router.url.startsWith('/search')) {
-      this.search.reset();
+      this.searchField.activeScope.search.reset();
     }
 
-    this.search.query = this.query;
-    if (type === this.searchField.dropdown_menu[1] && this.dropdownVisible) {
-      this.search.store = { '_id': this.searchField.store_info._id };
-    }
-    this.search.navigate();
+    this.searchField.activeScope.search.query = this.query;
+    this.searchField.activeScope.applyFilters();
+    this.searchField.activeScope.search.navigate();
   }
 
   onSearchChange(value: string) {
     if (this.router.url.startsWith('/search')) {
-      this.search.query = value;
-      this.search.navigate();
+      this.searchField.activeScope.search.query = value;
+      this.searchField.activeScope.search.navigate();
     }
   }
 
@@ -185,8 +221,8 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.data.getPreferredCity();
   }
 
-  get dropdownVisible(): boolean {
-    return this.searchField.dropdown_visible;
+  get availableScopes(): Array<ScopeModel> {
+    return this.searchField.scopes;
   }
 
   toggleCityMenu() {
@@ -204,8 +240,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async openSearchByCategory(category: any) {
-    this.search.reset();
-    this.search.category = category;
-    this.search.navigate();
+    this.categoryMenuCollapsed = true;
+
+    this.searchField.activeScope.search.reset();
+    this.searchField.activeScope.search.category = { _id: category.id};
+    this.searchField.activeScope.search.navigate();
   }
 }

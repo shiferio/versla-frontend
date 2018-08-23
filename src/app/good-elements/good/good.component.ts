@@ -10,6 +10,7 @@ import {CartService} from '../../cart.service';
 import {SearchService} from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Title} from '@angular/platform-browser';
+import {UploadFileService} from '../../upload-file.service';
 
 @Component({
   selector: 'app-good',
@@ -47,7 +48,8 @@ export class GoodComponent implements OnInit {
     private modalService: NgbModal,
     private search: SearchService,
     private spinner: NgxSpinnerService,
-    private titleService: Title
+    private titleService: Title,
+    private fileUploader: UploadFileService
   ) {
   }
 
@@ -342,17 +344,17 @@ export class GoodComponent implements OnInit {
   async goodImageChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const file: File = fileList[0];
-      const formData: FormData = new FormData();
-      formData.append('image', file, file.name);
-      const data = await this.rest.uploadImage(formData);
-
       try {
+        const file = fileList[0];
+        const pictureUrl = await this
+          .fileUploader
+          .uploadImage(file);
+
         const resp = await this
           .rest
           .updateGoodInfo(this.info._id, 'picture', {
             good_id: this.info._id,
-            picture: data['file']
+            picture: pictureUrl
           });
 
         if (resp['meta'].success) {
