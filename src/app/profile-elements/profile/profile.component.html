@@ -4,7 +4,7 @@
     <div class="row">
 
       <div class="col-md-4">
-        <div *ngIf="data.user" class="card" style="width: 90%;">
+        <div *ngIf="data.user" class="card mb-3">
 
           <div class="card-img-top">
             <div class="avacontainer" [style.backgroundImage]="'url('+ data.user.picture +')'">
@@ -21,8 +21,8 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
 
+          <div class="card-body">
             <div class="user-info">
               <h5 class="card-title">{{ data.user.login }}</h5>
             </div>

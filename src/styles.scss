@@ -637,3 +637,16 @@ footer.footer {
 .ng-chat-user-status {
   display: none !important;
 }
+
+.pagination {
+
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: #00b5eb;
+        border-color: #00b5eb;
+      }
+    }
+  }
+
+}
