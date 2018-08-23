@@ -3,56 +3,52 @@
     <div class="card-body">
       <div class="row">
         <div class="col-12">
-          <div class="table-responsive">
-            <table class="table table-striped" *ngIf="cart.cart">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Товар</th>
-                <th scope="col">Доступность</th>
-                <th scope="col" class="text-center">Количество</th>
-                <th scope="col" class="text-right">Цена</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              <div *ngFor="let item of cart.cart" [class.good-unavailable]="!item.good.is_available">
-                <div>
-                  <img [src]="item.good.picture" height="100px" />
-                  <br>
-                  <a
-                    [routerLink]=""
-                    class="links"
-                    (click)="collapsed[item._id] = !collapsed[item._id]"
-                  >
-                    Подробнее
-                  </a>
-                  <div [ngbCollapse]="collapsed[item._id]">
-                    <app-item-params
-                      [item]="item"
-                      [readonly]="true"
-                    ></app-item-params>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of cart.cart"
+                [class.good-unavailable]="!item.good.is_available">
+              <div class="d-inline-block">
+                <div class="d-flex justify-content-start">
+                  <div class="good-logo">
+                    <a [routerLink]="['/good', item.good._id]">
+                      <img [src]="item.good.picture" class="store-img">
+                    </a>
+                  </div>
+
+                  <div class="desc-good d-flex flex-column">
+                    <a class="links" style="margin-right: 10px;" [routerLink]="['/good', item.good._id]">
+                      <h5>{{ item.good.name }}</h5>
+                    </a>
+
+                    <div class="card-price">
+                      {{ item.good.price | fixedFloat: 2 }} ₽
+                    </div>
+                    <div>
+                      {{ item.good.is_available ? 'Доступен': 'Не доступен'}}
+                    </div>
+                    <a
+                      [routerLink]=""
+                      class="links"
+                      (click)="collapsed[item._id] = !collapsed[item._id]"
+                    >
+                      Параметры <!--{{collapsed[item._id] ? '⮝' : '⮟'}}-->
+                    </a>
+                    <div [ngbCollapse]="collapsed[item._id]">
+                      <app-item-params
+                        [item]="item"
+                        [readonly]="false"
+                      ></app-item-params>
+                    </div>
                   </div>
                 </div>
-                <div><a routerLink="/good/{{ item.good._id }}">{{ item.good.name }}</a></div>
-                <div>{{ item.good.is_available ? 'Доступен': 'Не доступен'}}</div>
-                <div class="text-center">{{ item.quantity }}</div>
-                <div class="text-right">{{ item.good.price | fixedFloat: 2 }} ₽</div>
-                <div class="text-right">
-                  <button class="btn btn-sm btn-danger" (click)="deleteItem(item._id)"><i class="fa fa-trash"></i></button>
+              </div>
+              <div class="d-inline-block f-right">
+                <div class="d-inline-block">
+                  Количество: {{item.quantity}}
                 </div>
               </div>
-              <div>
-                <div>Доставка</div>
-                <div class="text-right">{{ delivery | fixedFloat: 2 }} ₽</div>
-              </div>
-              <div>
-                <div><strong>Итог</strong></div>
-                <div class="text-right"><strong>{{summary + delivery | fixedFloat: 2 }} ₽</strong></div>
-              </div>
-              </tbody>
-            </table>
-          </div>
+            </li>
+          </ul>
+          <div class="pull-right">Итог: {{ summary | fixedFloat: 2 }} ₽</div>
         </div>
         <div class="col mb-2">
           <div>
