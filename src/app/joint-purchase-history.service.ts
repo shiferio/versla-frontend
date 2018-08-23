@@ -16,7 +16,7 @@ export class JointPurchaseHistoryService {
 
   public readonly purchaseParameters = [
     'name', 'picture', 'description', 'category', 'volume', 'min_volume', 'price_per_unit',
-    'date'
+    'date', 'address'
   ];
 
   public readonly paymentParameters = [
@@ -109,6 +109,11 @@ export class JointPurchaseHistoryService {
         return [
           { text: 'Организатор изменил дату завершения приема заказов: ', bold: false },
           { text: `${new RussianLocaleDatePipe().transform(value)}`, bold: true }
+        ];
+      case 'address':
+        return [
+          { text: 'Организатор изменил адрес места выдачи товара: ', bold: false },
+          { text: value, bold: true }
         ];
     }
   }

@@ -257,8 +257,24 @@
                     </div>
                     <h5>
                       Адрес места выдачи товара
+                      <label *ngIf="isCreator && !editMode.address" (click)="editMode.address = true" class="btn-edit">
+                        изменить
+                      </label>
                     </h5>
-                    <p>{{purchaseInfo.address}}</p>
+                    <p *ngIf="!editMode.address">{{purchaseInfo.address}}</p>
+                    <div *ngIf="editMode.address" class="form-group">
+                      <textarea
+                        id="address"
+                        class="form-control card-title"
+                        [(ngModel)]="editModeInfo.address"
+                      ></textarea>
+                      <button type="button" class="btn btn-main" (click)="updateAddress()">Обновить</button>
+                      <button
+                        type="button"
+                        class="btn btn-detach ml-1"
+                        (click)="disableEditMode('address')"
+                      >Отмена</button>
+                    </div>
                   </div>
 
                   <div class="col-12 col-md-6">

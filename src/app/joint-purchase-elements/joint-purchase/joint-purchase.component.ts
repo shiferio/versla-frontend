@@ -538,6 +538,39 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  async updateAddress() {
+    if (this.editModeInfo['address']) {
+      this.editMode['address'] = false;
+      try {
+        const resp = await this.rest.updatePurchaseInfo(
+          this.purchaseInfo['_id'],
+          'address',
+          this.editModeInfo['address']
+        );
+
+        if (resp['meta'].success) {
+          this
+            .data
+            .addToast('Информация обновлена', '', 'success');
+
+          await this.loadAdditionalInfo(resp['data']['purchase']);
+        } else {
+          this
+            .data
+            .error(resp['meta'].message);
+        }
+      } catch (error) {
+        this
+          .data
+          .error(error['message']);
+      }
+    } else {
+      this
+        .data
+        .error('Вы не указали адрес места выдачи товара');
+    }
+  }
+
   async updateState(newState: number) {
     try {
       const resp = await this.rest.updatePurchaseInfo(
