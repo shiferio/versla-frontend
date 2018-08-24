@@ -102,8 +102,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     modalRef
       .result
-      .then(result => {
-        console.log(result);
+      .then(async () => {
+        await this
+          .router
+          .navigate(['/']);
       })
       .catch(error => {
         console.log(error);
@@ -141,15 +143,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  openModalRegistration() {
+  async openModalRegistration() {
     const modalRef = this
       .modalService
       .open(ModalRegistrationComponent);
 
     modalRef
       .result
-      .then(result => {
-        console.log(result);
+      .then(async () => {
+        await this
+          .router
+          .navigate(['/']);
       })
       .catch(error => {
         console.log(error);

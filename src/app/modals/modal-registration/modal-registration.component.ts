@@ -92,10 +92,6 @@ export class ModalRegistrationComponent implements OnInit {
           .data
           .addToast('Вы успешно зарегистрированы', '', 'success');
 
-        await this
-          .router
-          .navigate(['/']);
-
         this
           .activeModal
           .close();

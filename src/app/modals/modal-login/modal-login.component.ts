@@ -74,10 +74,6 @@ export class ModalLoginComponent implements OnInit {
             .data
             .getProfile();
 
-          await this
-            .router
-            .navigate(['/']);
-
           this
             .data
             .addToast('Вы успешно авторизованы', '', 'success');
