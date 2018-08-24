@@ -194,6 +194,10 @@ export class JointPurchaseComponent implements OnInit {
     };
   }
 
+  get currentUser(): any {
+    return this.data.user || {};
+  }
+
   showMoreHistoryItems() {
     if (this.visibleHistoryLength + 5 > this.history.length) {
       this.visibleHistoryLength = this.history.length;
@@ -205,6 +209,8 @@ export class JointPurchaseComponent implements OnInit {
   async loadAdditionalInfo(purchase_info: any) {
     this.purchaseInfo = purchase_info;
     Object.assign(this.editModeInfo, this.purchaseInfo);
+
+    this.data.setTitle(`${this.purchaseInfo.name} - Совместные закупки`);
 
     this.participants = await Promise.all(
       this
