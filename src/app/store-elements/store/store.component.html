@@ -199,7 +199,7 @@
 </section>
 
 <!-- Icons Grid -->
-<section class="features-icons">
+<section *ngIf="isCreator" class="features-icons">
   <div class="container">
     <div class="text-center">
       <h2 class="title mb-5">
@@ -267,7 +267,7 @@
             </button>
           </div>
         </div>
-        <button type="button" class="btn btn-main" (click)="openChat()">Открыть чат</button>
+        <button *ngIf="token" type="button" class="btn btn-main" (click)="openChat()">Открыть чат</button>
 
       </div>
       <div class="col-md-6">

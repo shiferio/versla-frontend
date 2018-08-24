@@ -394,6 +394,10 @@ export class StoreComponent implements OnInit, OnDestroy {
     this.searchField.activeScope.search.navigate();
   }
 
+  get token() {
+    return localStorage.getItem('token');
+  }
+
   async openChat() {
     await this.chatService.openNewChat(this.info.creator_id);
   }
