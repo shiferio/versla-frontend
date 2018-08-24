@@ -162,4 +162,10 @@ export class DataService {
     return new Date().toDateString();
   }
 
+  async refreshPage() {
+    const url = this.router.url;
+    await this.router.navigateByUrl('/', {skipLocationChange: true});
+    await this.router.navigateByUrl(url, {skipLocationChange: true});
+  }
+
 }
