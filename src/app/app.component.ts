@@ -103,9 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
     modalRef
       .result
       .then(async () => {
-        await this
-          .router
-          .navigate(['/']);
+        await this.data.refreshPage();
       })
       .catch(error => {
         console.log(error);
@@ -151,9 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
     modalRef
       .result
       .then(async () => {
-        await this
-          .router
-          .navigate(['/']);
+        await this.openModalLogin();
       })
       .catch(error => {
         console.log(error);
