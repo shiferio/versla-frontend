@@ -58,4 +58,8 @@ export class CommentBranchComponent implements OnInit {
     return this.data.user || {};
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.data.user;
+  }
+
 }
