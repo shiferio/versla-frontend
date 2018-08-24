@@ -11,6 +11,7 @@ import {ActivatedRoute, Route} from '@angular/router';
 export class StoreOrdersComponent implements OnInit {
 
   orders = [];
+
   sub: any;
 
   constructor(
@@ -31,5 +32,21 @@ export class StoreOrdersComponent implements OnInit {
     this.sub = this.route.params.subscribe(async (params) => {
       await this.getStoreInfo(params['link']);
     });
+  }
+
+  async updateOrderStatus(id: string) {
+    try {
+      await this.rest.updateOrderStatusDelivered(id);
+
+      this
+        .data
+        .success('Информация обновлена');
+
+      await this.getStoreInfo(this.route.snapshot.params['link']);
+    } catch (error) {
+      this
+        .data
+        .error(error['message']);
+    }
   }
 }

@@ -95,7 +95,7 @@ export class DataService {
   }
 
   success(message) {
-    this.addToast('Ура!', message, 'success');
+    this.addToast(message, '', 'success');
   }
 
   warning(message) {
@@ -156,6 +156,10 @@ export class DataService {
 
       await this.getProfile();
     }
+  }
+
+  get currentDay(): string {
+    return new Date().toDateString();
   }
 
 }

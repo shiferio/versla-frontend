@@ -3,6 +3,7 @@ import {CommentModel} from '../comment-model';
 import {CommentSettings} from '../comment-settings';
 import {RestApiService} from '../../../rest-api.service';
 import {ChatService} from '../../../chat.service';
+import {DataService} from '../../../data.service';
 
 @Component({
   selector: 'app-comment-branch',
@@ -33,7 +34,8 @@ export class CommentBranchComponent implements OnInit {
 
   constructor(
     private chatService: ChatService,
-    private rest: RestApiService
+    private rest: RestApiService,
+    private data: DataService
   ) { }
 
   ngOnInit() { }
@@ -50,6 +52,14 @@ export class CommentBranchComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  get currentUser(): any {
+    return this.data.user || {};
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.data.user;
   }
 
 }

@@ -38,6 +38,20 @@
         <div class="price">
           {{order.price * order.quantity}} ₽
         </div>
+        <div *ngIf="order.status === 0">
+          <p>Статус<span class="badge badge-primary ml-2">продавец обрабатывает заказ</span></p>
+        </div>
+        <div *ngIf="order.status === 1">
+          <p>Статус<span class="badge badge-warning ml-2">товар доставлен</span></p>
+          <button
+            type="button"
+            class="btn btn-main"
+            (click)="updateObtainedStatus(order)"
+          >Товар получен</button>
+        </div>
+        <div *ngIf="order.status === 2">
+          <p>Статус<span class="badge badge-success ml-2">товар получен</span></p>
+        </div>
       </div>
     </div>
   </li>
@@ -65,12 +79,12 @@
           {{order.price * order.volume | fixedFloat: 2}} ₽
         </div>
         <p class="mb-1">
-          <span *ngIf="order.paid" class="text-success"><b>Платеж подтвержден</b></span>
-          <span *ngIf="!order.paid" class="text-danger"><b>Платеж ожидает подтверждения организатора</b></span>
+          <span *ngIf="order.paid" class="badge badge-success"><b>Платеж подтвержден</b></span>
+          <span *ngIf="!order.paid" class="badge badge-warning"><b>Платеж ожидает подтверждения организатора</b></span>
         </p>
         <p class="mb-1">
-          <span *ngIf="order.sent" class="text-success"><b>Товар выдан организатором</b></span>
-          <span *ngIf="!order.sent" class="text-danger"><b>Организатор обрабатывает заказ</b></span>
+          <span *ngIf="order.sent" class="badge badge-success"><b>Товар выдан организатором</b></span>
+          <span *ngIf="!order.sent" class="badge badge-warning"><b>Организатор обрабатывает заказ</b></span>
         </p>
         <div class="custom-control custom-checkbox">
           <input

@@ -1,7 +1,7 @@
 <div class="container mb-4">
   <div class="card">
     <div class="card-body">
-      <div class="row">
+      <div class="row" *ngIf="cart.cart.length > 0">
         <div class="col-12">
           <ul class="list-group">
             <li class="list-group-item" *ngFor="let item of cart.cart"
@@ -63,6 +63,14 @@
         <div class="col mb-2">
           <div>
             <button class="checkout-right btn btn-success" (click)="createOrder()">Оформить заказ</button>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="cart.cart.length === 0">
+        <div class="col-12">
+          <div class="text-center">
+            <h5>Корзина пуста</h5>
+            <img height="100px" src="assets/img/box.svg"/>
           </div>
         </div>
       </div>

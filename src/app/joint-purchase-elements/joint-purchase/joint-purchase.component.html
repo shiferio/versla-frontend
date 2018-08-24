@@ -133,7 +133,7 @@
               <label for="date">Прием заказов завершается: {{ editModeInfo.date | russianLocaleDate }}</label>
               <ngb-datepicker
                 id="date"
-                [minDate]="purchaseInfo.date | ngbDate"
+                [minDate]="today | ngbDate"
                 [(ngModel)]="editModeInfo.date"
               ></ngb-datepicker><br>
               <button type="button" class="btn btn-main mt-3" (click)="updateDate()">Обновить</button>
@@ -148,10 +148,14 @@
                 <b>Товара осталось недостаточно для минимального заказа</b>
               </span>
             </p>
-            <p class="card-text text-danger" *ngIf="!isParticipant && isCollected">
+            <p class="card-text" *ngIf="!isLoggedIn && isOpened">
+              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastLogIn()">Войдите</a> или
+              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastSignUp()">зарегистрируйтесь</a>, чтобы участвовать в закупке
+            </p>
+            <p class="card-text text-danger" *ngIf="!isLoggedIn && isCollected">
               Прием заказов завершен
             </p>
-            <p class="card-text text-danger" *ngIf="!isParticipant && isClosed">
+            <p class="card-text text-danger" *ngIf="!isLoggedIn && isClosed">
               Закупка закрыта
             </p>
             <p class="card-text" *ngIf="isParticipant">
@@ -400,7 +404,7 @@
                       </div>
                       <div class="row" *ngIf="participant.user">
                         <div class="col-12 col-md-3">
-                          {{ participant.user.login }}
+                          {{participant.user | prettyUserName}}
                         </div>
                         <div class="col-12 col-md-3">
                           {{ participant.volume }} {{ measurementUnit }}
@@ -446,6 +450,7 @@
                         <div class="col-12 col-md-2 justify-content-md-end">
                           <div class="d-inline-flex flex-md-column flex-row">
                             <button
+                              *ngIf="currentUser._id !== participant.user._id"
                               type="button"
                               class="btn btn-main mb-md-2 mr-2 mr-md-0"
                               (click)="openChatWithParticipant(participant.user._id)"
@@ -455,11 +460,11 @@
                               <i class="fa fa-comment"></i>
                             </button>
                             <button
-                              *ngIf="purchaseInfo.creator._id !== participant.user._id"
+                              *ngIf="currentUser._id !== participant.user._id"
                               type="button"
                               class="btn btn-detach mr-2 mr-md-0"
                               (click)="addUserToBlackList(participant.user._id)"
-                              ngbPopover="Заблокировать участника"
+                              ngbPopover="Добавить участника в черный список"
                               triggers="mouseenter:mouseleave"
                             >
                               <i class="fa fa-ban"></i>

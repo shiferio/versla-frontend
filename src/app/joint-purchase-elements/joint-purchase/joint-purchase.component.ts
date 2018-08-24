@@ -13,6 +13,9 @@ import {UploadFileService} from '../../upload-file.service';
 import {JointPurchaseHistoryService} from '../../joint-purchase-history.service';
 import {CommentModel} from '../comment-elements/comment-model';
 import {CommentSettings} from '../comment-elements/comment-settings';
+import {SearchFieldService} from '../../search-field.service';
+import {ModalLoginComponent} from '../../modals/modal-login/modal-login.component';
+import {ModalRegistrationComponent} from '../../modals/modal-registration/modal-registration.component';
 
 @Injectable()
 export class DateNativeAdapter extends NgbDateAdapter<string> {
@@ -75,6 +78,7 @@ export class JointPurchaseComponent implements OnInit {
     private cart: CartService,
     private modalService: NgbModal,
     private search: SearchService,
+    private searchField: SearchFieldService,
     private spinner: NgxSpinnerService,
     private chatService: ChatService,
     private fileUploader: UploadFileService,
@@ -93,6 +97,8 @@ export class JointPurchaseComponent implements OnInit {
       this.ready = true;
       this.spinner.hide();
     });
+
+    this.searchField.activeScope = this.searchField.SCOPE_PURCHASES;
   }
 
   async initialize() {
@@ -190,6 +196,10 @@ export class JointPurchaseComponent implements OnInit {
     };
   }
 
+  get currentUser(): any {
+    return this.data.user || {};
+  }
+
   showMoreHistoryItems() {
     if (this.visibleHistoryLength + 5 > this.history.length) {
       this.visibleHistoryLength = this.history.length;
@@ -201,6 +211,8 @@ export class JointPurchaseComponent implements OnInit {
   async loadAdditionalInfo(purchase_info: any) {
     this.purchaseInfo = purchase_info;
     Object.assign(this.editModeInfo, this.purchaseInfo);
+
+    this.data.setTitle(`${this.purchaseInfo.name} - Совместные закупки`);
 
     this.participants = await Promise.all(
       this
@@ -904,5 +916,29 @@ export class JointPurchaseComponent implements OnInit {
   disableEditMode(field: string) {
     this.editMode[field] = false;
     this.editModeInfo[field] = this.purchaseInfo[field];
+  }
+
+  get today(): string {
+    return this.data.currentDay;
+  }
+
+  async fastSignUp() {
+    try {
+      const signUpRef = this.modalService.open(ModalRegistrationComponent);
+      await signUpRef.result;
+
+      await this.fastLogIn();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async fastLogIn() {
+    try {
+      const logInRef = this.modalService.open(ModalLoginComponent);
+      await logInRef.result;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

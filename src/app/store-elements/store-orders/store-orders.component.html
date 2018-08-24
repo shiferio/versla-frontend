@@ -26,6 +26,21 @@
 
         <p>Кол-во: {{ order.quantity | fixedFloat: 0 }}</p>
         <p>Цена: {{order.price * order.quantity}} ₽</p>
+
+        <div *ngIf="order.status === 0" class="d-inline-block">
+          <p>Статус<span class="badge badge-primary ml-2">в процессе</span></p>
+          <button
+            type="button"
+            class="btn btn-main mb-2"
+            (click)="updateOrderStatus(order._id)"
+          >Товар доставлен</button>
+        </div>
+        <div *ngIf="order.status === 1">
+          <p>Статус<span class="badge badge-warning ml-2">в ожиаднии подтверждения</span></p>
+        </div>
+        <div *ngIf="order.status === 2">
+          <p>Статус<span class="badge badge-success ml-2">товар получен</span></p>
+        </div>
       </div>
     </div>
 

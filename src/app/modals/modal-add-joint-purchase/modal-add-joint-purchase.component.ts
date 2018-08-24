@@ -91,6 +91,10 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     return volume * price;
   }
 
+  get today(): string {
+    return this.data.currentDay;
+  }
+
   paymentValidator(group: FormGroup) {
     const paymentType = group.controls['paymentType'].value;
     const paymentInfo = group.controls['paymentInfo'].value;

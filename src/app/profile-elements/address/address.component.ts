@@ -32,7 +32,7 @@ export class AddressComponent implements OnInit {
     } else {
       this
         .data
-        .error('Invalid postal code');
+        .addToast('Неверный почтовый индекс', '', 'error');
     }
 
     return false;
@@ -41,7 +41,7 @@ export class AddressComponent implements OnInit {
   async update() {
     try {
       if (this.validate()) {
-        const data = await this.rest.updateAddress({
+        await this.rest.updateAddress({
           addr1: this.address.addr1,
           addr2: this.address.addr2,
           city: this.address.city,
@@ -49,15 +49,9 @@ export class AddressComponent implements OnInit {
           postalCode: this.address.postalCode
         });
 
-        if (data['meta'].success) {
-          this
-            .data
-            .success(data['meta'].message);
-        } else {
-          this
-            .data
-            .error(data['meta'].message);
-        }
+        this
+          .data
+          .success('Информация обновлена');
       }
     } catch (error) {
       this

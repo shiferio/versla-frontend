@@ -51,10 +51,10 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
     this.category = this.storeInfo.category;
   }
 
-  closeModal() {
+  dismiss() {
     this
       .activeModal
-      .close('Modal closed');
+      .dismiss();
   }
 
   validate() {
@@ -90,57 +90,60 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
   }
 
   async updateResidentInfo() {
-    const data = await this
-      .rest
-      .updateStoreInfo(this.storeInfo.link, 'resident', {
-        link: this.storeInfo.link,
-        tax_num: this.tax_num,
-        state_num: this.state_num,
-        bank_type: this.bank_type,
-        bank_num: this.bank_num,
-        resident_type: this.resident_type,
-        goods_type: this.goods_type
-      });
+    try {
+      await this
+        .rest
+        .updateStoreInfo(this.storeInfo.link, 'resident', {
+          link: this.storeInfo.link,
+          tax_num: this.tax_num,
+          state_num: this.state_num,
+          bank_type: this.bank_type,
+          bank_num: this.bank_num,
+          resident_type: this.resident_type,
+          goods_type: this.goods_type
+        });
 
-    if (data['meta'].success) {
       return true;
-    } else {
+    } catch (error) {
       this
-        .data.addToast('Ошибка', data['meta'].message, 'error');
+        .data
+        .error(error['message']);
       return false;
     }
   }
 
   async updateCity() {
-    const data = await this
-      .rest
-      .updateStoreInfo(this.storeInfo.link, 'contacts', {
-        link: this.storeInfo.link,
-        city: this.city['_id']
-      });
+    try {
+      await this
+        .rest
+        .updateStoreInfo(this.storeInfo.link, 'contacts', {
+          link: this.storeInfo.link,
+          city: this.city['_id']
+        });
 
-    if (data['meta'].success) {
       return true;
-    } else {
+    } catch (error) {
       this
-        .data.addToast('Ошибка', data['meta'].message, 'error');
+        .data
+        .error(error['message']);
       return false;
     }
   }
 
   async updateCategory() {
-    const data = await this
+    try {
+    await this
       .rest
       .updateStoreInfo(this.storeInfo.link, 'category', {
         link: this.storeInfo.link,
         category: this.category['_id']
       });
 
-    if (data['meta'].success) {
       return true;
-    } else {
+    } catch (error) {
       this
-        .data.addToast('Ошибка', data['meta'].message, 'error');
+        .data
+        .error(error['message']);
       return false;
     }
   }
@@ -153,15 +156,20 @@ export class ModalEditStoreCredentialsComponent implements OnInit {
         const ok = (await this.updateResidentInfo()) &&
           (await this.updateCategory());
         if (ok) {
-          this.closeModal();
           this
-            .data.addToast('Данные обновлены', '', 'success');
+            .activeModal
+            .close();
+          this
+            .data
+            .success('Данные обновлены');
         }
       }
     } catch (error) {
       this
-        .data.addToast('Ошибка', error['message'], 'error');
+        .data
+        .error(error['message']);
     }
+
     this.btnDisabled = false;
   }
 

@@ -26,8 +26,10 @@ export class StoresComponent implements OnInit {
     });
   }
 
-  openStore(storeLink: string) {
-    this.router.navigate(['/store', storeLink]);
+  async openStore(storeLink: string) {
+    await this
+      .router
+      .navigate(['/store', storeLink]);
   }
   async deleteStore(storelink: string) {
     this.btnDeleteDisabled = true;

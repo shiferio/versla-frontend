@@ -17,13 +17,21 @@ export class SettingsComponent implements OnInit {
   }
 
   validate(settings) {
-    if (settings.email) {
-      return true;
-    } else {
+    if (!settings.email) {
       this
         .data
-        .error('Email is not entered.');
+        .addToast('Введите e-mail', '', 'error');
+      return false;
     }
+
+    if (!settings.phone) {
+      this
+        .data
+        .addToast('Введите номер телефона', '', 'error');
+      return false;
+    }
+
+    return true;
   }
 
   async loadProfile() {
@@ -40,9 +48,8 @@ export class SettingsComponent implements OnInit {
 
   async update() {
     if (this.validate(this.currentSettings)) {
-      console.log(this.currentSettings);
       try {
-        const data = await this
+        await this
           .rest
           .updateUserProfile({
             first_name: this.currentSettings.first_name,
@@ -52,13 +59,11 @@ export class SettingsComponent implements OnInit {
             city: this.currentSettings.city['_id']
           });
 
-        if (data['meta'].success) {
-          await this.loadProfile();
+        await this.loadProfile();
 
-          this
-            .data
-            .success('Данные успешно обновлены!');
-        }
+        this
+          .data
+          .success('Информация обновлена');
       } catch (error) {
         this
           .data
