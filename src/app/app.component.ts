@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ModalLoginComponent} from './modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from './modals/modal-registration/modal-registration.component';
 
@@ -59,6 +59,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private chatService: ChatService
   ) {
     this.chatAdapter = new VerslaChatAdapter(this.chatService, this.data);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).ga('set', 'page', event.urlAfterRedirects);
+        (<any>window).ga('send', 'pageview');
+      }
+    });
   }
 
   async ngOnInit() {
@@ -102,8 +108,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     modalRef
       .result
-      .then(result => {
-        console.log(result);
+      .then(async () => {
+        await this.data.refreshPage();
       })
       .catch(error => {
         console.log(error);
@@ -141,15 +147,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  openModalRegistration() {
+  async openModalRegistration() {
     const modalRef = this
       .modalService
       .open(ModalRegistrationComponent);
 
     modalRef
       .result
-      .then(result => {
-        console.log(result);
+      .then(async () => {
+        await this.openModalLogin();
       })
       .catch(error => {
         console.log(error);

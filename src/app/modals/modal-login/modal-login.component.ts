@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RestApiService} from '../../rest-api.service';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-
+import {ModalRegistrationComponent} from '../modal-registration/modal-registration.component';
 
 @Component({
   selector: 'app-modal-login',
@@ -25,6 +25,7 @@ export class ModalLoginComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     private router: Router,
     private rest: RestApiService,
     private data: DataService,
@@ -56,6 +57,24 @@ export class ModalLoginComponent implements OnInit {
     }
   }
 
+  async openModalRegistration() {
+    const modalRef = this
+      .modalService
+      .open(ModalRegistrationComponent);
+
+    modalRef
+      .result
+      .then(async () => {
+        await this
+          .router
+          .navigate(['/']);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+
   async login() {
     this.submitDisabled = true;
     this.error = null;
@@ -73,10 +92,6 @@ export class ModalLoginComponent implements OnInit {
           await this
             .data
             .getProfile();
-
-          await this
-            .router
-            .navigate(['/']);
 
           this
             .data
