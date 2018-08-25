@@ -74,6 +74,10 @@ export class ModalRegistrationComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
+  updateCity(city: any) {
+    this.city.setValue(city);
+  }
+
   async register() {
     this.submitDisabled = true;
 
