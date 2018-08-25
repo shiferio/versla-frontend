@@ -10,11 +10,14 @@
     [formGroup]="form"
     novalidate
   >
-    <div class="form-group">
+    <div class="input-group login">
+      <div class="input-group-prepend">
+        <span class="input-group-text">+7</span>
+      </div>
       <input
         type="text"
         name="phone"
-        mask='+9-999-999-99-99'
+        mask='9999999999'
         class="form-control text-modal"
         placeholder="Телефон"
         [ngClass]="phoneErrors ? 'is-invalid': 'is-valid'"
