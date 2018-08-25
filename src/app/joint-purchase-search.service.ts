@@ -42,7 +42,7 @@ export class JointPurchaseSearchService {
     if (this._filter['page_number']) {
       return this._filter['page_number'];
     } else {
-      return 0;
+      return 1;
     }
   }
 

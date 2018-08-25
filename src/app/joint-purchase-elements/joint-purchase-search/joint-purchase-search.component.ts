@@ -45,6 +45,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
   date: any;
 
+  ready = false;
+
   constructor(
     private search: JointPurchaseSearchService,
     private searchField: SearchFieldService,
@@ -63,9 +65,11 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.resultSub = this.search.result.subscribe(data => {
       this.purchases = data['purchases'];
       this.total = data['total'];
+      this.ready = true;
     });
 
     this.queryParamsSub = this.route.queryParamMap.subscribe(async () => {
+      this.ready = false;
       this.search.url = this.router.url;
 
       const query = this.search.query;
@@ -93,6 +97,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   async initialize() {
     this.purchases = [];
     this.total = 0;
+    this.ready = false;
     this.category = this.default_category;
     await this.loadCategories();
   }
@@ -150,8 +155,10 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   moveToPage() {
-    this.search.page_number = this.page_number;
-    this.search.navigate();
+    if (this.search.page_number != this.page_number) {
+      this.search.page_number = this.page_number;
+      this.search.navigate();
+    }
   }
 
   filterByPrice() {
