@@ -117,8 +117,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.date = this.search.date;
 
     this.pricing = [
-      this.search.pricing['min'] || 10,
-      this.search.pricing['max'] || 1000
+      this.search.pricing['min'] || 0,
+      this.search.pricing['max'] || ''
     ];
   }
 
@@ -162,6 +162,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   filterByPrice() {
+    this.pricing[0] = this.pricing[0] || 0;
+
     this.search.pricing = {
       min: this.pricing[0],
       max: this.pricing[1]
@@ -177,6 +179,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   filterByMinVolume() {
+    this.minVolume = this.minVolume || 0;
     this.search.min_volume = this.minVolume;
 
     this.resetPagination();
@@ -184,6 +187,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   filterByVolume() {
+    this.volume = this.volume || 0;
     this.search.volume = this.volume;
 
     this.resetPagination();

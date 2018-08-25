@@ -130,8 +130,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     this.pricing = [
-      this.search.pricing['min'] || 10,
-      this.search.pricing['max'] || 1000
+      this.search.pricing['min'] || 0,
+      this.search.pricing['max'] || ''
     ];
   }
 
@@ -203,6 +203,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   filterByPrice() {
+    this.pricing[0] = this.pricing[0] || 0;
+
     this.search.pricing = {
       min: this.pricing[0],
       max: this.pricing[1]

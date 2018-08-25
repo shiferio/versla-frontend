@@ -115,7 +115,7 @@ export class SearchService {
 
   set pricing(value: any) {
     const min = value['min'] || 0;
-    const max = value['max'] || Number.MAX_VALUE;
+    const max = value['max'] || '';
 
     this._filter['min_price'] = min;
     this._filter['max_price'] = max;
