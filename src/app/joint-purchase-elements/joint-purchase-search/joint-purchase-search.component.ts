@@ -45,6 +45,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
   date: any;
 
+  ready = false;
+
   constructor(
     private search: JointPurchaseSearchService,
     private searchField: SearchFieldService,
@@ -63,9 +65,11 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.resultSub = this.search.result.subscribe(data => {
       this.purchases = data['purchases'];
       this.total = data['total'];
+      this.ready = true;
     });
 
     this.queryParamsSub = this.route.queryParamMap.subscribe(async () => {
+      this.ready = false;
       this.search.url = this.router.url;
 
       const query = this.search.query;
@@ -93,6 +97,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   async initialize() {
     this.purchases = [];
     this.total = 0;
+    this.ready = false;
     this.category = this.default_category;
     await this.loadCategories();
   }
@@ -112,8 +117,8 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.date = this.search.date;
 
     this.pricing = [
-      this.search.pricing['min'] || 10,
-      this.search.pricing['max'] || 1000
+      this.search.pricing['min'] || 0,
+      this.search.pricing['max'] || ''
     ];
   }
 
@@ -150,11 +155,15 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   moveToPage() {
-    this.search.page_number = this.page_number;
-    this.search.navigate();
+    if (this.search.page_number != this.page_number) {
+      this.search.page_number = this.page_number;
+      this.search.navigate();
+    }
   }
 
   filterByPrice() {
+    this.pricing[0] = this.pricing[0] || 0;
+
     this.search.pricing = {
       min: this.pricing[0],
       max: this.pricing[1]
@@ -170,6 +179,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   filterByMinVolume() {
+    this.minVolume = this.minVolume || 0;
     this.search.min_volume = this.minVolume;
 
     this.resetPagination();
@@ -177,6 +187,7 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   filterByVolume() {
+    this.volume = this.volume || 0;
     this.search.volume = this.volume;
 
     this.resetPagination();

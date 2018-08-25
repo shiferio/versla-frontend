@@ -50,6 +50,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   query_params_sub: Subscription;
 
+  ready = false;
+
   constructor(
     public search: SearchService,
     private searchField: SearchFieldService,
@@ -68,9 +70,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.result_sub = this.search.result.subscribe(data => {
       this.goods = data['goods'];
       this.total = data['total'];
+      this.ready = true;
     });
 
     this.query_params_sub = this.route.queryParamMap.subscribe(async () => {
+      this.ready = false;
       this.search.url = this.router.url;
 
       const query = this.search.query;
@@ -98,6 +102,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   async initialize() {
     this.goods = [];
     this.total = 0;
+    this.ready = false;
     await this.loadCategories();
     await this.loadCities();
   }
@@ -125,8 +130,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
 
     this.pricing = [
-      this.search.pricing['min'] || 10,
-      this.search.pricing['max'] || 1000
+      this.search.pricing['min'] || 0,
+      this.search.pricing['max'] || ''
     ];
   }
 
@@ -191,11 +196,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   moveToPage() {
-    this.search.page_number = this.page_number;
-    this.search.navigate();
+    if (this.search.page_number != this.page_number) {
+      this.search.page_number = this.page_number;
+      this.search.navigate();
+    }
   }
 
   filterByPrice() {
+    this.pricing[0] = this.pricing[0] || 0;
+
     this.search.pricing = {
       min: this.pricing[0],
       max: this.pricing[1]
