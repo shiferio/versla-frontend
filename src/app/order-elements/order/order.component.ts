@@ -61,7 +61,7 @@ export class OrderComponent implements OnInit {
     this
       .data
       .addToast(
-        'Ура!', '', 'success'
+        'Элемент успешно удалён!', '', 'success'
       );
   }
 }

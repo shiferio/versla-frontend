@@ -54,13 +54,23 @@ export class CartComponent implements OnInit {
     await this.cart.setItemQuantity(item_id, counter);
   }
 
+  get token() {
+    return localStorage.getItem('token');
+  }
   async createOrder() {
     // this
     //   .data
     //   .addToast(
     //     'Невозможно оформить заказ', 'Versla ещё официально не запущена', 'warning'
     //   );
-    if (!this.cartIsEmpty) {
+
+    if (!this.token) {
+      this
+        .data
+        .addToast(
+          'Невозможно оформить заказ', 'Только зарегистрированные пользователи могут оформлять заказ', 'warning'
+        );
+    } else if (!this.cartIsEmpty) {
       await this.cart.saveCart();
 
       await this

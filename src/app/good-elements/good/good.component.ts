@@ -138,7 +138,7 @@ export class GoodComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+            .addToast(resp['meta'].message, '', 'success');
 
           await this.getGoodInfo();
 
@@ -170,7 +170,7 @@ export class GoodComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+            .addToast(resp['meta'].message, '', 'success');
 
           await this.getGoodInfo();
 
@@ -203,7 +203,7 @@ export class GoodComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+          .addToast(resp['meta'].message, '', 'success');
 
         await this.getGoodInfo();
 
@@ -231,7 +231,7 @@ export class GoodComponent implements OnInit {
         if (resp['meta'].success) {
           this
             .data
-            .addToast('Ура!', resp['meta'].message, 'success');
+            .addToast(resp['meta'].message, '', 'success');
 
           await this.getGoodInfo();
 
@@ -265,7 +265,7 @@ export class GoodComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+          .addToast(resp['meta'].message, '', 'success');
 
         await this.getGoodInfo();
 
@@ -324,7 +324,7 @@ export class GoodComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+          .addToast(resp['meta'].message, '', 'success');
 
         await this.getGoodInfo();
 
@@ -394,7 +394,7 @@ export class GoodComponent implements OnInit {
     await this.cart.addItemToCart(this.info._id, 1, values);
     this
       .data
-      .addToast('Ура!', 'Товар добавлен в корзину', 'success');
+      .addToast('Товар добавлен в корзину', '', 'success');
   }
 
   async addCommentForGood(commentInfo: any) {
@@ -420,13 +420,13 @@ export class GoodComponent implements OnInit {
         console.log(resp);
         this
           .data
-          .addToast(resp['meta'].message, '', 'success');
+          .addToast('Комментарий успешно добавлен!', '', 'success');
 
         await this.getCommentsForGood();
       } else {
         this
           .data
-          .addToast(resp['meta'].message, '', 'error');
+          .addToast('Не удалось добавить комментарий', '', 'error');
       }
     } catch (error) {
       this

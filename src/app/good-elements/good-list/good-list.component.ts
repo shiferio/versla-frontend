@@ -39,7 +39,7 @@ export class GoodListComponent implements OnInit {
     await this.cart.addItemToCart(this.good._id, 1, defaultValues);
     this
       .data
-      .addToast('Ура!', 'Товар добавлен в корзину', 'success');
+      .addToast('Товар добавлен в корзину', '', 'success');
   }
 
   get isCreator(): boolean {
@@ -73,7 +73,7 @@ export class GoodListComponent implements OnInit {
       if (resp['meta'].success) {
         this
           .data
-          .addToast('Ура!', resp['meta'].message, 'success');
+          .addToast(resp['meta'].message, '', 'success');
 
         this.onGoodDeleted.emit({
           good_id: this.good._id

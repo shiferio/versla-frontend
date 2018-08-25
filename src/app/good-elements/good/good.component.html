@@ -44,8 +44,9 @@
               <label
                 *ngIf="isCreator"
                 (click)="editMode.name = true"
+                class="btn-edit"
               >
-                (изменить)
+                изменить
               </label>
             </h3>
             <div *ngIf="editMode.name" class="form-group">
@@ -58,8 +59,9 @@
               <label
                 *ngIf="isCreator"
                 (click)="editMode.price = true"
+                class="btn-edit"
               >
-                (изменить)
+                изменить
               </label>
             </h4>
             <div *ngIf="editMode.price" class="form-group">
@@ -87,8 +89,9 @@
                   <label
                     *ngIf="isCreator"
                     (click)="editMode.short_description = true"
+                    class="btn-edit"
                   >
-                    (изменить)
+                    изменить
                   </label>
                 </p>
               </div>
@@ -148,8 +151,9 @@
                 <label
                   *ngIf="isCreator"
                   (click)="editMode.category = true"
+                  class="btn-edit"
                 >
-                  (изменить)
+                  изменить
                 </label>
               </div>
               <div *ngIf="editMode.category" class="form-group">
@@ -218,19 +222,26 @@
                     <label
                       *ngIf="isCreator"
                       (click)="editMode.description = true"
+                      class="btn-edit"
                     >
-                      (изменить)
+                      изменить
                     </label>
+                  </div>
+                  <div *ngIf="!info.description">
+                    Подробное описание отсутствует
                   </div>
                 </div>
                 <div *ngIf="editMode.description" class="form-group">
-                  <label for="description">Краткое описание</label>
+                  <label for="description">Подробное описание</label>
                   <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good">
                   <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
                 </div>
               </div>
 
               <div class="tab-content p-t-43" *ngIf="additionalTabPane === 'information'">
+                <div *ngIf="info.params.length == 0">
+                  Дополнительная информация отсутствует
+                </div>
                 <ul class="list-group" *ngIf="info.params">
                   <li
                     *ngFor="let param of info.params"
