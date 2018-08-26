@@ -71,6 +71,11 @@ export class JointPurchaseComponent implements OnInit {
 
   ready = false;
 
+  toggles = {
+    paid: {},
+    sent: {}
+  };
+
   constructor(
     private route: ActivatedRoute,
     private rest: RestApiService,
@@ -739,12 +744,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updatePaymentState(participantId: string, state: boolean) {
+  async updatePaymentState(participant: any, date: NgbDateStruct) {
+    this.toggles.paid[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updatePaymentPurchase(
         this.purchaseInfo['_id'],
-        participantId,
-        state
+        participant['user']['_id'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -765,12 +773,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateFakeUserPaymentState(login: string, state: boolean) {
+  async updateFakeUserPaymentState(participant: any, date: NgbDateStruct) {
+    this.toggles.paid[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateFakeUserPaymentPurchase(
         this.purchaseInfo['_id'],
-        login,
-        state
+        participant['fake_user']['login'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -791,12 +802,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateOrderSentState(participantId: string, state: boolean) {
+  async updateOrderSentState(participant: any, date: NgbDateStruct) {
+    this.toggles.sent[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateOrderSentPurchase(
         this.purchaseInfo['_id'],
-        participantId,
-        state
+        participant['user']['_id'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -817,12 +831,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateFakeUserOrderSentState(login: string, state: boolean) {
+  async updateFakeUserOrderSentState(participant: any, date: NgbDateStruct) {
+    this.toggles.sent[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateFakeUserOrderSentPurchase(
         this.purchaseInfo['_id'],
-        login,
-        state
+        participant['fake_user']['login'],
+        nativeDate
       );
 
       if (resp['meta'].success) {

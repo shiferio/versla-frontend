@@ -604,11 +604,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updatePaymentPurchase(id: string, userId: string, state: boolean) {
+  updatePaymentPurchase(id: string, userId: string, date: Date) {
     const body = {
       id: id,
       user_id: userId,
-      state: state
+      date: date
     };
 
     return this
@@ -619,11 +619,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateFakeUserPaymentPurchase(id: string, login: string, state: boolean) {
+  updateFakeUserPaymentPurchase(id: string, login: string, date: Date) {
     const body = {
       id: id,
       login: login,
-      state: state
+      date: date
     };
 
     return this
@@ -649,11 +649,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateOrderSentPurchase(id: string, userId: string, state: boolean) {
+  updateOrderSentPurchase(id: string, userId: string, date: Date) {
     const body = {
       id: id,
       user_id: userId,
-      state: state
+      date: date
     };
 
     return this
@@ -664,11 +664,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateFakeUserOrderSentPurchase(id: string, login: string, state: boolean) {
+  updateFakeUserOrderSentPurchase(id: string, login: string, date: Date) {
     const body = {
       id: id,
       login: login,
-      state: state
+      date: date
     };
 
     return this

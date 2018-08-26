@@ -363,29 +363,91 @@
                           ({{ participant.cost | fixedFloat: 2 }} ₽)
                         </div>
                         <div class="col-12 col-md-4">
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userPayment
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="fakeUserPayment_{{i}}"
-                              [checked]="participant.paid"
-                              (change)="updateFakeUserPaymentState(participant.fake_user.login, userPayment.checked)"
-                            >
-                            <label class="custom-control-label" for="fakeUserPayment_{{i}}"
-                            >Платеж подтвержден</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Платеж подтвержден</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.paid | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateFakeUserPaymentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateFakeUserPaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                              ><i class="fa fa-check"></i> Подтвердить платеж</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateFakeUserPaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userSent
-                              id="fakeUserSent_{{i}}"
-                              type="checkbox"
-                              class="custom-control-input"
-                              [checked]="participant.sent"
-                              (change)="updateFakeUserOrderSentState(participant.fake_user.login, userSent.checked)"
-                            >
-                            <label class="custom-control-label" for="fakeUserSent_{{i}}"
-                            >Товар отправлен</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Товар отправлен</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.sent | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateFakeUserOrderSentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateFakeUserOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                              ><i class="fa fa-check"></i> Отправить товар</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateFakeUserOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="col-12 col-md-2 justify-content-md-end">
@@ -411,29 +473,91 @@
                           ({{ participant.cost | fixedFloat: 2 }} ₽)
                         </div>
                         <div class="col-12 col-md-4">
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userPayment
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="userPayment_{{i}}"
-                              [checked]="participant.paid"
-                              (change)="updatePaymentState(participant.user._id, userPayment.checked)"
-                            >
-                            <label class="custom-control-label" for="userPayment_{{i}}"
-                            >Платеж подтвержден</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Платеж подтвержден</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.paid | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updatePaymentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updatePaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                              ><i class="fa fa-check"></i> Подтвердить платеж</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updatePaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userSent
-                              id="userSent_{{i}}"
-                              type="checkbox"
-                              class="custom-control-input"
-                              [checked]="participant.sent"
-                              (change)="updateOrderSentState(participant.user._id, userSent.checked)"
-                            >
-                            <label class="custom-control-label" for="userSent_{{i}}"
-                            >Товар отправлен</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Товар отправлен</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.sent | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateOrderSentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                              ><i class="fa fa-check"></i> Отправить товар</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  (select)="updateOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
                           <div class="custom-control custom-checkbox mb-md-0 mb-2">
                             <input
