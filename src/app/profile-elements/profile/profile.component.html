@@ -38,7 +38,7 @@
             <div class="user-info">E-mail: {{ data.user.email }}</div>
             <hr>
             <div *ngIf="data.user.phone">
-              <div class="user-info">Телефон: {{ data.user.phone }}</div>
+              <div class="user-info">Телефон: +{{ data.user.phone }}</div>
               <hr>
             </div>
 
@@ -59,9 +59,9 @@
               <li *ngIf="data.user.isSeller" [class.selected]="isTabSet(5)" (click)="setTab(5)" routerLink="stores">
                 Мои магазины
               </li>
-              <li [class.selected]="isTabSet(6)" (click)="setTab(6)" routerLink="purchases">
-                Мои совместные закупки
-              </li>
+              <!--<li [class.selected]="isTabSet(6)" (click)="setTab(6)" routerLink="purchases">-->
+                <!--Мои совместные закупки-->
+              <!--</li>-->
             </ul>
           </div>
         </div>
