@@ -389,6 +389,7 @@
                               </div>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateFakeUserPaymentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -401,6 +402,7 @@
                               ><i class="fa fa-check"></i> Подтвердить платеж</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateFakeUserPaymentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -432,6 +434,7 @@
                               </div>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateFakeUserOrderSentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -444,6 +447,7 @@
                               ><i class="fa fa-check"></i> Отправить товар</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateFakeUserOrderSentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -499,6 +503,7 @@
                               </div>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updatePaymentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -511,6 +516,7 @@
                               ><i class="fa fa-check"></i> Подтвердить платеж</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updatePaymentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -542,6 +548,7 @@
                               </div>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateOrderSentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
@@ -554,6 +561,7 @@
                               ><i class="fa fa-check"></i> Отправить товар</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
+                                  [ngModel]="today"
                                   (select)="updateOrderSentState(participant, $event)"
                                 ></ngb-datepicker>
                               </div>
