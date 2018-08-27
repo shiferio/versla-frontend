@@ -18,7 +18,8 @@ export class OrderConfirmationComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.confirmCredentials();
   }
 
   async confirmCredentials() {

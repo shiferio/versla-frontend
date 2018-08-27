@@ -49,6 +49,25 @@
   border: none;
 }
 
+
+.btn-edit {
+  display: inline-block;
+  border: 1px solid #000000;
+  vertical-align: middle;
+  margin-left: 10px;
+  margin-bottom: 0.2rem !important;
+  color: #000;
+  font-size: 14px !important;
+  font-family: 'CircleRounded';
+  font-weight: normal !important;
+  line-height: normal !important;
+  text-align: center;
+  padding: 0 8px;
+  border-radius: 4px;
+  height: auto;
+  cursor: pointer;
+}
+
 .tab01 .nav-tabs .nav-item {
   margin: 0px 15px;
 }

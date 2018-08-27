@@ -78,6 +78,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { StoreOrdersComponent } from './store-elements/store-orders/store-orders.component';
 import { NgbDatePipe } from './pipes/ngb-date.pipe';
 import { PrettyUserNamePipe } from './pipes/pretty-user-name.pipe';
+import { ModalResetPasswordComponent } from './modals/modal-reset-password/modal-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import { PrettyUserNamePipe } from './pipes/pretty-user-name.pipe';
     CommentReplyComponent,
     StoreOrdersComponent,
     NgbDatePipe,
-    PrettyUserNamePipe
+    PrettyUserNamePipe,
+    ModalResetPasswordComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -175,7 +177,8 @@ import { PrettyUserNamePipe } from './pipes/pretty-user-name.pipe';
     ModalSendFeatureComponent,
     ModalAddJointPurchaseComponent,
     ModalJoinToJointPurchaseComponent,
-    ModalCategoryChooserComponent
+    ModalCategoryChooserComponent,
+    ModalResetPasswordComponent
   ]
 })
 export class AppModule {

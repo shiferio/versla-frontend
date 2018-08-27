@@ -65,6 +65,14 @@ export class RestApiService {
       .post(`${API_URL}/api/subscription/subscribe`, body)
       .toPromise();
   }
+
+  resetPassword(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/accounts/reset`, body)
+      .toPromise();
+  }
+
   getUserProfile() {
     return this
       .http

@@ -87,7 +87,7 @@ export class ModalRegistrationComponent implements OnInit {
           .signupUser({
             login: this.login.value,
             email: this.email.value,
-            phone: this.phone.value,
+            phone: '7' + this.phone.value,
             city: this.city.value['_id'],
             password: this.password.value
           });

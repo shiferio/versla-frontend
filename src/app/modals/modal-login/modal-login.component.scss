@@ -1,11 +1,8 @@
 .text-modal {
     background: #FFFFFF;
-    border: 1px solid #D4D4D4;
-    border-radius: 4px 4px 4px 4px;
-    width: 100%;
     padding-bottom: 5px;
     text-indent: 3px;
-    height: 31px;
+
 }
 
 .text-modal::placeholder {
@@ -18,6 +15,10 @@
 .text-modal:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: #dddddd;
+}
+
+.login {
+  padding-bottom: 5px;
 }
 
 .text-modal::-ms-input-placeholder {
