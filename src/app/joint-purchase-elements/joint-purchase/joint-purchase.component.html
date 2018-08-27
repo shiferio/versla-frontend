@@ -148,9 +148,9 @@
                 <b>Товара осталось недостаточно для минимального заказа</b>
               </span>
             </p>
-            <p class="card-text" *ngIf="!isLoggedIn && isOpened">
-              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastLogIn()">Войдите</a> или
-              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastSignUp()">зарегистрируйтесь</a>, чтобы участвовать в закупке
+            <p class="text-danger" *ngIf="!isLoggedIn && isOpened">
+              <a href="javascript:void(0)" class="font-weight-bold text-danger" (click)="fastLogIn()">Войдите</a> или
+              <a href="javascript:void(0)" class="font-weight-bold text-danger" (click)="fastSignUp()">зарегистрируйтесь</a>, чтобы участвовать в закупке
             </p>
             <p class="card-text text-danger" *ngIf="!isLoggedIn && isCollected">
               Прием заказов завершен
