@@ -399,7 +399,7 @@
                                 type="button"
                                 class="btn btn-main btn-block btn-sm mb-2"
                                 (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
-                              ><i class="fa fa-check"></i> Подтвердить платеж</button>
+                              ><i class="fa fa-check"></i> Оплачено</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
                                   [ngModel]="today"
@@ -444,7 +444,7 @@
                                 type="button"
                                 class="btn btn-main btn-block btn-sm mb-2"
                                 (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
-                              ><i class="fa fa-check"></i> Отправить товар</button>
+                              ><i class="fa fa-check"></i> Отправлено</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
                                   [ngModel]="today"
@@ -513,7 +513,7 @@
                                 type="button"
                                 class="btn btn-main btn-block btn-sm mb-2"
                                 (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
-                              ><i class="fa fa-check"></i> Подтвердить платеж</button>
+                              ><i class="fa fa-check"></i> Оплачено</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
                                 <ngb-datepicker
                                   [ngModel]="today"
@@ -558,7 +558,7 @@
                                 type="button"
                                 class="btn btn-main btn-block btn-sm mb-2"
                                 (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
-                              ><i class="fa fa-check"></i> Отправить товар</button>
+                              ><i class="fa fa-check"></i> Отправлено</button>
                               <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
                                 <ngb-datepicker
                                   [ngModel]="today"
