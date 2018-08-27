@@ -37,7 +37,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   paymentInfo = new FormControl('');
 
-  isPrivate = new FormControl(false);
+  isPublic = new FormControl(true);
 
   pictureUrl: string = null;
 
@@ -77,7 +77,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
         'paymentType': this.paymentType,
         'paymentInfo': this.paymentInfo
       }, { validator: this.paymentValidator }),
-      'isPrivate': this.isPrivate
+      'isPublic': this.isPublic
     });
   }
 
@@ -167,7 +167,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
         state: 0,
         payment_type: this.paymentType.value,
         payment_info: this.paymentInfo.value,
-        is_public: !this.isPrivate.value
+        is_public: this.isPublic.value
       });
 
       this
