@@ -702,19 +702,24 @@
                 ngbDropdownToggle
                 ngbPopover="Изменить состояние закупки"
                 triggers="mouseenter:mouseleave"
-                [disabled]="editModeInfo.state === 2"
               >Состояние закупки
               </button>
               <div ngbDropdownMenu aria-labelledby="purchaseState">
                 <button
                   class="dropdown-item"
-                  *ngIf="editModeInfo.state < 1"
+                  *ngIf="purchaseInfo.state != 0"
+                  (click)="updateState(0)"
+                >Открыть закупку
+                </button>
+                <button
+                  class="dropdown-item"
+                  *ngIf="purchaseInfo.state != 1"
                   (click)="updateState(1)"
                 >Завершить прием заказов
                 </button>
                 <button
                   class="dropdown-item"
-                  *ngIf="editModeInfo.state < 2"
+                  *ngIf="purchaseInfo.state != 2"
                   (click)="updateState(2)"
                 >Закрыть закупку
                 </button>
