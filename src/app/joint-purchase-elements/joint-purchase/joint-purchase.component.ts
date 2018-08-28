@@ -183,6 +183,10 @@ export class JointPurchaseComponent implements OnInit {
     return this.purchaseInfo['participants'].reduce((all, value) => all + value['volume'], 0);
   }
 
+  get pricePerUnit(): number {
+    return this.purchaseInfo['price_per_unit'];
+  }
+
   get visibleHistory(): Array<any> {
     if (this.visibleHistoryLength === this.history.length) {
       return this.history;
