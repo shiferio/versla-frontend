@@ -683,7 +683,7 @@
       </div>
     </div>
     <div class="row" *ngIf="isCreator">
-      <div class="col-md-12">
+      <div class="col-md-6 col-12 mb-4">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">
@@ -746,6 +746,62 @@
           </div>
         </div>
       </div>
+      <div class="col-md-6 col-12 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Статистика
+                </h4>
+                <table class="table">
+                  <tbody>
+                  <tr>
+                    <td><span class="pl-0">Осталось</span></td>
+                    <td>{{purchaseInfo.stats.remaining}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-0">Заказано</span></td>
+                    <td>{{purchaseInfo.stats.ordered}} {{measurementUnit}}</td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="pl-2">из них отправлено</span></td>
+                    <td>{{purchaseInfo.stats.sent}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-2">из них <b>не</b> отправлено</span></td>
+                    <td>{{purchaseInfo.stats.not_sent}} {{measurementUnit}}</td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="pl-2">из них оплачено</span></td>
+                    <td>{{purchaseInfo.stats.paid}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-4">из них отправлено</span></td>
+                    <td>{{purchaseInfo.stats.paid_and_sent}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-4">из них <b>не</b> отправлено</span></td>
+                    <td>{{purchaseInfo.stats.paid_and_not_sent}} {{measurementUnit}}</td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="pl-2">из них не оплачено</span></td>
+                    <td>{{purchaseInfo.stats.not_paid}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-4">из них отправлено</span></td>
+                    <td>{{purchaseInfo.stats.not_paid_and_sent}} {{measurementUnit}}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="pl-4">из них <b>не</b> отправлено</span></td>
+                    <td>{{purchaseInfo.stats.not_paid_and_not_sent}} {{measurementUnit}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
 </div>
