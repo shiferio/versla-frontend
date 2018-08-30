@@ -11,6 +11,7 @@ import {SearchService} from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Title} from '@angular/platform-browser';
 import {UploadFileService} from '../../upload-file.service';
+import {ModalAddJointPurchaseComponent} from '../../modals/modal-add-joint-purchase/modal-add-joint-purchase.component';
 
 @Component({
   selector: 'app-good',
@@ -455,5 +456,22 @@ export class GoodComponent implements OnInit {
     this.search.store = { '_id': this.store_info._id };
     this.search.city = { '_id': this.info.city };
     this.search.navigate();
+  }
+
+  openAddJointPurchase() {
+    const modalRef = this.modalService.open(
+      ModalAddJointPurchaseComponent,
+      {
+        size: 'lg'
+      }
+    );
+
+    modalRef.componentInstance.good = this.info;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }

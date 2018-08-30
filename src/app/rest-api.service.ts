@@ -521,6 +521,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  addGoodJoinPurchase(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/add/good`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getJointPurchaseById(id: string) {
     return this
       .http

@@ -107,6 +107,11 @@
                 <i class="fa fa-shopping-cart"></i> Добавить в корзину
               </button>
             </p>
+            <p class="card-text" *ngIf="info.purchase_info">
+              <button class="btn btn-main" (click)="openAddJointPurchase()">
+                Создать закупку
+              </button>
+            </p>
             <div class="card-text" *ngIf="info.params">
               <div *ngFor="let param of info.params">
                 <label for="val">{{param.name}}</label>
