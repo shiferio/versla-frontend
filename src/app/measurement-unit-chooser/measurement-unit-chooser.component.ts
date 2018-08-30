@@ -18,6 +18,9 @@ export class MeasurementUnitChooserComponent implements OnInit {
   @Input('unit')
   unit: any;
 
+  @Input('readonly')
+  readonly = false;
+
   selected_unit = {};
 
   @Output('unitChanged')
@@ -44,7 +47,9 @@ export class MeasurementUnitChooserComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.menu_visible = !this.menu_visible;
+    if (!this.readonly) {
+      this.menu_visible = !this.menu_visible;
+    }
   }
 
   hideMenu() {
