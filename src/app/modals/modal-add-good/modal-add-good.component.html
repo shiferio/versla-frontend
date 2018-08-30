@@ -103,6 +103,85 @@
         Выберите категорию товара
       </div>
     </div>
+
+    <div class="form-group">
+      <label for="volume">Количество доступного товара</label>
+      <input
+        type="text"
+        [dropSpecialCharacters]="false"
+        mask="0*.0*"
+        name="volume"
+        id="volume"
+        class="form-control text-modal"
+        placeholder="100"
+        [ngClass]="volume.errors ? 'is-invalid': 'is-valid'"
+        formControlName="volume"
+        required
+      >
+      <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.required)">
+        Введите количество доступного товара
+      </div>
+    </div>
+
+    <div formGroupName="purchaseForm">
+      <div class="form-group">
+        <div
+          class="custom-control custom-checkbox"
+        >
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="purchaseEnabled"
+            formControlName="purchaseEnabled"
+          >
+          <label
+            class="custom-control-label"
+            for="purchaseEnabled"
+          >Разрешить организовывать совместные закупки</label>
+        </div>
+      </div>
+
+      <div *ngIf="purchaseEnabled.value && store.goods_type !== 'retail'" class="form-group">
+        <label for="wholesalePrice">Оптовая цена</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [dropSpecialCharacters]="false"
+            mask="0*.00"
+            id="wholesalePrice"
+            class="form-control text-modal"
+            [ngClass]="wholesalePrice.errors ? 'is-invalid': 'is-valid'"
+            formControlName="wholesalePrice"
+            required
+          >
+          <div class="input-group-append">
+            <span class="input-group-text">₽</span>
+          </div>
+          <div class="invalid-feedback" [hidden]="!(wholesalePrice.errors && wholesalePrice.errors.required)">
+            Введите оптовую цену товара
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="purchaseEnabled.value">
+        <label for="minVolume">Минимальный объем заказа</label>
+        <input
+          type="text"
+          [dropSpecialCharacters]="false"
+          mask="0*.0*"
+          name="minVolume"
+          id="minVolume"
+          class="form-control text-modal"
+          placeholder="0"
+          [ngClass]="minVolume.errors ? 'is-invalid': 'is-valid'"
+          formControlName="minVolume"
+          required
+        >
+        <div class="invalid-feedback" [hidden]="!(minVolume.errors && minVolume.errors.required)">
+          Введите объем минимального заказа
+        </div>
+      </div>
+    </div>
   </form>
 </div>
 
