@@ -437,6 +437,34 @@ export class GoodComponent implements OnInit {
     }
   }
 
+  async updateVolume() {
+    try {
+      this.editMode.volume = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'volume', {
+        good_id: this.info._id,
+        volume: Number.parseFloat(this.info.volume)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
   openAddParameter() {
     const modalRef = this.modalService.open(ModalAddParameterComponent);
 
