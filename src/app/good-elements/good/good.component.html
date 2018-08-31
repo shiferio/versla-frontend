@@ -102,16 +102,20 @@
                 <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
               </div>
             </div>
-            <p class="card-text">
+            <div class="card-text mb-2">
               <button class="btn-main" (click)="addGoodToCard(info._id)">
                 <i class="fa fa-shopping-cart"></i> Добавить в корзину
               </button>
-            </p>
-            <p class="card-text" *ngIf="info.purchase_info">
-              <button class="btn btn-main" (click)="openAddJointPurchase()">
-                Создать закупку
-              </button>
-            </p>
+            </div>
+            <div class="card-text mb-2" *ngIf="info.purchase_info">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-main" id="purchaseDropdown" ngbDropdownToggle>Совместные закупки</button>
+                <div ngbDropdownMenu aria-labelledby="purchaseDropdown">
+                  <button class="dropdown-item" (click)="openAddJointPurchase()">Создать закупку</button>
+                  <button class="dropdown-item" (click)="openJoinToJointPurchase()">Присоединится к закупке</button>
+                </div>
+              </div>
+            </div>
             <div class="card-text" *ngIf="info.params">
               <div *ngFor="let param of info.params">
                 <label for="val">{{param.name}}</label>

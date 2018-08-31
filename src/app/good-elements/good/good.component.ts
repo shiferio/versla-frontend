@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {Title} from '@angular/platform-browser';
 import {UploadFileService} from '../../upload-file.service';
 import {ModalAddJointPurchaseComponent} from '../../modals/modal-add-joint-purchase/modal-add-joint-purchase.component';
+import {ModalGoodPurchaseChooserComponent} from '../../modals/modal-good-purchase-chooser/modal-good-purchase-chooser.component';
 
 @Component({
   selector: 'app-good',
@@ -465,6 +466,22 @@ export class GoodComponent implements OnInit {
         size: 'lg'
       }
     );
+
+    modalRef.componentInstance.good = this.info;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openJoinToJointPurchase() {
+    const modalRef = this.modalService.open(
+      ModalGoodPurchaseChooserComponent,
+      {
+        size: 'lg'
+      });
 
     modalRef.componentInstance.good = this.info;
 
