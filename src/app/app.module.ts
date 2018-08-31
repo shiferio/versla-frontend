@@ -79,6 +79,7 @@ import { StoreOrdersComponent } from './store-elements/store-orders/store-orders
 import { NgbDatePipe } from './pipes/ngb-date.pipe';
 import { PrettyUserNamePipe } from './pipes/pretty-user-name.pipe';
 import { ModalResetPasswordComponent } from './modals/modal-reset-password/modal-reset-password.component';
+import { ModalGoodPurchaseChooserComponent } from './modals/modal-good-purchase-chooser/modal-good-purchase-chooser.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +139,8 @@ import { ModalResetPasswordComponent } from './modals/modal-reset-password/modal
     StoreOrdersComponent,
     NgbDatePipe,
     PrettyUserNamePipe,
-    ModalResetPasswordComponent
+    ModalResetPasswordComponent,
+    ModalGoodPurchaseChooserComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, NgbModule.forRoot(), ToastyModule.forRoot(),
@@ -178,7 +180,8 @@ import { ModalResetPasswordComponent } from './modals/modal-reset-password/modal
     ModalAddJointPurchaseComponent,
     ModalJoinToJointPurchaseComponent,
     ModalCategoryChooserComponent,
-    ModalResetPasswordComponent
+    ModalResetPasswordComponent,
+    ModalGoodPurchaseChooserComponent
   ]
 })
 export class AppModule {
