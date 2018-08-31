@@ -92,6 +92,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     this.name.setValue(this.good['name']);
     this.description.setValue(this.good['description'] || '');
     this.category.setValue(this.good['category']);
+    this.measurementUnit.setValue(this.good['measurement_unit']);
     this.minVolume.setValue(this.good['purchase_info']['min_volume']);
     this.pricePerUnit.setValue(this.good['purchase_info']['wholesale_price'] || this.good['price']);
     this.pictureUrl = this.good['picture'];
