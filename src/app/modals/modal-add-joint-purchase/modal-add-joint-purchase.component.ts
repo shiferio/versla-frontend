@@ -90,7 +90,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   fillFieldsForGood() {
     this.name.setValue(this.good['name']);
-    this.description.setValue(this.good['description']);
+    this.description.setValue(this.good['description'] || '');
     this.category.setValue(this.good['category']);
     this.minVolume.setValue(this.good['purchase_info']['min_volume']);
     this.pricePerUnit.setValue(this.good['purchase_info']['wholesale_price'] || this.good['price']);
