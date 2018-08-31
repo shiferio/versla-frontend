@@ -35,6 +35,8 @@ export class ModalAddGoodComponent implements OnInit {
 
   category = new FormControl(null, Validators.required);
 
+  measurementUnit = new FormControl(null, Validators.required);
+
   volume = new FormControl('', Validators.required);
 
   purchaseEnabled = new FormControl(false);
@@ -76,6 +78,7 @@ export class ModalAddGoodComponent implements OnInit {
       'price': this.price,
       'tags': this.tags,
       'category': this.category,
+      'measurementUnit': this.measurementUnit,
       'volume': this.volume,
       'purchaseForm': this.purchaseForm
     });
@@ -146,6 +149,10 @@ export class ModalAddGoodComponent implements OnInit {
     this.category.setValue(category);
   }
 
+  updateMeasurementUnit(unit: any) {
+    this.measurementUnit.setValue(unit);
+  }
+
   async createGood() {
       this.btnDisabled = true;
 
@@ -161,6 +168,7 @@ export class ModalAddGoodComponent implements OnInit {
           picture: pictureUrl,
           tags: this.tags.value.map(item => item['value']),
           category: this.category.value['_id'],
+          measurement_unit_id: this.measurementUnit.value['_id'],
           volume: Number.parseFloat(this.volume.value)
         };
 
