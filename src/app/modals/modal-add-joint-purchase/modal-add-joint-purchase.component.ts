@@ -148,7 +148,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
       if (this.pictureUrl) {
         pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
       } else {
-        pictureUrl = 'assets/img/box.svg'; // default picture's url
+        pictureUrl = ''; // default picture's url: 'assets/img/box.svg'
       }
       const {day, month, year} = this.date.value;
 
