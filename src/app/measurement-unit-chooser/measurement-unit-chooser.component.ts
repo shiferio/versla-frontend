@@ -15,8 +15,17 @@ export class MeasurementUnitChooserComponent implements OnInit {
 
   new_unit_name: string;
 
+  private _unit: any;
+
   @Input('unit')
-  unit: any;
+  set unit(value: any) {
+    this._unit = value;
+    this.selected_unit = this.unit || {};
+  }
+
+  get unit(): any {
+    return this._unit;
+  }
 
   @Input('readonly')
   readonly = false;
