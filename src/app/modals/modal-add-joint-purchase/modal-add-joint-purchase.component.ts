@@ -102,7 +102,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   }
 
   dismiss() {
-    this.activeModal.close('dismissed');
+    this.activeModal.dismiss();
   }
 
   get total(): number {
