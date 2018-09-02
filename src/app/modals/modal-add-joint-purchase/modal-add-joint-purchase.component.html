@@ -191,7 +191,7 @@
           <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.required)">
             Введите количество товара
           </div>
-          <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.max)">
+          <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.max)" *ngIf="good">
             Максимальное количество товара: {{good.volume}}
           </div>
         </div>
