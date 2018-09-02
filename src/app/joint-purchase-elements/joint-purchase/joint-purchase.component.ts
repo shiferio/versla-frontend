@@ -16,6 +16,7 @@ import {CommentSettings} from '../comment-elements/comment-settings';
 import {SearchFieldService} from '../../search-field.service';
 import {ModalLoginComponent} from '../../modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from '../../modals/modal-registration/modal-registration.component';
+import {subscriptionLogsToBeFn} from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable()
 export class DateNativeAdapter extends NgbDateAdapter<string> {
@@ -245,14 +246,7 @@ export class JointPurchaseComponent implements OnInit {
         })
     );
 
-    this.history = [];
-    for (const item of this.purchaseInfo['history']) {
-      const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
-      this.history.push(Object.assign({blocks}, item));
-    }
-    this.history.reverse();
-    this.visibleHistoryLength = Math.min(this.history.length, 5);
-
+    await this.loadHistory();
     await this.loadTab();
     await this.loadComments();
   }
@@ -269,6 +263,25 @@ export class JointPurchaseComponent implements OnInit {
       } else {
         this.additionalTabPane = tab;
       }
+    });
+  }
+
+  async loadHistory() {
+    this.data.observableUser.subscribe(async (user) => {
+      if (!user) {
+        return;
+      }
+
+      this.history = [];
+      for (const item of this.purchaseInfo['history']) {
+        if (item['parameter'].startsWith('fake') && !this.isCreator) {
+          continue;
+        }
+        const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
+        this.history.push(Object.assign({blocks}, item));
+      }
+      this.history.reverse();
+      this.visibleHistoryLength = Math.min(this.history.length, 5);
     });
   }
 
