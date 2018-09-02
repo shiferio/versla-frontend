@@ -22,6 +22,7 @@
             [ngClass]="name.errors ? 'is-invalid': 'is-valid'"
             formControlName="name"
             required
+            [readonly]="good"
           >
           <div class="invalid-feedback" [hidden]="!(name.errors && name.errors.required)">
             Введите название закупки
@@ -49,6 +50,7 @@
           <div class="picture-preview-container" *ngIf="pictureUrl">
             <img [src]="pictureUrl" class="picture-preview-image">
             <label
+              *ngIf="!good"
               class="picture-preview-button"
               (click)="deleteImage()"
             ><span aria-hidden="true">X</span>
@@ -165,6 +167,7 @@
             id="category"
             [category]="category.value"
             (categoryChanged)="updateCategory($event)"
+            [readonly]="good"
           ></app-good-category-chooser>
           <div class="invalid-feedback d-block" *ngIf="category.errors && category.errors.required">
             Выберите категорию товара
@@ -188,6 +191,9 @@
           <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.required)">
             Введите количество товара
           </div>
+          <div class="invalid-feedback" [hidden]="!(volume.errors && volume.errors.max)">
+            Максимальное количество товара: {{good.volume}}
+          </div>
         </div>
 
         <div class="form-group">
@@ -203,6 +209,7 @@
             [ngClass]="minVolume.errors ? 'is-invalid': 'is-valid'"
             formControlName="minVolume"
             required
+            [readonly]="good"
           >
           <div class="invalid-feedback" [hidden]="!(minVolume.errors && minVolume.errors.required)">
             Введите объем минимального заказа
@@ -234,6 +241,7 @@
               [ngClass]="pricePerUnit.errors ? 'is-invalid': 'is-valid'"
               formControlName="pricePerUnit"
               required
+              [readonly]="good"
             >
             <div class="input-group-append">
               <span class="input-group-text">Итого: </span>

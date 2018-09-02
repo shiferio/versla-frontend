@@ -1,5 +1,9 @@
 <div class="dropdown" (clickOutside)="hideMenu()">
-  <div class="custom-select" (click)="toggleMenu()">{{selected_unit['name']}}</div>
+  <div
+    class="custom-select"
+    [ngClass]="readonly ? 'custom-select-readonly': '' "
+    (click)="toggleMenu()"
+  >{{selected_unit['name']}}</div>
   <div class="dropdown-content" *ngIf="menu_visible">
     <div class="list-group list-group-scrollable">
       <div

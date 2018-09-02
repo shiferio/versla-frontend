@@ -20,6 +20,9 @@ export class GoodCategoryChooserComponent implements OnInit {
     this.selected_category = value || {};
   }
 
+  @Input('readonly')
+  readonly = false;
+
   selected_category = {};
 
   @Output('categoryChanged')
@@ -49,7 +52,9 @@ export class GoodCategoryChooserComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.menu_visible = !this.menu_visible;
+    if (!this.readonly) {
+      this.menu_visible = !this.menu_visible;
+    }
   }
 
   hideMenu() {

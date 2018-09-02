@@ -22,7 +22,7 @@
         <div class="card">
           <div class="card-body">
             <img class="card-img-top good-img" [src]="purchaseInfo.picture || 'assets/img/box.svg'" alt="Card image cap">
-            <div class="good-img-container" *ngIf="isCreator">
+            <div class="good-img-container" *ngIf="isCreator && !isGoodPurchase">
               <div class="base-good-img-overlay">
               </div>
               <label class="good-img-overlay">
@@ -40,7 +40,7 @@
           <div class="card-body">
             <h3 class="card-title" *ngIf="!editMode.name">
               {{ purchaseInfo.name }}
-              <label *ngIf="isCreator" (click)="editMode.name = true" class="btn-edit"
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.name = true" class="btn-edit"
               >изменить</label>
             </h3>
             <div *ngIf="editMode.name" class="form-group">
@@ -52,7 +52,7 @@
 
             <h5 *ngIf="!editMode.price_per_unit">
               {{ purchaseInfo.price_per_unit | fixedFloat: 2 }} ₽/{{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.price_per_unit = true" class="btn-edit">
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.price_per_unit = true" class="btn-edit">
                 изменить
               </label>
             </h5>
@@ -97,7 +97,7 @@
 
             <h5 *ngIf="!editMode.min_volume">
               Минимальный объем заказа: {{ purchaseInfo.min_volume }} {{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.min_volume = true" class="btn-edit">
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.min_volume = true" class="btn-edit">
                 изменить
               </label>
             </h5>
@@ -166,7 +166,7 @@
             <div *ngIf="purchaseInfo" class="card-text">
               <div *ngIf="!editMode.category">
                 Категория: {{ purchaseInfo.category.name }}
-                <label *ngIf="isCreator" (click)="editMode.category = true" class="btn-edit">
+                <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.category = true" class="btn-edit">
                   изменить
                 </label>
               </div>
@@ -189,6 +189,9 @@
                 >Отмена</button>
               </div>
             </div>
+            <p class="card-text mt-2" *ngIf="isGoodPurchase">
+              <a [routerLink]="['/good', purchaseInfo.good._id]">Посмотреть товар в магазине</a>
+            </p>
           </div>
         </div>
       </div>

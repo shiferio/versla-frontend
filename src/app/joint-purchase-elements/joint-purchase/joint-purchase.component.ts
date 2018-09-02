@@ -172,6 +172,10 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get isGoodPurchase(): boolean {
+    return !!(this.purchaseInfo && this.purchaseInfo['good']);
+  }
+
   get haveEnoughRemainingVolume(): boolean {
     return this.purchaseInfo['remaining_volume'] >= this.purchaseInfo['min_volume'];
   }

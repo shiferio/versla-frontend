@@ -15,8 +15,20 @@ export class MeasurementUnitChooserComponent implements OnInit {
 
   new_unit_name: string;
 
+  private _unit: any;
+
   @Input('unit')
-  unit: any;
+  set unit(value: any) {
+    this._unit = value;
+    this.selected_unit = this.unit || {};
+  }
+
+  get unit(): any {
+    return this._unit;
+  }
+
+  @Input('readonly')
+  readonly = false;
 
   selected_unit = {};
 
@@ -44,7 +56,9 @@ export class MeasurementUnitChooserComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.menu_visible = !this.menu_visible;
+    if (!this.readonly) {
+      this.menu_visible = !this.menu_visible;
+    }
   }
 
   hideMenu() {

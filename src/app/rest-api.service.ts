@@ -521,6 +521,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  addGoodJoinPurchase(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/add/good`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getJointPurchaseById(id: string) {
     return this
       .http
@@ -538,6 +547,19 @@ export class RestApiService {
     return this
       .http
       .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoodJointPurchases(filter: string) {
+    const params = new HttpParams()
+      .append('filter', filter);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/goodpurchases`, {
         params: params,
         headers: this.getHeaders()
       })
