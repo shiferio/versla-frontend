@@ -116,11 +116,11 @@
             </div>
 
             <h5>
-              Заказано: {{ totalOrderedVolume }} {{ measurementUnit }}
+              Заказано: {{ purchaseInfo.stats.ordered }} {{ measurementUnit }}
             </h5>
 
             <h5>
-              Осталось: {{ purchaseInfo.remaining_volume }} {{ measurementUnit }}
+              Осталось: {{ purchaseInfo.stats.remaining }} {{ measurementUnit }}
             </h5>
 
             <h5 *ngIf="!editMode.date">
