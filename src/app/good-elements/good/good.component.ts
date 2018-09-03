@@ -496,6 +496,7 @@ export class GoodComponent implements OnInit {
     );
 
     modalRef.componentInstance.good = this.info;
+    modalRef.componentInstance.store = this.store_info;
 
     modalRef.result.then((result) => {
       console.log(result);

@@ -16,6 +16,9 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   @Input('good')
   good: any;
 
+  @Input('store')
+  store: any;
+
   name = new FormControl('', Validators.required);
 
   description = new FormControl('');
@@ -94,10 +97,19 @@ export class ModalAddJointPurchaseComponent implements OnInit {
     this.category.setValue(this.good['category']);
     this.measurementUnit.setValue(this.good['measurement_unit']);
     this.minVolume.setValue(this.good['purchase_info']['min_volume']);
-    this.pricePerUnit.setValue(this.good['purchase_info']['wholesale_price'] || this.good['price']);
     this.pictureUrl = this.good['picture'];
     if (this.good['volume']) {
       this.volume.setValidators([this.volume.validator, Validators.max(this.good['volume'])]);
+    }
+
+    if (this.store['goods_type'] === 'retail') {
+      this.pricePerUnit.setValue(this.good['price']);
+    } else {
+      if (this.good['purchase_info']['wholesale_price']) {
+        this.pricePerUnit.setValue(this.good['purchase_info']['wholesale_price']);
+      } else {
+        this.pricePerUnit.setValue(this.good['price']);
+      }
     }
   }
 
