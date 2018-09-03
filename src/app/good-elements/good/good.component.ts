@@ -104,6 +104,10 @@ export class GoodComponent implements OnInit {
       this.rating = this.info.rating;
       this.info.tags = this.info.tags.filter(item => item != null);
       this.new_tags = this.info.tags.slice();
+      if (this.info.purchase_info) {
+        this.info.purchase_info.wholesale_price =
+          this.info.purchase_info.wholesale_price || this.info.price;
+      }
       await this.getStoreInfo();
       this.data.setTitle(this.info.name + ' - ' + this.store_info.name);
     } else {
@@ -443,6 +447,62 @@ export class GoodComponent implements OnInit {
       const resp = await this.rest.updateGoodInfo(this.info._id, 'volume', {
         good_id: this.info._id,
         volume: Number.parseFloat(this.info.volume)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
+  async updateMinVolume() {
+    try {
+      this.editMode.min_volume = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'min_volume', {
+        good_id: this.info._id,
+        min_volume: Number.parseFloat(this.info.purchase_info.min_volume)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
+  async updateWholesalePrice() {
+    try {
+      this.editMode.wholesale_price = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'wholesale_price', {
+        good_id: this.info._id,
+        wholesale_price: Number.parseFloat(this.info.purchase_info.wholesale_price)
       });
 
       if (resp['meta'].success) {

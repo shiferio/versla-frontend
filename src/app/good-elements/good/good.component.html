@@ -197,6 +197,56 @@
                 <button type="button" class="btn btn-main" (click)="updateVolume()">Обновить</button>
               </div>
             </div>
+            <div *ngIf="info.purchase_info">
+              <hr>
+              <span class="font-weight-bold">Совместные закупки</span>
+              <div class="card-text">
+                <div *ngIf="!editMode.min_volume">
+                  Минимальный объем заказа: {{info.purchase_info.min_volume}}
+                  <label
+                    *ngIf="isCreator"
+                    (click)="editMode.min_volume = true"
+                    class="btn-edit"
+                  >
+                    изменить
+                  </label>
+                </div>
+                <div *ngIf="editMode.min_volume" class="form-group">
+                  <label for="min_volume">Количество товара</label>
+                  <input
+                    id="min_volume"
+                    type="text"
+                    [(ngModel)]="info.purchase_info.min_volume"
+                    class="form-control text-good card-title"
+                    [dropSpecialCharacters]="false"
+                    mask="0*.0*">
+                  <button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>
+                </div>
+              </div>
+              <div class="card-text" *ngIf="store_info.goods_type === 'wholesale'">
+                <div *ngIf="!editMode.wholesale_price">
+                  Оптовая цена: {{info.purchase_info.wholesale_price}} ₽
+                  <label
+                    *ngIf="isCreator"
+                    (click)="editMode.wholesale_price = true"
+                    class="btn-edit"
+                  >
+                    изменить
+                  </label>
+                </div>
+                <div *ngIf="editMode.wholesale_price" class="form-group">
+                  <label for="wholesale_price">Оптовая цена</label>
+                  <input
+                    id="wholesale_price"
+                    type="text"
+                    [(ngModel)]="info.purchase_info.wholesale_price"
+                    class="form-control text-good card-title"
+                    [dropSpecialCharacters]="false"
+                    mask="0*.00">
+                  <button type="button" class="btn btn-main" (click)="updateWholesalePrice()">Обновить</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
