@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-start">
   <div class="good-logo">
     <a [routerLink]="['/purchase', purchase._id]">
-      <img [src]="purchase.picture" class="store-img">
+      <img [src]="purchase.picture || 'assets/img/box.svg'" class="store-img">
     </a>
   </div>
 

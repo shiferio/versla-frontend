@@ -11,6 +11,8 @@ import {SearchService} from '../../search.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {Title} from '@angular/platform-browser';
 import {UploadFileService} from '../../upload-file.service';
+import {ModalAddJointPurchaseComponent} from '../../modals/modal-add-joint-purchase/modal-add-joint-purchase.component';
+import {ModalGoodPurchaseChooserComponent} from '../../modals/modal-good-purchase-chooser/modal-good-purchase-chooser.component';
 
 @Component({
   selector: 'app-good',
@@ -102,6 +104,10 @@ export class GoodComponent implements OnInit {
       this.rating = this.info.rating;
       this.info.tags = this.info.tags.filter(item => item != null);
       this.new_tags = this.info.tags.slice();
+      if (this.info.purchase_info) {
+        this.info.purchase_info.wholesale_price =
+          this.info.purchase_info.wholesale_price || this.info.price;
+      }
       await this.getStoreInfo();
       this.data.setTitle(this.info.name + ' - ' + this.store_info.name);
     } else {
@@ -435,6 +441,90 @@ export class GoodComponent implements OnInit {
     }
   }
 
+  async updateVolume() {
+    try {
+      this.editMode.volume = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'volume', {
+        good_id: this.info._id,
+        volume: Number.parseFloat(this.info.volume)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
+  async updateMinVolume() {
+    try {
+      this.editMode.min_volume = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'min_volume', {
+        good_id: this.info._id,
+        min_volume: Number.parseFloat(this.info.purchase_info.min_volume)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
+  async updateWholesalePrice() {
+    try {
+      this.editMode.wholesale_price = false;
+      const resp = await this.rest.updateGoodInfo(this.info._id, 'wholesale_price', {
+        good_id: this.info._id,
+        wholesale_price: Number.parseFloat(this.info.purchase_info.wholesale_price)
+      });
+
+      if (resp['meta'].success) {
+        this
+          .data
+          .addToast(resp['meta'].message, '', 'success');
+
+        await this.getGoodInfo();
+
+        this.editMode.volume = false;
+      } else {
+        this
+          .data
+          .addToast('Ошибка', resp['meta'].message, 'error');
+      }
+    } catch (error) {
+      this
+        .data
+        .addToast('Ошибка', error['meta'].message, 'error');
+    }
+  }
+
   openAddParameter() {
     const modalRef = this.modalService.open(ModalAddParameterComponent);
 
@@ -455,5 +545,39 @@ export class GoodComponent implements OnInit {
     this.search.store = { '_id': this.store_info._id };
     this.search.city = { '_id': this.info.city };
     this.search.navigate();
+  }
+
+  openAddJointPurchase() {
+    const modalRef = this.modalService.open(
+      ModalAddJointPurchaseComponent,
+      {
+        size: 'lg'
+      }
+    );
+
+    modalRef.componentInstance.good = this.info;
+    modalRef.componentInstance.store = this.store_info;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openJoinToJointPurchase() {
+    const modalRef = this.modalService.open(
+      ModalGoodPurchaseChooserComponent,
+      {
+        size: 'lg'
+      });
+
+    modalRef.componentInstance.good = this.info;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }

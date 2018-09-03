@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router';
 import {RestApiService} from '../../rest-api.service';
@@ -12,6 +12,12 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./modal-add-joint-purchase.component.scss']
 })
 export class ModalAddJointPurchaseComponent implements OnInit {
+
+  @Input('good')
+  good: any;
+
+  @Input('store')
+  store: any;
 
   name = new FormControl('', Validators.required);
 
@@ -37,7 +43,7 @@ export class ModalAddJointPurchaseComponent implements OnInit {
 
   paymentInfo = new FormControl('');
 
-  isPrivate = new FormControl(false);
+  isPublic = new FormControl(true);
 
   pictureUrl: string = null;
 
@@ -77,12 +83,38 @@ export class ModalAddJointPurchaseComponent implements OnInit {
         'paymentType': this.paymentType,
         'paymentInfo': this.paymentInfo
       }, { validator: this.paymentValidator }),
-      'isPrivate': this.isPrivate
+      'isPublic': this.isPublic
     });
+
+    if (this.good) {
+      this.fillFieldsForGood();
+    }
+  }
+
+  fillFieldsForGood() {
+    this.name.setValue(this.good['name']);
+    this.description.setValue(this.good['description'] || '');
+    this.category.setValue(this.good['category']);
+    this.measurementUnit.setValue(this.good['measurement_unit']);
+    this.minVolume.setValue(this.good['purchase_info']['min_volume']);
+    this.pictureUrl = this.good['picture'];
+    if (this.good['volume']) {
+      this.volume.setValidators([this.volume.validator, Validators.max(this.good['volume'])]);
+    }
+
+    if (this.store['goods_type'] === 'retail') {
+      this.pricePerUnit.setValue(this.good['price']);
+    } else {
+      if (this.good['purchase_info']['wholesale_price']) {
+        this.pricePerUnit.setValue(this.good['purchase_info']['wholesale_price']);
+      } else {
+        this.pricePerUnit.setValue(this.good['price']);
+      }
+    }
   }
 
   dismiss() {
-    this.activeModal.close('dismissed');
+    this.activeModal.dismiss();
   }
 
   get total(): number {
@@ -145,14 +177,15 @@ export class ModalAddJointPurchaseComponent implements OnInit {
   async createPurchase() {
     try {
       let pictureUrl;
-      if (this.pictureUrl) {
+      if (this.good) {
+        pictureUrl = this.good['picture'];
+      } else if (this.pictureUrl) {
         pictureUrl = await this.fileUploader.uploadImage(this.pictureFile);
       } else {
-        pictureUrl = 'assets/img/box.svg'; // default picture's url
+        pictureUrl = ''; // default picture's url: 'assets/img/box.svg'
       }
       const {day, month, year} = this.date.value;
-
-      const resp = await this.rest.addJointPurchase({
+      const data = {
         name: this.name.value,
         picture: pictureUrl,
         description: this.description.value,
@@ -167,8 +200,14 @@ export class ModalAddJointPurchaseComponent implements OnInit {
         state: 0,
         payment_type: this.paymentType.value,
         payment_info: this.paymentInfo.value,
-        is_public: !this.isPrivate.value
-      });
+        is_public: this.isPublic.value
+      };
+
+      if (this.good) {
+        data['good_id'] = this.good['_id'];
+      }
+
+      const resp = this.good ? (await this.rest.addGoodJoinPurchase(data)) : (await this.rest.addJointPurchase(data));
 
       this
         .data

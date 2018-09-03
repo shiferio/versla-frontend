@@ -26,6 +26,22 @@
             ></app-good-category-chooser>
           </div>
           <div class="list-group-item">
+            <label for="city">Город</label>
+            <select
+              id="city"
+              class="custom-select"
+              (change)="filterByCity()"
+              [(ngModel)]="city"
+            >
+              <option
+                *ngFor="let item of cities"
+                [ngValue]="item"
+              >
+                {{item.name}}
+              </option>
+            </select>
+          </div>
+          <div class="list-group-item">
             Цена<br>
             <div class="input-group">
               <div class="input-group-prepend"><span class="input-group-text">От</span></div>

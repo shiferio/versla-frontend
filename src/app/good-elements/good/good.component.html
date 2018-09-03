@@ -70,7 +70,7 @@
                 id="price"
                 type="text"
                 [(ngModel)]="info.price"
-                class="form-control text-good"
+                class="form-control text-good card-title"
                 [dropSpecialCharacters]="false"
                 mask="0*.00">
               <button type="button" class="btn btn-main" (click)="updatePrice()">Обновить</button>
@@ -98,15 +98,24 @@
               <div *ngIf="editMode.short_description" class="form-group">
                 <label for="short_description">Краткое описание</label>
                 <input id="short_description" type="text" [(ngModel)]="info.short_description"
-                       class="form-control card-text">
+                       class="form-control card-text card-title">
                 <button type="button" class="btn btn-main" (click)="updateShortDescription()">Обновить</button>
               </div>
             </div>
-            <p class="card-text">
+            <div class="card-text mb-2">
               <button class="btn-main" (click)="addGoodToCard(info._id)">
                 <i class="fa fa-shopping-cart"></i> Добавить в корзину
               </button>
-            </p>
+            </div>
+            <div class="card-text mb-2" *ngIf="info.purchase_info">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-main" id="purchaseDropdown" ngbDropdownToggle>Совместные закупки</button>
+                <div ngbDropdownMenu aria-labelledby="purchaseDropdown">
+                  <button class="dropdown-item" (click)="openAddJointPurchase()">Создать закупку</button>
+                  <button class="dropdown-item" (click)="openJoinToJointPurchase()">Присоединится к закупке</button>
+                </div>
+              </div>
+            </div>
             <div class="card-text" *ngIf="info.params">
               <div *ngFor="let param of info.params">
                 <label for="val">{{param.name}}</label>
@@ -163,6 +172,79 @@
                   [category]="info.category"
                   (categoryChanged)="updateCategory($event)">
                 </app-good-category-chooser>
+              </div>
+            </div>
+            <div *ngIf="info && info.volume !== undefined" class="card-text">
+              <div *ngIf="!editMode.volume">
+                Количество товара: {{info.volume ? info.volume : 'товар доступен только на заказ'}}
+                <label
+                  *ngIf="isCreator"
+                  (click)="editMode.volume = true"
+                  class="btn-edit"
+                >
+                  изменить
+                </label>
+              </div>
+              <div *ngIf="editMode.volume" class="form-group">
+                <label for="volume">Количество товара</label>
+                <input
+                  id="volume"
+                  type="text"
+                  [(ngModel)]="info.volume"
+                  class="form-control text-good card-title"
+                  [dropSpecialCharacters]="false"
+                  mask="0*.0*">
+                <button type="button" class="btn btn-main" (click)="updateVolume()">Обновить</button>
+              </div>
+            </div>
+            <div *ngIf="info.purchase_info">
+              <hr>
+              <span class="font-weight-bold">Совместные закупки</span>
+              <div class="card-text">
+                <div *ngIf="!editMode.min_volume">
+                  Минимальный объем заказа: {{info.purchase_info.min_volume}}
+                  <label
+                    *ngIf="isCreator"
+                    (click)="editMode.min_volume = true"
+                    class="btn-edit"
+                  >
+                    изменить
+                  </label>
+                </div>
+                <div *ngIf="editMode.min_volume" class="form-group">
+                  <label for="min_volume">Количество товара</label>
+                  <input
+                    id="min_volume"
+                    type="text"
+                    [(ngModel)]="info.purchase_info.min_volume"
+                    class="form-control text-good card-title"
+                    [dropSpecialCharacters]="false"
+                    mask="0*.0*">
+                  <button type="button" class="btn btn-main" (click)="updateMinVolume()">Обновить</button>
+                </div>
+              </div>
+              <div class="card-text" *ngIf="store_info.goods_type === 'wholesale'">
+                <div *ngIf="!editMode.wholesale_price">
+                  Оптовая цена: {{info.purchase_info.wholesale_price}} ₽
+                  <label
+                    *ngIf="isCreator"
+                    (click)="editMode.wholesale_price = true"
+                    class="btn-edit"
+                  >
+                    изменить
+                  </label>
+                </div>
+                <div *ngIf="editMode.wholesale_price" class="form-group">
+                  <label for="wholesale_price">Оптовая цена</label>
+                  <input
+                    id="wholesale_price"
+                    type="text"
+                    [(ngModel)]="info.purchase_info.wholesale_price"
+                    class="form-control text-good card-title"
+                    [dropSpecialCharacters]="false"
+                    mask="0*.00">
+                  <button type="button" class="btn btn-main" (click)="updateWholesalePrice()">Обновить</button>
+                </div>
               </div>
             </div>
           </div>
@@ -233,7 +315,7 @@
                 </div>
                 <div *ngIf="editMode.description" class="form-group">
                   <label for="description">Подробное описание</label>
-                  <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good">
+                  <input id="description" type="text" [(ngModel)]="info.description" class="form-control text-good card-title">
                   <button type="button" class="btn btn-main" (click)="updateDescription()">Обновить</button>
                 </div>
               </div>

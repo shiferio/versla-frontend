@@ -521,6 +521,15 @@ export class RestApiService {
       .toPromise();
   }
 
+  addGoodJoinPurchase(body: any) {
+    return this
+      .http
+      .post(`${API_URL}/api/jointpurchases/add/good`, body, {
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
   getJointPurchaseById(id: string) {
     return this
       .http
@@ -538,6 +547,19 @@ export class RestApiService {
     return this
       .http
       .get(`${API_URL}/api/search/jointpurchases/${page}/${size}`, {
+        params: params,
+        headers: this.getHeaders()
+      })
+      .toPromise();
+  }
+
+  searchGoodJointPurchases(filter: string) {
+    const params = new HttpParams()
+      .append('filter', filter);
+
+    return this
+      .http
+      .get(`${API_URL}/api/search/goodpurchases`, {
         params: params,
         headers: this.getHeaders()
       })
@@ -612,11 +634,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updatePaymentPurchase(id: string, userId: string, state: boolean) {
+  updatePaymentPurchase(id: string, userId: string, date: Date) {
     const body = {
       id: id,
       user_id: userId,
-      state: state
+      date: date
     };
 
     return this
@@ -627,11 +649,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateFakeUserPaymentPurchase(id: string, login: string, state: boolean) {
+  updateFakeUserPaymentPurchase(id: string, login: string, date: Date) {
     const body = {
       id: id,
       login: login,
-      state: state
+      date: date
     };
 
     return this
@@ -657,11 +679,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateOrderSentPurchase(id: string, userId: string, state: boolean) {
+  updateOrderSentPurchase(id: string, userId: string, date: Date) {
     const body = {
       id: id,
       user_id: userId,
-      state: state
+      date: date
     };
 
     return this
@@ -672,11 +694,11 @@ export class RestApiService {
       .toPromise();
   }
 
-  updateFakeUserOrderSentPurchase(id: string, login: string, state: boolean) {
+  updateFakeUserOrderSentPurchase(id: string, login: string, date: Date) {
     const body = {
       id: id,
       login: login,
-      state: state
+      date: date
     };
 
     return this

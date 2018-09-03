@@ -31,6 +31,15 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     name: 'Все'
   };
 
+  cities = [];
+
+  city = {};
+
+  default_city = {
+    all: true,
+    name: 'Все'
+  };
+
   page_size = 4;
 
   page_number = 1;
@@ -100,9 +109,15 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
     this.ready = false;
     this.category = this.default_category;
     await this.loadCategories();
+    await this.loadCities();
   }
 
   async loadFilters() {
+    const cityIndex = this
+      .cities
+      .findIndex(city => city['_id'] === this.search.city['_id']);
+    this.city = this.cities[cityIndex >= 0 ? cityIndex : 0];
+
     const categoryIndex = this
       .categories
       .findIndex(category => category['_id'] === this.search.category['_id']);
@@ -152,6 +167,26 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
 
     this.resetPagination();
     this.search.navigate();
+  }
+
+  async filterByCity() {
+    if (this.city) {
+      if (this.city['all']) {
+        this.search.city = null;
+      } else {
+        this.search.city = this.city;
+      }
+    }
+
+    this.resetPagination();
+    this.search.navigate();
+  }
+
+  async loadCities() {
+    const resp = await this.rest.getAllCities();
+    const cities = resp['data']['cities'];
+    cities.splice(0, 0, this.default_city);
+    this.cities = cities;
   }
 
   moveToPage() {

@@ -13,7 +13,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class ModalAddGoodComponent implements OnInit {
 
-  store_id: string;
+  store: any;
 
   city_id: string;
 
@@ -35,6 +35,18 @@ export class ModalAddGoodComponent implements OnInit {
 
   category = new FormControl(null, Validators.required);
 
+  measurementUnit = new FormControl(null, Validators.required);
+
+  volume = new FormControl('', Validators.required);
+
+  purchaseEnabled = new FormControl(false);
+
+  wholesalePrice = new FormControl('');
+
+  minVolume = new FormControl('');
+
+  purchaseForm: FormGroup;
+
   btnDisabled = false;
 
   form: FormGroup;
@@ -49,13 +61,59 @@ export class ModalAddGoodComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.purchaseForm = this.builder.group({
+      'purchaseEnabled': this.purchaseEnabled,
+      'minVolume': this.minVolume
+    }, {
+      validator: Validators.compose([this.minVolumeValidate, this.wholesalePriceValidate])
+    });
+
+    if (this.store.goods_type !== 'retail') {
+      this.purchaseForm.addControl('wholesalePrice', this.wholesalePrice);
+    }
+
     this.form = this.builder.group({
       'name': this.name,
       'preview': this.preview,
       'price': this.price,
       'tags': this.tags,
-      'category': this.category
+      'category': this.category,
+      'measurementUnit': this.measurementUnit,
+      'volume': this.volume,
+      'purchaseForm': this.purchaseForm
     });
+  }
+
+  minVolumeValidate(group: FormGroup) {
+    const purchaseEnabled = group.controls['purchaseEnabled'];
+    const minVolume = group.controls['minVolume'];
+    minVolume.setErrors(null);
+
+    if (purchaseEnabled.value && !minVolume.value) {
+      minVolume.setErrors({
+        required: true
+      });
+    }
+
+    return null;
+  }
+
+  wholesalePriceValidate(group: FormGroup) {
+    const wholesalePrice = group.controls['wholesalePrice'];
+    const purchaseEnabled = group.controls['purchaseEnabled'];
+    if (!wholesalePrice) {
+      return null;
+    }
+
+    wholesalePrice.setErrors(null);
+
+    if (purchaseEnabled.value && !wholesalePrice.value) {
+      wholesalePrice.setErrors({
+        required: true
+      });
+    }
+
+    return null;
   }
 
   get shopOwnerProfit(): string {
@@ -91,6 +149,10 @@ export class ModalAddGoodComponent implements OnInit {
     this.category.setValue(category);
   }
 
+  updateMeasurementUnit(unit: any) {
+    this.measurementUnit.setValue(unit);
+  }
+
   async createGood() {
       this.btnDisabled = true;
 
@@ -98,16 +160,27 @@ export class ModalAddGoodComponent implements OnInit {
         const pictureUrl = await this
           .fileUploader
           .uploadImage(this.preview_file);
-
-        const resp = await this.rest.createGood({
-          store_id: this.store_id,
+        const data = {
+          store_id: this.store['_id'],
           city: this.city_id,
           name: this.name.value,
           price: this.price.value,
           picture: pictureUrl,
           tags: this.tags.value.map(item => item['value']),
-          category: this.category.value['_id']
-        });
+          category: this.category.value['_id'],
+          measurement_unit_id: this.measurementUnit.value['_id'],
+          volume: Number.parseFloat(this.volume.value)
+        };
+
+        if (this.purchaseEnabled.value) {
+          data['purchase_info'] = {
+            'min_volume': Number.parseFloat(this.minVolume.value),
+            'purchase_enabled': this.purchaseEnabled.value,
+            'wholesale_price': Number.parseFloat(this.wholesalePrice.value)
+          };
+        }
+
+        const resp = await this.rest.createGood(data);
 
         this
           .data
@@ -125,7 +198,7 @@ export class ModalAddGoodComponent implements OnInit {
       } catch (error) {
         this
           .data
-          .addToast('Ошибка', error['meta'].message, 'error');
+          .addToast('Ошибка', error['error']['meta'].message, 'error');
       }
 
       this.btnDisabled = false;

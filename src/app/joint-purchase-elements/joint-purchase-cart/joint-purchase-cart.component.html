@@ -1,5 +1,5 @@
 <a class="img-holder" [routerLink]="['/purchase', purchase._id]">
-  <img class="card-img-top" [src]="purchase.picture" alt="Card image cap">
+  <img class="card-img-top" [src]="purchase.picture || 'assets/img/box.svg'" alt="Card image cap">
 </a>
 <div class="card-body">
   <a class="links" [routerLink]="['/purchase', purchase._id]">

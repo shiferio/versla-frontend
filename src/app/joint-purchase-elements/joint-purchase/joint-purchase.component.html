@@ -21,8 +21,8 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <img class="card-img-top good-img" [src]="purchaseInfo.picture" alt="Card image cap">
-            <div class="good-img-container" *ngIf="isCreator">
+            <img class="card-img-top good-img" [src]="purchaseInfo.picture || 'assets/img/box.svg'" alt="Card image cap">
+            <div class="good-img-container" *ngIf="isCreator && !isGoodPurchase">
               <div class="base-good-img-overlay">
               </div>
               <label class="good-img-overlay">
@@ -40,7 +40,7 @@
           <div class="card-body">
             <h3 class="card-title" *ngIf="!editMode.name">
               {{ purchaseInfo.name }}
-              <label *ngIf="isCreator" (click)="editMode.name = true" class="btn-edit"
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.name = true" class="btn-edit"
               >изменить</label>
             </h3>
             <div *ngIf="editMode.name" class="form-group">
@@ -52,7 +52,7 @@
 
             <h5 *ngIf="!editMode.price_per_unit">
               {{ purchaseInfo.price_per_unit | fixedFloat: 2 }} ₽/{{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.price_per_unit = true" class="btn-edit">
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.price_per_unit = true" class="btn-edit">
                 изменить
               </label>
             </h5>
@@ -97,7 +97,7 @@
 
             <h5 *ngIf="!editMode.min_volume">
               Минимальный объем заказа: {{ purchaseInfo.min_volume }} {{ measurementUnit }}
-              <label *ngIf="isCreator" (click)="editMode.min_volume = true" class="btn-edit">
+              <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.min_volume = true" class="btn-edit">
                 изменить
               </label>
             </h5>
@@ -116,11 +116,11 @@
             </div>
 
             <h5>
-              Заказано: {{ totalOrderedVolume }} {{ measurementUnit }}
+              Заказано: {{ purchaseInfo.stats.ordered }} {{ measurementUnit }}
             </h5>
 
             <h5>
-              Осталось: {{ purchaseInfo.remaining_volume }} {{ measurementUnit }}
+              Осталось: {{ purchaseInfo.stats.remaining }} {{ measurementUnit }}
             </h5>
 
             <h5 *ngIf="!editMode.date">
@@ -148,9 +148,9 @@
                 <b>Товара осталось недостаточно для минимального заказа</b>
               </span>
             </p>
-            <p class="card-text" *ngIf="!isLoggedIn && isOpened">
-              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastLogIn()">Войдите</a> или
-              <a href="javascript:void(0)" class="font-weight-bold" (click)="fastSignUp()">зарегистрируйтесь</a>, чтобы участвовать в закупке
+            <p class="text-danger" *ngIf="!isLoggedIn && isOpened">
+              <a href="javascript:void(0)" class="font-weight-bold text-danger" (click)="fastLogIn()">Войдите</a> или
+              <a href="javascript:void(0)" class="font-weight-bold text-danger" (click)="fastSignUp()">зарегистрируйтесь</a>, чтобы участвовать в закупке
             </p>
             <p class="card-text text-danger" *ngIf="!isLoggedIn && isCollected">
               Прием заказов завершен
@@ -166,7 +166,7 @@
             <div *ngIf="purchaseInfo" class="card-text">
               <div *ngIf="!editMode.category">
                 Категория: {{ purchaseInfo.category.name }}
-                <label *ngIf="isCreator" (click)="editMode.category = true" class="btn-edit">
+                <label *ngIf="isCreator && !isGoodPurchase" (click)="editMode.category = true" class="btn-edit">
                   изменить
                 </label>
               </div>
@@ -189,6 +189,9 @@
                 >Отмена</button>
               </div>
             </div>
+            <p class="card-text mt-2" *ngIf="isGoodPurchase">
+              <a [routerLink]="['/good', purchaseInfo.good._id]">Посмотреть товар в магазине</a>
+            </p>
           </div>
         </div>
       </div>
@@ -363,29 +366,95 @@
                           ({{ participant.cost | fixedFloat: 2 }} ₽)
                         </div>
                         <div class="col-12 col-md-4">
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userPayment
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="fakeUserPayment_{{i}}"
-                              [checked]="participant.paid"
-                              (change)="updateFakeUserPaymentState(participant.fake_user.login, userPayment.checked)"
-                            >
-                            <label class="custom-control-label" for="fakeUserPayment_{{i}}"
-                            >Платеж подтвержден</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Платеж подтвержден</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.paid | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateFakeUserPaymentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateFakeUserPaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                              ><i class="fa fa-check"></i> Оплачено</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateFakeUserPaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userSent
-                              id="fakeUserSent_{{i}}"
-                              type="checkbox"
-                              class="custom-control-input"
-                              [checked]="participant.sent"
-                              (change)="updateFakeUserOrderSentState(participant.fake_user.login, userSent.checked)"
-                            >
-                            <label class="custom-control-label" for="fakeUserSent_{{i}}"
-                            >Товар отправлен</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Товар отправлен</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.sent | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateFakeUserOrderSentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateFakeUserOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                              ><i class="fa fa-check"></i> Отправлено</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateFakeUserOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="col-12 col-md-2 justify-content-md-end">
@@ -411,29 +480,95 @@
                           ({{ participant.cost | fixedFloat: 2 }} ₽)
                         </div>
                         <div class="col-12 col-md-4">
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userPayment
-                              type="checkbox"
-                              class="custom-control-input"
-                              id="userPayment_{{i}}"
-                              [checked]="participant.paid"
-                              (change)="updatePaymentState(participant.user._id, userPayment.checked)"
-                            >
-                            <label class="custom-control-label" for="userPayment_{{i}}"
-                            >Платеж подтвержден</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Платеж подтвержден</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.paid | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updatePaymentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updatePaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.paid" (clickOutside)="toggles.paid[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.paid[participant._id] = !toggles.paid[participant._id]"
+                              ><i class="fa fa-check"></i> Оплачено</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.paid[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updatePaymentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
-                          <div class="custom-control custom-checkbox mb-md-0 mb-2">
-                            <input
-                              #userSent
-                              id="userSent_{{i}}"
-                              type="checkbox"
-                              class="custom-control-input"
-                              [checked]="participant.sent"
-                              (change)="updateOrderSentState(participant.user._id, userSent.checked)"
-                            >
-                            <label class="custom-control-label" for="userSent_{{i}}"
-                            >Товар отправлен</label>
+                          <div class="custom-control mb-md-0 mb-2 pl-0">
+                            <div *ngIf="participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <div class="justify-content-start">
+                                <span>Товар отправлен</span>
+                              </div>
+                              <div class="justify-content-start">
+                                <div class="d-inline-flex flex-row">
+                                  <span class="mr-2">{{participant.sent | date:'dd.MM.yyyy'}}</span>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-primary"
+                                    (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                                  >
+                                    <i class="fa fa-edit mr-1"></i><span class="d-md-none">Изменить</span>
+                                  </a>
+                                  <a
+                                    href="javascript:void(0)"
+                                    class="mr-2 text-danger"
+                                    (click)="updateOrderSentState(participant, null)"
+                                  >
+                                    <i class="fa fa-times mr-1"></i><span class="d-md-none">Отменить</span>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
+                            <div *ngIf="!participant.sent" (clickOutside)="toggles.sent[participant._id] = false">
+                              <button
+                                type="button"
+                                class="btn btn-main btn-block btn-sm mb-2"
+                                (click)="toggles.sent[participant._id] = !toggles.sent[participant._id]"
+                              ><i class="fa fa-check"></i> Отправлено</button>
+                              <div class="dropdown-menu d-block p-0" *ngIf="toggles.sent[participant._id]">
+                                <ngb-datepicker
+                                  [ngModel]="today"
+                                  (select)="updateOrderSentState(participant, $event)"
+                                ></ngb-datepicker>
+                              </div>
+                            </div>
                           </div>
                           <div class="custom-control custom-checkbox mb-md-0 mb-2">
                             <input
@@ -551,7 +686,7 @@
       </div>
     </div>
     <div class="row" *ngIf="isCreator">
-      <div class="col-md-12">
+      <div class="col-lg-5 col-md-12 col-12 mb-4">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">
@@ -570,19 +705,24 @@
                 ngbDropdownToggle
                 ngbPopover="Изменить состояние закупки"
                 triggers="mouseenter:mouseleave"
-                [disabled]="editModeInfo.state === 2"
               >Состояние закупки
               </button>
               <div ngbDropdownMenu aria-labelledby="purchaseState">
                 <button
                   class="dropdown-item"
-                  *ngIf="editModeInfo.state < 1"
+                  *ngIf="purchaseInfo.state != 0"
+                  (click)="updateState(0)"
+                >Открыть закупку
+                </button>
+                <button
+                  class="dropdown-item"
+                  *ngIf="purchaseInfo.state != 1"
                   (click)="updateState(1)"
                 >Завершить прием заказов
                 </button>
                 <button
                   class="dropdown-item"
-                  *ngIf="editModeInfo.state < 2"
+                  *ngIf="purchaseInfo.state != 2"
                   (click)="updateState(2)"
                 >Закрыть закупку
                 </button>
@@ -609,6 +749,72 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-7 col-md-12 col-12 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  Статистика
+                </h4>
+                <table class="table table-sm table-hover">
+                  <tbody>
+                  <tr>
+                    <td><div class="pl-0 d-inline-block">Осталось</div></td>
+                    <td>{{purchaseInfo.stats.remaining}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.remaining * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-0 d-inline-block">Заказано</div></td>
+                    <td>{{purchaseInfo.stats.ordered}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.ordered * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="pl-2 d-inline-block">из них отправлено</div></td>
+                    <td>{{purchaseInfo.stats.sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-2 d-inline-block">из них <b>не</b> отправлено</div></td>
+                    <td>{{purchaseInfo.stats.not_sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.not_sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="pl-2 d-inline-block">из них оплачено</div></td>
+                    <td>{{purchaseInfo.stats.paid}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.paid * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-4 d-inline-block">из них отправлено</div></td>
+                    <td>{{purchaseInfo.stats.paid_and_sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.paid_and_sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-4 d-inline-block">из них <b>не</b> отправлено</div></td>
+                    <td>{{purchaseInfo.stats.paid_and_not_sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.paid_and_not_sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+
+                  <tr>
+                    <td><div class="pl-2 d-inline-block">из них не оплачено</div></td>
+                    <td>{{purchaseInfo.stats.not_paid}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.not_paid * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-4 d-inline-block">из них отправлено</div></td>
+                    <td>{{purchaseInfo.stats.not_paid_and_sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.not_paid_and_sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  <tr>
+                    <td><div class="pl-4 d-inline-block">из них <b>не</b> отправлено</div></td>
+                    <td>{{purchaseInfo.stats.not_paid_and_not_sent}} {{measurementUnit}}</td>
+                    <td>{{purchaseInfo.stats.not_paid_and_not_sent * pricePerUnit | fixedFloat: 2}} ₽</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
 </div>

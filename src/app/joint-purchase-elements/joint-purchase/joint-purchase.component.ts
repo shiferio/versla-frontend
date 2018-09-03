@@ -16,6 +16,7 @@ import {CommentSettings} from '../comment-elements/comment-settings';
 import {SearchFieldService} from '../../search-field.service';
 import {ModalLoginComponent} from '../../modals/modal-login/modal-login.component';
 import {ModalRegistrationComponent} from '../../modals/modal-registration/modal-registration.component';
+import {subscriptionLogsToBeFn} from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable()
 export class DateNativeAdapter extends NgbDateAdapter<string> {
@@ -70,6 +71,11 @@ export class JointPurchaseComponent implements OnInit {
   comments: Array<CommentModel> = [];
 
   ready = false;
+
+  toggles = {
+    paid: {},
+    sent: {}
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -166,6 +172,10 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
+  get isGoodPurchase(): boolean {
+    return !!(this.purchaseInfo && this.purchaseInfo['good']);
+  }
+
   get haveEnoughRemainingVolume(): boolean {
     return this.purchaseInfo['remaining_volume'] >= this.purchaseInfo['min_volume'];
   }
@@ -176,6 +186,10 @@ export class JointPurchaseComponent implements OnInit {
 
   get totalOrderedVolume(): number {
     return this.purchaseInfo['participants'].reduce((all, value) => all + value['volume'], 0);
+  }
+
+  get pricePerUnit(): number {
+    return this.purchaseInfo['price_per_unit'];
   }
 
   get visibleHistory(): Array<any> {
@@ -236,14 +250,7 @@ export class JointPurchaseComponent implements OnInit {
         })
     );
 
-    this.history = [];
-    for (const item of this.purchaseInfo['history']) {
-      const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
-      this.history.push(Object.assign({blocks}, item));
-    }
-    this.history.reverse();
-    this.visibleHistoryLength = Math.min(this.history.length, 5);
-
+    await this.loadHistory();
     await this.loadTab();
     await this.loadComments();
   }
@@ -260,6 +267,25 @@ export class JointPurchaseComponent implements OnInit {
       } else {
         this.additionalTabPane = tab;
       }
+    });
+  }
+
+  async loadHistory() {
+    this.data.observableUser.subscribe(async (user) => {
+      if (!user) {
+        return;
+      }
+
+      this.history = [];
+      for (const item of this.purchaseInfo['history']) {
+        if (item['parameter'].startsWith('fake') && !this.isCreator) {
+          continue;
+        }
+        const blocks = await this.purchaseHistoryService.parseHistoryItem(item);
+        this.history.push(Object.assign({blocks}, item));
+      }
+      this.history.reverse();
+      this.visibleHistoryLength = Math.min(this.history.length, 5);
     });
   }
 
@@ -739,12 +765,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updatePaymentState(participantId: string, state: boolean) {
+  async updatePaymentState(participant: any, date: NgbDateStruct) {
+    this.toggles.paid[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updatePaymentPurchase(
         this.purchaseInfo['_id'],
-        participantId,
-        state
+        participant['user']['_id'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -765,12 +794,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateFakeUserPaymentState(login: string, state: boolean) {
+  async updateFakeUserPaymentState(participant: any, date: NgbDateStruct) {
+    this.toggles.paid[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateFakeUserPaymentPurchase(
         this.purchaseInfo['_id'],
-        login,
-        state
+        participant['fake_user']['login'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -791,12 +823,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateOrderSentState(participantId: string, state: boolean) {
+  async updateOrderSentState(participant: any, date: NgbDateStruct) {
+    this.toggles.sent[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateOrderSentPurchase(
         this.purchaseInfo['_id'],
-        participantId,
-        state
+        participant['user']['_id'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
@@ -817,12 +852,15 @@ export class JointPurchaseComponent implements OnInit {
     }
   }
 
-  async updateFakeUserOrderSentState(login: string, state: boolean) {
+  async updateFakeUserOrderSentState(participant: any, date: NgbDateStruct) {
+    this.toggles.sent[participant._id] = false;
+    const nativeDate = date ? new Date(date.year, date.month - 1, date.day) : null;
+
     try {
       const resp = await this.rest.updateFakeUserOrderSentPurchase(
         this.purchaseInfo['_id'],
-        login,
-        state
+        participant['fake_user']['login'],
+        nativeDate
       );
 
       if (resp['meta'].success) {
