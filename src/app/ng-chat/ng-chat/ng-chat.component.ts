@@ -286,7 +286,8 @@ export class NgChat implements OnInit {
                 messages:  [],
                 isLoadingHistory: this.historyEnabled,
                 hasFocus: false, // This will be triggered when the 'newMessage' input gets the current focus
-                isCollapsed: collapseWindow
+                isCollapsed: collapseWindow,
+                newMessage: ''
             };
 
             // Loads the chat history via an RxJs Observable
@@ -334,7 +335,8 @@ export class NgChat implements OnInit {
           messages:  [],
           isLoadingHistory: this.historyEnabled,
           hasFocus: false, // This will be triggered when the 'newMessage' input gets the current focus
-          isCollapsed: collapseWindow
+          isCollapsed: collapseWindow,
+          newMessage: ''
         };
 
         // Loads the chat history via an RxJs Observable
