@@ -16,6 +16,7 @@ export class VerslaChatAdapter extends ChatAdapter {
      *   chat: {
      *     '_id': 'chat_id',
      *     'display_name': 'display_name',
+     *     'avatar': 'avatar',
      *     'participants': [participants]
      *   },
      *   data: {
@@ -27,6 +28,7 @@ export class VerslaChatAdapter extends ChatAdapter {
     this.chatService.incomingMessage.subscribe(async (messageData) => {
       const chatId = messageData['chat']['_id'];
       const displayName = messageData['chat']['display_name'];
+      const avatar = messageData['chat']['avatar'];
       const message = messageData['data']['message'];
 
       this.onMessageReceived(
@@ -34,7 +36,7 @@ export class VerslaChatAdapter extends ChatAdapter {
           id: chatId,
           displayName: displayName,
           status: UserStatus.Online,
-          avatar: null
+          avatar: avatar
         }, {
           toId: this.chatService.userId,
           fromId: chatId,
@@ -47,18 +49,20 @@ export class VerslaChatAdapter extends ChatAdapter {
      * chat: {
      *   '_id': 'chat_id',
      *   'display_name': 'display_name',
+     *   'avatar': 'avatar',
      *   'participants': [participants]
      * }
      */
     this.chatService.newChat.subscribe(async (chat) => {
       const chatId = chat['_id'];
       const displayName = chat['display_name'];
+      const avatar = chat['avatar'];
 
       this.onNewChat({
         id: chatId,
         displayName: displayName,
         status: UserStatus.Online,
-        avatar: null
+        avatar: avatar
       });
     });
   }
@@ -70,7 +74,7 @@ export class VerslaChatAdapter extends ChatAdapter {
           id: chat['_id'],
           displayName: chat['display_name'],
           status: UserStatus.Online,
-          avatar: null
+          avatar: chat['avatar']
         }));
       });
     this.chatService.updateChats();
