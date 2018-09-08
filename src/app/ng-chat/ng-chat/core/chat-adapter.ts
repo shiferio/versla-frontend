@@ -24,7 +24,13 @@ export abstract class ChatAdapter
         this.messageReceivedHandler(user, message);
     }
 
+    public onNewChat(user: User): void
+    {
+      this.newChatHandler(user);
+    }
+
     // Event handlers
     friendsListChangedHandler: (users: User[]) => void  = (users: User[]) => {};
     messageReceivedHandler: (user: User, message: Message) => void = (user: User, message: Message) => {};
+    newChatHandler: (user: User) => void = (user: User) => {};
 }

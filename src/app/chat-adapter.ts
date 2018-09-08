@@ -1,7 +1,7 @@
-import { ChatAdapter, User, Message, UserStatus } from './ng-chat';
-import { Observable, from } from 'rxjs';
+import {ChatAdapter, Message, User, UserStatus} from './ng-chat';
+import {from, Observable} from 'rxjs';
 import {ChatService} from './chat.service';
-import { DataService } from './data.service';
+import {DataService} from './data.service';
 
 export class VerslaChatAdapter extends ChatAdapter {
 
@@ -41,6 +41,25 @@ export class VerslaChatAdapter extends ChatAdapter {
           message: message
         }
       );
+    });
+
+    /**
+     * chat: {
+     *   '_id': 'chat_id',
+     *   'display_name': 'display_name',
+     *   'participants': [participants]
+     * }
+     */
+    this.chatService.newChat.subscribe(async (chat) => {
+      const chatId = chat['_id'];
+      const displayName = chat['display_name'];
+
+      this.onNewChat({
+        id: chatId,
+        displayName: displayName,
+        status: UserStatus.Online,
+        avatar: null
+      });
     });
   }
 

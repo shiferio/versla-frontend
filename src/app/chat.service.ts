@@ -22,6 +22,8 @@ export class ChatService {
 
   incomingMessage = new Subject<any>();
 
+  newChat = new Subject<any>();
+
   constructor(
     private rest: RestApiService,
     private data: DataService
@@ -151,8 +153,11 @@ export class ChatService {
         to: toId
       };
 
-      this.socket.emit('newchat', data, (status) => {
-        console.log(status);
+      this.socket.emit('newchat', data, async (chat) => {
+        if (chat) {
+          await this.normalizeChats([chat]);
+          this.newChat.next(chat);
+        }
       });
     }
   }

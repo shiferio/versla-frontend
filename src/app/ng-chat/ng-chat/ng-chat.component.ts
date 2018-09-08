@@ -172,6 +172,7 @@ export class NgChat implements OnInit {
             // Binding event listeners
             this.adapter.messageReceivedHandler = (user, msg) => this.onMessageReceived(user, msg);
             this.adapter.friendsListChangedHandler = (users) => this.onFriendsListChanged(users);
+            this.adapter.newChatHandler = (user) => this.onNewChat(user);
 
             // Loading current users list
             if (this.pollFriendsList){
@@ -339,6 +340,63 @@ export class NgChat implements OnInit {
             // Returns the existing chat window     
             return [openedWindow, false];       
         }
+    }
+
+    private onNewChat(user: User): [Window, boolean]
+    {
+      // Is this window opened?
+      let openedWindow = this.windows.find(x => x.chattingTo.id == user.id);
+
+      if (!openedWindow)
+      {
+        let collapseWindow = false; // !this.maximizeWindowOnNewMessage;
+
+        let newChatWindow: Window = {
+          chattingTo: user,
+          messages:  [],
+          isLoadingHistory: this.historyEnabled,
+          hasFocus: false, // This will be triggered when the 'newMessage' input gets the current focus
+          isCollapsed: collapseWindow
+        };
+
+        // Loads the chat history via an RxJs Observable
+        if (this.historyEnabled)
+        {
+          this.adapter.getMessageHistory(newChatWindow.chattingTo.id)
+            .map((result: Message[]) => {
+              //newChatWindow.messages.push.apply(newChatWindow.messages, result);
+              newChatWindow.messages = result.concat(newChatWindow.messages);
+              newChatWindow.isLoadingHistory = false;
+
+              setTimeout(() => { this.scrollChatWindowToBottom(newChatWindow)});
+            }).subscribe();
+        }
+
+        this.windows.unshift(newChatWindow);
+
+        // Is there enough space left in the view port ?
+        if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - this.friendsListWidth)
+        {
+          this.windows.pop();
+        }
+
+        this.updateWindowsState(this.windows);
+
+        if (!collapseWindow)
+        {
+          this.focusOnWindow(newChatWindow);
+        }
+
+        this.onUserChatOpened.emit(user);
+
+        return [newChatWindow, true];
+      }
+      else
+      {
+        openedWindow.isCollapsed = false;
+        // Returns the existing chat window
+        return [openedWindow, false];
+      }
     }
 
     // Focus on the input element of the supplied window
