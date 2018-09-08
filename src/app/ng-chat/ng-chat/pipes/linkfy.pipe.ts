@@ -6,8 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'linkfy'})
 export class LinkfyPipe implements PipeTransform {
     transform(message: string, pipeEnabled: boolean): string {
-        if (pipeEnabled && message && message.length > 1)
-        {
+        if (pipeEnabled && message && message.length > 1) {
             let replacedText;
             let replacePatternProtocol;
             let replacePatternWWW;
@@ -26,8 +25,8 @@ export class LinkfyPipe implements PipeTransform {
             replacedText = replacedText.replace(replacePatternMailTo, '<a href="mailto:$1">$1</a>');
 
             return replacedText;
-        }
-        else
+        } else {
             return message;
-    } 
+        }
+    }
 }

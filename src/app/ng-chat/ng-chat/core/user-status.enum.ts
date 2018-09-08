@@ -1,5 +1,4 @@
-export enum UserStatus
-{
+export enum UserStatus {
     Online,
     Busy,
     Away,

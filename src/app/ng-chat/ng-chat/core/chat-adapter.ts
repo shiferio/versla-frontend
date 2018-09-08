@@ -1,31 +1,27 @@
 import { Observable } from 'rxjs/Observable';
-import { Message } from "./message";
-import { User } from "./user";
+import { Message } from './message';
+import { User } from './user';
 
-export abstract class ChatAdapter
-{
+export abstract class ChatAdapter {
     // ### Abstract adapter methods ###
 
     public abstract listFriends(): Observable<User[]>;
-    
+
     public abstract getMessageHistory(userId: any): Observable<Message[]>;
 
     public abstract sendMessage(message: Message): void;
 
     // ### Adapter/Chat income/ingress events ###
 
-    public onFriendsListChanged(users: User[]): void
-    {
+    public onFriendsListChanged(users: User[]): void {
         this.friendsListChangedHandler(users);
     }
 
-    public onMessageReceived(user: User, message: Message): void
-    {
+    public onMessageReceived(user: User, message: Message): void {
         this.messageReceivedHandler(user, message);
     }
 
-    public onNewChat(user: User): void
-    {
+    public onNewChat(user: User): void {
       this.newChatHandler(user);
     }
 

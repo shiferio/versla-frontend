@@ -1,14 +1,13 @@
-import { Message } from "./message";
-import { User } from "./user";
+import { Message } from './message';
+import { User } from './user';
 
-export class Window
-{
+export class Window {
     public chattingTo: User;
     public messages: Message[] = [];
-    public newMessage?: string = "";
-    
+    public newMessage = '';
+
     // UI Behavior properties
-    public isCollapsed?: boolean = false; 
-    public isLoadingHistory: boolean = false;
-    public hasFocus: boolean = false;
+    public isCollapsed = false;
+    public isLoadingHistory = false;
+    public hasFocus = false;
 }

@@ -1,7 +1,6 @@
-import { UserStatus } from "./user-status.enum";
+import { UserStatus } from './user-status.enum';
 
-export class User
-{
+export class User {
     public id: any;
     public displayName: string;
     public status: UserStatus;
