@@ -1,4 +1,4 @@
-import { ChatAdapter, User, Message, UserStatus } from 'ng-chat';
+import { ChatAdapter, User, Message, UserStatus } from './ng-chat';
 import { Observable, from } from 'rxjs';
 import {ChatService} from './chat.service';
 import { DataService } from './data.service';
