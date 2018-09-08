@@ -22,6 +22,8 @@ export class ChatService {
 
   incomingMessage = new Subject<any>();
 
+  newChat = new Subject<any>();
+
   constructor(
     private rest: RestApiService,
     private data: DataService
@@ -38,9 +40,9 @@ export class ChatService {
     return this._userId;
   }
 
-  private async getChatDisplayName(chat: any) {
+  private async getChatInfo(chat: any) {
     if (this.chatsInfo.has(chat['_id'])) {
-      return this.chatsInfo.get(chat['_id'])['display_name'];
+      return this.chatsInfo.get(chat['_id']);
     }
 
     const participants = chat['participants'];
@@ -52,7 +54,10 @@ export class ChatService {
 
       const res = await this.rest.getUserById(participants[index]);
       if (res['meta'].success) {
-        return res['data'].user.login;
+        return {
+          display_name: res['data'].user.login,
+          avatar: res['data'].user.picture
+        };
       } else {
         return participants[index];
       }
@@ -61,7 +66,9 @@ export class ChatService {
 
   private async normalizeChats(chats: Array<any>) {
     for (const chat of chats) {
-      chat['display_name'] = await this.getChatDisplayName(chat);
+      const info = await this.getChatInfo(chat);
+      chat['display_name'] = info['display_name'];
+      chat['avatar'] = info['avatar'];
       this.chatsInfo.set(chat['_id'], chat);
     }
   }
@@ -151,8 +158,11 @@ export class ChatService {
         to: toId
       };
 
-      this.socket.emit('newchat', data, (status) => {
-        console.log(status);
+      this.socket.emit('newchat', data, async (chat) => {
+        if (chat) {
+          await this.normalizeChats([chat]);
+          this.newChat.next(chat);
+        }
       });
     }
   }
