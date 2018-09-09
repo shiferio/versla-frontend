@@ -35,6 +35,26 @@ export class CategoryNestedListComponent implements OnInit {
     };
   }
 
+  @Input('showAll')
+  set showAll(value: boolean) {
+    const all: NodeModel = {
+      id: null,
+      name: 'Все',
+      children: []
+    };
+    all['all'] = true;
+
+    if (this.activeItem.children.length !== 0) {
+      if (value && !this.activeItem.children[0]['all']) {
+        this.activeItem.children = [all].concat(
+          this.activeItem.children
+        );
+      } else if (!value && this.activeItem.children[0]['all']) {
+        this.activeItem.children.splice(0, 1);
+      }
+    }
+  }
+
   activeItem: NodeModel = {
     id: null,
     name: this.settings.description,
