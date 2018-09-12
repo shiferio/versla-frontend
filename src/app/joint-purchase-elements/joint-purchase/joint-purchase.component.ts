@@ -380,9 +380,17 @@ export class JointPurchaseComponent implements OnInit {
             .error(resp['meta'].message);
         }
       } catch (error) {
-        this
-          .data
-          .error(error['message']);
+        const message = error.error.meta.message;
+
+        if (message === 'LESSER THAN USED') {
+          this
+            .data
+            .addToast('Товара заказано больше, чем вы пытаетесь установить', '', 'error');
+        } else {
+          this
+            .data
+            .addToast('Ошибка', error['message'], 'error');
+        }
       }
     } else {
       this
@@ -413,9 +421,17 @@ export class JointPurchaseComponent implements OnInit {
             .error(resp['meta'].message);
         }
       } catch (error) {
-        this
-          .data
-          .error(error['message']);
+        const message = error.error.meta.message;
+
+        if (message === 'GREATER THAN REMAINING') {
+          this
+            .data
+            .addToast('Минимальный объем заказа не может быть больше оставшегося кол-ва товара', '', 'error');
+        } else {
+          this
+            .data
+            .addToast('Ошибка', error['message'], 'error');
+        }
       }
     } else {
       this
@@ -734,9 +750,17 @@ export class JointPurchaseComponent implements OnInit {
           .addToast('Не удалось отсоединиться от закупки', '', 'success');
       }
     } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['message'], 'error');
+      const message = error.error.meta.message;
+
+      if (message === 'NOT JOINT') {
+        this
+          .data
+          .addToast('Вы уже не являетесь участником закупки', 'Обновите страницу', 'error');
+      } else {
+        this
+          .data
+          .addToast('Ошибка', error['message'], 'error');
+      }
     }
   }
 
@@ -759,9 +783,17 @@ export class JointPurchaseComponent implements OnInit {
           .addToast('Не удалось отсоединиться от закупки', '', 'success');
       }
     } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['message'], 'error');
+      const message = error.error.meta.message;
+
+      if (message === 'NOT JOINT') {
+        this
+          .data
+          .addToast('Пользователь не является участником закупки', 'Обновите страницу', 'error');
+      } else {
+        this
+          .data
+          .addToast('Ошибка', error['message'], 'error');
+      }
     }
   }
 
