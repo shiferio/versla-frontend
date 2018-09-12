@@ -767,9 +767,17 @@ export class JointPurchaseComponent implements OnInit {
           .addToast('Не удалось отсоединиться от закупки', '', 'success');
       }
     } catch (error) {
-      this
-        .data
-        .addToast('Ошибка', error['message'], 'error');
+      const message = error.error.meta.message;
+
+      if (message === 'NOT JOINT') {
+        this
+          .data
+          .addToast('Пользователь не является участником закупки', 'Обновите страницу', 'error');
+      } else {
+        this
+          .data
+          .addToast('Ошибка', error['message'], 'error');
+      }
     }
   }
 
