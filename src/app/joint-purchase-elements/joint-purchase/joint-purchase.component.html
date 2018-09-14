@@ -293,7 +293,7 @@
                       type="button"
                       class="btn btn-main mb-3"
                       (click)="openChatWithCreator()"
-                      *ngIf="isLoggedIn"
+                      *ngIf="isLoggedIn && !isCreator"
                     >
                       Связаться по чату <i class="fa fa-comment"></i>
                     </button>

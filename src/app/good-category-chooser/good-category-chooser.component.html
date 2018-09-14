@@ -7,6 +7,7 @@
   <div class="dropdown-content" *ngIf="menu_visible">
     <app-category-nested-list
       [data]="categories | async"
+      [showAll]="showAll"
       (selected)="selectCategory($event)"
     ></app-category-nested-list>
     <!--<div class="list-group">-->

@@ -14,6 +14,8 @@ export class GoodCategoryChooserComponent implements OnInit {
 
   private _category: any;
 
+  private _showAll = false;
+
   @Input('category')
   set category(value: any) {
     this._category = value;
@@ -22,6 +24,15 @@ export class GoodCategoryChooserComponent implements OnInit {
 
   @Input('readonly')
   readonly = false;
+
+  @Input('showAll')
+  set showAll(value: boolean) {
+    this._showAll = value;
+  }
+
+  get showAll(): boolean {
+    return this._showAll;
+  }
 
   selected_category = {};
 
