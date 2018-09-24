@@ -119,7 +119,10 @@ export class DataService {
         }
       }
     } catch (error) {
-      this.error(error);
+      if (error.error.meta) {
+        this.clearProfile();
+        await this.router.navigate(['']);
+      }
     }
   }
 

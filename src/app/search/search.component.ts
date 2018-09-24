@@ -92,8 +92,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.result_sub.unsubscribe();
-    this.query_params_sub.unsubscribe();
+    if (this.result_sub) {
+      this.result_sub.unsubscribe();
+    }
+    if (this.query_params_sub) {
+      this.query_params_sub.unsubscribe();
+    }
     this.search.reset();
     this.goods = [];
     this.total = 0;
