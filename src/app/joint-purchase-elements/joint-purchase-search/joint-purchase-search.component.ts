@@ -96,8 +96,12 @@ export class JointPurchaseSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.resultSub.unsubscribe();
-    this.queryParamsSub.unsubscribe();
+    if (this.resultSub) {
+      this.resultSub.unsubscribe();
+    }
+    if (this.queryParamsSub) {
+      this.queryParamsSub.unsubscribe();
+    }
     this.search.reset();
     this.purchases = [];
     this.total = 0;
