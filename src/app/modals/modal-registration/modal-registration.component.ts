@@ -31,6 +31,7 @@ export class ModalRegistrationComponent implements OnInit {
   form: FormGroup;
 
   submitDisabled = false;
+  submited = false;
 
   passwordForm = this.builder.group({
     'password': this.password,
@@ -79,6 +80,7 @@ export class ModalRegistrationComponent implements OnInit {
   }
 
   async register() {
+    this.submited = true;
     this.submitDisabled = true;
 
     try {

@@ -20,7 +20,6 @@
         mask='9999999999'
         class="form-control text-modal"
         placeholder="Телефон"
-        [ngClass]="phoneErrors ? 'is-invalid': 'is-valid'"
         formControlName="phone"
         required
       >
@@ -35,7 +34,6 @@
         class="form-control text-modal"
         (keyup.enter)="onEnter()"
         placeholder="Пароль"
-        [ngClass]="passwordErrors ? 'is-invalid': 'is-valid'"
         formControlName="password"
         required
       >

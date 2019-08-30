@@ -17,11 +17,11 @@
         id="login"
         name="login"
         class="form-control"
-        [ngClass]="login.errors ? 'is-invalid': 'is-valid'"
+        [ngClass]="login.errors && submited ? 'is-invalid': 'is-valid'"
         formControlName="login"
         required
       >
-      <div class="invalid-feedback" [hidden]="!(login.errors && login.errors.required)">
+      <div class="invalid-feedback" [hidden]="!(login.errors && login.errors.required && submited)">
         Введите логин
       </div>
     </div>
@@ -32,14 +32,14 @@
         id="email"
         name="email"
         class="form-control"
-        [ngClass]="email.errors ? 'is-invalid': 'is-valid'"
+        [ngClass]="email.errors && submited ? 'is-invalid': 'is-valid'"
         formControlName="email"
         required
       >
       <div class="invalid-feedback" [hidden]="error !== 'EMAIL ALREADY EXISTS'">
         Пользователь с таким e-mail уже есть
       </div>
-      <div class="invalid-feedback" [hidden]="!(email.errors && email.errors.required)">
+      <div class="invalid-feedback" [hidden]="!(email.errors && email.errors.required  && submited)">
         Введите e-mail
       </div>
     </div>
@@ -55,14 +55,14 @@
           name="phone"
           mask='9999999999'
           class="form-control"
-          [ngClass]="phone.errors ? 'is-invalid': 'is-valid'"
+          [ngClass]="phone.errors && submited ? 'is-invalid': 'is-valid'"
           formControlName="phone"
           required
         >
         <div class="invalid-feedback" [hidden]="error !== 'PHONE ALREADY EXISTS'">
           Пользователь с таким номером телефона уже есть
         </div>
-        <div class="invalid-feedback" [hidden]="!(phone.errors && phone.errors.required)">
+        <div class="invalid-feedback" [hidden]="!(phone.errors && phone.errors.required && submited)">
           Введите телефон
         </div>
       </div>
@@ -86,11 +86,11 @@
         id="password"
         name="password"
         class="form-control"
-        [ngClass]="password.errors ? 'is-invalid': 'is-valid'"
+        [ngClass]="password.errors && submited ? 'is-invalid': 'is-valid'"
         formControlName="password"
         required
       >
-      <div class="invalid-feedback" [hidden]="!(password.errors && password.errors.required)">
+      <div class="invalid-feedback" [hidden]="!(password.errors && password.errors.required && submited)">
         Введите пароль
       </div>
 
@@ -100,11 +100,11 @@
         id="passwordConfirmation"
         name="passwordConfirmation"
         class="form-control"
-        [ngClass]="confirmation.errors || passwordForm.errors ? 'is-invalid': 'is-valid'"
+        [ngClass]="(confirmation.errors || passwordForm.errors) && submited ? 'is-invalid': 'is-valid'"
         formControlName="confirmation"
         required
       >
-      <div class="invalid-feedback" [hidden]="!(passwordForm.errors && passwordForm.errors.passwordMismatch)">
+      <div class="invalid-feedback" [hidden]="!(passwordForm.errors && passwordForm.errors.passwordMismatch && submited)">
         Пароли не совпадают
       </div>
     </div>
